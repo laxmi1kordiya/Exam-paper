@@ -3,6 +3,7 @@ import { BrowserRouter } from "react-router-dom"
 import Navbar from "../frontend/Pages/Navbar"
 import SignUp from "../frontend/Pages/SignUp";
 import HeroSection from "./Pages/Home";
+import Routes from "./Routes"
 
 
 const App = () => {
@@ -13,6 +14,7 @@ const App = () => {
           <div className="bg-hero-pattern bg-cover bg-no-repeat bg-center">
             <Navbar />
             <HeroSection />
+            <Routes />
             {/* <SignUp /> */}
             {/* <Hero /> */}
           </div>
