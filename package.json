@@ -1,6 +1,5 @@
 {
-  "name": "threedportfolio",
-  "private": true,
+  "name": "CreatePaper",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
