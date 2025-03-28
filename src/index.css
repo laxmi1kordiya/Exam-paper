@@ -267,3 +267,75 @@
     margin-top: 30%;
   }
 }
+
+/* Reset and General Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Arial", sans-serif;
+}
+
+/* Header Styling */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 40px;
+  background-color: #f0f4ff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Logo */
+.logo img {
+  width: 40px;
+  height: 40px;
+}
+
+/* Navigation Menu */
+.nav {
+  display: flex;
+  gap: 30px;
+  list-style: none;
+}
+
+.nav li a {
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 500;
+  color: #222;
+  transition: color 0.3s ease;
+}
+
+.nav li a:hover {
+  color: #007bff;
+}
+
+/* Login Button */
+.login-btn {
+  padding: 8px 16px;
+  background-color: #4285f4;
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.login-btn:hover {
+  background-color: #3367d6;
+}
+
+/* Responsive for Mobile */
+@media (max-width: 768px) {
+  .nav {
+    display: none;
+  }
+
+  .login-btn {
+    display: none;
+  }
+}
+
