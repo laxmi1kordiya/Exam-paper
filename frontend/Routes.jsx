@@ -2,6 +2,7 @@ import React, { Suspense, lazy} from "react";
 import { Routes as ReactRouterRoutes, Route } from "react-router-dom";
 
 const SignUp = lazy(() => import("../frontend/Pages/SignUp"));
+const Home = lazy(() => import("../frontend/Pages/Home"));
 
 
 const Routes = () => {
@@ -10,6 +11,7 @@ const Routes = () => {
       <Suspense>
         <ReactRouterRoutes>
             <Route path="/signUp" element={<SignUp />} />
+            <Route path="/" element={<Home />} />
         </ReactRouterRoutes>
       </Suspense>
     </React.Fragment>
