@@ -101,63 +101,107 @@ button:hover {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Arial", sans-serif;
 }
 
-.header {
+body {
+  font-family: "Poppins", sans-serif;
+}
+
+/* Navbar Styles */
+.navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 15px 40px;
-  background-color: #f0f4ff;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  background: #1e1e1e;
+  color: white;
 }
 
-.logo img {
-  width: 40px;
-  height: 40px;
+.navbar-logo img {
+  height: 50px;
+  cursor: pointer;
 }
 
-.nav {
-  display: flex;
-  gap: 30px;
+/* Navigation Links */
+.navbar-links {
   list-style: none;
+  display: flex;
+  gap: 20px;
 }
 
-.nav li a {
+.navbar-links li {
+  display: inline;
+}
+
+.navbar-links a {
   text-decoration: none;
+  color: white;
   font-size: 16px;
   font-weight: 500;
-  color: #222;
-  transition: color 0.3s ease;
+  transition: color 0.3s ease-in-out;
 }
 
-.nav li a:hover {
-  color: #007bff;
+.navbar-links a:hover {
+  color: #f39c12;
 }
 
-.login-btn {
-  padding: 8px 16px;
-  background-color: #4285f4;
+/* Register Button */
+.navbar-register-btn {
+  background: #f39c12;
   color: white;
-  font-size: 14px;
-  font-weight: 500;
-  border-radius: 5px;
   border: none;
+  padding: 8px 14px;
+  font-size: 14px;
+  font-weight: 600;
   cursor: pointer;
-  transition: background 0.3s ease;
+  border-radius: 4px;
+  transition: all 0.3s ease-in-out;
+  display: inline-block;  /* Ensures the button doesn't take full width */
+  max-width: fit-content; /* Prevents it from expanding */
+  white-space: nowrap; /* Prevents text from wrapping */
 }
 
-.login-btn:hover {
-  background-color: #3367d6;
+
+.navbar-register-btn:hover {
+  background: #e67e22;
 }
 
+
+/* Mobile Navigation */
 @media (max-width: 768px) {
-  .nav {
-    display: none;
+  .navbar {
+    padding: 15px 20px;
   }
 
-  .login-btn {
+  .navbar-links {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 70px;
+    left: 0;
+    width: 100%;
+    background: #1e1e1e;
+    padding: 10px 0;
+    text-align: center;
+  }
+
+  .navbar-links.active {
+    display: flex;
+  }
+
+  .navbar-links li {
+    margin: 10px 0;
+  }
+
+  .hamburger {
+    display: block;
+    cursor: pointer;
+  }
+}
+
+/* Hide hamburger on larger screens */
+@media (min-width: 769px) {
+  .hamburger {
     display: none;
   }
 }
