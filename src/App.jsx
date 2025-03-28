@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter } from "react-router-dom"
+import Home from "../frontend/Pages/Home/Home";
 import Navbar from "../frontend/Pages/Navbar"
 
 
@@ -10,7 +11,7 @@ const App = () => {
       <div className="relative z-0 bg-primary">
           <div className="bg-hero-pattern bg-cover bg-no-repeat bg-center">
             <Navbar />
-            {/* <Hero /> */}
+            <Home />
           </div>
           {/* <About />
           <Education />
