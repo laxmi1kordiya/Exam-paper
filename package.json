@@ -1,6 +1,5 @@
 {
   "name": "threedportfolio",
-  "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
@@ -23,7 +22,10 @@
     "react-router-dom": "^6.12.1",
     "react-tilt": "^1.0.2",
     "react-vertical-timeline-component": "^3.6.0",
-    "three": "^0.153.0"
+    "three": "^0.153.0",
+    "@shopify/polaris": "^12.1.1",
+    "@shopify/polaris-icons": "^7.13.0",
+    "@shopify/polaris-tokens": "^8.6.0"
   },
   "devDependencies": {
     "@types/react": "^18.0.37",
