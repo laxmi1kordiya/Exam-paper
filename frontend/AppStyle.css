@@ -1,0 +1,96 @@
+/* General Styling */
+
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f8f9fa;
+  display: flex;
+  flex-direction: column; /* Allow navbar on top */
+  /* align-items: center; */
+  justify-content: flex-start; /* Start from the top */
+  height: 100vh;
+  margin: 0;
+}
+
+.container {
+  max-width: 600px;
+  width: 100%;
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  margin-top: 80px;  /* Push the form below the navbar */
+}
+
+
+/* Logo Styling */
+.container img {
+  width: 100px;
+  margin-bottom: 10px;
+}
+
+/* Form Title */
+h3 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+p {
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+/* Input Fields */
+.form-group {
+  text-align: left;
+  margin-bottom: 15px;
+}
+
+label {
+  font-weight: bold;
+  font-size: 14px;
+  color: #333;
+}
+
+input, select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+  background: #f9f9f9;
+}
+
+/* Sign In Link */
+.sign-in {
+  text-decoration: none;
+  font-size: 14px;
+  color: #007bff;
+  font-weight: bold;
+  margin-bottom: 15px;
+  display: inline-block;
+}
+.sign-in:hover {
+  text-decoration: underline;
+}
+
+/* Register Button */
+button {
+  width: 100%;
+  padding: 12px;
+  background: #1d3557;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s ease-in-out;
+}
+
+button:hover {
+  background: #0c2c4c;
+}

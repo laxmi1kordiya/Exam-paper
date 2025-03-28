@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { navLinks } from "../Assets/Mocks/navLink.mock"; // Importing mock data
-// import "./Navbar.css"; // Import CSS file
+import SignUp from "./SignUp";
 
 const Navbar = () => {
   return (
@@ -24,6 +24,9 @@ const Navbar = () => {
       <Link to="/login">
         <button className="login-btn">Login</button>
       </Link>
+        <Link to="/SignUp">
+         <button className="login-btn" >Register</button> 
+        </Link>
     </nav>
   );
 };
