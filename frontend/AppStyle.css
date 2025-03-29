@@ -1,0 +1,258 @@
+/* General Styling */
+
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f8f9fa;
+  display: flex;
+  flex-direction: column; /* Allow navbar on top */
+  /* align-items: center; */
+  justify-content: flex-start; /* Start from the top */
+  height: 100vh;
+  margin: 0;
+}
+
+.container {
+  max-width: 600px;
+  width: 100%;
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  margin-top: 80px;  /* Push the form below the navbar */
+}
+
+
+/* Logo Styling */
+.container img {
+  width: 100px;
+  margin-bottom: 10px;
+}
+
+/* Form Title */
+h3 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+p {
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+/* Input Fields */
+.form-group {
+  text-align: left;
+  margin-bottom: 15px;
+}
+
+label {
+  font-weight: bold;
+  font-size: 14px;
+  color: #333;
+}
+
+input, select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+  background: #f9f9f9;
+}
+
+/* Sign In Link */
+.sign-in {
+  text-decoration: none;
+  font-size: 14px;
+  color: #007bff;
+  font-weight: bold;
+  margin-bottom: 15px;
+  display: inline-block;
+}
+.sign-in:hover {
+  text-decoration: underline;
+}
+
+/* Register Button */
+button {
+  width: 100%;
+  padding: 12px;
+  background: #1d3557;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s ease-in-out;
+}
+
+button:hover {
+  background: #0c2c4c;
+}
+
+
+/* header Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+}
+
+/* Navbar Styles */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 40px;
+  background: #1e1e1e;
+  color: white;
+}
+
+.navbar-logo img {
+  height: 50px;
+  cursor: pointer;
+}
+
+/* Navigation Links */
+.navbar-links {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+.navbar-links li {
+  display: inline;
+}
+
+.navbar-links a {
+  text-decoration: none;
+  color: white;
+  font-size: 16px;
+  font-weight: 500;
+  transition: color 0.3s ease-in-out;
+}
+
+.navbar-links a:hover {
+  color: #f39c12;
+}
+
+/* Register Button */
+.navbar-register-btn {
+  background: #f39c12;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.3s ease-in-out;
+  display: inline-block;  /* Ensures the button doesn't take full width */
+  max-width: fit-content; /* Prevents it from expanding */
+  white-space: nowrap; /* Prevents text from wrapping */
+}
+
+
+.navbar-register-btn:hover {
+  background: #e67e22;
+}
+
+
+/* Mobile Navigation */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 15px 20px;
+  }
+
+  .navbar-links {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 70px;
+    left: 0;
+    width: 100%;
+    background: #1e1e1e;
+    padding: 10px 0;
+    text-align: center;
+  }
+
+  .navbar-links.active {
+    display: flex;
+  }
+
+  .navbar-links li {
+    margin: 10px 0;
+  }
+
+  .hamburger {
+    display: block;
+    cursor: pointer;
+  }
+}
+
+/* Hide hamburger on larger screens */
+@media (min-width: 769px) {
+  .hamburger {
+    display: none;
+  }
+}
+
+/*Home*/
+* {
+  padding: 0;
+  margin: 0;
+  font-family: 'Poppins',sans-serif;
+}
+
+body{
+  background-color:  white;
+}
+
+.section1{
+  display: flex;
+  justify-content: center;
+  max-width: 73vw;
+  padding-top: -15px;
+  margin: auto;
+  color: black;
+  align-items: center;
+}
+
+@media screen and (max-width:1300px){
+  .section1{
+      flex-wrap: wrap;
+  }
+}
+
+.img{
+  position: relative;
+}
+
+.img img{
+  width: 555px;
+  position: relative;
+  z-index: 10;
+}
+
+section.section1 > div{
+  display: flex;
+  flex-direction: column;
+  padding: 34px 0;
+}
+
+section.section1 > div :nth-child(1){
+  font-size: 48px;
+  font-weight: bolder;
+}
+section.section1 > div :nth-child(2){
+  font-size: 24px;
+}
