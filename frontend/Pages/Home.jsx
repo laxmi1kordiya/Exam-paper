@@ -15,9 +15,9 @@ const Home = () => {
         <img src="frontend/Assets/images/iphone.png" alt="Error"/>
     </div>
 </section>
-   <Features />
-          <Price />
-          <AboutUs />
+       <Features />
+       <Price />
+       <AboutUs />
           </>
   );
 };

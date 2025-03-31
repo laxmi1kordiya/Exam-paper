@@ -1,7 +1,6 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { useState } from "react";
-
+import { useAuthenticatedFetch } from "../Api/Axios";
 const SignUp = () => {
   const [formData, setFormData] = useState({
     user_name: "",
@@ -11,13 +10,18 @@ const SignUp = () => {
     user_type: "",
     user_referral: "",
   });
-
+  const fetch = useAuthenticatedFetch();
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const checkMobile = () => {
-    alert("Mobile number verification logic goes here!");
+  const submitData = async () => {
+  
+    try {
+      const res = await fetch.get(`signUp`,formData);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -192,7 +196,7 @@ const SignUp = () => {
                       type="button"
                       className="btn btn-primary w-100 mb-2"
                       id="verify_button"
-                      onClick={checkMobile}
+                      onClick={submitData}
                     >
                       Register
                     </button>
