@@ -1,6 +1,11 @@
 import React from "react";
+import { motion } from 'framer-motion'
+import Features from "./Features";
+import Price from "./Price";
+import AboutUs from "./AboutUs";
 const Home = () => {
   return(
+    <>
     <section className="section1">
     <div>
         <span>Generate Exams Papers For GSEB Board</span>
@@ -10,6 +15,10 @@ const Home = () => {
         <img src="frontend/Assets/images/iphone.png" alt="Error"/>
     </div>
 </section>
+   <Features />
+          <Price />
+          <AboutUs />
+          </>
   );
 };
 export default Home;

@@ -21,7 +21,7 @@ const SignUp = () => {
   };
 
   return (
-    <div className="container p-0">
+    <div className="container p-0 section1">
       <div className="row no-gutters height-self-center">
         <div className="col-sm-6 align-self-center bg-white rounded offset-md-3">
           <div className="row m-0">

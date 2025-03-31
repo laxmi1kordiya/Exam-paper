@@ -1,6 +1,6 @@
 import React, { Suspense, lazy} from "react";
 import { Routes as ReactRouterRoutes, Route } from "react-router-dom";
-
+import Login from "./Pages/login";
 const SignUp = lazy(() => import("../frontend/Pages/SignUp"));
 const Home = lazy(() => import("../frontend/Pages/Home"));
 
@@ -11,6 +11,7 @@ const Routes = () => {
       <Suspense>
         <ReactRouterRoutes>
             <Route path="/signUp" element={<SignUp />} />
+            <Route path="/login" element={<Login />} />
             <Route path="/" element={<Home />} />
         </ReactRouterRoutes>
       </Suspense>

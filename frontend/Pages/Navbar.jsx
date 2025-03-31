@@ -27,7 +27,7 @@ const Navbar = () => {
         ))}
       </ul>
 
-      <button className="navbar-register-btn" onClick={openRegisterPage}>Register</button>
+      <button className="navbar-register-btn" onClick={openRegisterPage}>Login/Register</button>
 
     </nav>
   );

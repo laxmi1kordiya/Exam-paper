@@ -2,6 +2,10 @@ import React from "react";
 import { BrowserRouter } from "react-router-dom"
 import Navbar from "../frontend/Pages/Navbar"
 import Routes from "./Routes"
+import Features from "./Pages/Features";
+import Price from "./Pages/Price";
+import AboutUs from "./Pages/AboutUs";
+import Login from "./Pages/login";
 
 
 const App = () => {
@@ -12,19 +16,7 @@ const App = () => {
           <div className="bg-hero-pattern bg-cover bg-no-repeat bg-center">
             <Navbar />
             <Routes />
-            {/* <SignUp /> */}
-            {/* <Hero /> */}
           </div>
-          {/* <About />
-          <Education />
-          <Experience />
-          <Tech />
-          <Works /> */}
-          {/* <Feedbacks /> */}
-          {/* <div className="relative z-0">
-            <Contact />
-            <StarsCanvas />
-          </div> */}
       </div>
     </BrowserRouter>
     </>
