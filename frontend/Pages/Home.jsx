@@ -3,6 +3,8 @@ import { motion } from 'framer-motion'
 import Features from "./Features";
 import Price from "./Price";
 import AboutUs from "./AboutUs";
+import Footer from "./Footer";
+
 const Home = () => {
   return(
     <>
@@ -18,6 +20,7 @@ const Home = () => {
        <Features />
        <Price />
        <AboutUs />
+       <Footer />
           </>
   );
 };
