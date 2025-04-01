@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { useAuthenticatedFetch } from "../Api/Axios";
+import { navigate } from "../Components/NavigationMenu";
 const SignUp = () => {
   const [formData, setFormData] = useState({
     user_name: "",
@@ -10,6 +11,7 @@ const SignUp = () => {
     user_type: "",
     user_referral: "",
   });
+    const setNavigate = navigate();
   const fetch = useAuthenticatedFetch();
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -18,7 +20,8 @@ const SignUp = () => {
   const submitData = async () => {
   
     try {
-      const res = await fetch.get(`signUp`,formData);
+      setNavigate("/admin");
+      // const res = await fetch.get(`signUp`,formData);
     } catch (error) {
       console.log(error);
     }

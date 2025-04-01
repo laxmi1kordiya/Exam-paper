@@ -258,7 +258,7 @@ section.section1 > div :nth-child(2){
   font-size: 24px;
 }
 
-/* Features Styles*/
+/* Features & packages Styles*/
 
 .py-12 {
   padding-top: 3rem;
@@ -347,6 +347,86 @@ section.section1 > div :nth-child(2){
 
 .bg-green-100 {
   background-color: #c6f6d5;
+}
+
+/* HowToUse styles */
+
+.App {
+  text-align: center;
+  font-family: Arial, sans-serif;
+  padding: 50px;
+  background-color: #f5f7fa;
+}
+
+.how-to-work-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.section-subtitle {
+  color: #6c63ff;
+  font-size: 16px;
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.section-title {
+  font-size: 36px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 40px;
+}
+
+.steps-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.step-card {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  width: 30%;
+  text-align: center;
+  position: relative;
+}
+
+.step-number {
+  background-color: #f0f0f0;
+  color: #333;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 5px 15px;
+  border-radius: 20px;
+  display: inline-block;
+  margin-bottom: 20px;
+}
+
+.step-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.step-description {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.5;
+}
+
+/* Optional: Add dashed lines between cards (simplified) */
+.step-card:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: -50px;
+  width: 50px;
+  height: 2px;
+  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="2"><line x1="0" y1="1" x2="10" y2="1" stroke="blue" stroke-dasharray="2,2"/></svg>') repeat-x;
 }
 
 /* AboutUs Styles */
@@ -739,4 +819,124 @@ section.section1 > div :nth-child(2){
     width: 100%;
     text-align: center;
   }
+}
+
+/* Navbar Dashboard styles */
+
+.navbar-a {
+  width: 250px;
+  height: 100vh;
+  background-color: #fff;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.navbar-logo-a {
+  padding: 20px;
+  text-align: center;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.logo-text-a {
+  font-size: 24px;
+  font-weight: 700;
+  color: #333; /* Fallback color for browsers that don't support the gradient */
+  background: linear-gradient(90deg, #ff6f61, #6c63ff);
+  -webkit-background-clip: text; /* Vendor prefix for older WebKit browsers */
+  background-clip: text; /* Standard property for modern browsers */
+  -webkit-text-fill-color: transparent; /* Vendor prefix for WebKit browsers */
+  color: transparent; /* Fallback for modern browsers (used with background-clip: text) */
+}
+
+.navbar-menu-a {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex-grow: 1;
+}
+
+.navbar-item-a {
+  margin: 5px 0;
+}
+
+.navbar-item-a a{
+  display: flex;
+  align-items: center;
+  padding: 15px 20px;
+  text-decoration: none;
+  color: #333;
+  font-size: 16px;
+  font-weight: 500;
+  transition: background-color 0.3s;
+}
+
+.navbar-item-a a:hover {
+  background-color: #f0f0f0;
+}
+
+.navbar-item-a a.active {
+  background-color: #6c63ff;
+  color: #fff;
+  border-radius: 5px;
+  margin: 0 10px;
+}
+
+.navbar-icon-a {
+  margin-right: 10px;
+  font-size: 20px;
+}
+
+.navbar-text-a {
+  flex-grow: 1;
+}
+
+.new-badge-a {
+  background-color: #ff4d4f;
+  color: #fff;
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+/* MyDashboard styles */
+
+.dashboard {
+  font-family: sans-serif;
+  padding: 20px;
+  padding-left: 280px;
+}
+
+.dashboard-title {
+  font-size: 2em;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.dashboard-items {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 20px;
+}
+
+.dashboard-item {
+  background-color: #f0f0f0;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.item-icon {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 10px;
+}
+
+.item-title {
+  font-weight: bold;
+  color: #333;
 }

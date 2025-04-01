@@ -4,10 +4,13 @@ import Features from "./Features";
 import Price from "./Price";
 import AboutUs from "./AboutUs";
 import Footer from "./Footer";
+import HowToUse from "./HowToUse";
+import Navbar from "./Navbar";
 
 const Home = () => {
   return(
     <>
+    <Navbar />
     <section className="section1">
     <div>
         <span>Generate Exams Papers For GSEB Board</span>
@@ -19,6 +22,7 @@ const Home = () => {
 </section>
        <Features />
        <Price />
+       <HowToUse />
        <AboutUs />
        <Footer />
           </>

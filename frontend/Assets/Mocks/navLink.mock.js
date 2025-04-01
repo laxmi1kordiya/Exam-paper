@@ -17,7 +17,7 @@ export const navLinks = [
     {
       id: "how to use",
       title: "How To Use",
-      path: "/How To Use",
+      path: "/howtouse",
     },
     {
       id: "about",
