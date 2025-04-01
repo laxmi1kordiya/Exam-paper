@@ -200,10 +200,6 @@ const SignUp = () => {
                     >
                       Register
                     </button>
-                    <span className="text-dark dark-color d-inline-block line-height-2">
-                      Already have an account?{" "}
-                      {/* <a href="/login">Sign in</a> */}
-                    </span>
                   </div>
                 </form>
               </div>
@@ -216,4 +212,3 @@ const SignUp = () => {
 };
 
 export default SignUp;
-

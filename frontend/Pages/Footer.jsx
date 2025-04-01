@@ -33,7 +33,7 @@ const Footer = () => {
           <h3>Contact Us</h3>
           <p>Rajkot, Gujarat</p>
           <div className="contact-links">
-            <a href="#call">Call Us</a> | <a href="#whatsapp">WhatsApp</a> | <a href="#email">Email</a>
+            <a href="tel:+91-9574537645">Call Us</a> | <a href="https://wa.me/919574537645" target="_blank">WhatsApp</a> | <a href="mailto:yashkoradiya011@gmail.com">Email</a>
           </div>
         </div>
       </div>
