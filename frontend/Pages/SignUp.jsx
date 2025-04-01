@@ -22,6 +22,7 @@ const SignUp = () => {
     try {
       setNavigate("/admin");
       // const res = await fetch.get(`signUp`,formData);
+     await fetch.post(`signUp`,formData);
     } catch (error) {
       console.log(error);
     }

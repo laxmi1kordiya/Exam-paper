@@ -24,7 +24,8 @@
     "react-vertical-timeline-component": "^3.6.0",
     "three": "^0.153.0",
     "axios": "^1.4.0",
-    "mongoose": "^7.0.3"
+    "mongoose": "^7.0.3",
+    "express": "^4.18.2"
   },
   "devDependencies": {
     "@types/react": "^18.0.37",

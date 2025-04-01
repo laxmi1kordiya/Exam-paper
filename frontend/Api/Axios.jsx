@@ -61,7 +61,7 @@ export function useAuthenticatedFetch() {
       },
       (error) => {
         // showToast(handleError(error), true);
-        stopLoading();
+        // stopLoading();
         return Promise.reject(error);
       }
     );
@@ -144,7 +144,7 @@ export function useAuthenticatedFetch() {
           // showIsLoading && startLoading();
           setAdminAuthHeader();
           const response = await instance.get(url);
-          showIsLoading && stopLoading();
+          // showIsLoading && stopLoading();
           return response.data;
         },
         post: async (url, data, showIsLoading = true, headers = { "Content-Type": "application/json" }) => {
@@ -159,14 +159,14 @@ export function useAuthenticatedFetch() {
           // showIsLoading && startLoading();
           setAdminAuthHeader();
           const response = await instance.put(url, data);
-          showIsLoading && stopLoading();
+          // showIsLoading && stopLoading();
           return response.data;
         },
         delete: async (url, showIsLoading = true) => {
           // showIsLoading && startLoading();
           setAdminAuthHeader();
           const response = await instance.delete(url);
-          showIsLoading && stopLoading();
+          // showIsLoading && stopLoading();
           return response.data;
         },
       };
