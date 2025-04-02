@@ -3,10 +3,11 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "start": "node index.js",
-    "dev": "vite",
+    "start": "node Server/index.js",
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:frontend\"",
+    "dev:server": "nodemon Server/index.js --ignore frontend/ --ignore dist/ --ignore backup/",
+    "dev:frontend": "vite",
     "build": "vite build",
-    "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
   "dependencies": {
