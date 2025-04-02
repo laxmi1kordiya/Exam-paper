@@ -3,10 +3,10 @@ import NavbarAdmin from './NavbarAdmin';
 
 const MyDashboard =() => {
   const items = [
-    { title: 'Create Paper', icon: 'generate-paper.png' }, // Replace with your icon paths
-    { title: 'My Papers', icon: 'my-papers.png' },
-    { title: 'My Questions', icon: 'my-questions.png' },
-    { title: 'Blueprints', icon: 'blueprints.png' },
+    { title: 'Create Paper', icon: '' }, // Replace with your icon paths
+    { title: 'My Papers', icon: '' },
+    { title: 'My Questions', icon: '' },
+    { title: 'Blueprints', icon: '' },
   ];
 
   return (
