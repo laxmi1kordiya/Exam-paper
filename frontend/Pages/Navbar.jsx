@@ -16,7 +16,7 @@ const Navbar = () => {
     <nav className="navbar">
       <div className="hamburger" onClick={() => setMenuOpen(!menuOpen)}>☰</div>
       <div className="navbar-logo">
-        <img src="logo.png" alt="Company Logo" />
+        <img alt="Company Logo" />
       </div>
 
       <ul className={`navbar-links ${menuOpen ? "active" : ""}`}>

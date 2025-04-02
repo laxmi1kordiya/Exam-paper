@@ -1,4 +1,5 @@
 import React from 'react';
+import NavbarAdmin from './NavbarAdmin';
 
 const MyDashboard =() => {
   const items = [
@@ -9,6 +10,8 @@ const MyDashboard =() => {
   ];
 
   return (
+    <>
+    {/* <NavbarAdmin /> */}
     <div className="dashboard">
       <h1 className="dashboard-title">Exams</h1>
       <div className="dashboard-items">
@@ -20,6 +23,7 @@ const MyDashboard =() => {
         ))}
       </div>
     </div>
+    </>
   );
 }
 
