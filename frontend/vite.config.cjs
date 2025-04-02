@@ -9,8 +9,8 @@ const path = require("path");
 
 const PORT = process.env.PORT || 8081;
 const VitePort = 5173;
-// const APP_URL="https://localhost:4200"
-const APP_URL = "http://localhost:5173";
+const APP_URL="https://localhost:4200"
+// const APP_URL = "http://localhost:5173";
 
 const proxyOptions = {
   target: `http://127.0.0.1:${PORT}`,
@@ -58,13 +58,14 @@ export default defineConfig({
     hmr: hmrConfig,
     proxy: {
       // Routes are kept separate on purpose
-      "^/uploads(/|(\\?.*)?$)": proxyOptions,
-      "^/auth(/|(\\?.*)?$)": proxyOptions,
-      "^/apps(/|(\\?.*)?$)": proxyOptions,
-      "^/proxy_route(/|(\\?.*)?$)": proxyOptions,
-      "^/graphql(/|(\\?.*)?$)": proxyOptions,
-      "^/webhooks(/|(\\?.*)?$)": proxyOptions,
-      "^/gdpr(/|(\\?.*)?$)": proxyOptions,
+      // "^/uploads(/|(\\?.*)?$)": proxyOptions,
+      // "^/auth(/|(\\?.*)?$)": proxyOptions,
+      // "^/apps(/|(\\?.*)?$)": proxyOptions,
+      // "^/proxy_route(/|(\\?.*)?$)": proxyOptions,
+      // "^/graphql(/|(\\?.*)?$)": proxyOptions,
+      // "^/webhooks(/|(\\?.*)?$)": proxyOptions,
+      // "^/gdpr(/|(\\?.*)?$)": proxyOptions,
+      "/api": "http://localhost:8081",
     },
   },
 });

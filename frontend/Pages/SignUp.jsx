@@ -18,10 +18,9 @@ const SignUp = () => {
   };
 
   const submitData = async () => {
-  
     try {
+      const res = await fetch.post(`signUp`,formData);
       setNavigate("/admin");
-      // const res = await fetch.get(`signUp`,formData);
     //  await fetch.post(`signUp`,formData);
     } catch (error) {
       console.log(error);
