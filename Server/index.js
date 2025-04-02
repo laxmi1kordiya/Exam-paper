@@ -1,18 +1,18 @@
 // import * as Sentry from "@sentry/node";
-import "@shopify/shopify-api/adapters/node";
-import bodyParser from "body-parser";
+// import "@shopify/shopify-api/adapters/node";
+// import bodyParser from "body-parser";
 import cors from "cors";
-import "dotenv/config";
+// import "dotenv/config";
 import Express from "express";
 import mongoose from "mongoose";
 import path, { resolve } from "path";
-import setupCheck from "../utils/setupCheck.js";
-import { handleExpressError } from "./backend/helpers/errorUtils.js";
-import { logger } from "./backend/services/logger/index.js";
+// import setupCheck from "../utils/setupCheck.js";
+// import { handleExpressError } from "./backend/helpers/errorUtils.js";
+// import { logger } from "./backend/services/logger/index.js";
 
-import userRoutes from "./routes/index.js";
+// import userRoutes from "./routes/index.js";
 
-setupCheck(); 
+// setupCheck(); 
 
 const PORT = parseInt(process.env.PORT, 10) || 8081;
 const isDev = process.env.NODE_ENV === "dev";
@@ -26,9 +26,9 @@ const createServer = async (root = process.cwd()) => {
 
   app.disable("x-powered-by");
 
-  logger.init();
-  app.use(Sentry.Handlers.requestHandler());
-  app.use(Sentry.Handlers.tracingHandler());
+  // logger.init();
+  // app.use(Sentry.Handlers.requestHandler());
+  // app.use(Sentry.Handlers.tracingHandler());
 
   const uploadsDirectory = path.join("./", "server", "backend", "uploads");
   app.use("/uploads", Express.static(uploadsDirectory));
@@ -40,10 +40,10 @@ const createServer = async (root = process.cwd()) => {
   
 
 
-  app.use("/apps", userRoutes); 
+  // app.use("/apps", userRoutes); 
 
   app.use(async (err, req, res, next) => {
-    handleExpressError(err, req, res, next);
+    // handleExpressError(err, req, res, next);
   });
 
   if (!isDev) {

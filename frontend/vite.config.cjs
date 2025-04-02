@@ -1,6 +1,6 @@
 import react from "@vitejs/plugin-react";
 import reactRefresh from "@vitejs/plugin-react-refresh";
-import "dotenv/config";
+// import "dotenv/config";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 import { defineConfig } from "vite";
@@ -9,6 +9,8 @@ const path = require("path");
 
 const PORT = process.env.PORT || 8081;
 const VitePort = 5173;
+// const APP_URL="https://localhost:4200"
+const APP_URL = "http://localhost:5173";
 
 const proxyOptions = {
   target: `http://127.0.0.1:${PORT}`,
@@ -16,7 +18,8 @@ const proxyOptions = {
   secure: true,
   ws: false,
 };
-const host = process.env.APP_URL ? process.env.APP_URL.replace(/https?:\/\//, "") : "localhost";
+
+const host = APP_URL ? APP_URL.replace(/https?:\/\//, "") : "localhost";
 let hmrConfig;
 if (host === "localhost") {
   hmrConfig = {
@@ -36,20 +39,8 @@ if (host === "localhost") {
 
 export default defineConfig({
   define: {
-    "process.env.CRISP_WEBSITE_ID": JSON.stringify(process.env.CRISP_WEBSITE_ID),
-    "process.env.SENTRY_DNS_WEB": JSON.stringify(process.env.SENTRY_DNS_WEB),
-    "process.env.REACT_APP_GA_ID": JSON.stringify(process.env.REACT_APP_GA_ID),
-    "process.env.GOOGLE_FONT_KEY": JSON.stringify(process.env.GOOGLE_FONT_KEY),
-    "process.env.APP_URL": JSON.stringify(process.env.APP_URL),
-    "process.env.CSTOMERLY_WEBSITE_ID": JSON.stringify(process.env.CSTOMERLY_WEBSITE_ID),
-    "process.env.ENV": JSON.stringify(process.env.ENV),
-    appOrigin: JSON.stringify(process.env.APP_URL.replace(/https:\/\//, "")),
-    "process.env.CONNECT_LIVE_DATABASE_LOCAL": JSON.stringify(process.env.CONNECT_LIVE_DATABASE_LOCAL),
-    "process.env.HIDE_CRISP_LOGO": JSON.stringify(process.env.HIDE_CRISP_LOGO),
-    "process.env.VULTR_BUCKETNAME": JSON.stringify(process.env.VULTR_BUCKETNAME),
-    "process.env.VULTR_ENDPOINT": JSON.stringify(process.env.VULTR_ENDPOINT),
-    "process.env.VULTR_ACCESSKEY": JSON.stringify(process.env.VULTR_ACCESSKEY),
-    "process.env.VULTR_SECRET_ACCESSKEY": JSON.stringify(process.env.VULTR_SECRET_ACCESSKEY),
+    "APP_URL": JSON.stringify(APP_URL),
+    appOrigin: JSON.stringify(APP_URL.replace(/https:\/\//, "")),
   },
   plugins: [react(), reactRefresh()],
   build: {
