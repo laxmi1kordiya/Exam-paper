@@ -4,14 +4,14 @@ import { useAuthenticatedFetch } from "../Api/Axios";
 import { navigate } from "../Components/NavigationMenu";
 const SignUp = () => {
   const [formData, setFormData] = useState({
-    user_name: "",
-    user_mobile: "",
-    user_city: "Ahmedabad",
-    user_address: "",
-    user_type: "",
-    user_referral: "",
+    name: "",
+    mobile: "",
+    distict: "Ahmedabad",
+    address: "",
+    type: "",
+    codel: "",
   });
-    const setNavigate = navigate();
+  const setNavigate = navigate();
   const fetch = useAuthenticatedFetch();
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -19,9 +19,8 @@ const SignUp = () => {
 
   const submitData = async () => {
     try {
-      const res = await fetch.post(`signUp`,formData);
+      await fetch.post("signUp", formData);
       setNavigate("/admin");
-    //  await fetch.post(`signUp`,formData);
     } catch (error) {
       console.log(error);
     }
@@ -61,32 +60,32 @@ const SignUp = () => {
                 <form className="mt-4">
                   <div className="row">
                     <div className="form-group col-6">
-                      <label htmlFor="user_name">Your Name</label>
+                      <label htmlFor="name">Your Name</label>
                       <input
                         type="text"
-                        name="user_name"
+                        name="name"
                         className="form-control mb-0"
-                        id="user_name"
+                        id="name"
                         placeholder="Enter Name"
                         minLength="5"
                         maxLength="20"
-                        value={formData.user_name}
+                        value={formData.name}
                         onChange={handleChange}
                         required
                       />
                     </div>
 
                     <div className="form-group col-6">
-                      <label htmlFor="user_mobile">Mobile Number</label>
+                      <label htmlFor="mobile">Mobile Number</label>
                       <input
                         type="text"
-                        name="user_mobile"
+                        name="mobile"
                         className="form-control mb-0"
-                        id="user_mobile"
+                        id="mobile"
                         placeholder="Enter Mobile Number"
                         minLength="10"
                         maxLength="10"
-                        value={formData.user_mobile}
+                        value={formData.mobile}
                         onChange={handleChange}
                         required
                       />
@@ -96,9 +95,9 @@ const SignUp = () => {
                       <label htmlFor="district">District</label>
                       <select
                         className="form-control"
-                        name="user_city"
-                        id="user_city"
-                        value={formData.user_city}
+                        name="distict"
+                        id="distict"
+                        value={formData.distict}
                         onChange={handleChange}
                       >
                         {[
@@ -144,27 +143,27 @@ const SignUp = () => {
                     </div>
 
                     <div className="form-group col-6">
-                      <label htmlFor="user_address">Address</label>
+                      <label htmlFor="address">Address</label>
                       <input
                         type="text"
-                        name="user_address"
+                        name="address"
                         className="form-control mb-0"
-                        id="user_address"
+                        id="address"
                         placeholder="*your address"
                         minLength="5"
-                        value={formData.user_address}
+                        value={formData.address}
                         onChange={handleChange}
                         required
                       />
                     </div>
 
                     <div className="form-group col-6">
-                      <label htmlFor="user_type">Type</label>
+                      <label htmlFor="type">Type</label>
                       <select
                         className="form-control"
-                        id="user_type"
-                        name="user_type"
-                        value={formData.user_type}
+                        id="type"
+                        name="type"
+                        value={formData.type}
                         onChange={handleChange}
                         required
                       >
@@ -177,18 +176,18 @@ const SignUp = () => {
                     </div>
 
                     <div className="form-group col-6">
-                      <label htmlFor="user_referral">
+                      <label htmlFor="codel">
                         Referral Code <b>(Optional)</b>
                       </label>
                       <input
                         type="text"
-                        name="user_referral"
+                        name="codel"
                         className="form-control mb-0"
-                        id="user_referral"
+                        id="codel"
                         placeholder="887788"
                         minLength="6"
                         maxLength="6"
-                        value={formData.user_referral}
+                        value={formData.codel}
                         onChange={handleChange}
                       />
                     </div>

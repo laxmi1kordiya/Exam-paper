@@ -1,6 +1,5 @@
 import react from "@vitejs/plugin-react";
 import reactRefresh from "@vitejs/plugin-react-refresh";
-// import "dotenv/config";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 import { defineConfig } from "vite";
@@ -10,7 +9,6 @@ const path = require("path");
 const PORT = process.env.PORT || 8081;
 const VitePort = 5173;
 const APP_URL="https://localhost:4200"
-// const APP_URL = "http://localhost:5173";
 
 const proxyOptions = {
   target: `http://127.0.0.1:${PORT}`,
@@ -21,21 +19,21 @@ const proxyOptions = {
 
 const host = APP_URL ? APP_URL.replace(/https?:\/\//, "") : "localhost";
 let hmrConfig;
-if (host === "localhost") {
-  hmrConfig = {
-    protocol: "ws",
-    host: "localhost",
-    port: 64999,
-    clientPort: 64999,
-  };
-} else {
-  hmrConfig = {
-    protocol: "ws",
-    host: "localhost",
-    port: 64999,
-    clientPort: 64999,
-  };
-}
+// if (host === "localhost") {
+//   hmrConfig = {
+//     protocol: "ws",
+//     host: "localhost",
+//     port: 64999,
+//     clientPort: 64999,
+//   };
+// } else {
+//   hmrConfig = {
+//     protocol: "ws",
+//     host: "localhost",
+//     port: 64999,
+//     clientPort: 64999,
+//   };
+// }
 
 export default defineConfig({
   define: {
@@ -60,7 +58,7 @@ export default defineConfig({
       // Routes are kept separate on purpose
       // "^/uploads(/|(\\?.*)?$)": proxyOptions,
       // "^/auth(/|(\\?.*)?$)": proxyOptions,
-      // "^/apps(/|(\\?.*)?$)": proxyOptions,
+      "^/apps(/|(\\?.*)?$)": proxyOptions,
       // "^/proxy_route(/|(\\?.*)?$)": proxyOptions,
       // "^/graphql(/|(\\?.*)?$)": proxyOptions,
       // "^/webhooks(/|(\\?.*)?$)": proxyOptions,

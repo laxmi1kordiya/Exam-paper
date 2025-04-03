@@ -8,8 +8,8 @@ import HowToUse from "./Pages/HowToUse";
 import NavbarAdmin from "./Pages/admin/NavbarAdmin";
 import MyDashboard from "./Pages/admin/MyDashboard";
 import GeneratePaper from "./Pages/admin/GeneratePaper";
-const SignUp = lazy(() => import("../frontend/Pages/SignUp"));
-const Home = lazy(() => import("../frontend/Pages/Home"));
+const SignUp = lazy(() => import("../frontend/Pages/SignUp.jsx"));
+const Home = lazy(() => import("../frontend/Pages/Home.jsx"));
 
 
 const Routes = () => {
