@@ -11,7 +11,7 @@ const MyDashboard =() => {
 
   return (
     <>
-    {/* <NavbarAdmin /> */}
+    <NavbarAdmin />
     <div className="dashboard">
       <h1 className="dashboard-title">Exams</h1>
       <div className="dashboard-items">

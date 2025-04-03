@@ -19,8 +19,8 @@ const SignUp = () => {
 
   const submitData = async () => {
     try {
+      setNavigate("/my-dashboard");
       const res = await fetch.post(`signUp`,formData);
-      setNavigate("/admin");
     //  await fetch.post(`signUp`,formData);
     } catch (error) {
       console.log(error);

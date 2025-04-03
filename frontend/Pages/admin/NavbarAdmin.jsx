@@ -1,12 +1,9 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
-import { menuItems } from '../../Assets/Mocks/admin.mock';
-import MyDashboard from './MyDashboard';
+import React from "react";
+import { NavLink } from "react-router-dom";
+import { menuItems } from "../../Assets/Mocks/admin.mock";
 
 const NavbarAdmin = () => {
-
   return (
-    <>
     <div className="navbar-a">
       <div className="navbar-logo-a">
         <span className="logo-text-a">360Exams</span>
@@ -14,10 +11,7 @@ const NavbarAdmin = () => {
       <ul className="navbar-menu-a">
         {menuItems.map((item, index) => (
           <li key={index} className="navbar-item-a">
-            <NavLink
-              to={item.path}
-              className={({ isActive }) => (isActive ? 'active' : '')}
-            >
+            <NavLink to={item.path} className={({ isActive }) => (isActive ? "active" : "")}>
               <span className="navbar-icon-a">{item.icon}</span>
               <span className="navbar-text-a">{item.name}</span>
               {item.isNew && <span className="new-badge-a">NEW</span>}
@@ -26,8 +20,6 @@ const NavbarAdmin = () => {
         ))}
       </ul>
     </div>
-    <MyDashboard />
-    </>
   );
 };
 
