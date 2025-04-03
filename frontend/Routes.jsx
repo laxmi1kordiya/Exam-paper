@@ -5,9 +5,10 @@ import Features from "./Pages/Features";
 import Login from "./Pages/login";
 import Price from "./Pages/Price";
 import HowToUse from "./Pages/HowToUse";
-import NavbarAdmin from "./Pages/admin/NavbarAdmin";
 import MyDashboard from "./Pages/admin/MyDashboard";
 import GeneratePaper from "./Pages/admin/GeneratePaper";
+import AdminLayout from "./Pages/admin/AdminLayout";
+import PurchasePackage from "./Pages/admin/PurchasePackage";
 const SignUp = lazy(() => import("../frontend/Pages/SignUp.jsx"));
 const Home = lazy(() => import("../frontend/Pages/Home.jsx"));
 
@@ -23,9 +24,10 @@ const Routes = () => {
             <Route path="/packages" element={<Price />} />
             <Route path="/howtouse" element={<HowToUse />} />
             <Route path="/about" element={<AboutUs />} />
-            <Route path="/admin" element={<NavbarAdmin />} />
-            <Route path="/admin/my-dashboard" element={<MyDashboard />} />
-            <Route path="/admin/generate-paper" element={<GeneratePaper />} />
+            <Route path="/admin" element={<AdminLayout />} />
+            <Route path="/my-dashboard" element={<MyDashboard />} />
+            <Route path="/generate-paper" element={<GeneratePaper />} />
+            <Route path="/purchase-package" element={<PurchasePackage />} />
             <Route path="/" element={<Home />} />
         </ReactRouterRoutes>
       </Suspense>
