@@ -1,9 +1,11 @@
 // module.exports.brokenLinks = require('../schema/brokenLinks');
 import mongoose from "mongoose";
+import login from "../Schema/Login.js";
 import signUp from "../Schema/SignUp.js";
 
 const models = {
-  signUp
+  signUp,
+  login
 };
 
 const findOne = async (collection, query, property, sort) => {
