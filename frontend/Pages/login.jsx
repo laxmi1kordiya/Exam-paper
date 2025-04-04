@@ -1,16 +1,52 @@
-import React from 'react';
+import React, { useState } from "react";
+import { navigate } from "../Components/NavigationMenu";
+import { useAuthenticatedFetch } from "../Api/Axios";
 
-const Login = () => {
+const login = () => {
+  const [formData, setFormData] = useState({
+    mobile: "",
+    otp: "",
+  });
+
+  const setNavigate = navigate();
+  const fetch = useAuthenticatedFetch();
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+  const submitNo = async () => {
+    try {
+      await fetch.post("login", formData);
+      setNavigate("/my-dashboard");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="login-container">
       <div className="login-box">
         {/* Logo */}
         <div className="logo">
-          <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="30" cy="30" r="28" stroke="#FF6F61" strokeWidth="4"/>
-            <circle cx="30" cy="30" r="20" stroke="#4A90E2" strokeWidth="4"/>
-            <circle cx="30" cy="30" r="12" stroke="#F5A623" strokeWidth="4"/>
-            <text x="50%" y="50%" textAnchor="middle" dy=".3em" fontSize="16" fontWeight="bold" fill="#333">
+          <svg
+            width="60"
+            height="60"
+            viewBox="0 0 60 60"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle cx="30" cy="30" r="28" stroke="#FF6F61" strokeWidth="4" />
+            <circle cx="30" cy="30" r="20" stroke="#4A90E2" strokeWidth="4" />
+            <circle cx="30" cy="30" r="12" stroke="#F5A623" strokeWidth="4" />
+            <text
+              x="50%"
+              y="50%"
+              textAnchor="middle"
+              dy=".3em"
+              fontSize="16"
+              fontWeight="bold"
+              fill="#333"
+            >
               360°
             </text>
           </svg>
@@ -18,18 +54,22 @@ const Login = () => {
         </div>
 
         {/* Form */}
-        <form className="login-form">
+        <div className="login-form">
           <label htmlFor="mobile">Mobile Number</label>
           <input
             type="text"
-            id="mobile"
+            name="mobile"
+            // id="mobile"
             placeholder="ENTER MOBILE NUMBER"
             className="mobile-input"
+            value={formData.mobile}
+            onChange={handleChange}
+            required
           />
-          <button type="submit" className="otp-button">
+          <button type="button" className="otp-button" onClick={submitNo}>
             Send OTP
           </button>
-        </form>
+        </div>
 
         {/* Sign Up Link */}
         <p className="signup-link">
@@ -39,5 +79,4 @@ const Login = () => {
     </div>
   );
 };
-
-export default Login;
+export default login;
