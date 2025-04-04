@@ -11,6 +11,7 @@ const signUpSchema = new Schema({
   code: { type: String },
   created: { type: Date, default: Date.now },
   updated: { type: Date, default: Date.now },
+  otp:{ type: String },
 });
 
 // signUpSchema.index(index);
