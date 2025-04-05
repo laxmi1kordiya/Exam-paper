@@ -49,7 +49,7 @@ const SignUp = () => {
         />
         {/* </div> */}
         <div className="sign-in-from">
-          <h3 className="mb-0 text-center">Sign Up</h3>
+          <h3 className="text-center">Sign Up</h3>
           <p className="text-center text-dark">
             Register your account with 360Exam with your profession
           </p>
@@ -61,7 +61,7 @@ const SignUp = () => {
                 <input
                   type="text"
                   name="name"
-                  className="form-control mb-0"
+                  className="form-control"
                   id="name"
                   placeholder="Enter Name"
                   minLength="5"
@@ -77,7 +77,7 @@ const SignUp = () => {
                 <input
                   type="text"
                   name="mobile"
-                  className="form-control mb-0"
+                  className="form-control "
                   id="mobile"
                   placeholder="Enter Mobile Number"
                   minLength="10"
@@ -144,7 +144,7 @@ const SignUp = () => {
                 <input
                   type="text"
                   name="address"
-                  className="form-control mb-0"
+                  className="form-control "
                   id="address"
                   placeholder="*your address"
                   minLength="5"
@@ -179,7 +179,7 @@ const SignUp = () => {
                 <input
                   type="text"
                   name="codel"
-                  className="form-control mb-0"
+                  className="form-control "
                   id="codel"
                   placeholder="887788"
                   minLength="6"
@@ -193,7 +193,7 @@ const SignUp = () => {
             <div className="sign-info text-center">
               <button
                 type="button"
-                className="btn btn-primary w-100 mb-2"
+                className="text-center"
                 id="verify_button"
                 onClick={submitData}
               >

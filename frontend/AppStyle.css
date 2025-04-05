@@ -50,7 +50,7 @@ p {
   display: flex;
   flex-direction: column;
   width: 100%;
-  max-width: 200px;
+  max-width: 260px;
   margin-left: 25px;
 }
 
@@ -581,10 +581,10 @@ section.section1 > div :nth-child(2){
 .signin-box {
   background-color: #fff;
   padding: 40px;
-  border-radius: 20px;
+  border-radius: 5px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   width: 100%;
-  max-width: 600px;
+  max-width: 700px;
   text-align: center;
   position: relative;
 }
@@ -1118,13 +1118,6 @@ section.section1 > div :nth-child(2){
   margin-bottom: 5px;
 }
 
-.form-group select {
-  padding: 10px;
-  width: 200px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 14px;
-}
 
 .continue-button {
   padding: 8px 16px;
@@ -1249,5 +1242,13 @@ right: 10px;
   justify-content: flex-start;
   text-align: center;
   align-items: center;
-  /* padding: 0px 25px; */
+}
+.form-control {
+  height: 45px;
+  line-height: 45px;
+  background: transparent;
+  border: 1px solid #f1f1f1;
+  font-size: 14px;
+  color: #a09e9e;
+  border-radius: 5px;
 }
