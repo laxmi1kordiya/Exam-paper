@@ -26,187 +26,181 @@ const SignUp = () => {
     }
   };
 
+  const goToLogin = () => {
+    setNavigate("/login");
+  };
   return (
-    <div className="container p-0 section1">
-      <div className="row no-gutters height-self-center">
-        <div className="col-sm-6 align-self-center bg-white rounded offset-md-3">
-          <div className="row m-0">
-            <div className="col-md-12 bg-white sign-in-page-data">
-              <div className="col-md-12 mt-4 text-center animate__animated animate__fadeInDown">
-                <a
-                  href="/login"
-                  className="btn btn-primary float-right"
-                  style={{
-                    marginLeft: "-62px",
-                    margin: "10px",
-                    zIndex: "9999",
-                  }}
-                >
-                  Sign in
-                </a>
-                <img
-                  src="https://360exams.in/admin/images/logo.png"
-                  className="img-fluid"
-                  style={{ width: "100px" }}
-                  alt="Logo"
+    <div className="login-container">
+      <div className="signin-box ">
+        <div className="login-btn">
+          <button
+            type="button"
+            id="verify_button"
+            onClick={goToLogin}
+          >
+            Sign in
+          </button>
+        </div>
+        <img
+          src="https://360exams.in/admin/images/logo.png"
+          className="img-fluid"
+          style={{ width: "100px" }}
+          alt="Logo"
+        />
+        {/* </div> */}
+        <div className="sign-in-from">
+          <h3 className="mb-0 text-center">Sign Up</h3>
+          <p className="text-center text-dark">
+            Register your account with 360Exam with your profession
+          </p>
+
+          <form className="mt-4" style={{padding: "20px"}}>
+            <div className="row">
+              <div className="form-group">
+                <label htmlFor="name">Your Name</label>
+                <input
+                  type="text"
+                  name="name"
+                  className="form-control mb-0"
+                  id="name"
+                  placeholder="Enter Name"
+                  minLength="5"
+                  maxLength="20"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
                 />
               </div>
-              <div className="sign-in-from">
-                <h3 className="mb-0 text-center">Sign Up</h3>
-                <p className="text-center text-dark">
-                  Register your account with 360Exam with your profession
-                </p>
 
-                <form className="mt-4">
-                  <div className="row">
-                    <div className="form-group col-6">
-                      <label htmlFor="name">Your Name</label>
-                      <input
-                        type="text"
-                        name="name"
-                        className="form-control mb-0"
-                        id="name"
-                        placeholder="Enter Name"
-                        minLength="5"
-                        maxLength="20"
-                        value={formData.name}
-                        onChange={handleChange}
-                        required
-                      />
-                    </div>
+              <div className="form-group">
+                <label htmlFor="mobile">Mobile Number</label>
+                <input
+                  type="text"
+                  name="mobile"
+                  className="form-control mb-0"
+                  id="mobile"
+                  placeholder="Enter Mobile Number"
+                  minLength="10"
+                  maxLength="10"
+                  value={formData.mobile}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
 
-                    <div className="form-group col-6">
-                      <label htmlFor="mobile">Mobile Number</label>
-                      <input
-                        type="text"
-                        name="mobile"
-                        className="form-control mb-0"
-                        id="mobile"
-                        placeholder="Enter Mobile Number"
-                        minLength="10"
-                        maxLength="10"
-                        value={formData.mobile}
-                        onChange={handleChange}
-                        required
-                      />
-                    </div>
+              <div className="form-group">
+                <label htmlFor="district">District</label>
+                <select
+                  className="form-control"
+                  name="distict"
+                  id="distict"
+                  value={formData.distict}
+                  onChange={handleChange}
+                >
+                  {[
+                    "Ahmedabad",
+                    "Amreli",
+                    "Anand",
+                    "Arvalli",
+                    "Banaskantha",
+                    "Bhavnagar",
+                    "Botad",
+                    "Chhotaudaipur",
+                    "Devbhumi Dwarka",
+                    "Dahod",
+                    "Dang",
+                    "Gandhinagar",
+                    "Gir Somnath",
+                    "Jamnagar",
+                    "Junagadh",
+                    "Kheda",
+                    "Kachchh",
+                    "Mahesana",
+                    "Mahisagar",
+                    "Morbi",
+                    "Narmada",
+                    "Navsari",
+                    "Panchmahal",
+                    "Patan",
+                    "Porbandar",
+                    "Rajkot",
+                    "Surendranagar",
+                    "Sabarkantha",
+                    "Surat",
+                    "Tapi",
+                    "Vadodara",
+                    "Valsad",
+                    "Other",
+                  ].map((district) => (
+                    <option key={district} value={district}>
+                      {district}
+                    </option>
+                  ))}
+                </select>
+              </div>
 
-                    <div className="form-group col-6">
-                      <label htmlFor="district">District</label>
-                      <select
-                        className="form-control"
-                        name="distict"
-                        id="distict"
-                        value={formData.distict}
-                        onChange={handleChange}
-                      >
-                        {[
-                          "Ahmedabad",
-                          "Amreli",
-                          "Anand",
-                          "Arvalli",
-                          "Banaskantha",
-                          "Bhavnagar",
-                          "Botad",
-                          "Chhotaudaipur",
-                          "Devbhumi Dwarka",
-                          "Dahod",
-                          "Dang",
-                          "Gandhinagar",
-                          "Gir Somnath",
-                          "Jamnagar",
-                          "Junagadh",
-                          "Kheda",
-                          "Kachchh",
-                          "Mahesana",
-                          "Mahisagar",
-                          "Morbi",
-                          "Narmada",
-                          "Navsari",
-                          "Panchmahal",
-                          "Patan",
-                          "Porbandar",
-                          "Rajkot",
-                          "Surendranagar",
-                          "Sabarkantha",
-                          "Surat",
-                          "Tapi",
-                          "Vadodara",
-                          "Valsad",
-                          "Other",
-                        ].map((district) => (
-                          <option key={district} value={district}>
-                            {district}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
+              <div className="form-group">
+                <label htmlFor="address">Address</label>
+                <input
+                  type="text"
+                  name="address"
+                  className="form-control mb-0"
+                  id="address"
+                  placeholder="*your address"
+                  minLength="5"
+                  value={formData.address}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
 
-                    <div className="form-group col-6">
-                      <label htmlFor="address">Address</label>
-                      <input
-                        type="text"
-                        name="address"
-                        className="form-control mb-0"
-                        id="address"
-                        placeholder="*your address"
-                        minLength="5"
-                        value={formData.address}
-                        onChange={handleChange}
-                        required
-                      />
-                    </div>
+              <div className="form-group">
+                <label htmlFor="type">Type</label>
+                <select
+                  className="form-control"
+                  id="type"
+                  name="type"
+                  value={formData.type}
+                  onChange={handleChange}
+                  required
+                >
+                  <option value="">--Select--</option>
+                  <option value="School">School</option>
+                  <option value="Student">Student</option>
+                  <option value="Teacher">Teacher</option>
+                  <option value="Classes">Classes</option>
+                </select>
+              </div>
 
-                    <div className="form-group col-6">
-                      <label htmlFor="type">Type</label>
-                      <select
-                        className="form-control"
-                        id="type"
-                        name="type"
-                        value={formData.type}
-                        onChange={handleChange}
-                        required
-                      >
-                        <option value="">--Select--</option>
-                        <option value="School">School</option>
-                        <option value="Student">Student</option>
-                        <option value="Teacher">Teacher</option>
-                        <option value="Classes">Classes</option>
-                      </select>
-                    </div>
-
-                    <div className="form-group col-6">
-                      <label htmlFor="codel">
-                        Referral Code <b>(Optional)</b>
-                      </label>
-                      <input
-                        type="text"
-                        name="codel"
-                        className="form-control mb-0"
-                        id="codel"
-                        placeholder="887788"
-                        minLength="6"
-                        maxLength="6"
-                        value={formData.codel}
-                        onChange={handleChange}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="sign-info text-center">
-                    <button
-                      type="button"
-                      className="btn btn-primary w-100 mb-2"
-                      id="verify_button"
-                      onClick={submitData}
-                    >
-                      Register
-                    </button>
-                  </div>
-                </form>
+              <div className="form-group">
+                <label htmlFor="codel">
+                  Referral Code <b>(Optional)</b>
+                </label>
+                <input
+                  type="text"
+                  name="codel"
+                  className="form-control mb-0"
+                  id="codel"
+                  placeholder="887788"
+                  minLength="6"
+                  maxLength="6"
+                  value={formData.codel}
+                  onChange={handleChange}
+                />
               </div>
             </div>
-          </div>
+
+            <div className="sign-info text-center">
+              <button
+                type="button"
+                className="btn btn-primary w-100 mb-2"
+                id="verify_button"
+                onClick={submitData}
+              >
+                Register
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>

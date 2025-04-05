@@ -47,6 +47,11 @@ p {
 .form-group {
   text-align: left;
   margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 200px;
+  margin-left: 25px;
 }
 
 label {
@@ -571,6 +576,17 @@ section.section1 > div :nth-child(2){
   width: 100%;
   max-width: 400px;
   text-align: center;
+  position: relative;
+}
+.signin-box {
+  background-color: #fff;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 600px;
+  text-align: center;
+  position: relative;
 }
 
 .logo {
@@ -1221,4 +1237,17 @@ section.section1 > div :nth-child(2){
   .grid {
     grid-template-columns: 1fr;
   }
+}
+.login-btn{
+position: absolute;
+top: 10px;
+right: 10px;
+}
+.row{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  text-align: center;
+  align-items: center;
+  /* padding: 0px 25px; */
 }

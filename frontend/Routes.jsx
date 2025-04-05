@@ -9,9 +9,8 @@ import MyDashboard from "./Pages/admin/MyDashboard";
 import GeneratePaper from "./Pages/admin/GeneratePaper";
 import AdminLayout from "./Pages/admin/AdminLayout";
 import PurchasePackage from "./Pages/admin/PurchasePackage";
-const SignUp = lazy(() => import("../frontend/Pages/SignUp.jsx"));
-const Home = lazy(() => import("../frontend/Pages/Home.jsx"));
-
+import SignUp from "./Pages/SignUp";
+import Home from "./Pages/Home";
 
 const Routes = () => {
   return (

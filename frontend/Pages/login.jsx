@@ -7,6 +7,7 @@ const login = () => {
     mobile: "",
     otp: "",
   });
+  const [otpSend, setOtpSend] = useState(false);
 
   const setNavigate = navigate();
   const fetch = useAuthenticatedFetch();
@@ -15,6 +16,14 @@ const login = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
   const submitNo = async () => {
+    try {
+      await fetch.post("login", formData);
+      setOtpSend(true);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const submitLogin = async () => {
     try {
       await fetch.post("login", formData);
       setNavigate("/my-dashboard");
@@ -54,22 +63,43 @@ const login = () => {
         </div>
 
         {/* Form */}
-        <div className="login-form">
-          <label htmlFor="mobile">Mobile Number</label>
-          <input
-            type="text"
-            name="mobile"
-            // id="mobile"
-            placeholder="ENTER MOBILE NUMBER"
-            className="mobile-input"
-            value={formData.mobile}
-            onChange={handleChange}
-            required
-          />
-          <button type="button" className="otp-button" onClick={submitNo}>
-            Send OTP
-          </button>
-        </div>
+        {!otpSend && (
+          <div className="login-form">
+            <label htmlFor="mobile">Mobile Number</label>
+            <input
+              type="text"
+              name="mobile"
+              // id="mobile"
+              placeholder="ENTER MOBILE NUMBER"
+              className="mobile-input"
+              value={formData.mobile}
+              onChange={handleChange}
+              required
+            />
+            <button type="button" className="otp-button" onClick={submitNo}>
+              Send OTP
+            </button>
+          </div>
+        )}
+
+        {otpSend && (
+          <div className="login-form">
+            <label htmlFor="mobile">add otp</label>
+            <input
+              type="text"
+              name="mobile"
+              // id="mobile"
+              placeholder="ENTER MOBILE NUMBER"
+              className="mobile-input"
+              value={formData.mobile}
+              onChange={handleChange}
+              required
+            />
+            <button type="button" className="otp-button" onClick={submitLogin}>
+              submit
+            </button>
+          </div>
+        )}
 
         {/* Sign Up Link */}
         <p className="signup-link">
