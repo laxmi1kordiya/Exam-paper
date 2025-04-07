@@ -25,8 +25,14 @@ const login = () => {
   };
   const submitLogin = async () => {
     try {
-      await fetch.post("login", formData);
-      setNavigate("/my-dashboard");
+      const res = await fetch.post("verify", formData);
+      if (res.code === 200 && res.data && res.data?.otp !== null) {
+        setNavigate("/my-dashboard");
+      } else if (res.data?.otp === null && res.data?.otpExpiresAt === null) {
+        alert("OTP is expired");
+      } else {
+        alert("Invalid OTP");
+      }
     } catch (error) {
       console.log(error);
     }
@@ -62,46 +68,48 @@ const login = () => {
           <h2>360Exams Login</h2>
         </div>
 
-        {/* Form */}
-        {!otpSend && (
-          <div className="login-form">
-            <label htmlFor="mobile">Mobile Number</label>
-            <input
-              type="text"
-              name="mobile"
-              // id="mobile"
-              placeholder="ENTER MOBILE NUMBER"
-              className="mobile-input"
-              value={formData.mobile}
-              onChange={handleChange}
-              required
-            />
-            <button type="button" className="otp-button" onClick={submitNo}>
-              Send OTP
-            </button>
-          </div>
-        )}
+        <div className="login-form">
+          {!otpSend ? (
+            <>
+              <label htmlFor="mobile">Mobile Number</label>
+              <input
+                type="text"
+                name="mobile"
+                id="mobile"
+                placeholder="Enter mobile number"
+                className="mobile-input"
+                value={formData.mobile}
+                onChange={handleChange}
+                required
+              />
+              <button type="button" className="otp-button" onClick={submitNo}>
+                Send OTP
+              </button>
+            </>
+          ) : (
+            <>
+              <label htmlFor="otp">OTP</label>
+              <input
+                type="text"
+                name="otp"
+                id="otp"
+                placeholder="Enter OTP"
+                className="mobile-input"
+                value={formData.otp}
+                onChange={handleChange}
+                required
+              />
+              <button
+                type="button"
+                className="otp-button"
+                onClick={submitLogin}
+              >
+                Submit
+              </button>
+            </>
+          )}
+        </div>
 
-        {otpSend && (
-          <div className="login-form">
-            <label htmlFor="mobile">add otp</label>
-            <input
-              type="text"
-              name="mobile"
-              // id="mobile"
-              placeholder="ENTER MOBILE NUMBER"
-              className="mobile-input"
-              value={formData.mobile}
-              onChange={handleChange}
-              required
-            />
-            <button type="button" className="otp-button" onClick={submitLogin}>
-              submit
-            </button>
-          </div>
-        )}
-
-        {/* Sign Up Link */}
         <p className="signup-link">
           Don't have an account? <a href="/signup">Sign up</a>
         </p>

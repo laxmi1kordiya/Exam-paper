@@ -12,9 +12,8 @@ const signUpSchema = new Schema({
   created: { type: Date, default: Date.now },
   updated: { type: Date, default: Date.now },
   otp:{ type: String },
+  otpExpiresAt:{ type: Date }
 });
-
-// signUpSchema.index(index);
 
 const signUp = mongoose.model("signUp", signUpSchema);
 export default signUp;
