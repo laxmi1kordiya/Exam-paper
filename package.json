@@ -5,15 +5,15 @@
   "scripts": {
     "dev": "concurrently \"npm run dev:*\" \"npm run ssl\"",
     "ssl": "local-ssl-proxy --source 4200 --target 5173",
-    "dev:server": "NODE_ENV=dev nodemon server/index.js --ignore frontend/ --ignore dist/ --ignore backup/",
+    "dev:server": "nodemon server/index.js --ignore frontend/ --ignore dist/ --ignore backup/",
     "dev:frontend": "vite --config=./frontend/vite.config.cjs",
     "preserve": "npm run build",
     "build": "vite build --config=./frontend/vite.config.cjs",
-    "start": "PORT=8002 NODE_ENV=prod node server/index.js",
-    "start-prod": "PORT=8003 NODE_ENV=prod node server/index.js",
+    "start": "PORT=8002 node server/index.js",
+    "start-prod": "PORT=8003  node server/index.js",
     "sentryrelease": "sentry-cli releases new -p recruitmentsai-frontend 1.0.0",
     "sentrysourcemaps": "sentry-cli releases --org webrex-studio-llp --project recruitmentsai-frontend files 1.0.0 upload-sourcemaps ./dist/client/",
-    "start:local": "concurrently \"NODE_ENV=prod node server/index.js\" \"npm run build-ssl\"",
+    "start:local": "concurrently \" node server/index.js\" \"npm run build-ssl\"",
     "build-ssl": "local-ssl-proxy --source 4200 --target 8081"
   },
   "dependencies": {

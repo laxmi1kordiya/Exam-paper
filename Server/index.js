@@ -5,7 +5,7 @@ import path, { resolve } from "path";
 import userRoutes from "./routes/index.js";
 
 const PORT = parseInt(process.env.PORT, 10) || 8081;
-const isDev = process.env.NODE_ENV === "dev";
+const isDev = "dev";
 const mongoUrl =
   process.env.MONGO_URL || "mongodb://127.0.0.1:27017/CreatePaperDB";
 mongoose.connect(mongoUrl);
