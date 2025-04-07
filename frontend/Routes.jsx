@@ -1,4 +1,4 @@
-import React, { Suspense, lazy} from "react";
+import React, { Suspense } from "react";
 import { Routes as ReactRouterRoutes, Route } from "react-router-dom";
 import AboutUs from "./Pages/AboutUs";
 import Features from "./Pages/Features";
@@ -14,23 +14,24 @@ import Home from "./Pages/Home";
 
 const Routes = () => {
   return (
-    <React.Fragment>
-      <Suspense>
-        <ReactRouterRoutes>
-            <Route path="/signUp" element={<SignUp />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/features" element={<Features />} />
-            <Route path="/packages" element={<Price />} />
-            <Route path="/howtouse" element={<HowToUse />} />
-            <Route path="/about" element={<AboutUs />} />
-            <Route path="/admin" element={<AdminLayout />} />
-            <Route path="/my-dashboard" element={<MyDashboard />} />
-            <Route path="/generate-paper" element={<GeneratePaper />} />
-            <Route path="/purchase-package" element={<PurchasePackage />} />
-            <Route path="/" element={<Home />} />
-        </ReactRouterRoutes>
-      </Suspense>
-    </React.Fragment>
+    <Suspense fallback={<div>Loading...</div>}>
+      <ReactRouterRoutes>
+        <Route path="/" element={<Home />} />
+        <Route path="/signUp" element={<SignUp />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/features" element={<Features />} />
+        <Route path="/packages" element={<Price />} />
+        <Route path="/howtouse" element={<HowToUse />} />
+        <Route path="/about" element={<AboutUs />} />
+
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route index element={<MyDashboard />} />
+          <Route path="my-dashboard" element={<MyDashboard />} />
+          <Route path="generate-paper" element={<GeneratePaper />} />
+          <Route path="purchase-package" element={<PurchasePackage />} />
+        </Route>
+      </ReactRouterRoutes>
+    </Suspense>
   );
 };
 

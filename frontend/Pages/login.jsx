@@ -27,7 +27,7 @@ const login = () => {
     try {
       const res = await fetch.post("verify", formData);
       if (res.code === 200 && res.data && res.data?.otp !== null) {
-        setNavigate("/my-dashboard");
+        setNavigate("/admin");
       } else if (res.data?.otp === null && res.data?.otpExpiresAt === null) {
         alert("OTP is expired");
       } else {

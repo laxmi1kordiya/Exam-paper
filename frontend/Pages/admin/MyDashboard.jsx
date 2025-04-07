@@ -1,17 +1,14 @@
-import React from 'react';
-import NavbarAdmin from './NavbarAdmin';
+import React from "react";
 
-const MyDashboard =() => {
+const MyDashboard = () => {
   const items = [
-    { title: 'Create Paper', icon: 'generate-paper.png' }, // Replace with your icon paths
-    { title: 'My Papers', icon: 'my-papers.png' },
-    { title: 'My Questions', icon: 'my-questions.png' },
-    { title: 'Blueprints', icon: 'blueprints.png' },
+    { title: "Create Paper", icon: "generate-paper.png" }, // Replace with your icon paths
+    { title: "My Papers", icon: "my-papers.png" },
+    { title: "My Questions", icon: "my-questions.png" },
+    { title: "Blueprints", icon: "blueprints.png" },
   ];
 
   return (
-    <>
-    <NavbarAdmin />
     <div className="dashboard">
       <h1 className="dashboard-title">Exams</h1>
       <div className="dashboard-items">
@@ -23,9 +20,8 @@ const MyDashboard =() => {
         ))}
       </div>
     </div>
-    </>
   );
-}
+};
 
 export default MyDashboard;
 
@@ -34,7 +30,7 @@ export default MyDashboard;
 //     <div className="dashboard-container">
 //       <div className="header">
 //         {/* Replace with your logo/image */}
-//         <img src="your-logo.png" alt="360 Exams Logo" className="logo" /> 
+//         <img src="your-logo.png" alt="360 Exams Logo" className="logo" />
 //         <div className="header-right">
 //           {/* Replace with your icons/user info */}
 //           <div className="icon"></div>

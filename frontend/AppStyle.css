@@ -858,12 +858,9 @@ section.section1 > div :nth-child(2){
 }
 
 .admin-content {
-  flex: 1;
-  margin-left: 250px; /* Offset for the fixed navbar */
-  padding: 20px;
+  margin-left: 250px;
   background-color: #f5f5f5;
-  min-height: 100vh; /* Ensure it stretches fully */
-  overflow-y: auto;
+  height: 100%;
 }
 
 
@@ -903,12 +900,6 @@ section.section1 > div :nth-child(2){
 
 /* MyDashboard styles */
 
-.dashboard {
-  font-family: sans-serif;
-  padding: 20px;
-  padding-left: 280px;
-}
-
 .dashboard-title {
   font-size: 2em;
   margin-bottom: 20px;
@@ -945,7 +936,6 @@ section.section1 > div :nth-child(2){
 .app-container {
   display: flex;
   flex-direction: column;
-  padding-left: 250px;
   height: 100vh;
   background-color: #f5f5f5;
   font-family: Arial, sans-serif;
@@ -1133,16 +1123,8 @@ section.section1 > div :nth-child(2){
   background-color: #0056b3;
 }
 
-/* PurchasePackage styles */
 
-/* Container for the entire component */
-.container-a {
-  padding-left:100px;
 
-  font-family: Arial, sans-serif;
-  background-color: #f0f0f0;
-  min-height: 100vh;
-}
 
 /* Header styling */
 .header {
