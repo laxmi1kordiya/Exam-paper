@@ -7,5 +7,5 @@ const standardSchema = new Schema({
   Board_id: { type: String },
 });
 
-const Standard = mongoose.model("Standard", standardSchema);
-export default Standard;
+const standard = mongoose.model("standard", standardSchema);
+export default standard;

@@ -5,8 +5,7 @@ const GeneratePaper = () => {
   const [currentStep, setCurrentStep] = useState(1);
  const fetch = useAuthenticatedFetch();
   const fetchData = useCallback(async () => {
-    // let res = await fetch.get("getAllData");
-    // console.log(res,'res')
+    let res = await fetch.get("getAllData");
     // const CustomOption = res.data.map((item) => ({
     //   label: item.boardName,
     //   value: item.boardName,
