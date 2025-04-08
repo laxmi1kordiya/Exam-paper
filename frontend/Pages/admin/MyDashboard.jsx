@@ -9,15 +9,16 @@ const MyDashboard = () => {
   ];
 
   return (
-    <div className="dashboard">
-      <h1 className="dashboard-title">Exams</h1>
-      <div className="dashboard-items">
-        {items.map((item, index) => (
-          <div className="dashboard-item" key={index}>
-            <img src={item.icon} alt={item.title} className="item-icon" />
-            <div className="item-title">{item.title}</div>
-          </div>
-        ))}
+    <div className="content-page">
+      <div className="dashboard">
+        <div className="dashboard-items">
+          {items.map((item, index) => (
+            <div className="dashboard-item" key={index}>
+              <img src={item.icon} alt={item.title} className="item-icon" />
+              <div className="item-title">{item.title}</div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
