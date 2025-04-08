@@ -3,20 +3,56 @@ import { useAuthenticatedFetch } from "../../Api/Axios";
 
 const GeneratePaper = () => {
   const [currentStep, setCurrentStep] = useState(1);
- const fetch = useAuthenticatedFetch();
+  const [boards, setBoards] = useState([]);
+  const [standards, setStandards] = useState([]);
+  const [semesters, setSemesters] = useState([]);
+  const [subjects, setSubjects] = useState([]);
+  const fetch = useAuthenticatedFetch();
   const fetchData = useCallback(async () => {
-    let res = await fetch.get("getAllData");
-    // const CustomOption = res.data.map((item) => ({
-    //   label: item.boardName,
-    //   value: item.boardName,
-    // }));
-    // setGetAllData(res.data);
-    // setBoardOptions(CustomOption);
-  });
+    try {
+      const [boardRes, stdRes, semRes, subRes] = await Promise.all([
+        fetch.get("getBoardData"),
+        fetch.get("getStdData"),
+        fetch.get("getSemData"),
+        fetch.get("getSubData"),
+      ]);
+
+      const boardOptions = boardRes.data.map((item) => ({
+        label: item.name,
+        value: item._id,
+      }));
+
+      const stdOptions = stdRes.data.map((item) => ({
+        label: item.name,
+        value: item.name,
+      }));
+
+      const semOptions = semRes.data.map((item) => ({
+        label: item.name,
+        value: item.name,
+      }));
+
+      const subOptions = subRes.data.map((item) => ({
+        label: item.name,
+        value: item.name,
+      }));
+
+      setBoards(boardOptions);
+      setStandards(stdOptions);
+      setSemesters(semOptions);
+      setSubjects(subOptions);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  }, []);
 
   useEffect(() => {
     fetchData();
   }, []);
+
+  const handleChange = (e) => {
+    console.log(e.target.value);
+  };
 
   return (
     <div className="main-content">
@@ -26,7 +62,6 @@ const GeneratePaper = () => {
           <p>Generate Paper of Your Choice</p>
         </div>
       </div>
-
       {/* Steps Section */}
       <div className="steps-container">
         {[1, 2, 3].map((stepNum) => (
@@ -43,20 +78,23 @@ const GeneratePaper = () => {
           </div>
         ))}
       </div>
-
       {/* Board Selection */}
-      {currentStep === 1 && (
-        <div className="board-selection">
-          <div className="board-option active">
-            <span className="board-text">GSEB-GUJ</span>
-          </div>
-          <div className="board-option">
-            <span className="checkmark">✔</span>
-            <span className="board-text">GSEB-ENG</span>
-          </div>
-        </div>
-      )}
 
+      <div className="form-group">
+        {currentStep === 1 && (
+          <select defaultValue="" onChange={handleChange}>
+            <option value="" disabled>
+              --Board--
+            </option>
+
+            {boards.map((board, idx) => (
+              <option key={idx} value={board.value}>
+                {board.label}
+              </option>
+            ))}
+          </select>
+        )}{" "}
+      </div>
       {currentStep === 1 && (
         <div className="form-container">
           <div className="form-group">
@@ -65,19 +103,24 @@ const GeneratePaper = () => {
               <option value="" disabled>
                 --Standard--
               </option>
-              <option value="11">Std 11</option>
-              <option value="12">Std 12</option>
+              {standards.map((std, idx) => (
+                <option key={idx} value={std.value}>
+                  {std.label}
+                </option>
+              ))}
             </select>
           </div>
           <div className="form-group">
             <label>Semester</label>
-            <select defaultValue="">
+            <select defaultValue="" >
               <option value="" disabled>
                 --Semester--
               </option>
-              <option value="ALL">ALL</option>
-              <option value="Sem 1">Sem 1</option>
-              <option value="Sem 2">Sem 2</option>
+              {semesters.map((sem, idx) => (
+                <option key={idx} value={sem.value}>
+                  {sem.label}
+                </option>
+              ))}
             </select>
           </div>
           <div className="form-group">
@@ -86,11 +129,11 @@ const GeneratePaper = () => {
               <option value="" disabled>
                 --Subject--
               </option>
-              <option value="Physics">Physics</option>
-              <option value="Chemistry">Chemistry</option>
-              <option value="Maths">Maths</option>
-              <option value="Biology">Biology</option>
-              <option value="English">English</option>
+              {subjects.map((sub, idx) => (
+                <option key={idx} value={sub.value}>
+                  {sub.label}
+                </option>
+              ))}
             </select>
           </div>
           <div className="form-group">
@@ -102,7 +145,6 @@ const GeneratePaper = () => {
           </div>
         </div>
       )}
-
       {currentStep === 2 && (
         <div className="form-container">
           <div className="form-group">
@@ -127,7 +169,6 @@ const GeneratePaper = () => {
           </div>
         </div>
       )}
-
       {currentStep === 3 && (
         <div className="form-container">
           <div className="form-group">
@@ -153,7 +194,6 @@ const GeneratePaper = () => {
           </div>
         </div>
       )}
-
       {/* Back Button */}
       {currentStep !== 1 && (
         <div className="button-container">

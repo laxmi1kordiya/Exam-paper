@@ -2,12 +2,18 @@
 import mongoose from "mongoose";
 import login from "../Schema/Login.js";
 import signUp from "../Schema/SignUp.js";
-import standard from "../Schema/standard.js";
+import standard from "../Schema/Standard.js";
+import semester from "../Schema/Semester.js";
+import subject from "../Schema/Subject.js";
+import board from "../Schema/Board.js";
 
 const models = {
   signUp,
   login,
-  standard
+  standard,
+  semester,
+  subject,
+  board
 };
 
 const findOne = async (collection, query, property, sort) => {
