@@ -2,10 +2,12 @@
 import mongoose from "mongoose";
 import login from "../Schema/Login.js";
 import signUp from "../Schema/SignUp.js";
+import Standard from "../Schema/standard.js";
 
 const models = {
   signUp,
-  login
+  login,
+  Standard
 };
 
 const findOne = async (collection, query, property, sort) => {

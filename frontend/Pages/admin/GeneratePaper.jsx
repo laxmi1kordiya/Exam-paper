@@ -1,8 +1,24 @@
-import React, { useState } from "react";
-import NavbarAdmin from "./NavbarAdmin";
+import React, { useCallback, useEffect, useState } from "react";
+import { useAuthenticatedFetch } from "../../Api/Axios";
 
 const GeneratePaper = () => {
   const [currentStep, setCurrentStep] = useState(1);
+ const fetch = useAuthenticatedFetch();
+  const fetchData = useCallback(async () => {
+    // let res = await fetch.get("getAllData");
+    // console.log(res,'res')
+    // const CustomOption = res.data.map((item) => ({
+    //   label: item.boardName,
+    //   value: item.boardName,
+    // }));
+    // setGetAllData(res.data);
+    // setBoardOptions(CustomOption);
+  });
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
     <div className="main-content">
       <div className="header">

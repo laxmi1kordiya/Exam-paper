@@ -11,7 +11,7 @@ export function useAuthenticatedFetch() {
   try {
     return {
       get: async (url) => {
-        setAdminAuthHeader();
+        // setAdminAuthHeader();
         const response = await instance.get(url);
         return response.data;
       },
