@@ -10,13 +10,14 @@ const GeneratePaper = () => {
   const fetch = useAuthenticatedFetch();
   const fetchData = useCallback(async () => {
     try {
-      const [boardRes, stdRes, semRes, subRes] = await Promise.all([
+      const [boardRes, stdRes, semRes, subRes,allData] = await Promise.all([
         fetch.get("getBoardData"),
         fetch.get("getStdData"),
         fetch.get("getSemData"),
         fetch.get("getSubData"),
+        fetch.get("getAllData"),
       ]);
-
+     console.log(allData,'allData')
       const boardOptions = boardRes.data.map((item) => ({
         label: item.name,
         value: item._id,

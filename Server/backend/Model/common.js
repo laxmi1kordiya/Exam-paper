@@ -244,38 +244,38 @@ const getDirectDataFromDb = async ({
   }
 };
 
-// const findAllData = async (collection) => {
-//   try {
-//     return await models[collection].aggregate([
-//       {
-//         $lookup: {
-//           from: "standards",
-//           localField: "_id",
-//           foreignField: "boardId",
-//           as: "standards",
-//         },
-//       },
-//       {
-//         $lookup: {
-//           from: "semesters",
-//           localField: "standards._id",
-//           foreignField: "standardId",
-//           as: "semesters",
-//         },
-//       },
-//       {
-//         $lookup: {
-//           from: "chapters",
-//           localField: "chapters._id",
-//           foreignField: "chapterId",
-//           as: "chapters",
-//         },
-//       },
-//     ]);
-//   } catch (err) {
-//     throw err;
-//   }
-// };
+const findAllData = async (collection) => {
+  try {
+    return await models[collection].aggregate([
+      {
+        $lookup: {
+          from: "standards",
+          localField: "_id",
+          foreignField: "Board_id",
+          as: "standards",
+        },
+      },
+      {
+        $lookup: {
+          from: "semesters",
+          localField: "standards._id",
+          foreignField: "Standard_id",
+          as: "semesters",
+        },
+      },
+      {
+        $lookup: {
+          from: "subject",
+          localField: "subject._id",
+          foreignField: "Semester_id",
+          as: "subject",
+        },
+      },
+    ]);
+  } catch (err) {
+    throw err;
+  }
+};
 
 export {
   findOne,
@@ -296,5 +296,5 @@ export {
   findCronjobData,
   getAllCollectionNames,
   getDirectDataFromDb,
-  // findAllData
+  findAllData
 };
