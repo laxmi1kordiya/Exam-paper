@@ -258,16 +258,16 @@ const findAllData = async (collection) => {
       {
         $lookup: {
           from: "semesters",
-          localField: "standards._id",
-          foreignField: "Standard_id",
+          localField: "_id",
+          foreignField: "Board_id",
           as: "semesters",
         },
       },
       {
         $lookup: {
           from: "subjects",
-          localField: "semesters._id",
-          foreignField: "Semester_id",
+          localField: "_id",
+          foreignField: "Board_id",
           as: "subjects",
         },
       },
@@ -276,6 +276,9 @@ const findAllData = async (collection) => {
     throw err;
   }
 };
+
+
+
 
 export {
   findOne,

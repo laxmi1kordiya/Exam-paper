@@ -11,14 +11,6 @@ const GeneratePaper = () => {
   const fetch = useAuthenticatedFetch();
   const fetchData = useCallback(async () => {
     try {
-      // const [boardRes, stdRes, semRes, subRes,allData] = await Promise.all([
-      //   fetch.get("getBoardData"),
-      //   fetch.get("getStdData"),
-      //   fetch.get("getSemData"),
-      //   fetch.get("getSubData"),
-      //   fetch.get("getAllData"),
-      // ]);
-
       const [boardRes, allData] = await Promise.all([
         fetch.get("getBoardData"),
         fetch.get("getAllData"),
@@ -27,26 +19,8 @@ const GeneratePaper = () => {
         label: item.name,
         value: item.name,
       }));
-
-      // const stdOptions = stdRes.data.map((item) => ({
-      //   label: item.name,
-      //   value: item.name,
-      // }));
-
-      // const semOptions = semRes.data.map((item) => ({
-      //   label: item.name,
-      //   value: item.name,
-      // }));
-
-      // const subOptions = subRes.data.map((item) => ({
-      //   label: item.name,
-      //   value: item.name,
-      // }));
       setAllData(allData.data);
       setBoards(boardOptions);
-      // setStandards(stdOptions);
-      // setSemesters(semOptions);
-      // setSubjects(subOptions);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -76,29 +50,24 @@ const GeneratePaper = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     console.log("Changed Field:", name, "| New Value:", value);
-  
-    // Keep a local copy of current formData before updating
+
     const updatedFormData = { ...formData, [name]: value };
-  
-    // Update formData
+
     setFormData(updatedFormData);
-  
+
     if (name === "board") {
       const selectedBoard = allData.find((board) => board.name === value);
-      console.log("📌 Selected Board:", selectedBoard);
-  
+
       const stdOptions =
         selectedBoard?.standards?.map((std) => ({
           label: std.name,
           value: std._id,
         })) || [];
-  
-      console.log("📚 Standards for Board:", stdOptions);
-  
+
       setStandards(stdOptions);
       setSemesters([]);
       setSubjects([]);
-  
+
       setFormData((prev) => ({
         ...prev,
         standard: "",
@@ -106,14 +75,13 @@ const GeneratePaper = () => {
         subject: "",
       }));
     }
-  
+
     if (name === "standard") {
-      console.log(formData.board,'formData.board')
+      console.log(formData.board, "formData.board");
       const selectedBoard = allData.find(
         (board) => board.name === formData.board
       );
-      console.log("📌 Selected Board (from formData):", selectedBoard);
-  
+
       const semOptions =
         selectedBoard?.semesters
           ?.filter((sem) => sem.Standard_id === value)
@@ -121,29 +89,24 @@ const GeneratePaper = () => {
             label: sem.name,
             value: sem._id,
           })) || [];
-  
-      console.log("📅 Semesters for Standard:", semOptions);
-  
+
       setSemesters(semOptions);
       setSubjects([]);
-  
+
       setFormData((prev) => ({
         ...prev,
         semester: "",
         subject: "",
       }));
     }
-  
+
     if (name === "semester") {
       const selectedBoard = allData.find(
         (board) => board.name === updatedFormData.board
       );
-      console.log("📌 Selected Board (from updatedFormData):", selectedBoard);
-      console.log("📘 Semester Value:", value);
-  
+
       const allSubjects = selectedBoard?.subjects || [];
-      console.log("📦 All Subjects in Board:", allSubjects);
-  
+
       const subOptions =
         allSubjects
           ?.filter((sub) => sub.Semester_id === value)
@@ -151,19 +114,15 @@ const GeneratePaper = () => {
             label: sub.name,
             value: sub._id,
           })) || [];
-  
-      console.log("✅ Filtered Subjects for Semester:", subOptions);
-  
+
       setSubjects(subOptions);
-  
+
       setFormData((prev) => ({
         ...prev,
         subject: "",
       }));
     }
   };
-  
-  
 
   return (
     <div className="content-page">
