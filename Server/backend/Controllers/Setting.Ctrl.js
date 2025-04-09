@@ -1,5 +1,5 @@
 import { ApiResponse } from "../Helpers/common.js";
-import { find, findAllData } from "../Model/common.js";
+import { create, find, findAllData } from "../Model/common.js";
 
 export const getBoardData = async (req, res, next) => {
   let rcResponse = new ApiResponse();
@@ -44,6 +44,17 @@ export const getAllData = async (req, res, next) => {
   try {
     const rcResponse = new ApiResponse();
     rcResponse.data = await findAllData("board");
+    return res.status(rcResponse.code).send(rcResponse);
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const addBoardData = async (req, res, next) => {
+  let rcResponse = new ApiResponse();
+  let { body } = req;
+  try {
+    rcResponse.data = await create("board", body);
     return res.status(rcResponse.code).send(rcResponse);
   } catch (err) {
     next(err);
