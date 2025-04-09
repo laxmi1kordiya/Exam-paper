@@ -197,32 +197,24 @@ const GeneratePaper = () => {
             </div>
           </div>
         )}
-        {/* Back Button */}
-        {currentStep !== 1 && (
-          <div className="button-container">
-            <button
-              className="continue-button"
-              onClick={() => {
-                if (currentStep !== 1) setCurrentStep(currentStep - 1);
-              }}
-            >
-              Back
-            </button>
+          <div className="button-row">
+            {currentStep !== 1 && (
+              <button
+                className="continue-button"
+                onClick={() => setCurrentStep(currentStep - 1)}
+              >
+                Back
+              </button>
+            )}
+            {currentStep !== 3 && (
+              <button
+                className="continue-button"
+                onClick={() => setCurrentStep(currentStep + 1)}
+              >
+                Continue
+              </button>
+            )}
           </div>
-        )}
-        {/* Continue Button */}
-        {currentStep !== 3 && (
-          <div className="button-container">
-            <button
-              className="continue-button"
-              onClick={() => {
-                if (currentStep < 3) setCurrentStep(currentStep + 1);
-              }}
-            >
-              Continue
-            </button>
-          </div>
-        )}
       </div>
     </div>
   );

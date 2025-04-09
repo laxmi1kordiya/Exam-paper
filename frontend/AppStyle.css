@@ -85,7 +85,7 @@ input, select {
 
 /* Register Button */
 button {
-  width: 100%;
+  /* width: 100%; */
   padding: 12px;
   background: #1d3557;
   color: white;
@@ -1241,3 +1241,12 @@ right: 10px;
   min-height: 100vh;
   transition: all 0.3s ease-out 0s;
 }
+
+.button-row {
+  display: flex;
+  justify-content: end;
+  margin-top: 2rem;
+  width: 100%;
+  gap: 20px;
+}
+
