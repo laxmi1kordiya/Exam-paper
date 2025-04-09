@@ -11,6 +11,7 @@ import AdminLayout from "./Pages/admin/AdminLayout";
 import PurchasePackage from "./Pages/admin/PurchasePackage";
 import SignUp from "./Pages/SignUp";
 import Home from "./Pages/Home";
+import GenerateBoard from "./Pages/formData/GenerateBoard";
 
 const Routes = () => {
   return (
@@ -23,7 +24,8 @@ const Routes = () => {
         <Route path="/packages" element={<Price />} />
         <Route path="/howtouse" element={<HowToUse />} />
         <Route path="/about" element={<AboutUs />} />
-
+        <Route path="/board" element={<GenerateBoard />} />
+           
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<MyDashboard />} />
           <Route path="my-dashboard" element={<MyDashboard />} />

@@ -8,7 +8,22 @@ const GeneratePaper = () => {
   const [semesters, setSemesters] = useState([]);
   const [subjects, setSubjects] = useState([]);
   const [allData, setAllData] = useState([]);
+
   const fetch = useAuthenticatedFetch();
+
+  const [formData, setFormData] = useState({
+    board: "",
+    standard: "",
+    semester: "",
+    subject: "",
+    category: "ALL",
+    paperDate: new Date(),
+    paperType: "Weekly",
+    paperDifficulty: "",
+    chapter: "",
+    generateType: "",
+  });
+
   const fetchData = useCallback(async () => {
     try {
       const [boardRes, allData] = await Promise.all([
@@ -24,40 +39,21 @@ const GeneratePaper = () => {
     } catch (error) {
       console.error("Error fetching data:", error);
     }
-  }, []);
+  }, [fetch]);
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [fetchData]);
 
-  // const handleChange = (e) => {
-  //   console.log(e.target.value);
-  //   console.log(allData,'allData')
-  //   const selectedBoard = allData.find((board) => board.name === e.target.value);
-  //   const stdOptions = selectedBoard.standards.map((std) => ({
-  //     label: std.name,
-  //     value: std._id,
-  //   }));
-  //   setStandards(stdOptions);
-  // };
-
-  const [formData, setFormData] = useState({
-    board: "",
-    standard: "",
-    semester: "",
-    subject: "",
-  });
   const handleChange = (e) => {
     const { name, value } = e.target;
-    console.log("Changed Field:", name, "| New Value:", value);
-
-    const updatedFormData = { ...formData, [name]: value };
-
-    setFormData(updatedFormData);
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
 
     if (name === "board") {
       const selectedBoard = allData.find((board) => board.name === value);
-
       const stdOptions =
         selectedBoard?.standards?.map((std) => ({
           label: std.name,
@@ -77,11 +73,9 @@ const GeneratePaper = () => {
     }
 
     if (name === "standard") {
-      console.log(formData.board, "formData.board");
       const selectedBoard = allData.find(
         (board) => board.name === formData.board
       );
-
       const semOptions =
         selectedBoard?.semesters
           ?.filter((sem) => sem.Standard_id === value)
@@ -102,13 +96,10 @@ const GeneratePaper = () => {
 
     if (name === "semester") {
       const selectedBoard = allData.find(
-        (board) => board.name === updatedFormData.board
+        (board) => board.name === formData.board
       );
-
-      const allSubjects = selectedBoard?.subjects || [];
-
       const subOptions =
-        allSubjects
+        selectedBoard?.subjects
           ?.filter((sub) => sub.Semester_id === value)
           .map((sub) => ({
             label: sub.name,
@@ -133,7 +124,7 @@ const GeneratePaper = () => {
             <p>Generate Paper of Your Choice</p>
           </div>
         </div>
-        {/* Steps Section */}
+
         <div className="steps-container">
           {[1, 2, 3].map((stepNum) => (
             <div
@@ -144,32 +135,30 @@ const GeneratePaper = () => {
               {stepNum === 1 && (
                 <p>Select Board, Standard, Semester, Subject</p>
               )}
-              {stepNum === 2 && (
-                <p>Manage Paper Details Date, Time, Difficulty</p>
-              )}
-              {stepNum === 3 && <p>Choose Questions of Chapters & Subjects</p>}
+              {stepNum === 2 && <p>Manage Paper Details</p>}
+              {stepNum === 3 && <p>Choose Questions</p>}
             </div>
           ))}
         </div>
-        {/* Board Selection */}
 
-        <div className="form-group">
-          {currentStep === 1 && (
-            <select name="board" value={formData.board} onChange={handleChange}>
-              <option value="" disabled>
-                --Board--
-              </option>
-
-              {boards.map((board, idx) => (
-                <option key={idx} value={board.value}>
-                  {board.label}
-                </option>
-              ))}
-            </select>
-          )}{" "}
-        </div>
         {currentStep === 1 && (
           <div className="form-container">
+            <div className="form-group">
+              <label>Board</label>
+              <select
+                name="board"
+                value={formData.board}
+                onChange={handleChange}
+              >
+                <option value="">-- Select Board --</option>
+                {boards.map((board, idx) => (
+                  <option key={idx} value={board.value}>
+                    {board.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+
             <div className="form-group">
               <label>Standard</label>
               <select
@@ -177,9 +166,7 @@ const GeneratePaper = () => {
                 value={formData.standard}
                 onChange={handleChange}
               >
-                <option value="" disabled>
-                  --Standard--
-                </option>
+                <option value="">-- Select Standard --</option>
                 {standards.map((std, idx) => (
                   <option key={idx} value={std.value}>
                     {std.label}
@@ -187,6 +174,7 @@ const GeneratePaper = () => {
                 ))}
               </select>
             </div>
+
             <div className="form-group">
               <label>Semester</label>
               <select
@@ -194,9 +182,7 @@ const GeneratePaper = () => {
                 value={formData.semester}
                 onChange={handleChange}
               >
-                <option value="" disabled>
-                  --Semester--
-                </option>
+                <option value="">-- Select Semester --</option>
                 {semesters.map((sem, idx) => (
                   <option key={idx} value={sem.value}>
                     {sem.label}
@@ -204,6 +190,7 @@ const GeneratePaper = () => {
                 ))}
               </select>
             </div>
+
             <div className="form-group">
               <label>Subject</label>
               <select
@@ -211,9 +198,7 @@ const GeneratePaper = () => {
                 value={formData.subject}
                 onChange={handleChange}
               >
-                <option value="" disabled>
-                  --Subject--
-                </option>
+                <option value="">-- Select Subject --</option>
                 {subjects.map((sub, idx) => (
                   <option key={idx} value={sub.value}>
                     {sub.label}
@@ -221,32 +206,51 @@ const GeneratePaper = () => {
                 ))}
               </select>
             </div>
+
             <div className="form-group">
               <label>Category</label>
-              <select defaultValue="ALL">
+              <select
+                name="category"
+                value={formData.category}
+                onChange={handleChange}
+              >
                 <option value="ALL">ALL</option>
                 <option value="Custom">Custom</option>
               </select>
             </div>
           </div>
         )}
+
         {currentStep === 2 && (
           <div className="form-container">
             <div className="form-group">
               <label>Paper Date</label>
-              <input type="text" name="paperdate" value="07-04-2025" />
+              <input
+                type="text"
+                name="paperDate"
+                value={formData.paperDate}
+                onChange={handleChange}
+              />
             </div>
+
             <div className="form-group">
               <label>Paper Type</label>
-
-              <input type="text" name="paperType" value="Weekly" />
+              <input
+                type="text"
+                name="paperType"
+                value={formData.paperType}
+                onChange={handleChange}
+              />
             </div>
+
             <div className="form-group">
               <label>Paper Difficulty</label>
-              <select defaultValue="">
-                <option value="" disabled>
-                  --Difficulty--
-                </option>
+              <select
+                name="paperDifficulty"
+                value={formData.paperDifficulty}
+                onChange={handleChange}
+              >
+                <option value="">-- Select Difficulty --</option>
                 <option value="Easy">Easy</option>
                 <option value="Medium">Medium</option>
                 <option value="Hard">Hard</option>
@@ -254,44 +258,51 @@ const GeneratePaper = () => {
             </div>
           </div>
         )}
+
         {currentStep === 3 && (
           <div className="form-container">
             <div className="form-group">
-              <label>Select Chapter</label>
-              <select defaultValue="">
-                <option value="" disabled>
-                  --Chapter--
-                </option>
+              <label>Chapter</label>
+              <select
+                name="chapter"
+                value={formData.chapter}
+                onChange={handleChange}
+              >
+                <option value="">-- Select Chapter --</option>
                 <option value="Chapter1">Chapter 1</option>
                 <option value="Chapter2">Chapter 2</option>
                 <option value="Chapter3">Chapter 3</option>
               </select>
             </div>
+
             <div className="form-group">
               <label>Generate Type</label>
-              <select defaultValue="">
-                <option value="" disabled>
-                  --Select--
-                </option>
+              <select
+                name="generateType"
+                value={formData.generateType}
+                onChange={handleChange}
+              >
+                <option value="">-- Select --</option>
                 <option value="Manually">Manually</option>
                 <option value="Random">Random</option>
               </select>
             </div>
           </div>
         )}
+
         <div className="button-row">
-          {currentStep !== 1 && (
+          {currentStep > 1 && (
             <button
               className="continue-button"
-              onClick={() => setCurrentStep(currentStep - 1)}
+              onClick={() => setCurrentStep((prev) => prev - 1)}
             >
               Back
             </button>
           )}
-          {currentStep !== 3 && (
+          {currentStep < 3 && (
             <button
               className="continue-button"
-              onClick={() => setCurrentStep(currentStep + 1)}
+              onClick={() => setCurrentStep((prev) => prev + 1)}
             >
               Continue
             </button>
