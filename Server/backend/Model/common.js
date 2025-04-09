@@ -265,10 +265,10 @@ const findAllData = async (collection) => {
       },
       {
         $lookup: {
-          from: "subject",
-          localField: "subject._id",
+          from: "subjects",
+          localField: "semesters._id",
           foreignField: "Semester_id",
-          as: "subject",
+          as: "subjects",
         },
       },
     ]);
