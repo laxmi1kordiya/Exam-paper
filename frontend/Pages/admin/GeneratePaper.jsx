@@ -7,6 +7,7 @@ const GeneratePaper = () => {
   const [standards, setStandards] = useState([]);
   const [semesters, setSemesters] = useState([]);
   const [subjects, setSubjects] = useState([]);
+  const [chapters, setChapters] = useState([]);
   const [allData, setAllData] = useState([]);
 
   const fetch = useAuthenticatedFetch();
@@ -54,6 +55,7 @@ const GeneratePaper = () => {
 
     if (name === "board") {
       const selectedBoard = allData.find((board) => board.name === value);
+      console.log(selectedBoard, "selectedBoard");
       const stdOptions =
         selectedBoard?.standards?.map((std) => ({
           label: std.name,
@@ -69,6 +71,7 @@ const GeneratePaper = () => {
         standard: "",
         semester: "",
         subject: "",
+        chapter: "",
       }));
     }
 
@@ -91,6 +94,7 @@ const GeneratePaper = () => {
         ...prev,
         semester: "",
         subject: "",
+        chapter: "",
       }));
     }
 
@@ -98,8 +102,7 @@ const GeneratePaper = () => {
       const selectedBoard = allData.find(
         (board) => board.name === formData.board
       );
-      console.log(selectedBoard, "selectedBoard");
-      console.log(value, "value");
+
       const subOptions =
         selectedBoard.subjects
           .filter((sub) => sub.Semester_id === value)
@@ -109,10 +112,35 @@ const GeneratePaper = () => {
           })) || [];
 
       setSubjects(subOptions);
+      setChapters([]);
 
       setFormData((prev) => ({
         ...prev,
         subject: "",
+        chapter: "",
+      }));
+    }
+
+    if (name === "subject") {
+      const selectedBoard = allData.find(
+        (board) => board.name === formData.board
+      );
+      console.log(selectedBoard, "selectedBoard");
+      console.log("run");
+      console.log(value, "value");
+      const chOptions =
+        selectedBoard.subjects
+          .filter((ch) => ch.Subject_id === value)
+          .map((ch) => ({
+            label: ch.name,
+            value: ch._id,
+          })) || [];
+
+      setChapters(chOptions);
+
+      setFormData((prev) => ({
+        ...prev,
+        chapter: "",
       }));
     }
   };
@@ -281,9 +309,11 @@ const GeneratePaper = () => {
                 onChange={handleChange}
               >
                 <option value="">-- Select Chapter --</option>
-                <option value="Chapter1">Chapter 1</option>
-                <option value="Chapter2">Chapter 2</option>
-                <option value="Chapter3">Chapter 3</option>
+                {chapters.map((chapter, idx) => (
+                  <option key={idx} value={chapter.value}>
+                    {chapter.label}
+                  </option>
+                ))}
               </select>
             </div>
 

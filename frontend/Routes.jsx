@@ -12,6 +12,9 @@ import PurchasePackage from "./Pages/admin/PurchasePackage";
 import SignUp from "./Pages/SignUp";
 import Home from "./Pages/Home";
 import GenerateBoard from "./Pages/formData/GenerateBoard";
+import GenerateChapter from "./Pages/formData/GenerateChapter";
+import GeneratePDF from "./Pages/generatePDF";
+import PaperSetting from "./Pages/admin/PaperSetting";
 
 const Routes = () => {
   return (
@@ -25,11 +28,14 @@ const Routes = () => {
         <Route path="/howtouse" element={<HowToUse />} />
         <Route path="/about" element={<AboutUs />} />
         <Route path="/board" element={<GenerateBoard />} />
+        <Route path="/chapter" element={<GenerateChapter />} />
+        <Route path="/header" element={<GeneratePDF />} />
            
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<MyDashboard />} />
           <Route path="my-dashboard" element={<MyDashboard />} />
           <Route path="generate-paper" element={<GeneratePaper />} />
+          <Route path="paper-setting" element={<PaperSetting />} />
           <Route path="purchase-package" element={<PurchasePackage />} />
         </Route>
       </ReactRouterRoutes>

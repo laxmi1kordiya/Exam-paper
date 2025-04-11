@@ -17,19 +17,54 @@ export const menuItems = [
     icon: "🛒",
     isNew: false,
   },
+  {
+    name: "Paper Setting",
+    path: "/admin/paper-setting",
+    icon: "⚙️",
+    isNew: false,
+  },
 
-  { name: "My Papers", path: "/my-papers", icon: "📄", isNew: false },
+  {
+    name: "My Papers",
+    path: "/admin/my-papers",
+    icon: "📄",
+    isNew: false,
+  },
+
   {
     name: "Generate Worksheet",
-    path: "/generate-worksheet",
+    path: "/admin/generate-worksheet",
     icon: "📋",
     isNew: false,
   },
-  { name: "My Worksheets", path: "/my-worksheets", icon: "📚", isNew: false },
-  { name: "Play Quiz", path: "/play-quiz", icon: "🎮", isNew: false },
-  { name: "Purchase Book", path: "/purchase-book", icon: "📖", isNew: false },
-  { name: "Paper Setting", path: "/paper-setting", icon: "⚙️", isNew: false },
-  { name: "How to Use", path: "/how-to-use", icon: "❓", isNew: false },
+
+  {
+    name: "My Worksheets",
+    path: "/admin/my-worksheets",
+    icon: "📚",
+    isNew: false,
+  },
+
+  {
+    name: "Play Quiz",
+    path: "/admin/play-quiz",
+    icon: "🎮",
+    isNew: false,
+  },
+
+  {
+    name: "Purchase Book",
+    path: "/admin/purchase-book",
+    icon: "📖",
+    isNew: false,
+  },
+
+  {
+    name: "How to Use",
+    path: "/admin/how-to-use",
+    icon: "❓",
+    isNew: false,
+  },
 ];
 
 export const packages = [

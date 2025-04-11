@@ -4,8 +4,13 @@ import {
   getSemData,
   getSubData,
   getBoardData,
+  getChapterData,
   getAllData,
   addBoardData,
+  addStandardData,
+  addSemesterData,
+  addSubjectData,
+  addChapterData
 } from "../Controllers/Setting.Ctrl.js";
 
 const settingRoutes = Router();
@@ -13,7 +18,12 @@ settingRoutes.get("/getBoardData", getBoardData);
 settingRoutes.get("/getStdData", getStdData);
 settingRoutes.get("/getSemData", getSemData);
 settingRoutes.get("/getSubData", getSubData);
+settingRoutes.get("/getChapterData", getChapterData);
 settingRoutes.get("/getAllData", getAllData);
 settingRoutes.post("/addBoardData", addBoardData);
+settingRoutes.post("/addStandardData", addStandardData);
+settingRoutes.post("/addSemesterData", addSemesterData);
+settingRoutes.post("/addSubjectData", addSubjectData);
+settingRoutes.post("/addChapterData", addChapterData);
 
 export default settingRoutes;

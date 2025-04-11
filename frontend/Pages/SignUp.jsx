@@ -42,7 +42,7 @@ const SignUp = () => {
           </button>
         </div>
         <img
-          src="https://360exams.in/admin/images/logo.png"
+          src=""
           className="img-fluid"
           style={{ width: "100px" }}
           alt="Logo"

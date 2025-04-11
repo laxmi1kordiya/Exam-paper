@@ -6,6 +6,7 @@ import standard from "../Schema/Standard.js";
 import semester from "../Schema/Semester.js";
 import subject from "../Schema/Subject.js";
 import board from "../Schema/Board.js";
+import chapter from "../Schema/Chapter.js";
 
 const models = {
   signUp,
@@ -13,12 +14,17 @@ const models = {
   standard,
   semester,
   subject,
-  board
+  board,
+  chapter,
 };
 
 const findOne = async (collection, query, property, sort) => {
   try {
-    return await models[collection].findOne(query, property).sort(sort).lean().exec();
+    return await models[collection]
+      .findOne(query, property)
+      .sort(sort)
+      .lean()
+      .exec();
   } catch (err) {
     throw err;
   }
@@ -34,7 +40,11 @@ const create = async (collection, data) => {
 
 const find = async (collection, query, sort, limit, skip) => {
   try {
-    return await models[collection].find(query).sort(sort).limit(limit).skip(skip);
+    return await models[collection]
+      .find(query)
+      .sort(sort)
+      .limit(limit)
+      .skip(skip);
   } catch (err) {
     throw err;
   }
@@ -50,7 +60,12 @@ const distinct = async (collection, field, query = {}) => {
 const findWithFields = async (obj) => {
   try {
     const { collection, query, sort, limit, skip, fields } = obj;
-    return await models[collection].find(query).sort(sort).limit(limit).skip(skip).select(fields);
+    return await models[collection]
+      .find(query)
+      .sort(sort)
+      .limit(limit)
+      .skip(skip)
+      .select(fields);
   } catch (err) {
     throw err;
   }
@@ -72,7 +87,14 @@ const findOneAndUpdate = async (collection, query, data, fields) => {
   }
 };
 
-const findWithCount = async (collection, userQuery, query, skip, limit, sort) => {
+const findWithCount = async (
+  collection,
+  userQuery,
+  query,
+  skip,
+  limit,
+  sort
+) => {
   try {
     return await models[collection].aggregate(
       [
@@ -106,7 +128,15 @@ const findWithCount = async (collection, userQuery, query, skip, limit, sort) =>
   }
 };
 
-const findWithinFields = async (collection, userQuery, query, skip, limit, sort, unwind) => {
+const findWithinFields = async (
+  collection,
+  userQuery,
+  query,
+  skip,
+  limit,
+  sort,
+  unwind
+) => {
   try {
     return await models[collection].aggregate(
       [
@@ -168,7 +198,10 @@ const bulkWrite = async (collection, data) => {
 
 const update = async (collection, query, data) => {
   try {
-    return await models[collection].update(query, data, { multi: true }).lean().exec();
+    return await models[collection]
+      .update(query, data, { multi: true })
+      .lean()
+      .exec();
   } catch (err) {
     throw err;
   }
@@ -200,7 +233,12 @@ const updateMany = async (collection, filter, update) => {
 
 const findCronjobData = async (collection, query, sort, limit, skip) => {
   try {
-    return await models[collection].find(query).sort(sort).limit(limit).skip(skip).lean();
+    return await models[collection]
+      .find(query)
+      .sort(sort)
+      .limit(limit)
+      .skip(skip)
+      .lean();
   } catch (err) {
     throw err;
   }
@@ -229,7 +267,11 @@ const getDirectDataFromDb = async ({
       const collection = mongoose.connection.db.collection(collectionName);
 
       if (searchType === "find") {
-        const cursor = collection.find(query).sort(sort).skip(parseInt(skip)).project(fields);
+        const cursor = collection
+          .find(query)
+          .sort(sort)
+          .skip(parseInt(skip))
+          .project(fields);
         if (limit && !isNaN(limit)) cursor.limit(parseInt(limit));
         documents = await cursor.toArray();
       } else if (searchType === "count") {
@@ -271,14 +313,19 @@ const findAllData = async (collection) => {
           as: "subjects",
         },
       },
+      {
+        $lookup: {
+          from: "chapters",
+          localField: "_id",
+          foreignField: "Board_id",
+          as: "chapters",
+        },
+      },
     ]);
   } catch (err) {
     throw err;
   }
 };
-
-
-
 
 export {
   findOne,
@@ -299,5 +346,5 @@ export {
   findCronjobData,
   getAllCollectionNames,
   getDirectDataFromDb,
-  findAllData
+  findAllData,
 };

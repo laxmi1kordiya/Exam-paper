@@ -6,7 +6,7 @@ const NavbarAdmin = () => {
   return (
     <div className="navbar-a">
       <div className="navbar-logo-a">
-        <span className="logo-text-a">360Exams</span>
+        <span className="logo-text-a">ExamPaper</span>
       </div>
       <ul className="navbar-menu-a">
         {menuItems.map((item, index) => (
