@@ -39,7 +39,7 @@ const GeneratePaper = () => {
     } catch (error) {
       console.error("Error fetching data:", error);
     }
-  }, [fetch]);
+  }, []);
 
   useEffect(() => {
     fetchData();
@@ -98,9 +98,11 @@ const GeneratePaper = () => {
       const selectedBoard = allData.find(
         (board) => board.name === formData.board
       );
+      console.log(selectedBoard, "selectedBoard");
+      console.log(value, "value");
       const subOptions =
-        selectedBoard?.subjects
-          ?.filter((sub) => sub.Semester_id === value)
+        selectedBoard.subjects
+          .filter((sub) => sub.Semester_id === value)
           .map((sub) => ({
             label: sub.name,
             value: sub._id,
@@ -131,12 +133,22 @@ const GeneratePaper = () => {
               key={stepNum}
               className={`step ${currentStep === stepNum ? "active" : ""}`}
             >
-              <span className="step-number">{stepNum}</span>
-              {stepNum === 1 && (
-                <p>Select Board, Standard, Semester, Subject</p>
-              )}
-              {stepNum === 2 && <p>Manage Paper Details</p>}
-              {stepNum === 3 && <p>Choose Questions</p>}
+              <div className="step-number">{stepNum}</div>
+              <div className="step-content">
+                <h3>
+                  {stepNum === 1
+                    ? "Step 1"
+                    : stepNum === 2
+                    ? "Step 2"
+                    : "Step 3"}
+                </h3>
+                <p>
+                  {stepNum === 1 && "Select Board, Standard, Semester, Subject"}
+                  {stepNum === 2 &&
+                    "Manage Paper Details Date, Time, Difficulty"}
+                  {stepNum === 3 && "Choose Questions of Chapters & Subjects"}
+                </p>
+              </div>
             </div>
           ))}
         </div>

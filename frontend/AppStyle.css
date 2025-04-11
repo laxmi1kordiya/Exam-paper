@@ -1013,40 +1013,54 @@ section.section1 > div :nth-child(2){
 .steps-container {
   display: flex;
   justify-content: space-between;
-  width: 80%;
-  margin-bottom: 20px;
+  align-items: center;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
 .step {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  text-align: center;
-  width: 30%;
-  padding: 10px;
-  background-color: #e6f0fa;
-  border-radius: 8px;
-}
-
-.step.active {
-  background-color: #d1e7ff;
+  gap: 10px;
 }
 
 .step-number {
-  width: 30px;
-  height: 30px;
-  background-color: #007bff;
-  color: #fff;
-  border-radius: 50%;
+  width: 40px;
+  height: 40px;
   display: flex;
-  align-items: center;
   justify-content: center;
-  margin-bottom: 10px;
+  align-items: center;
+  font-size: 18px;
+  font-weight: bold;
+  color: #39413e!important;
+  background-color: #cdddff;
+  border-radius: 8px;
 }
 
-.step p {
+
+.step.active .step-number {
+  background-color: #1e3a8a; /* Dark blue for active step */
+}
+
+.step-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.step-content h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1e3a8a; /* Dark blue for text */
+  margin: 0;
+}
+
+.step-content p {
   font-size: 14px;
-  color: #333;
+  color: #4b5e8e; /* Lighter blue-gray for description */
+  margin: 5px 0 0 0;
 }
 
 .board-selection {
