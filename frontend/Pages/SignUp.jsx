@@ -1,5 +1,4 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useAuthenticatedFetch } from "../Api/Axios";
 import { navigate } from "../Components/NavigationMenu";
 const SignUp = () => {

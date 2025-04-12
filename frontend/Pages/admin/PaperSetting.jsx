@@ -1,6 +1,9 @@
 import React, { useState } from "react";
+import { useAuthenticatedFetch } from "../../Api/Axios";
 
 const PaperSetting = () => {
+  const fetch = useAuthenticatedFetch();
+
   const [formData, setFormData] = useState({
     title: "",
     subtitle: "",
@@ -22,111 +25,139 @@ const PaperSetting = () => {
     }));
   };
 
-  const handleLogoChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setFormData((prev) => ({
-          ...prev,
-          logo: file,
-          logoPreview: reader.result,
-        }));
-      };
-      reader.readAsDataURL(file);
+  // const handleLogoChange = (e) => {
+  //   const file = e.target.files[0];
+  //   if (file) {
+  //     const reader = new FileReader();
+  //     reader.onloadend = () => {
+  //       setFormData((prev) => ({
+  //         ...prev,
+  //         logo: file,
+  //         logoPreview: reader.result,
+  //       }));
+  //     };
+  //     reader.readAsDataURL(file);
+  //   }
+  // };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      // Construct FormData if you want to send file too
+      const data = new FormData();
+      for (const key in formData) {
+        if (key === "logoPreview") continue; // don't send preview
+        data.append(key, formData[key]);
+      }
+
+      const response = await fetch.post("paperSetting", formData);
+      console.log("Submitted successfully:", response.formData);
+      alert("Form submitted successfully!");
+    } catch (error) {
+      alert("Failed to submit the form. Please try again.");
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Form Data:", formData);
-    // Send this data to PDF generator or backend
-  };
-
   return (
-    <div className="content-page">
-      <div className="main-content">
-        <form onSubmit={handleSubmit}>
-          <h2 style={{ textAlign: "center", marginBottom: "1.5rem" }}>
-            Exam Form With Logo
-          </h2>
+    <div className="login-container">
+      <div className="signin-box">
+        <div className="sign-in-from">
+          <h3 className="text-center">Exam Paper Settings</h3>
+          <p className="text-center text-dark">
+            Configure details for the exam paper
+          </p>
 
-          {[
-            { label: "Title", name: "title" },
-            { label: "Subtitle", name: "subtitle" },
-            { label: "Student Name", name: "studentName" },
-            { label: "Standard", name: "standard" },
-            { label: "Subject", name: "subject" },
-            { label: "Total Marks", name: "totalMarks", type: "number" },
-            { label: "Obtained Marks", name: "obtainedMarks", type: "number" },
-            { label: "Date", name: "date", type: "date" },
-          ].map(({ label, name, type = "text" }) => (
-            <div key={name} style={{ marginBottom: "1rem" }}>
-              <label style={{ display: "block", fontWeight: "bold" }}>
-                {label}
-              </label>
-              <input
-                type={type}
-                name={name}
-                value={formData[name]}
-                onChange={handleChange}
-                required
-                style={{
-                  width: "100%",
-                  padding: "0.5rem",
-                  borderRadius: "6px",
-                  border: "1px solid #ccc",
-                  marginTop: "0.25rem",
-                }}
-              />
-            </div>
-          ))}
-
-          {/* Logo Upload */}
-          <div style={{ marginBottom: "1rem" }}>
-            <label
-              style={{
-                fontWeight: "bold",
-                display: "block",
-                marginBottom: "0.25rem",
-              }}
-            >
-              Upload Logo
-            </label>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleLogoChange}
-              style={{
-                padding: "0.4rem 0",
-                display: "block",
-              }}
-            />
-            {formData.logoPreview && (
-              <img
-                src={formData.logoPreview}
-                alt="Logo Preview"
-                style={{ marginTop: "0.5rem", width: "100px", height: "auto" }}
-              />
-            )}
-          </div>
-
-          <button
-            type="submit"
-            style={{
-              width: "100%",
-              padding: "0.75rem",
-              backgroundColor: "#007bff",
-              color: "#fff",
-              border: "none",
-              borderRadius: "6px",
-              fontSize: "1rem",
-              cursor: "pointer",
-            }}
+          <form
+            className="mt-4"
+            style={{ padding: "20px" }}
           >
-            Submit
-          </button>
-        </form>
+            <div className="row">
+              {[
+                {
+                  label: "Title",
+                  name: "title",
+                  placeholder: "Enter Exam Title",
+                },
+                {
+                  label: "Subtitle",
+                  name: "subtitle",
+                  placeholder: "Enter Subtitle",
+                },
+                {
+                  label: "Student Name",
+                  name: "studentName",
+                  placeholder: "Enter Student Name",
+                },
+                {
+                  label: "Standard",
+                  name: "standard",
+                  placeholder: "Enter Class/Standard",
+                },
+                {
+                  label: "Subject",
+                  name: "subject",
+                  placeholder: "Enter Subject",
+                },
+                {
+                  label: "Total Marks",
+                  name: "totalMarks",
+                  type: "number",
+                  placeholder: "Enter Total Marks",
+                },
+                {
+                  label: "Obtained Marks",
+                  name: "obtainedMarks",
+                  type: "number",
+                  placeholder: "Enter Marks Obtained",
+                },
+                { label: "Date", name: "date", type: "date", placeholder: "" },
+              ].map(({ label, name, type = "text", placeholder }) => (
+                <div key={name} className="form-group">
+                  <label htmlFor={name}>{label}</label>
+                  <input
+                    type={type}
+                    name={name}
+                    className="form-control"
+                    id={name}
+                    value={formData[name]}
+                    placeholder={placeholder}
+                    onChange={handleChange}
+                    // required
+                  />
+                </div>
+              ))}
+
+              {/* <div className="form-group">
+                <label htmlFor="logo">Upload Logo</label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="form-control"
+                  id="logo"
+                  onChange={handleLogoChange}
+                />
+                {formData.logoPreview && (
+                  <img
+                    src={formData.logoPreview}
+                    alt="Logo Preview"
+                    style={{
+                      marginTop: "10px",
+                      width: "100px",
+                      height: "auto",
+                    }}
+                  />
+                )}
+              </div> */}
+            </div>
+
+            <div className="sign-info text-center">
+              <button type="submit" className="text-center" id="verify_button" onClick={handleSubmit}>
+                Submit
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );

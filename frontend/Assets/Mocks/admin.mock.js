@@ -12,18 +12,17 @@ export const menuItems = [
     isNew: false,
   },
   {
-    name: "Purchase Package",
-    path: "/admin/purchase-package",
-    icon: "🛒",
-    isNew: false,
-  },
-  {
     name: "Paper Setting",
     path: "/admin/paper-setting",
     icon: "⚙️",
     isNew: false,
   },
-
+  {
+    name: "Purchase Package",
+    path: "/admin/purchase-package",
+    icon: "🛒",
+    isNew: false,
+  },
   {
     name: "My Papers",
     path: "/admin/my-papers",

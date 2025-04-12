@@ -114,3 +114,14 @@ export const addChapterData = async (req, res, next) => {
     next(err);
   }
 };
+
+export const addSaveData = async (req, res, next) => {
+  let rcResponse = new ApiResponse();
+  let { body } = req;
+  try {
+    rcResponse.data = await create("paperSetting", body);
+    return res.status(rcResponse.code).send(rcResponse);
+  } catch (err) {
+    next(err);
+  }
+};

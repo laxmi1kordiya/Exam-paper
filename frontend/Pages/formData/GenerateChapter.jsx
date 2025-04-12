@@ -84,7 +84,6 @@ export default function GenerateChapter() {
                   <tr key={chapter.name}>
                     <td>{index + 1}</td>
                     <td>{chapter.name}</td>
-                    <td>{chapter.Board_id}</td>
                   </tr>
                 ))}
               </tbody>

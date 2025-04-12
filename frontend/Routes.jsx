@@ -15,6 +15,9 @@ import GenerateBoard from "./Pages/formData/GenerateBoard";
 import GenerateChapter from "./Pages/formData/GenerateChapter";
 import GeneratePDF from "./Pages/generatePDF";
 import PaperSetting from "./Pages/admin/PaperSetting";
+import GenerateStandard from "./Pages/formData/GenerateStandard";
+import GenerateSemester from "./Pages/formData/GenerateSemester";
+import Generatesubject from "./Pages/formData/GenerateSubject";
 
 const Routes = () => {
   return (
@@ -29,14 +32,21 @@ const Routes = () => {
         <Route path="/about" element={<AboutUs />} />
         <Route path="/board" element={<GenerateBoard />} />
         <Route path="/chapter" element={<GenerateChapter />} />
+        <Route path="/standard" element={<GenerateStandard />} />
+        <Route path="/semester" element={<GenerateSemester />} />
+        <Route path="/subject" element={<Generatesubject />} />
         <Route path="/header" element={<GeneratePDF />} />
-           
+
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<MyDashboard />} />
           <Route path="my-dashboard" element={<MyDashboard />} />
           <Route path="generate-paper" element={<GeneratePaper />} />
           <Route path="paper-setting" element={<PaperSetting />} />
           <Route path="purchase-package" element={<PurchasePackage />} />
+          {/* <Route path="my-papers" element={<MyPapers />} />
+          <Route path="generate-worksheet" element={<GenerateWorksheet />} />
+          <Route path="my-worksheets" element={<MyWorksheets />} />
+          <Route path="how-to-use" element={<HowToUse />} /> */}
         </Route>
       </ReactRouterRoutes>
     </Suspense>
