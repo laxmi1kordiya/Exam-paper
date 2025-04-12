@@ -11,7 +11,6 @@ export function useAuthenticatedFetch() {
   try {
     return {
       get: async (url) => {
-        // setAdminAuthHeader();
         const response = await instance.get(url);
         return response.data;
       },
@@ -28,12 +27,10 @@ export function useAuthenticatedFetch() {
         return response.data;
       },
       put: async (url, data) => {
-        setAdminAuthHeader();
         const response = await instance.put(url, data);
         return response.data;
       },
       delete: async (url) => {
-        setAdminAuthHeader();
         const response = await instance.delete(url);
         return response.data;
       },

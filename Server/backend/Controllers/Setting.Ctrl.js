@@ -1,5 +1,5 @@
 import { ApiResponse } from "../Helpers/common.js";
-import { create, find, findAllData } from "../Model/common.js";
+import { create, deleteOne, find, findAllData, findOneAndUpdate } from "../Model/common.js";
 
 export const getBoardData = async (req, res, next) => {
   let rcResponse = new ApiResponse();
@@ -64,7 +64,25 @@ export const addBoardData = async (req, res, next) => {
   let rcResponse = new ApiResponse();
   let { body } = req;
   try {
-    rcResponse.data = await create("board", body);
+    if (body._id) {
+      rcResponse.data = await findOneAndUpdate(
+        "board",
+        { _id: body._id },
+        body
+      );
+    } else {
+      rcResponse.data = await create("board", body);
+    }
+    return res.status(rcResponse.code).send(rcResponse);
+  } catch (err) {
+    next(err);
+  }
+};
+export const deleteBoardData = async (req, res, next) => {
+  let rcResponse = new ApiResponse();
+  let { id } = req.params;
+  try {
+    rcResponse.data = await deleteOne("board", { _id: id });
     return res.status(rcResponse.code).send(rcResponse);
   } catch (err) {
     next(err);
