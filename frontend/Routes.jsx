@@ -18,6 +18,7 @@ import PaperSetting from "./Pages/admin/PaperSetting";
 import GenerateStandard from "./Pages/formData/GenerateStandard";
 import GenerateSemester from "./Pages/formData/GenerateSemester";
 import Generatesubject from "./Pages/formData/GenerateSubject";
+import EducationManager from "./Pages/formData/GenerateTable";
 
 const Routes = () => {
   return (
@@ -35,6 +36,7 @@ const Routes = () => {
         <Route path="/standard" element={<GenerateStandard />} />
         <Route path="/semester" element={<GenerateSemester />} />
         <Route path="/subject" element={<Generatesubject />} />
+        <Route path="/table" element={<EducationManager />} />
         <Route path="/header" element={<GeneratePDF />} />
 
         <Route path="/admin" element={<AdminLayout />}>

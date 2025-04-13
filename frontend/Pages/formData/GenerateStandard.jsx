@@ -1,218 +1,96 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuthenticatedFetch } from "../../Api/Axios";
 
-export default function EducationManager() {
-  const [section, setSection] = useState("Board");
+export default function GenerateStandard() {
+  const [showModal, setShowModal] = useState(false);
+  const [standardName, setstandardName] = useState("");
+  const [standards, setstandards] = useState([]);
   const fetch = useAuthenticatedFetch();
-  const [formData, setFormData] = useState({
-    board: "",
-    standard: "",
-    subject: "",
-    chapter: "",
-  });
 
-  const [boards, setBoards] = useState([]);
-  const [standards, setStandards] = useState([]);
-  const [subjects, setSubjects] = useState([]);
-  const [chapters, setChapters] = useState([]);
+  const handleAddStandard = async () => {
+    if (!standardName.trim()) return;
 
-  const fetchData = async () => {
     try {
-      const [b, s, su, c] = await Promise.all([
-        await fetch.get("getBoardData"),
-        await fetch.get("getStdData"),
-        await fetch.get("getsemData"),
-        await fetch.get("getSubData")
-      ]);
-      setBoards(b.data);
-      setStandards(s.data);
-      setSubjects(su.data);
-      setChapters(c.data);
-    } catch (error) {
-      console.error("Error fetching data:", error);
+      const res = await fetch.post("addStandardData", {
+        name: standardName.trim(),
+      });
+
+      if (res?.code === 200) {
+        setstandardName("");
+        setShowModal(false);
+        fetchstandards(); // Refresh list
+      } else {
+        console.error("Error saving Standard:", res);
+      }
+    } catch (err) {
+      console.error("Failed to save Standard", err);
     }
   };
 
   useEffect(() => {
-    fetchData();
+    fetchstandards();
   }, []);
 
-  const handleInputChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    let url = "";
-    let payload = {};
-
+  const fetchstandards = async () => {
     try {
-      if (section === "Board") {
-        url = "http://localhost:5000/boards";
-        payload = { name: formData.board.trim() };
-      } else if (section === "Standard") {
-        url = "http://localhost:5000/standards";
-        payload = { board: formData.board, name: formData.standard.trim() };
-      } else if (section === "Subject") {
-        url = "http://localhost:5000/subjects";
-        payload = { board: formData.board, standard: formData.standard, name: formData.subject.trim() };
-      } else if (section === "Chapter") {
-        url = "http://localhost:5000/chapters";
-        payload = { board: formData.board, standard: formData.standard, subject: formData.subject, name: formData.chapter.trim() };
-      }
-
-      if (!payload.name) return alert("Please enter a valid name!");
-
-      await axios.post(url, payload);
-      setFormData({ board: "", standard: "", subject: "", chapter: "" });
-      fetchData();
-    } catch (error) {
-      console.error(`Error adding ${section}:`, error);
+      const res = await fetch.get("getStdData");
+      setstandards(res?.data);
+    } catch (err) {
+      console.error("Failed to fetch standards", err);
     }
-  };
-
-  const renderForm = () => {
-    return (
-      <div className="main-content">
-      <form onSubmit={handleSubmit} style={{ margin: "20px 0" }}>
-        <h2>Add {section}</h2>
-        {section !== "Board" && (
-          <select name="board" value={formData.board} onChange={handleInputChange} required>
-            <option value="">Select Board</option>
-            {boards.map((b) => (
-              <option key={b._id} value={b.name}>{b.name}</option>
-            ))}
-          </select>
-        )}
-        {section === "Standard" && (
-          <input
-            type="text"
-            name="standard"
-            placeholder="Enter Standard"
-            value={formData.standard}
-            onChange={handleInputChange}
-            required
-          />
-        )}
-        {section === "Subject" && (
-          <>
-            <select name="standard" value={formData.standard} onChange={handleInputChange} required>
-              <option value="">Select Standard</option>
-              {standards.map((s) => (
-                <option key={s._id} value={s.name}>{s.name}</option>
-              ))}
-            </select>
-            <input
-              type="text"
-              name="subject"
-              placeholder="Enter Subject"
-              value={formData.subject}
-              onChange={handleInputChange}
-              required
-            />
-          </>
-        )}
-        {section === "Chapter" && (
-          <>
-            <select name="standard" value={formData.standard} onChange={handleInputChange} required>
-              <option value="">Select Standard</option>
-              {standards.map((s) => (
-                <option key={s._id} value={s.name}>{s.name}</option>
-              ))}
-            </select>
-            <select name="subject" value={formData.subject} onChange={handleInputChange} required>
-              <option value="">Select Subject</option>
-              {subjects.map((s) => (
-                <option key={s._id} value={s.name}>{s.name}</option>
-              ))}
-            </select>
-            <input
-              type="text"
-              name="chapter"
-              placeholder="Enter Chapter"
-              value={formData.chapter}
-              onChange={handleInputChange}
-              required
-            />
-          </>
-        )}
-        {section === "Board" && (
-          <input
-            type="text"
-            name="board"
-            placeholder="Enter Board"
-            value={formData.board}
-            onChange={handleInputChange}
-            required
-          />
-        )}
-        <button type="submit" style={{ marginTop: "10px" }}>Submit</button>
-      </form>
-      </div>
-    );
-  };
-
-  const renderTable = () => {
-    let rows = [];
-    let headers = [];
-
-    if (section === "Board") {
-      headers = ["#", "Board"];
-      rows = boards.map((item, i) => [i + 1, item.name]);
-    } else if (section === "Standard") {
-      headers = ["#", "Board", "Standard"];
-      rows = standards.map((item, i) => [i + 1, item.board, item.name]);
-    } else if (section === "Subject") {
-      headers = ["#", "Board", "Standard", "Subject"];
-      rows = subjects.map((item, i) => [i + 1, item.board, item.standard, item.name]);
-    } else if (section === "Chapter") {
-      headers = ["#", "Board", "Standard", "Subject", "Chapter"];
-      rows = chapters.map((item, i) => [i + 1, item.board, item.standard, item.subject, item.name]);
-    }
-
-    return (
-      <table border="1" cellPadding="8" style={{ width: "100%", marginTop: "20px" }}>
-        <thead>
-          <tr>{headers.map((h) => <th key={h}>{h}</th>)}</tr>
-        </thead>
-        <tbody>
-          {rows.length > 0 ? rows.map((r, i) => (
-            <tr key={i}>{r.map((cell, j) => <td key={j}>{cell}</td>)}</tr>
-          )) : <tr><td colSpan={headers.length}>No records found</td></tr>}
-        </tbody>
-      </table>
-    );
   };
 
   return (
-    <div className="main-content">
-    <div style={{ padding: "20px" }}>
-      <div style={{ marginBottom: "20px" }}>
-        {["Board", "Standard", "Subject", "Chapter"].map((item) => (
-          <button
-            key={item}
-            style={{
-              marginRight: "10px",
-              backgroundColor: section === item ? "#007bff" : "#6c757d",
-              color: "white",
-              border: "none",
-              padding: "8px 16px",
-              borderRadius: "4px",
-              cursor: "pointer"
-            }}
-            onClick={() => {
-              setSection(item);
-              setFormData({ board: "", standard: "", subject: "", chapter: "" });
-            }}
-          >
-            {item}
-          </button>
-        ))}
-      </div>
+    <div className="content-page">
+      <div className="main-content">
+        <h2>Standard Management</h2>
 
-      {renderForm()}
-      {renderTable()}
-    </div>
+        <button onClick={() => setShowModal(true)}>Add Standard</button>
+
+        {/* Modal */}
+        {showModal && (
+          <div className="modal-backdrop">
+            <div className="modal">
+              <h3>Add New Standard</h3>
+              <input
+                type="text"
+                placeholder="Enter Standard name"
+                value={standardName}
+                onChange={(e) => setstandardName(e.target.value)}
+              />
+              <div className="modal-actions">
+                <button onClick={handleAddStandard}>Save</button>
+                <button onClick={() => setShowModal(false)}>Cancel</button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* standards Table */}
+        <div className="table-container">
+          <h3>All standards</h3>
+          {standards.length === 0 ? (
+            <p>No standards added yet.</p>
+          ) : (
+            <table border="1" cellPadding="8">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Standard Name</th>
+                </tr>
+              </thead>
+              <tbody>
+                {standards.map((Standard, index) => (
+                  <tr key={Standard.name}>
+                    <td>{index + 1}</td>
+                    <td>{Standard.name}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </div>
+      </div>
     </div>
   );
 }
