@@ -1,0 +1,1 @@
+export { default as iphoneImage } from "./Images/iphone.png";

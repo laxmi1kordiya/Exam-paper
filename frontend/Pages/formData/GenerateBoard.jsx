@@ -3,28 +3,37 @@ import { useAuthenticatedFetch } from "../../Api/Axios";
 
 export default function GenerateBoard() {
   const [showModal, setShowModal] = useState(false);
-  const [boardName, setBoardName] = useState("");
+  const [fromData, setFormData] = useState({ name: "" });
   const [boards, setBoards] = useState([]);
+  const [selectedBoard, setSelectedBoard] = useState(null);
   const fetch = useAuthenticatedFetch();
 
   const handleAddBoard = async () => {
-    if (!boardName.trim()) return;
-
     try {
-      const res = await fetch.post("addBoardData", {
-        name: boardName.trim(),
-      });
-
-      if (res?.code === 200) {
-        setBoardName("");
-        setShowModal(false);
-        fetchBoards(); // Refresh list
-      } else {
-        console.error("Error saving board:", res);
-      }
+      await fetch.post("addBoardData", fromData);
+      setShowModal(false);
+      fetchBoards();
     } catch (err) {
       console.error("Failed to save board", err);
     }
+  };
+  const handleOpenModal = (board = null) => {
+    setSelectedBoard(board);
+    setShowModal(true);
+    setFormData(board);
+  };
+
+  const handleDeleteBoard = async (row) => {
+    try {
+      await fetch.delete(`deleteBoardData/${row._id}`);
+      fetchBoards();
+    } catch (err) {
+      console.error("Failed to delete board", err);
+    }
+  };
+
+  const handleChange = (e) => {
+    setFormData((prev) => ({ ...prev, name: e.target.value }));
   };
 
   useEffect(() => {
@@ -51,16 +60,25 @@ export default function GenerateBoard() {
         {showModal && (
           <div className="modal-backdrop">
             <div className="modal">
-              <h3>Add New Board</h3>
+              <h3>{selectedBoard ? "Edit Board" : "Add New Board"}</h3>
               <input
                 type="text"
                 placeholder="Enter board name"
-                value={boardName}
-                onChange={(e) => setBoardName(e.target.value)}
+                value={fromData.name}
+                onChange={(e) => handleChange(e)}
               />
               <div className="modal-actions">
-                <button onClick={handleAddBoard}>Save</button>
-                <button onClick={() => setShowModal(false)}>Cancel</button>
+                <button onClick={handleAddBoard}>
+                  {selectedBoard ? "Update" : "Save"}
+                </button>
+                <button
+                  onClick={() => {
+                    setShowModal(false);
+                    setSelectedBoard(null);
+                  }}
+                >
+                  Cancel
+                </button>
               </div>
             </div>
           </div>
@@ -77,6 +95,7 @@ export default function GenerateBoard() {
                 <tr>
                   <th>ID</th>
                   <th>Board Name</th>
+                  <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -84,6 +103,14 @@ export default function GenerateBoard() {
                   <tr key={board.name}>
                     <td>{index + 1}</td>
                     <td>{board.name}</td>
+                    <td>
+                      <button onClick={() => handleOpenModal(board)}>
+                        Edit
+                      </button>
+                      <button onClick={() => handleDeleteBoard(board)}>
+                        Delete
+                      </button>
+                    </td>
                   </tr>
                 ))}
               </tbody>
