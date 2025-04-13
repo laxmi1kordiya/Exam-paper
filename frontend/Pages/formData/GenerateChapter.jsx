@@ -3,28 +3,37 @@ import { useAuthenticatedFetch } from "../../Api/Axios";
 
 export default function GenerateChapter() {
   const [showModal, setShowModal] = useState(false);
-  const [chapterName, setChapterName] = useState("");
-  const [chapters, setChapters] = useState([]);
+  const [fromData, setFormData] = useState({ name: "" });
+  const [Chapters, setChapters] = useState([]);
+  const [selectedChapter, setSelectedChapter] = useState(null);
   const fetch = useAuthenticatedFetch();
 
   const handleAddChapter = async () => {
-    if (!chapterName.trim()) return;
-
     try {
-      const res = await fetch.post("addChapterData", {
-        name: chapterName.trim(),
-      });
-
-      if (res?.code === 200) {
-        setChapterName("");
-        setShowModal(false);
-        fetchChapters(); // Refresh list
-      } else {
-        console.error("Error saving chapter:", res);
-      }
+      await fetch.post("addChapterData", fromData);
+      setShowModal(false);
+      fetchChapters();
     } catch (err) {
-      console.error("Failed to save chapter", err);
+      console.error("Failed to save Chapter", err);
     }
+  };
+  const handleOpenModal = (Chapter = null) => {
+    setSelectedChapter(Chapter);
+    setShowModal(true);
+    setFormData(Chapter);
+  };
+
+  const handleDeleteChapter = async (row) => {
+    try {
+      await fetch.delete(`deleteChapterData/${row._id}`);
+      fetchChapters();
+    } catch (err) {
+      console.error("Failed to delete Chapter", err);
+    }
+  };
+
+  const handleChange = (e) => {
+    setFormData((prev) => ({ ...prev, name: e.target.value }));
   };
 
   useEffect(() => {
@@ -36,7 +45,7 @@ export default function GenerateChapter() {
       const res = await fetch.get("getChapterData");
       setChapters(res?.data);
     } catch (err) {
-      console.error("Failed to fetch chapters", err);
+      console.error("Failed to fetch Chapters", err);
     }
   };
 
@@ -51,16 +60,25 @@ export default function GenerateChapter() {
         {showModal && (
           <div className="modal-backdrop">
             <div className="modal">
-              <h3>Add New Chapter</h3>
+              <h3>{selectedChapter ? "Edit Chapter" : "Add New Chapter"}</h3>
               <input
                 type="text"
-                placeholder="Enter chapter name"
-                value={chapterName}
-                onChange={(e) => setChapterName(e.target.value)}
+                placeholder="Enter Chapter name"
+                value={fromData.name}
+                onChange={(e) => handleChange(e)}
               />
               <div className="modal-actions">
-                <button onClick={handleAddChapter}>Save</button>
-                <button onClick={() => setShowModal(false)}>Cancel</button>
+                <button onClick={handleAddChapter}>
+                  {selectedChapter ? "Update" : "Save"}
+                </button>
+                <button
+                  onClick={() => {
+                    setShowModal(false);
+                    setSelectedChapter(null);
+                  }}
+                >
+                  Cancel
+                </button>
               </div>
             </div>
           </div>
@@ -69,21 +87,30 @@ export default function GenerateChapter() {
         {/* Chapters Table */}
         <div className="table-container">
           <h3>All Chapters</h3>
-          {chapters.length === 0 ? (
-            <p>No chapters added yet.</p>
+          {Chapters.length === 0 ? (
+            <p>No Chapters added yet.</p>
           ) : (
             <table border="1" cellPadding="8">
               <thead>
                 <tr>
                   <th>ID</th>
                   <th>Chapter Name</th>
+                  <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
-                {chapters.map((chapter, index) => (
-                  <tr key={chapter.name}>
+                {Chapters.map((Chapter, index) => (
+                  <tr key={Chapter.name}>
                     <td>{index + 1}</td>
-                    <td>{chapter.name}</td>
+                    <td>{Chapter.name}</td>
+                    <td>
+                      <button onClick={() => handleOpenModal(Chapter)}>
+                        Edit
+                      </button>
+                      <button onClick={() => handleDeleteChapter(Chapter)}>
+                        Delete
+                      </button>
+                    </td>
                   </tr>
                 ))}
               </tbody>

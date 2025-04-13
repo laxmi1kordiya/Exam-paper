@@ -3,28 +3,37 @@ import { useAuthenticatedFetch } from "../../Api/Axios";
 
 export default function GenerateSemester() {
   const [showModal, setShowModal] = useState(false);
-  const [semesterName, setsemesterName] = useState("");
+  const [fromData, setFormData] = useState({ name: "" });
   const [Semesters, setSemesters] = useState([]);
+  const [selectedSemester, setSelectedSemester] = useState(null);
   const fetch = useAuthenticatedFetch();
 
   const handleAddSemester = async () => {
-    if (!semesterName.trim()) return;
-
     try {
-      const res = await fetch.post("addSemesterData", {
-        name: semesterName.trim(),
-      });
-
-      if (res?.code === 200) {
-        setsemesterName("");
-        setShowModal(false);
-        fetchSemesters(); // Refresh list
-      } else {
-        console.error("Error saving Semester:", res);
-      }
+      await fetch.post("addSemesterData", fromData);
+      setShowModal(false);
+      fetchSemesters();
     } catch (err) {
       console.error("Failed to save Semester", err);
     }
+  };
+  const handleOpenModal = (Semester = null) => {
+    setSelectedSemester(Semester);
+    setShowModal(true);
+    setFormData(Semester);
+  };
+
+  const handleDeleteSemester = async (row) => {
+    try {
+      await fetch.delete(`deleteSemesterData/${row._id}`);
+      fetchSemesters();
+    } catch (err) {
+      console.error("Failed to delete Semester", err);
+    }
+  };
+
+  const handleChange = (e) => {
+    setFormData((prev) => ({ ...prev, name: e.target.value }));
   };
 
   useEffect(() => {
@@ -33,7 +42,7 @@ export default function GenerateSemester() {
 
   const fetchSemesters = async () => {
     try {
-      const res = await fetch.get("getsemData");
+      const res = await fetch.get("getSemData");
       setSemesters(res?.data);
     } catch (err) {
       console.error("Failed to fetch Semesters", err);
@@ -51,16 +60,25 @@ export default function GenerateSemester() {
         {showModal && (
           <div className="modal-backdrop">
             <div className="modal">
-              <h3>Add New Semester</h3>
+              <h3>{selectedSemester ? "Edit Semester" : "Add New Semester"}</h3>
               <input
                 type="text"
                 placeholder="Enter Semester name"
-                value={semesterName}
-                onChange={(e) => setsemesterName(e.target.value)}
+                value={fromData.name}
+                onChange={(e) => handleChange(e)}
               />
               <div className="modal-actions">
-                <button onClick={handleAddSemester}>Save</button>
-                <button onClick={() => setShowModal(false)}>Cancel</button>
+                <button onClick={handleAddSemester}>
+                  {selectedSemester ? "Update" : "Save"}
+                </button>
+                <button
+                  onClick={() => {
+                    setShowModal(false);
+                    setSelectedSemester(null);
+                  }}
+                >
+                  Cancel
+                </button>
               </div>
             </div>
           </div>
@@ -77,6 +95,7 @@ export default function GenerateSemester() {
                 <tr>
                   <th>ID</th>
                   <th>Semester Name</th>
+                  <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -84,6 +103,14 @@ export default function GenerateSemester() {
                   <tr key={Semester.name}>
                     <td>{index + 1}</td>
                     <td>{Semester.name}</td>
+                    <td>
+                      <button onClick={() => handleOpenModal(Semester)}>
+                        Edit
+                      </button>
+                      <button onClick={() => handleDeleteSemester(Semester)}>
+                        Delete
+                      </button>
+                    </td>
                   </tr>
                 ))}
               </tbody>

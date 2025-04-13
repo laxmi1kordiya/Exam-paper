@@ -1,89 +1,116 @@
 import React, { useEffect, useState } from "react";
 import { useAuthenticatedFetch } from "../../Api/Axios";
 
-export default function Generatesubject() {
+export default function GenerateSubject() {
   const [showModal, setShowModal] = useState(false);
-  const [subjectName, setsubjectName] = useState("");
-  const [subjects, setsubjects] = useState([]);
+  const [fromData, setFormData] = useState({ name: "" });
+  const [Subjects, setSubjects] = useState([]);
+  const [selectedSubject, setSelectedSubject] = useState(null);
   const fetch = useAuthenticatedFetch();
 
-  const handleAddsubject = async () => {
-    if (!subjectName.trim()) return;
-
+  const handleAddSubject = async () => {
     try {
-      const res = await fetch.post("addsubjectData", {
-        name: subjectName.trim(),
-      });
-
-      if (res?.code === 200) {
-        setsubjectName("");
-        setShowModal(false);
-        fetchsubjects(); // Refresh list
-      } else {
-        console.error("Error saving subject:", res);
-      }
+      await fetch.post("addSubjectData", fromData);
+      setShowModal(false);
+      fetchSubjects();
     } catch (err) {
-      console.error("Failed to save subject", err);
+      console.error("Failed to save Subject", err);
+    }
+  };
+  const handleOpenModal = (Subject = null) => {
+    setSelectedSubject(Subject);
+    setShowModal(true);
+    setFormData(Subject);
+  };
+
+  const handleDeleteSubject = async (row) => {
+    try {
+      await fetch.delete(`deleteSubjectData/${row._id}`);
+      fetchSubjects();
+    } catch (err) {
+      console.error("Failed to delete Subject", err);
     }
   };
 
+  const handleChange = (e) => {
+    setFormData((prev) => ({ ...prev, name: e.target.value }));
+  };
+
   useEffect(() => {
-    fetchsubjects();
+    fetchSubjects();
   }, []);
 
-  const fetchsubjects = async () => {
+  const fetchSubjects = async () => {
     try {
       const res = await fetch.get("getSubData");
-      setsubjects(res?.data);
+      setSubjects(res?.data);
     } catch (err) {
-      console.error("Failed to fetch subjects", err);
+      console.error("Failed to fetch Subjects", err);
     }
   };
 
   return (
     <div className="content-page">
       <div className="main-content">
-        <h2>subject Management</h2>
+        <h2>Subject Management</h2>
 
-        <button onClick={() => setShowModal(true)}>Add subject</button>
+        <button onClick={() => setShowModal(true)}>Add Subject</button>
 
         {/* Modal */}
         {showModal && (
           <div className="modal-backdrop">
             <div className="modal">
-              <h3>Add New subject</h3>
+              <h3>{selectedSubject ? "Edit Subject" : "Add New Subject"}</h3>
               <input
                 type="text"
-                placeholder="Enter subject name"
-                value={subjectName}
-                onChange={(e) => setsubjectName(e.target.value)}
+                placeholder="Enter Subject name"
+                value={fromData.name}
+                onChange={(e) => handleChange(e)}
               />
               <div className="modal-actions">
-                <button onClick={handleAddsubject}>Save</button>
-                <button onClick={() => setShowModal(false)}>Cancel</button>
+                <button onClick={handleAddSubject}>
+                  {selectedSubject ? "Update" : "Save"}
+                </button>
+                <button
+                  onClick={() => {
+                    setShowModal(false);
+                    setSelectedSubject(null);
+                  }}
+                >
+                  Cancel
+                </button>
               </div>
             </div>
           </div>
         )}
 
-        {/* subjects Table */}
+        {/* Subjects Table */}
         <div className="table-container">
-          <h3>All subjects</h3>
-          {subjects.length === 0 ? (
-            <p>No subjects added yet.</p>
+          <h3>All Subjects</h3>
+          {Subjects.length === 0 ? (
+            <p>No Subjects added yet.</p>
           ) : (
             <table border="1" cellPadding="8">
               <thead>
                 <tr>
                   <th>ID</th>
-                  <th>subject Name</th>
+                  <th>Subject Name</th>
+                  <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
-                {subjects.map((subject, index) => (
-                  <tr key={subject.name}>
+                {Subjects.map((Subject, index) => (
+                  <tr key={Subject.name}>
                     <td>{index + 1}</td>
-                    <td>{subject.name}</td>
+                    <td>{Subject.name}</td>
+                    <td>
+                      <button onClick={() => handleOpenModal(Subject)}>
+                        Edit
+                      </button>
+                      <button onClick={() => handleDeleteSubject(Subject)}>
+                        Delete
+                      </button>
+                    </td>
                   </tr>
                 ))}
               </tbody>
