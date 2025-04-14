@@ -9,6 +9,7 @@ export default function ManageEducationData() {
   const [formData, setFormData] = useState({ name: "" });
   const [selectedItem, setSelectedItem] = useState(null);
   const [allData, setAllData] = useState([]);
+  const [boardOptions, setBoardOptions] = useState([]);
 
   const apiEndpoints = {
     Board: { fetch: "getBoardData", add: "addBoardData", delete: "deleteBoardData" },
@@ -26,6 +27,12 @@ export default function ManageEducationData() {
       setData(res.data || []);
       const all = await fetch.get("getAllData");
       setAllData(all.data || []);
+      const boardOptions = all.data.map((item) => ({
+        label: item.name,
+        value: item.name,
+      }));
+      setBoardOptions(boardOptions);
+
     } catch (err) {
       console.error(`Error fetching ${activeTab} data`, err);
     }
@@ -65,8 +72,6 @@ export default function ManageEducationData() {
   const renderExtraColumns = (item) => {
     const board = allData.find(b => b._id === item.Board_id);
     if (!board) return null;
-    console.log(board,'board')
-    console.log(item,'item')
 
     switch (activeTab) {
       case "Standard":
@@ -125,6 +130,17 @@ export default function ManageEducationData() {
           <div className="modal-backdrop">
             <div className="modal">
               <h3>{selectedItem ? `Edit ${activeTab}` : `Add New ${activeTab}`}</h3>
+              <select
+                name="board"
+                value={formData.board}
+              >
+                <option value="">-- Select board --</option>
+                {boardOptions.map((std, idx) => (
+                  <option key={idx} value={std.value}>
+                    {std.label}
+                  </option>
+                ))}
+              </select>
               <input
                 type="text"
                 placeholder={`Enter ${activeTab} name`}
