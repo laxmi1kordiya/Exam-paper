@@ -1,5 +1,11 @@
 import { ApiResponse } from "../Helpers/common.js";
-import { create, deleteOne, find, findAllData, findOneAndUpdate } from "../Model/common.js";
+import {
+  create,
+  deleteOne,
+  find,
+  findAllData,
+  findOneAndUpdate,
+} from "../Model/common.js";
 
 export const getBoardData = async (req, res, next) => {
   let rcResponse = new ApiResponse();
@@ -89,6 +95,49 @@ export const deleteBoardData = async (req, res, next) => {
   }
 };
 
+export const deleteStandardData = async (req, res, next) => {
+  let rcResponse = new ApiResponse();
+  let { id } = req.params;
+  try {
+    rcResponse.data = await deleteOne("standard", { _id: id });
+    return res.status(rcResponse.code).send(rcResponse);
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const deleteSemesterData = async (req, res, next) => {
+  let rcResponse = new ApiResponse();
+  let { id } = req.params;
+  try {
+    rcResponse.data = await deleteOne("semester", { _id: id });
+    return res.status(rcResponse.code).send(rcResponse);
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const deleteSubjectData = async (req, res, next) => {
+  let rcResponse = new ApiResponse();
+  let { id } = req.params;
+  try {
+    rcResponse.data = await deleteOne("subject", { _id: id });
+    return res.status(rcResponse.code).send(rcResponse);
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const deleteChapterData = async (req, res, next) => {
+  let rcResponse = new ApiResponse();
+  let { id } = req.params;
+  try {
+    rcResponse.data = await deleteOne("chapter", { _id: id });
+    return res.status(rcResponse.code).send(rcResponse);
+  } catch (err) {
+    next(err);
+  }
+};
 export const addStandardData = async (req, res, next) => {
   let rcResponse = new ApiResponse();
   let { body } = req;

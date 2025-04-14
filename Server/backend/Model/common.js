@@ -7,7 +7,7 @@ import semester from "../Schema/Semester.js";
 import subject from "../Schema/Subject.js";
 import board from "../Schema/Board.js";
 import chapter from "../Schema/Chapter.js";
-import paperSetting from "../Schema/Save.js";
+import paperSetting from "../Schema/PaperSetting.js";
 
 const models = {
   signUp,

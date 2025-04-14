@@ -13,8 +13,6 @@ const PaperSetting = () => {
     totalMarks: "",
     obtainedMarks: "",
     date: "",
-    logo: null,
-    logoPreview: null,
   });
 
   const handleChange = (e) => {
@@ -44,16 +42,7 @@ const PaperSetting = () => {
     e.preventDefault();
 
     try {
-      // Construct FormData if you want to send file too
-      const data = new FormData();
-      for (const key in formData) {
-        if (key === "logoPreview") continue; // don't send preview
-        data.append(key, formData[key]);
-      }
-
-      const response = await fetch.post("paperSetting", formData);
-      console.log("Submitted successfully:", response.formData);
-      alert("Form submitted successfully!");
+      await fetch.post("paperSetting", formData);
     } catch (error) {
       alert("Failed to submit the form. Please try again.");
     }
@@ -68,10 +57,7 @@ const PaperSetting = () => {
             Configure details for the exam paper
           </p>
 
-          <form
-            className="mt-4"
-            style={{ padding: "20px" }}
-          >
+          <form className="mt-4" style={{ padding: "20px" }}>
             <div className="row">
               {[
                 {
@@ -152,7 +138,12 @@ const PaperSetting = () => {
             </div>
 
             <div className="sign-info text-center">
-              <button type="submit" className="text-center" id="verify_button" onClick={handleSubmit}>
+              <button
+                type="submit"
+                className="text-center"
+                id="verify_button"
+                onClick={handleSubmit}
+              >
                 Submit
               </button>
             </div>

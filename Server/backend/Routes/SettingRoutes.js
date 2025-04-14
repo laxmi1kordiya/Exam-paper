@@ -12,7 +12,11 @@ import {
   addSubjectData,
   addChapterData,
   addSaveData,
-  deleteBoardData
+  deleteBoardData,
+  deleteStandardData,
+  deleteSemesterData,
+  deleteSubjectData,
+  deleteChapterData
 } from "../Controllers/Setting.Ctrl.js";
 
 const settingRoutes = Router();
@@ -24,10 +28,14 @@ settingRoutes.get("/getChapterData", getChapterData);
 settingRoutes.get("/getAllData", getAllData);
 settingRoutes.post("/addBoardData", addBoardData);
 settingRoutes.delete("/deleteBoardData/:id", deleteBoardData);
+settingRoutes.delete("/deleteStandardData/:id", deleteStandardData);
+settingRoutes.delete("/deleteSemesterData/:id", deleteSemesterData);
+settingRoutes.delete("/deleteSubjectData/:id", deleteSubjectData);
+settingRoutes.delete("/deleteChapterData/:id", deleteChapterData);
 settingRoutes.post("/addStandardData", addStandardData);
 settingRoutes.post("/addSemesterData", addSemesterData);
 settingRoutes.post("/addSubjectData", addSubjectData);
 settingRoutes.post("/addChapterData", addChapterData);
-settingRoutes.post("/addSaveData", addSaveData);
+settingRoutes.post("/paperSetting", addSaveData);
 
 export default settingRoutes;
