@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useAuthenticatedFetch } from "../../Api/Axios";
 
+
 const GeneratePaper = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [boards, setBoards] = useState([]);
@@ -11,7 +12,6 @@ const GeneratePaper = () => {
   const [allData, setAllData] = useState([]);
 
   const fetch = useAuthenticatedFetch();
-
   const [formData, setFormData] = useState({
     board: "",
     standard: "",
@@ -52,7 +52,6 @@ const GeneratePaper = () => {
       ...prev,
       [name]: value,
     }));
-
     if (name === "board") {
       const selectedBoard = allData.find((board) => board.name === value);
       console.log(selectedBoard, "selectedBoard");
@@ -347,6 +346,13 @@ const GeneratePaper = () => {
               onClick={() => setCurrentStep((prev) => prev + 1)}
             >
               Continue
+            </button>
+          )}
+          {currentStep === 3 && (
+            <button
+              className="continue-button"
+            >
+              Submit
             </button>
           )}
         </div>

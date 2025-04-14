@@ -23,26 +23,27 @@ const PaperSetting = () => {
     }));
   };
 
-  // const handleLogoChange = (e) => {
-  //   const file = e.target.files[0];
-  //   if (file) {
-  //     const reader = new FileReader();
-  //     reader.onloadend = () => {
-  //       setFormData((prev) => ({
-  //         ...prev,
-  //         logo: file,
-  //         logoPreview: reader.result,
-  //       }));
-  //     };
-  //     reader.readAsDataURL(file);
-  //   }
-  // };
+  const handleLogoChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFormData((prev) => ({
+          ...prev,
+          logo: file,
+          logoPreview: reader.result,
+        }));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
       await fetch.post("paperSetting", formData);
+      alert("Form submitted successfully!");
     } catch (error) {
       alert("Failed to submit the form. Please try again.");
     }
@@ -109,12 +110,12 @@ const PaperSetting = () => {
                     value={formData[name]}
                     placeholder={placeholder}
                     onChange={handleChange}
-                    // required
+                    required
                   />
                 </div>
               ))}
 
-              {/* <div className="form-group">
+              <div className="form-group">
                 <label htmlFor="logo">Upload Logo</label>
                 <input
                   type="file"
@@ -134,7 +135,7 @@ const PaperSetting = () => {
                     }}
                   />
                 )}
-              </div> */}
+              </div>
             </div>
 
             <div className="sign-info text-center">

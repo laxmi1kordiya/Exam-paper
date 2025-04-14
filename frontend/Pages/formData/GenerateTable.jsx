@@ -1,373 +1,142 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuthenticatedFetch } from "../../Api/Axios";
 
-export default function EducationManager() {
-  const [section, setSection] = useState("Board");
+export default function ManageEducationData() {
   const fetch = useAuthenticatedFetch();
-  const [formData, setFormData] = useState({
-    board: "",
-    standard: "",
-    semester: "",
-    subject: "",
-    chapter: "",
-  });
+  const [activeTab, setActiveTab] = useState("Board");
+  const [data, setData] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [formData, setFormData] = useState({ name: "" });
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [allData, getallData] = useState([]);
 
-  const [boards, setBoards] = useState([]);
-  const [standards, setStandards] = useState([]);
-  const [semesters, setSemesters] = useState([]);
-  const [subjects, setSubjects] = useState([]);
-  const [chapters, setChapters] = useState([]);
-
-  const fetchData = async () => {
-    try {
-      const [b, s, se, su, c] = await Promise.all([
-        await fetch.get("getBoardData"),
-        await fetch.get("getStdData"),
-        await fetch.get("getsemData"),
-        await fetch.get("getSubData"),
-        await fetch.get("getChapterData"),
-      ]);
-      setBoards(b.data);
-      setStandards(s.data);
-      setSemesters(se.data);
-      setSubjects(su.data);
-      setChapters(c.data);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
+  const apiEndpoints = {
+    Board: { fetch: "getBoardData", add: "addBoardData", delete: "deleteBoardData" },
+    Standard: { fetch: "getStdData", add: "addStandardData", delete: "deleteStandardData" },
+    Semester: { fetch: "getsemData", add: "addSemesterData", delete: "deleteSemesterData" },
+    Subject: { fetch: "getsubData", add: "addSubjectData", delete: "deleteSubjectData" },
+    Chapter: { fetch: "getChapterData", add: "addChapterData", delete: "deleteChapterData" },
   };
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [activeTab]);
 
-  const handleInputChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    let url = "";
-    let payload = {};
-
+  const fetchData = async () => {
     try {
-      if (section === "Board") {
-        url = "http://localhost:5000/boards";
-        payload = { name: formData.board.trim() };
-      } else if (section === "Standard") {
-        url = "http://localhost:5000/standards";
-        payload = { board: formData.board, name: formData.standard.trim() };
-      } else if (section === "Semester") {
-        url = "http://localhost:5000/semesters";
-        payload = {
-          board: formData.board,
-          standard: formData.standard,
-          name: formData.semester.trim(),
-        };
-      } else if (section === "Subject") {
-        url = "http://localhost:5000/subjects";
-        payload = {
-          board: formData.board,
-          standard: formData.standard,
-          semester: formData.semester,
-          name: formData.subject.trim(),
-        };
-      } else if (section === "Chapter") {
-        url = "http://localhost:5000/chapters";
-        payload = {
-          board: formData.board,
-          standard: formData.standard,
-          semester: formData.semester,
-          subject: formData.subject,
-          name: formData.chapter.trim(),
-        };
+      const res = await fetch.get(apiEndpoints[activeTab].fetch);
+      setData(res.data || []);
+      const allData = await fetch.get("getAllData");
+      getallData(allData.data);
+    } catch (err) {
+      console.error(`Error fetching ${activeTab} data`, err);
+    }
+  };
+
+  const handleSave = async () => {
+    try {
+      if (selectedItem) {
+        // Update logic if you have update API
+        console.log("No update API provided in your code, skipping update logic.");
+      } else {
+        const res = await fetch.post(apiEndpoints[activeTab].add, formData);
+        if (res?.code === 200) setFormData({ name: "" });
       }
-
-      if (!payload.name) return alert("Please enter a valid name!");
-
-      await axios.post(url, payload);
-      setFormData({
-        board: "",
-        standard: "",
-        semester: "",
-        subject: "",
-        chapter: "",
-      });
+      setShowModal(false);
+      setSelectedItem(null);
       fetchData();
-    } catch (error) {
-      console.error(`Error adding ${section}:`, error);
+    } catch (err) {
+      console.error(`Error saving ${activeTab}`, err);
     }
   };
 
-  const renderForm = () => {
-    return (
-      <div className="main-content">
-        <form onSubmit={handleSubmit} style={{ margin: "20px 0" }}>
-          <h2>Add {section}</h2>
-          {section !== "Board" && (
-            <select
-              name="board"
-              value={formData.board}
-              onChange={handleInputChange}
-              required
-            >
-              <option value="">Select Board</option>
-              {boards.map((b) => (
-                <option key={b._id} value={b.name}>
-                  {b.name}
-                </option>
-              ))}
-            </select>
-          )}
-          {section === "Standard" && (
-            <input
-              type="text"
-              name="standard"
-              placeholder="Enter Standard"
-              value={formData.standard}
-              onChange={handleInputChange}
-              required
-            />
-          )}
-          {section === "Semester" && (
-            <>
-              <select
-                name="standard"
-                value={formData.standard}
-                onChange={handleInputChange}
-                required
-              >
-                <option value="">Select Standard</option>
-                {standards.map((s) => (
-                  <option key={s._id} value={s.name}>
-                    {s.name}
-                  </option>
-                ))}
-              </select>
-              <input
-                type="text"
-                name="semester"
-                placeholder="Enter Semester"
-                value={formData.semester}
-                onChange={handleInputChange}
-                required
-              />
-            </>
-          )}
-          {section === "Subject" && (
-            <>
-              <select
-                name="standard"
-                value={formData.standard}
-                onChange={handleInputChange}
-                required
-              >
-                <option value="">Select Standard</option>
-                {standards.map((s) => (
-                  <option key={s._id} value={s.name}>
-                    {s.name}
-                  </option>
-                ))}
-              </select>
-              <select
-                name="semester"
-                value={formData.semester}
-                onChange={handleInputChange}
-                required
-              >
-                <option value="">Select Semester</option>
-                {semesters.map((s) => (
-                  <option key={s._id} value={s.name}>
-                    {s.name}
-                  </option>
-                ))}
-              </select>
-              <input
-                type="text"
-                name="subject"
-                placeholder="Enter Subject"
-                value={formData.subject}
-                onChange={handleInputChange}
-                required
-              />
-            </>
-          )}
-          {section === "Chapter" && (
-            <>
-              <select
-                name="standard"
-                value={formData.standard}
-                onChange={handleInputChange}
-                required
-              >
-                <option value="">Select Standard</option>
-                {standards.map((s) => (
-                  <option key={s._id} value={s.name}>
-                    {s.name}
-                  </option>
-                ))}
-              </select>
-              <select
-                name="semester"
-                value={formData.semester}
-                onChange={handleInputChange}
-                required
-              >
-                <option value="">Select Semester</option>
-                {semesters.map((s) => (
-                  <option key={s._id} value={s.name}>
-                    {s.name}
-                  </option>
-                ))}
-              </select>
-              <select
-                name="subject"
-                value={formData.subject}
-                onChange={handleInputChange}
-                required
-              >
-                <option value="">Select Subject</option>
-                {subjects.map((s) => (
-                  <option key={s._id} value={s.name}>
-                    {s.name}
-                  </option>
-                ))}
-              </select>
-              <input
-                type="text"
-                name="chapter"
-                placeholder="Enter Chapter"
-                value={formData.chapter}
-                onChange={handleInputChange}
-                required
-              />
-            </>
-          )}
-          {section === "Board" && (
-            <input
-              type="text"
-              name="board"
-              placeholder="Enter Board"
-              value={formData.board}
-              onChange={handleInputChange}
-              required
-            />
-          )}
-          <button type="submit" style={{ marginTop: "10px" }}>
-            Submit
-          </button>
-        </form>
-      </div>
-    );
+  const handleDelete = async (item) => {
+    try {
+      await fetch.delete(`${apiEndpoints[activeTab].delete}/${item._id}`);
+      fetchData();
+    } catch (err) {
+      console.error(`Error deleting ${activeTab}`, err);
+    }
   };
 
-  const renderTable = () => {
-    let rows = [];
-    let headers = [];
-
-    if (section === "Board") {
-      headers = ["#", "Board"];
-      rows = boards.map((item, i) => [i + 1, item.name]);
-    } else if (section === "Standard") {
-      headers = ["#", "Board", "Standard"];
-      rows = standards.map((item, i) => [i + 1, item.board, item.name]);
-    } else if (section === "Semester") {
-      headers = ["#", "Board", "Standard", "Semester"];
-      rows = semesters.map((item, i) => [
-        i + 1,
-        item.board,
-        item.standard,
-        item.name,
-      ]);
-    } else if (section === "Subject") {
-      headers = ["#", "Board", "Standard", "Semester", "Subject"];
-      rows = subjects.map((item, i) => [
-        i + 1,
-        item.board,
-        item.standard,
-        item.semester,
-        item.name,
-      ]);
-    } else if (section === "Chapter") {
-      headers = ["#", "Board", "Standard", "Semester", "Subject", "Chapter"];
-      rows = chapters.map((item, i) => [
-        i + 1,
-        item.board,
-        item.standard,
-        item.semester,
-        item.subject,
-        item.name,
-      ]);
-    }
-
-    return (
-      <table
-        border="1"
-        cellPadding="8"
-        style={{ width: "100%", marginTop: "20px" }}
-      >
-        <thead>
-          <tr>
-            {headers.map((h) => (
-              <th key={h}>{h}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {rows.length > 0 ? (
-            rows.map((r, i) => (
-              <tr key={i}>
-                {r.map((cell, j) => (
-                  <td key={j}>{cell}</td>
-                ))}
-              </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan={headers.length}>No records found</td>
-            </tr>
-          )}
-        </tbody>
-      </table>
-    );
+  const openModal = (item = null) => {
+    setSelectedItem(item);
+    setFormData(item || { name: "" });
+    setShowModal(true);
   };
 
   return (
-    <div className="main-content">
-      <div style={{ padding: "20px" }}>
-        <div style={{ marginBottom: "20px" }}>
-          {["Board", "Standard", "Semester", "Subject", "Chapter"].map(
-            (item) => (
-              <button
-                key={item}
-                style={{
-                  marginRight: "10px",
-                  backgroundColor: section === item ? "#007bff" : "#6c757d",
-                  color: "white",
-                  border: "none",
-                  padding: "8px 16px",
-                  borderRadius: "4px",
-                  cursor: "pointer",
-                }}
-                onClick={() => {
-                  setSection(item);
-                  setFormData({
-                    board: "",
-                    standard: "",
-                    semester: "",
-                    subject: "",
-                    chapter: "",
-                  });
-                }}
-              >
-                {item}
-              </button>
-            )
+    <div className="content-page">
+      <div className="main-content">
+    <div className="content-page">
+      <div className="button-group" style={{ marginBottom: 20 }}>
+        {Object.keys(apiEndpoints).map((tab) => (
+          <button
+            key={tab}
+            onClick={() => setActiveTab(tab)}
+            style={{
+              backgroundColor: activeTab === tab ? "#007bff" : "#6c757d",
+              color: "white",
+              marginRight: 5,
+            }}
+          >
+            {tab}
+          </button>
+        ))}
+      </div>
+
+      <div className="main-content">
+        <h2>{activeTab} Management</h2>
+        <button onClick={() => openModal()}>Add {activeTab}</button>
+
+        {showModal && (
+          <div className="modal-backdrop">
+            <div className="modal">
+              <h3>{selectedItem ? `Edit ${activeTab}` : `Add New ${activeTab}`}</h3>
+              <input
+                type="text"
+                placeholder={`Enter ${activeTab} name`}
+                value={formData.name}
+                onChange={(e) => setFormData({ name: e.target.value })}
+              />
+              <div className="modal-actions">
+                <button onClick={handleSave}>{selectedItem ? "Update" : "Save"}</button>
+                <button onClick={() => { setShowModal(false); setSelectedItem(null); }}>Cancel</button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        <div className="table-container" style={{ marginTop: 20 }}>
+          <h3>All {activeTab}s</h3>
+          {data.length === 0 ? (
+            <p>No {activeTab}s added yet.</p>
+          ) : (
+            <table border="1" cellPadding="8">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>{activeTab} Name</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {data.map((item, index) => (
+                  <tr key={item._id}>
+                    <td>{index + 1}</td>
+                    <td>{item.name}</td>
+                    <td>
+                      <button onClick={() => openModal(item)}>Edit</button>
+                      <button onClick={() => handleDelete(item)}>Delete</button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           )}
         </div>
-
-        {renderForm()}
-        {renderTable()}
+      </div>
+    </div>
       </div>
     </div>
   );
