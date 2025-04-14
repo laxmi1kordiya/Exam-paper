@@ -91,7 +91,6 @@ export default function ManageEducationData() {
           <>
             <td>{board.name}</td>
             <td>{board.standards?.find(std => std._id === item.Standard_id)?.name}</td>
-            <td>{board.semesters?.find(sem => sem._id === item.Semester_id)?.name}</td>
             <td>{board.subjects?.find(sub => sub._id === item.Subject_id)?.name}</td>
           </>
         );
@@ -153,7 +152,7 @@ export default function ManageEducationData() {
                   <th>ID</th>
                   {["Standard", "Semester", "Subject", "Chapter"].includes(activeTab) && <th>Board Name</th>}
                   {["Semester", "Subject", "Chapter"].includes(activeTab) && <th>Standard Name</th>}
-                  {["Subject", "Chapter"].includes(activeTab) && <th>Semester Name</th>}
+                  {["Subject"].includes(activeTab) && <th>Semester Name</th>}
                   {activeTab === "Chapter" && <th>Subject Name</th>}
                   <th>{activeTab} Name</th>
                   <th>Actions</th>
