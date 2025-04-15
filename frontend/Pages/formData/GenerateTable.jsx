@@ -10,16 +10,41 @@ export default function ManageEducationData() {
   const [selectedItem, setSelectedItem] = useState(null);
   const [allData, setAllData] = useState([]);
   const [boardOptions, setBoardOptions] = useState([]);
+  const [standardOptions, setStandardOptions] = useState([]);
+  const [semesterOptions, setSemesterOptions] = useState([]);
+  const [subjectOptions, setSubjectOptions] = useState([]);
 
   const apiEndpoints = {
-    Board: { fetch: "getBoardData", add: "addBoardData", delete: "deleteBoardData" },
-    Standard: { fetch: "getStdData", add: "addStandardData", delete: "deleteStandardData" },
-    Semester: { fetch: "getsemData", add: "addSemesterData", delete: "deleteSemesterData" },
-    Subject: { fetch: "getsubData", add: "addSubjectData", delete: "deleteSubjectData" },
-    Chapter: { fetch: "getChapterData", add: "addChapterData", delete: "deleteChapterData" },
+    Board: {
+      fetch: "getBoardData",
+      add: "addBoardData",
+      delete: "deleteBoardData",
+    },
+    Standard: {
+      fetch: "getStdData",
+      add: "addStandardData",
+      delete: "deleteStandardData",
+    },
+    Semester: {
+      fetch: "getsemData",
+      add: "addSemesterData",
+      delete: "deleteSemesterData",
+    },
+    Subject: {
+      fetch: "getsubData",
+      add: "addSubjectData",
+      delete: "deleteSubjectData",
+    },
+    Chapter: {
+      fetch: "getChapterData",
+      add: "addChapterData",
+      delete: "deleteChapterData",
+    },
   };
 
-  useEffect(() => { fetchData(); }, [activeTab]);
+  useEffect(() => {
+    fetchData();
+  }, [activeTab]);
 
   const fetchData = async () => {
     try {
@@ -32,7 +57,6 @@ export default function ManageEducationData() {
         value: item.name,
       }));
       setBoardOptions(boardOptions);
-
     } catch (err) {
       console.error(`Error fetching ${activeTab} data`, err);
     }
@@ -41,7 +65,9 @@ export default function ManageEducationData() {
   const handleSave = async () => {
     try {
       if (selectedItem) {
-        console.log("No update API provided in your code, skipping update logic.");
+        console.log(
+          "No update API provided in your code, skipping update logic."
+        );
       } else {
         const res = await fetch.post(apiEndpoints[activeTab].add, formData);
         if (res?.code === 200) setFormData({ name: "" });
@@ -70,7 +96,7 @@ export default function ManageEducationData() {
   };
 
   const renderExtraColumns = (item) => {
-    const board = allData.find(b => b._id === item.Board_id);
+    const board = allData.find((b) => b._id === item.Board_id);
     if (!board) return null;
 
     switch (activeTab) {
@@ -80,23 +106,45 @@ export default function ManageEducationData() {
         return (
           <>
             <td>{board.name}</td>
-            <td>{board.standards?.find(std => std._id === item.Standard_id)?.name}</td>
+            <td>
+              {
+                board.standards?.find((std) => std._id === item.Standard_id)
+                  ?.name
+              }
+            </td>
           </>
         );
       case "Subject":
         return (
           <>
             <td>{board.name}</td>
-            <td>{board.standards?.find(std => std._id === item.Standard_id)?.name}</td>
-            <td>{board.semesters?.find(sem => sem._id === item.Semester_id)?.name}</td>
+            <td>
+              {
+                board.standards?.find((std) => std._id === item.Standard_id)
+                  ?.name
+              }
+            </td>
+            <td>
+              {
+                board.semesters?.find((sem) => sem._id === item.Semester_id)
+                  ?.name
+              }
+            </td>
           </>
         );
       case "Chapter":
         return (
           <>
             <td>{board.name}</td>
-            <td>{board.standards?.find(std => std._id === item.Standard_id)?.name}</td>
-            <td>{board.subjects?.find(sub => sub._id === item.Subject_id)?.name}</td>
+            <td>
+              {
+                board.standards?.find((std) => std._id === item.Standard_id)
+                  ?.name
+              }
+            </td>
+            <td>
+              {board.subjects?.find((sub) => sub._id === item.Subject_id)?.name}
+            </td>
           </>
         );
       default:
@@ -108,7 +156,7 @@ export default function ManageEducationData() {
     <div className="content-page">
       <div className="main-content">
         <div className="button-group" style={{ marginBottom: 20 }}>
-          {Object.keys(apiEndpoints).map(tab => (
+          {Object.keys(apiEndpoints).map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
@@ -129,13 +177,36 @@ export default function ManageEducationData() {
         {showModal && (
           <div className="modal-backdrop">
             <div className="modal">
-              <h3>{selectedItem ? `Edit ${activeTab}` : `Add New ${activeTab}`}</h3>
-              <select
-                name="board"
-                value={formData.board}
-              >
+              <h3>
+                {selectedItem ? `Edit ${activeTab}` : `Add New ${activeTab}`}
+              </h3>
+              <select name="board" value={formData.board}>
                 <option value="">-- Select board --</option>
                 {boardOptions.map((std, idx) => (
+                  <option key={idx} value={std.value}>
+                    {std.label}
+                  </option>
+                ))}
+              </select>
+              <select name="standard" value={formData.standard}>
+                <option value="">-- Select standard --</option>
+                {standardOptions.map((std, idx) => (
+                  <option key={idx} value={std.value}>
+                    {std.label}
+                  </option>
+                ))}
+              </select>
+              <select name="semester" value={formData.semester}>
+                <option value="">-- Select semester --</option>
+                {semesterOptions.map((std, idx) => (
+                  <option key={idx} value={std.value}>
+                    {std.label}
+                  </option>
+                ))}
+              </select>
+              <select name="subject" value={formData.subject}>
+                <option value="">-- Select subject --</option>
+                {subjectOptions.map((std, idx) => (
                   <option key={idx} value={std.value}>
                     {std.label}
                   </option>
@@ -148,8 +219,15 @@ export default function ManageEducationData() {
                 onChange={(e) => setFormData({ name: e.target.value })}
               />
               <div className="modal-actions">
-                <button onClick={handleSave}>{selectedItem ? "Update" : "Save"}</button>
-                <button onClick={() => { setShowModal(false); setSelectedItem(null); }}>
+                <button onClick={handleSave}>
+                  {selectedItem ? "Update" : "Save"}
+                </button>
+                <button
+                  onClick={() => {
+                    setShowModal(false);
+                    setSelectedItem(null);
+                  }}
+                >
                   Cancel
                 </button>
               </div>
@@ -166,8 +244,12 @@ export default function ManageEducationData() {
               <thead>
                 <tr>
                   <th>ID</th>
-                  {["Standard", "Semester", "Subject", "Chapter"].includes(activeTab) && <th>Board Name</th>}
-                  {["Semester", "Subject", "Chapter"].includes(activeTab) && <th>Standard Name</th>}
+                  {["Standard", "Semester", "Subject", "Chapter"].includes(
+                    activeTab
+                  ) && <th>Board Name</th>}
+                  {["Semester", "Subject", "Chapter"].includes(activeTab) && (
+                    <th>Standard Name</th>
+                  )}
                   {["Subject"].includes(activeTab) && <th>Semester Name</th>}
                   {activeTab === "Chapter" && <th>Subject Name</th>}
                   <th>{activeTab} Name</th>
