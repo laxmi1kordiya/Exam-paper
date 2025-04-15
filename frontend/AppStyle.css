@@ -1371,3 +1371,22 @@ right: 10px;
   .table-container button:hover {
     opacity: 0.85;
   }
+
+  .text-warning {
+    color: #ffbf43 !important;
+}
+
+/* ToastStyle.css */
+.toastify-custom-error {
+  background-color: #f6a623 !important;
+  color: white !important;
+  font-weight: bold;
+  border-radius: 5px;
+}
+
+.toastify-custom-success {
+  background-color: #2ecc71 !important;
+  color: white !important;
+  font-weight: bold;
+  border-radius: 5px;
+}

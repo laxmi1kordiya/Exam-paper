@@ -4,15 +4,15 @@ const Schema = mongoose.Schema;
 
 const signUpSchema = new Schema({
   name: { type: String },
-  mobile: { type: String },
-  distict: { type: String  },
+  mobile: { type: String, required: true, unique: true },
+  distict: { type: String },
   address: { type: String },
   type: { type: String },
   code: { type: String },
   created: { type: Date, default: Date.now },
   updated: { type: Date, default: Date.now },
-  otp:{ type: String },
-  otpExpiresAt:{ type: Date }
+  otp: { type: String },
+  otpExpiresAt: { type: Date },
 });
 
 const signUp = mongoose.model("signUp", signUpSchema);
