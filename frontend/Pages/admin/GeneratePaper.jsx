@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useAuthenticatedFetch } from "../../Api/Axios";
 
-
 const GeneratePaper = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [boards, setBoards] = useState([]);
@@ -124,11 +123,8 @@ const GeneratePaper = () => {
       const selectedBoard = allData.find(
         (board) => board.name === formData.board
       );
-      console.log(selectedBoard, "selectedBoard");
-      console.log("run");
-      console.log(value, "value");
       const chOptions =
-        selectedBoard.subjects
+        selectedBoard.chapters
           .filter((ch) => ch.Subject_id === value)
           .map((ch) => ({
             label: ch.name,
@@ -263,12 +259,16 @@ const GeneratePaper = () => {
         {currentStep === 2 && (
           <div className="form-container">
             <div className="form-group">
-              <label>Paper Date</label>
+              <label>Date</label>
               <input
-                type="text"
-                name="paperDate"
-                value={formData.paperDate}
+                type="date"
+                name="date"
+                id="date"
+                value={formData.date}
+                min="2024-01-01"
+                max="2030-12-31"
                 onChange={handleChange}
+                required
               />
             </div>
 
@@ -349,11 +349,7 @@ const GeneratePaper = () => {
             </button>
           )}
           {currentStep === 3 && (
-            <button
-              className="continue-button"
-            >
-              Submit
-            </button>
+            <button className="continue-button">Submit</button>
           )}
         </div>
       </div>

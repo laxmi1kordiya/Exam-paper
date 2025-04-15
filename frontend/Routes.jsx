@@ -11,13 +11,8 @@ import AdminLayout from "./Pages/admin/AdminLayout";
 import PurchasePackage from "./Pages/admin/PurchasePackage";
 import SignUp from "./Pages/SignUp";
 import Home from "./Pages/Home";
-import GenerateBoard from "./Pages/formData/GenerateBoard";
-import GenerateChapter from "./Pages/formData/GenerateChapter";
 import GeneratePDF from "./Pages/generatePDF";
 import PaperSetting from "./Pages/admin/PaperSetting";
-import GenerateStandard from "./Pages/formData/GenerateStandard";
-import GenerateSemester from "./Pages/formData/GenerateSemester";
-import Generatesubject from "./Pages/formData/GenerateSubject";
 import EducationManager from "./Pages/formData/GenerateTable";
 
 const Routes = () => {
@@ -31,11 +26,6 @@ const Routes = () => {
         <Route path="/packages" element={<Price />} />
         <Route path="/howtouse" element={<HowToUse />} />
         <Route path="/about" element={<AboutUs />} />
-        <Route path="/board" element={<GenerateBoard />} />
-        <Route path="/chapter" element={<GenerateChapter />} />
-        <Route path="/standard" element={<GenerateStandard />} />
-        <Route path="/semester" element={<GenerateSemester />} />
-        <Route path="/subject" element={<Generatesubject />} />
         <Route path="/table" element={<EducationManager />} />
         <Route path="/header" element={<GeneratePDF />} />
 

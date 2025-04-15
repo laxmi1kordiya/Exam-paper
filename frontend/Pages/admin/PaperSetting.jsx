@@ -50,9 +50,9 @@ const PaperSetting = () => {
   };
 
   return (
-    <div className="login-container">
+    <div className="content-page">
+      <div className="main-content">
       <div className="signin-box">
-        <div className="sign-in-from">
           <h3 className="text-center">Exam Paper Settings</h3>
           <p className="text-center text-dark">
             Configure details for the exam paper
