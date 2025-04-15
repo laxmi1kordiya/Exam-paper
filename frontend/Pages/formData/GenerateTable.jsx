@@ -9,42 +9,18 @@ export default function ManageEducationData() {
   const [formData, setFormData] = useState({ name: "" });
   const [selectedItem, setSelectedItem] = useState(null);
   const [allData, setAllData] = useState([]);
-  const [boardOptions, setBoardOptions] = useState([]);
-  const [standardOptions, setStandardOptions] = useState([]);
-  const [semesterOptions, setSemesterOptions] = useState([]);
-  const [subjectOptions, setSubjectOptions] = useState([]);
-
-  const apiEndpoints = {
-    Board: {
-      fetch: "getBoardData",
-      add: "addBoardData",
-      delete: "deleteBoardData",
-    },
-    Standard: {
-      fetch: "getStdData",
-      add: "addStandardData",
-      delete: "deleteStandardData",
-    },
-    Semester: {
-      fetch: "getsemData",
-      add: "addSemesterData",
-      delete: "deleteSemesterData",
-    },
-    Subject: {
-      fetch: "getsubData",
-      add: "addSubjectData",
-      delete: "deleteSubjectData",
-    },
-    Chapter: {
-      fetch: "getChapterData",
-      add: "addChapterData",
-      delete: "deleteChapterData",
-    },
-  };
 
   useEffect(() => {
     fetchData();
   }, [activeTab]);
+
+  const apiEndpoints = {
+    Board: { fetch: "getBoardData", add: "addBoardData", delete: "deleteBoardData" },
+    Standard: { fetch: "getStdData", add: "addStandardData", delete: "deleteStandardData" },
+    Semester: { fetch: "getsemData", add: "addSemesterData", delete: "deleteSemesterData" },
+    Subject: { fetch: "getsubData", add: "addSubjectData", delete: "deleteSubjectData" },
+    Chapter: { fetch: "getChapterData", add: "addChapterData", delete: "deleteChapterData" },
+  };
 
   const fetchData = async () => {
     try {
@@ -52,11 +28,6 @@ export default function ManageEducationData() {
       setData(res.data || []);
       const all = await fetch.get("getAllData");
       setAllData(all.data || []);
-      const boardOptions = all.data.map((item) => ({
-        label: item.name,
-        value: item.name,
-      }));
-      setBoardOptions(boardOptions);
     } catch (err) {
       console.error(`Error fetching ${activeTab} data`, err);
     }
@@ -65,9 +36,7 @@ export default function ManageEducationData() {
   const handleSave = async () => {
     try {
       if (selectedItem) {
-        console.log(
-          "No update API provided in your code, skipping update logic."
-        );
+        console.log("No update API provided, skipping update logic.");
       } else {
         const res = await fetch.post(apiEndpoints[activeTab].add, formData);
         if (res?.code === 200) setFormData({ name: "" });
@@ -90,8 +59,13 @@ export default function ManageEducationData() {
   };
 
   const openModal = (item = null) => {
-    setSelectedItem(item);
-    setFormData(item || { name: "" });
+    if (item) {
+      setSelectedItem(item);
+      setFormData(item);
+    } else {
+      setSelectedItem(null);
+      setFormData({ name: "" });
+    }
     setShowModal(true);
   };
 
@@ -106,50 +80,98 @@ export default function ManageEducationData() {
         return (
           <>
             <td>{board.name}</td>
-            <td>
-              {
-                board.standards?.find((std) => std._id === item.Standard_id)
-                  ?.name
-              }
-            </td>
+            <td>{board.standards?.find((std) => std._id === item.Standard_id)?.name}</td>
           </>
         );
       case "Subject":
         return (
           <>
             <td>{board.name}</td>
-            <td>
-              {
-                board.standards?.find((std) => std._id === item.Standard_id)
-                  ?.name
-              }
-            </td>
-            <td>
-              {
-                board.semesters?.find((sem) => sem._id === item.Semester_id)
-                  ?.name
-              }
-            </td>
+            <td>{board.standards?.find((std) => std._id === item.Standard_id)?.name}</td>
+            <td>{board.semesters?.find((sem) => sem._id === item.Semester_id)?.name}</td>
           </>
         );
       case "Chapter":
         return (
           <>
             <td>{board.name}</td>
-            <td>
-              {
-                board.standards?.find((std) => std._id === item.Standard_id)
-                  ?.name
-              }
-            </td>
-            <td>
-              {board.subjects?.find((sub) => sub._id === item.Subject_id)?.name}
-            </td>
+            <td>{board.standards?.find((std) => std._id === item.Standard_id)?.name}</td>
+            <td>{board.subjects?.find((sub) => sub._id === item.Subject_id)?.name}</td>
           </>
         );
       default:
         return null;
     }
+  };
+
+  const renderFormFields = () => {
+    const boardOptions = allData.map((b) => ({ label: b.name, value: b._id }));
+    const selectedBoard = allData.find(b => b._id === formData.Board_id);
+
+    const standardOptions = selectedBoard?.standards?.map(s => ({ label: s.name, value: s._id })) || [];
+    const selectedStandard = selectedBoard?.standards?.find(s => s._id === formData.Standard_id);
+
+    const semesterOptions = selectedBoard?.semesters?.map(sem => ({ label: sem.name, value: sem._id })) || [];
+    const subjectOptions = selectedBoard?.subjects?.map(sub => ({ label: sub.name, value: sub._id })) || [];
+
+    return (
+      <>
+        {["Standard", "Semester", "Subject", "Chapter"].includes(activeTab) && (
+          <select
+            value={formData.Board_id || ""}
+            onChange={(e) => setFormData({ ...formData, Board_id: e.target.value, Standard_id: "", Semester_id: "", Subject_id: "" })}
+          >
+            <option value="">-- Select Board --</option>
+            {boardOptions.map((opt) => (
+              <option key={opt.value} value={opt.value}>{opt.label}</option>
+            ))}
+          </select>
+        )}
+
+        {["Semester", "Subject", "Chapter"].includes(activeTab) && (
+          <select
+            value={formData.Standard_id || ""}
+            onChange={(e) => setFormData({ ...formData, Standard_id: e.target.value, Semester_id: "", Subject_id: "" })}
+          >
+            <option value="">-- Select Standard --</option>
+            {standardOptions.map((opt) => (
+              <option key={opt.value} value={opt.value}>{opt.label}</option>
+            ))}
+          </select>
+        )}
+
+        {["Subject"].includes(activeTab) && (
+          <select
+            value={formData.Semester_id || ""}
+            onChange={(e) => setFormData({ ...formData, Semester_id: e.target.value })}
+          >
+            <option value="">-- Select Semester --</option>
+            {semesterOptions.map((opt) => (
+              <option key={opt.value} value={opt.value}>{opt.label}</option>
+            ))}
+          </select>
+        )}
+
+        {["Chapter"].includes(activeTab) && (
+          <select
+            value={formData.Subject_id || ""}
+            onChange={(e) => setFormData({ ...formData, Subject_id: e.target.value })}
+          >
+            <option value="">-- Select Subject --</option>
+            {subjectOptions.map((opt) => (
+              <option key={opt.value} value={opt.value}>{opt.label}</option>
+            ))}
+          </select>
+        )}
+
+        <input
+          type="text"
+          placeholder={`Enter ${activeTab} Name`}
+          value={formData.name}
+          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+        />
+      </>
+    );
   };
 
   return (
@@ -161,8 +183,8 @@ export default function ManageEducationData() {
               key={tab}
               onClick={() => setActiveTab(tab)}
               style={{
-                backgroundColor: activeTab === tab ? "#007bff" : "#6c757d",
-                color: "white",
+                backgroundColor: activeTab === tab ? "#4CAF50" : "#e0e0e0",
+                color: activeTab === tab ? "white" :  "#333",
                 marginRight: 5,
               }}
             >
@@ -171,65 +193,17 @@ export default function ManageEducationData() {
           ))}
         </div>
 
-        <h2>{activeTab} Management</h2>
+        <h2>{activeTab} Management</h2><br></br>
         <button onClick={() => openModal()}>Add {activeTab}</button>
 
         {showModal && (
           <div className="modal-backdrop">
             <div className="modal">
-              <h3>
-                {selectedItem ? `Edit ${activeTab}` : `Add New ${activeTab}`}
-              </h3>
-              <select name="board" value={formData.board}>
-                <option value="">-- Select board --</option>
-                {boardOptions.map((std, idx) => (
-                  <option key={idx} value={std.value}>
-                    {std.label}
-                  </option>
-                ))}
-              </select>
-              <select name="standard" value={formData.standard}>
-                <option value="">-- Select standard --</option>
-                {standardOptions.map((std, idx) => (
-                  <option key={idx} value={std.value}>
-                    {std.label}
-                  </option>
-                ))}
-              </select>
-              <select name="semester" value={formData.semester}>
-                <option value="">-- Select semester --</option>
-                {semesterOptions.map((std, idx) => (
-                  <option key={idx} value={std.value}>
-                    {std.label}
-                  </option>
-                ))}
-              </select>
-              <select name="subject" value={formData.subject}>
-                <option value="">-- Select subject --</option>
-                {subjectOptions.map((std, idx) => (
-                  <option key={idx} value={std.value}>
-                    {std.label}
-                  </option>
-                ))}
-              </select>
-              <input
-                type="text"
-                placeholder={`Enter ${activeTab} name`}
-                value={formData.name}
-                onChange={(e) => setFormData({ name: e.target.value })}
-              />
+              <h3>{selectedItem ? `Edit ${activeTab}` : `Add New ${activeTab}`}</h3>
+              {renderFormFields()}
               <div className="modal-actions">
-                <button onClick={handleSave}>
-                  {selectedItem ? "Update" : "Save"}
-                </button>
-                <button
-                  onClick={() => {
-                    setShowModal(false);
-                    setSelectedItem(null);
-                  }}
-                >
-                  Cancel
-                </button>
+                <button onClick={handleSave}>{selectedItem ? "Update" : "Save"}</button>
+                <button onClick={() => { setShowModal(false); setSelectedItem(null); }}>Cancel</button>
               </div>
             </div>
           </div>
@@ -244,14 +218,10 @@ export default function ManageEducationData() {
               <thead>
                 <tr>
                   <th>ID</th>
-                  {["Standard", "Semester", "Subject", "Chapter"].includes(
-                    activeTab
-                  ) && <th>Board Name</th>}
-                  {["Semester", "Subject", "Chapter"].includes(activeTab) && (
-                    <th>Standard Name</th>
-                  )}
+                  {["Standard", "Semester", "Subject", "Chapter"].includes(activeTab) && <th>Board Name</th>}
+                  {["Semester", "Subject", "Chapter"].includes(activeTab) && <th>Standard Name</th>}
                   {["Subject"].includes(activeTab) && <th>Semester Name</th>}
-                  {activeTab === "Chapter" && <th>Subject Name</th>}
+                  {["Chapter"].includes(activeTab) && <th>Subject Name</th>}
                   <th>{activeTab} Name</th>
                   <th>Actions</th>
                 </tr>
