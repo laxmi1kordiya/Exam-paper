@@ -1,32 +1,32 @@
 import React, { useEffect, useState } from "react";
 import { useAuthenticatedFetch } from "../../Api/Axios";
 
+const apiEndpoints = {
+  Board: { fetch: "getBoardData", add: "addBoardData", delete: "deleteBoardData" },
+  Standard: { fetch: "getStdData", add: "addStandardData", delete: "deleteStandardData" },
+  Semester: { fetch: "getsemData", add: "addSemesterData", delete: "deleteSemesterData" },
+  Subject: { fetch: "getsubData", add: "addSubjectData", delete: "deleteSubjectData" },
+  Chapter: { fetch: "getChapterData", add: "addChapterData", delete: "deleteChapterData" },
+};
+
 export default function ManageEducationData() {
   const fetch = useAuthenticatedFetch();
   const [activeTab, setActiveTab] = useState("Board");
   const [data, setData] = useState([]);
-  const [showModal, setShowModal] = useState(false);
+  const [allData, setAllData] = useState([]);
   const [formData, setFormData] = useState({ name: "" });
   const [selectedItem, setSelectedItem] = useState(null);
-  const [allData, setAllData] = useState([]);
+  const [showModal, setShowModal] = useState(false);
 
-  useEffect(() => {
-    fetchData();
-  }, [activeTab]);
-
-  const apiEndpoints = {
-    Board: { fetch: "getBoardData", add: "addBoardData", delete: "deleteBoardData" },
-    Standard: { fetch: "getStdData", add: "addStandardData", delete: "deleteStandardData" },
-    Semester: { fetch: "getsemData", add: "addSemesterData", delete: "deleteSemesterData" },
-    Subject: { fetch: "getsubData", add: "addSubjectData", delete: "deleteSubjectData" },
-    Chapter: { fetch: "getChapterData", add: "addChapterData", delete: "deleteChapterData" },
-  };
+  useEffect(() => { fetchData(); }, [activeTab]);
 
   const fetchData = async () => {
     try {
-      const res = await fetch.get(apiEndpoints[activeTab].fetch);
+      const [res, all] = await Promise.all([
+        fetch.get(apiEndpoints[activeTab].fetch),
+        fetch.get("getAllData")
+      ]);
       setData(res.data || []);
-      const all = await fetch.get("getAllData");
       setAllData(all.data || []);
     } catch (err) {
       console.error(`Error fetching ${activeTab} data`, err);
@@ -35,9 +35,7 @@ export default function ManageEducationData() {
 
   const handleSave = async () => {
     try {
-      if (selectedItem) {
-        console.log("No update API provided, skipping update logic.");
-      } else {
+      if (!selectedItem) {
         const res = await fetch.post(apiEndpoints[activeTab].add, formData);
         if (res?.code === 200) setFormData({ name: "" });
       }
@@ -59,13 +57,8 @@ export default function ManageEducationData() {
   };
 
   const openModal = (item = null) => {
-    if (item) {
-      setSelectedItem(item);
-      setFormData(item);
-    } else {
-      setSelectedItem(null);
-      setFormData({ name: "" });
-    }
+    setSelectedItem(item);
+    setFormData(item || { name: "" });
     setShowModal(true);
   };
 
@@ -73,94 +66,54 @@ export default function ManageEducationData() {
     const board = allData.find((b) => b._id === item.Board_id);
     if (!board) return null;
 
-    switch (activeTab) {
-      case "Standard":
-        return <td>{board.name}</td>;
-      case "Semester":
-        return (
-          <>
-            <td>{board.name}</td>
-            <td>{board.standards?.find((std) => std._id === item.Standard_id)?.name}</td>
-          </>
-        );
-      case "Subject":
-        return (
-          <>
-            <td>{board.name}</td>
-            <td>{board.standards?.find((std) => std._id === item.Standard_id)?.name}</td>
-            <td>{board.semesters?.find((sem) => sem._id === item.Semester_id)?.name}</td>
-          </>
-        );
-      case "Chapter":
-        return (
-          <>
-            <td>{board.name}</td>
-            <td>{board.standards?.find((std) => std._id === item.Standard_id)?.name}</td>
-            <td>{board.subjects?.find((sub) => sub._id === item.Subject_id)?.name}</td>
-          </>
-        );
-      default:
-        return null;
-    }
+    const standard = board.standards?.find((std) => std._id === item.Standard_id);
+    const semester = board.semesters?.find((sem) => sem._id === item.Semester_id);
+    const subject = board.subjects?.find((sub) => sub._id === item.Subject_id);
+
+    return (
+      <>
+        {["Standard", "Semester", "Subject", "Chapter"].includes(activeTab) && <td>{board.name}</td>}
+        {["Semester", "Subject", "Chapter"].includes(activeTab) && <td>{standard?.name}</td>}
+        {activeTab === "Subject" && <td>{semester?.name}</td>}
+        {activeTab === "Chapter" && <td>{subject?.name}</td>}
+      </>
+    );
   };
 
   const renderFormFields = () => {
     const boardOptions = allData.map((b) => ({ label: b.name, value: b._id }));
     const selectedBoard = allData.find(b => b._id === formData.Board_id);
-
     const standardOptions = selectedBoard?.standards?.map(s => ({ label: s.name, value: s._id })) || [];
-    const selectedStandard = selectedBoard?.standards?.find(s => s._id === formData.Standard_id);
-
     const semesterOptions = selectedBoard?.semesters?.map(sem => ({ label: sem.name, value: sem._id })) || [];
     const subjectOptions = selectedBoard?.subjects?.map(sub => ({ label: sub.name, value: sub._id })) || [];
 
     return (
       <>
         {["Standard", "Semester", "Subject", "Chapter"].includes(activeTab) && (
-          <select
-            value={formData.Board_id || ""}
-            onChange={(e) => setFormData({ ...formData, Board_id: e.target.value, Standard_id: "", Semester_id: "", Subject_id: "" })}
-          >
+          <select value={formData.Board_id || ""} onChange={(e) => setFormData({ ...formData, Board_id: e.target.value, Standard_id: "", Semester_id: "", Subject_id: "" })}>
             <option value="">-- Select Board --</option>
-            {boardOptions.map((opt) => (
-              <option key={opt.value} value={opt.value}>{opt.label}</option>
-            ))}
+            {boardOptions.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
           </select>
         )}
 
         {["Semester", "Subject", "Chapter"].includes(activeTab) && (
-          <select
-            value={formData.Standard_id || ""}
-            onChange={(e) => setFormData({ ...formData, Standard_id: e.target.value, Semester_id: "", Subject_id: "" })}
-          >
+          <select value={formData.Standard_id || ""} onChange={(e) => setFormData({ ...formData, Standard_id: e.target.value, Semester_id: "", Subject_id: "" })}>
             <option value="">-- Select Standard --</option>
-            {standardOptions.map((opt) => (
-              <option key={opt.value} value={opt.value}>{opt.label}</option>
-            ))}
+            {standardOptions.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
           </select>
         )}
 
-        {["Subject"].includes(activeTab) && (
-          <select
-            value={formData.Semester_id || ""}
-            onChange={(e) => setFormData({ ...formData, Semester_id: e.target.value })}
-          >
+        {activeTab === "Subject" && (
+          <select value={formData.Semester_id || ""} onChange={(e) => setFormData({ ...formData, Semester_id: e.target.value })}>
             <option value="">-- Select Semester --</option>
-            {semesterOptions.map((opt) => (
-              <option key={opt.value} value={opt.value}>{opt.label}</option>
-            ))}
+            {semesterOptions.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
           </select>
         )}
 
-        {["Chapter"].includes(activeTab) && (
-          <select
-            value={formData.Subject_id || ""}
-            onChange={(e) => setFormData({ ...formData, Subject_id: e.target.value })}
-          >
+        {activeTab === "Chapter" && (
+          <select value={formData.Subject_id || ""} onChange={(e) => setFormData({ ...formData, Subject_id: e.target.value })}>
             <option value="">-- Select Subject --</option>
-            {subjectOptions.map((opt) => (
-              <option key={opt.value} value={opt.value}>{opt.label}</option>
-            ))}
+            {subjectOptions.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
           </select>
         )}
 
@@ -182,18 +135,14 @@ export default function ManageEducationData() {
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              style={{
-                backgroundColor: activeTab === tab ? "#4CAF50" : "#e0e0e0",
-                color: activeTab === tab ? "white" :  "#333",
-                marginRight: 5,
-              }}
+              style={{ backgroundColor: activeTab === tab ? "#4CAF50" : "#e0e0e0", color: activeTab === tab ? "white" : "#333", marginRight: 5 }}
             >
               {tab}
             </button>
           ))}
         </div>
 
-        <h2>{activeTab} Management</h2><br></br>
+        <h2>{activeTab} Management</h2><br />
         <button onClick={() => openModal()}>Add {activeTab}</button>
 
         {showModal && (
@@ -220,8 +169,8 @@ export default function ManageEducationData() {
                   <th>ID</th>
                   {["Standard", "Semester", "Subject", "Chapter"].includes(activeTab) && <th>Board Name</th>}
                   {["Semester", "Subject", "Chapter"].includes(activeTab) && <th>Standard Name</th>}
-                  {["Subject"].includes(activeTab) && <th>Semester Name</th>}
-                  {["Chapter"].includes(activeTab) && <th>Subject Name</th>}
+                  {activeTab === "Subject" && <th>Semester Name</th>}
+                  {activeTab === "Chapter" && <th>Subject Name</th>}
                   <th>{activeTab} Name</th>
                   <th>Actions</th>
                 </tr>
