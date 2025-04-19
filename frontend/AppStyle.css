@@ -114,12 +114,21 @@ body {
 
 /* Navbar Styles */
 .navbar {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1000;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 15px 40px;
   background: #1e1e1e;
   color: white;
+}
+
+button, .navbar-links li a, .sign-in {
+  cursor: pointer;  /* Ensures cursor turns into a hand on hover */
 }
 
 .navbar-logo img {
@@ -231,6 +240,7 @@ body{
   margin: auto;
   color: black;
   align-items: center;
+  animation: smoothFadeInScale 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
 
 @media screen and (max-width:1300px){
@@ -262,6 +272,188 @@ section.section1 > div :nth-child(1){
 section.section1 > div :nth-child(2){
   font-size: 24px;
 }
+
+/* scroll-to-top styles */
+
+.scroll-to-top {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 55px;
+  height: 55px;
+  background: linear-gradient(145deg, #2e2e2e, #383838);
+  color: #ffffff;
+  border: none;
+  border-radius: 50%;
+  text-decoration: none;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 6px 6px 15px rgba(0, 0, 0, 0.5),
+              -6px -6px 15px rgba(60, 60, 60, 0.3);
+  transition: all 0.3s ease, opacity 0.3s ease;
+  z-index: 1000;
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+.scroll-to-top:hover {
+  transform: scale(1.1) translateY(-3px);
+  background: linear-gradient(145deg, #1a73e8, #135ab6);
+  box-shadow: 8px 8px 20px rgba(0, 0, 0, 0.6),
+              -8px -8px 20px rgba(60, 60, 60, 0.4);
+  opacity: 1;
+}
+
+/* Navbar Base */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  background: #111827;  /* Dark elegant shade */
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Logo Styling */
+.navbar-logo img {
+  width: 130px;
+  height: auto;
+}
+
+/* Hamburger Icon */
+.hamburger {
+  display: none;
+  font-size: 28px;
+  cursor: pointer;
+  color: #fff;
+}
+
+/* Navbar Links */
+.navbar-links {
+  list-style: none;
+  display: flex;
+  gap: 30px;
+  margin: 0;
+}
+
+.navbar-links li a {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 16px;
+  transition: transform 0.25s ease, color 0.3s ease;
+  display: inline-block;
+}
+
+/* Hover Effect */
+.navbar-links li a:hover {
+  color: #38bdf8;
+  transform: scale(1.05);
+}
+
+/* Zoom-Out Click Animation */
+.navbar-links li a.zoom-out {
+  animation: zoomOut 0.4s forwards;
+}
+
+@keyframes zoomOut {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.85);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Register Button */
+.navbar-register-btn {
+  background: linear-gradient(45deg, #2563eb, #1d4ed8);
+  color: white;
+  padding: 8px 18px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.navbar-register-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(56, 189, 248, 0.4);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .hamburger {
+    display: block;
+  }
+  .navbar-links {
+    position: absolute;
+    top: 60px;
+    right: 0;
+    background: #111827;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 200px;
+    padding: 20px;
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+  }
+  .navbar-links.active {
+    transform: translateX(0);
+  }
+  .navbar-links li {
+    margin: 10px 0;
+  }
+}
+
+/* Zoom-In/Zoom-Out Animation for Data */
+.zoom-in-out {
+  animation: zoomInOut 0.5s ease-in-out forwards;
+}
+
+@keyframes zoomInOut {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Zoom-out Effect for hiding data */
+.zoom-out {
+  animation: zoomOut 0.5s ease-in-out forwards;
+}
+
+@keyframes zoomOut {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+}
+
 
 /* Features & packages Styles*/
 

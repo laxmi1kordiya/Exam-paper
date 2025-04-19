@@ -11,7 +11,7 @@ const Home = () => {
   return (
     <>
       <Navbar />
-      <section className="section1">
+      <section id="home" className="section1">
         <div>
           <span>Generate Exams Papers For GSEB Board</span>
           <span>
@@ -23,10 +23,27 @@ const Home = () => {
           <img src={iphoneImage} alt="Error" />
         </div>
       </section>
-      <Features />
-      <Price />
-      <HowToUse />
-      <AboutUs />
+
+      <section id="features" className="section1">
+        <Features />
+      </section>
+
+      <section id="packages" className="section1">
+        <Price />
+      </section>
+
+      <section id="how-to-use" className="section1">
+        <HowToUse />
+      </section>
+
+      <section id="about" className="section1">
+        <AboutUs />
+      </section>
+
+      <a href="#" class="scroll-to-top">
+        &#8679;
+      </a>
+
       <Footer />
     </>
   );
