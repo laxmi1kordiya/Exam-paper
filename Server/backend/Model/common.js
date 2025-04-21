@@ -325,6 +325,14 @@ const findAllData = async (collection) => {
           as: "chapters",
         },
       },
+      {
+        $lookup: {
+          from: "questions",
+          localField: "_id",
+          foreignField: "Board_id",
+          as: "questions",
+        },
+      },
     ]);
   } catch (err) {
     throw err;

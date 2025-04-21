@@ -97,25 +97,34 @@ export default function ManageEducationData() {
       (std) => std._id === item.Standard_id
     );
     const semester = board.semesters?.find(
-      (sem) => sem._id === item.Semester_id
+      (sem) => sem.Standard_id === item.Standard_id
     );
     const subject = board.subjects?.find((sub) => sub._id === item.Subject_id);
-    const chapter = board.chapters?.find((chap) => chap._id === item.Chapter_id);
+    const chapter = board.chapters?.find(
+      (chap) => chap._id === item.Chapter_id
+    );
 
     return (
       <>
-        {["Standard", "Semester", "Subject", "Chapter", "Question"].includes(activeTab) && (
-          <td>{board.name}</td>
-        )}
-        {["Semester", "Subject", "Chapter", "Question"].includes(activeTab) && (
-          <td>{standard?.name}</td>
-        )}
-        {["Subject", "Chapter", "Question"].includes(activeTab) && <td>{semester?.name}</td>}
-        {["Chapter", "Question"].includes(activeTab) && <td>{subject?.name}</td>}
-        {activeTab === "Question" && <td>{chapter?.name}</td>}
+        {shouldShow("board") && <td>{board.name}</td>}
+        {shouldShow("standard") && <td>{standard?.name}</td>}
+        {shouldShow("semester") && <td>{semester?.name}</td>}
+        {shouldShow("subject") && <td>{subject?.name}</td>}
+        {isQuestion && <td>{chapter?.name}</td>}
       </>
     );
   };
+
+  const renderSelect = (label, value, options, onChange) => (
+    <select className="form-control" value={value || ""} onChange={onChange}>
+      <option value="">{`-- Select ${label} --`}</option>
+      {options.map((opt) => (
+        <option key={opt.value} value={opt.value}>
+          {opt.label}
+        </option>
+      ))}
+    </select>
+  );
 
   const renderFormFields = () => {
     const boardOptions = allData.map((b) => ({ label: b.name, value: b._id }));
@@ -134,128 +143,90 @@ export default function ManageEducationData() {
     const chapterOptions =
       selectedBoard?.chapters
         ?.filter((chap) => chap.Subject_id === formData.Subject_id)
-        .map((chap) => ({ label: chap.name, value: chap._id })) || [];    
-
+        .map((chap) => ({ label: chap.name, value: chap._id })) || [];
 
     return (
       <>
-        {["Standard", "Semester", "Subject", "Chapter", "Question"].includes(activeTab) && (
-          <select
-            className="form-control"
-            value={formData.Board_id || ""}
-            onChange={(e) =>
-              setFormData({
-                ...formData,
-                Board_id: e.target.value,
-                Standard_id: "",
-                Semester_id: "",
-                Subject_id: "",
-                Chapter_id: "",
-              })
-            }
-          >
-            <option value="">-- Select Board --</option>
-            {boardOptions.map((opt) => (
-              <option key={opt.value} value={opt.value}>
-                {opt.label}
-              </option>
-            ))}
-          </select>
-        )}
+        {["Standard", "Semester", "Subject", "Chapter", "Question"].includes(
+          activeTab
+        ) &&
+          renderSelect("Board", formData.Board_id, boardOptions, (e) =>
+            setFormData({
+              ...formData,
+              Board_id: e.target.value,
+              Standard_id: "",
+              Semester_id: "",
+              Subject_id: "",
+              Chapter_id: "",
+            })
+          )}
 
-        {["Semester", "Subject", "Chapter", "Question"].includes(activeTab) && (
-          <select
-            className="form-control"
-            value={formData.Standard_id || ""}
-            onChange={(e) =>
-              setFormData({
-                ...formData,
-                Standard_id: e.target.value,
-                Semester_id: "",
-                Subject_id: "",
-                Chapter_id: "",
-              })
-            }
-          >
-            <option value="">-- Select Standard --</option>
-            {standardOptions.map((opt) => (
-              <option key={opt.value} value={opt.value}>
-                {opt.label}
-              </option>
-            ))}
-          </select>
-        )}
+        {["Semester", "Subject", "Chapter", "Question"].includes(activeTab) &&
+          renderSelect("Standard", formData.Standard_id, standardOptions, (e) =>
+            setFormData({
+              ...formData,
+              Standard_id: e.target.value,
+              Semester_id: "",
+              Subject_id: "",
+              Chapter_id: "",
+            })
+          )}
 
-        {["Subject", "Chapter", "Question"].includes(activeTab) && (
-          <select
-            className="form-control"
-            value={formData.Semester_id || ""}
-            onChange={(e) =>
-              setFormData({
-                ...formData,
-                Semester_id: e.target.value,
-                Subject_id: "",
-                Chapter_id: "",
-              })
-            }
-          >
-            <option value="">-- Select Semester --</option>
-            {semesterOptions.map((opt) => (
-              <option key={opt.value} value={opt.value}>
-                {opt.label}
-              </option>
-            ))}
-          </select>
-        )}
+        {["Subject", "Chapter", "Question"].includes(activeTab) &&
+          renderSelect("Semester", formData.Semester_id, semesterOptions, (e) =>
+            setFormData({
+              ...formData,
+              Semester_id: e.target.value,
+              Subject_id: "",
+              Chapter_id: "",
+            })
+          )}
 
-        {["Chapter", "Question"].includes(activeTab) && (
-          <select
-            className="form-control"
-            value={formData.Subject_id || ""}
-            onChange={(e) =>
-              setFormData({
-                ...formData,
-                Subject_id: e.target.value,
-                Chapter_id: "",
-              })
-            }
-          >
-            <option value="">-- Select Subject --</option>
-            {subjectOptions.map((opt) => (
-              <option key={opt.value} value={opt.value}>
-                {opt.label}
-              </option>
-            ))}
-          </select>
-        )}
+        {["Chapter", "Question"].includes(activeTab) &&
+          renderSelect("Subject", formData.Subject_id, subjectOptions, (e) =>
+            setFormData({
+              ...formData,
+              Subject_id: e.target.value,
+              Chapter_id: "",
+            })
+          )}
 
-        {activeTab === "Question" && (
-          <select
-            className="form-control"
-            value={formData.Chapter_id || ""}
-            onChange={(e) =>
-              setFormData({ ...formData, Chapter_id: e.target.value })
-            }
-          >
-            <option value="">-- Select Chapter --</option>
-            {chapterOptions.map((opt) => (
-              <option key={opt.value} value={opt.value}>
-                {opt.label}
-              </option>
-            ))}
-          </select>
-        )}
+        {activeTab === "Question" &&
+          renderSelect("Chapter", formData.Chapter_id, chapterOptions, (e) =>
+            setFormData({ ...formData, Chapter_id: e.target.value })
+          )}
 
-        <input
-          className="form-control"
-          type="text"
-          placeholder={`Enter ${activeTab} Name`}
-          value={formData.name}
-          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-        />
+        {activeTab === "Question" ? (
+          <textarea
+            className="form-control"
+            placeholder={`Enter ${activeTab} Name`}
+            value={formData.name}
+            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+          />
+        ) : (
+          <input
+            className="form-control"
+            type="text"
+            placeholder={`Enter ${activeTab} Name`}
+            value={formData.name}
+            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+          />
+        )}
       </>
     );
   };
+
+  const columnsVisibility = {
+    board: ["Standard", "Semester", "Subject", "Chapter", "Question"],
+    standard: ["Semester", "Subject", "Chapter", "Question"],
+    semester: ["Subject", "Chapter", "Question"],
+    subject: ["Chapter", "Question"],
+    chapter: ["Question"],
+  };
+
+  const shouldShow = (type) =>
+    columnsVisibility[type]?.includes(activeTab) || false;
+  const isQuestion = activeTab === "Question";
 
   return (
     <div className="content-page">
@@ -313,15 +284,11 @@ export default function ManageEducationData() {
               <thead>
                 <tr>
                   <th>ID</th>
-                  {["Standard", "Semester", "Subject", "Chapter", "Question"].includes(
-                    activeTab
-                  ) && <th>Board Name</th>}
-                  {["Semester", "Subject", "Chapter", "Question"].includes(activeTab) && (
-                    <th>Standard Name</th>
-                  )}
-                  {["Subject", "Chapter", "Question"].includes(activeTab) && <th>Semester Name</th>}
-                  {["Chapter", "Question"].includes(activeTab) && <th>Subject Name</th>}
-                  {activeTab === "Question" && <th>Chapter Name</th>}
+                  {shouldShow("board") && <th>Board Name</th>}
+                  {shouldShow("standard") && <th>Standard Name</th>}
+                  {shouldShow("semester") && <th>Semester Name</th>}
+                  {shouldShow("subject") && <th>Subject Name</th>}
+                  {isQuestion && <th>Chapter Name</th>}
                   <th>{activeTab} Name</th>
                   <th>Actions</th>
                 </tr>

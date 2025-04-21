@@ -202,3 +202,25 @@ export const getQuestions = async (req, res, next) => {
     next(err);
   }
 };
+
+export  const addQuestionData = async (req, res, next) => {
+  let rcResponse = new ApiResponse();
+  let { body } = req;
+  try {
+    rcResponse.data = await create("Question", body);
+    return res.status(rcResponse.code).send(rcResponse);
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const deleteQuestionData = async (req, res, next) => {
+  let rcResponse = new ApiResponse();
+  let { id } = req.params;
+  try {
+    rcResponse.data = await deleteOne("Question", { _id: id });
+    return res.status(rcResponse.code).send(rcResponse);
+  } catch (err) {
+    next(err);
+  }
+};
