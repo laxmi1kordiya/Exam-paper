@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useAuthenticatedFetch } from "../../Api/Axios";
 import Questionlist from "./questions";
+import GeneratePDF from "../generatePDF"; 
 
 const GeneratePaper = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -18,12 +19,17 @@ const GeneratePaper = () => {
     standard: "",
     semester: "",
     subject: "",
+    subjectName: "",
     category: "ALL",
     paperDate: new Date(),
     paperType: "Weekly",
     paperDifficulty: "",
     chapter: "",
     generateType: "",
+    institute: "Oxford University", // Default value for institute
+    subtitle: "ABC Pvt Ltd.", // Default value for subtitle
+    paperTime: "10:00 AM - 12:00 PM", // Default time
+    totalMarks: 100,
   });
 
   const fetchData = useCallback(async () => {
@@ -70,6 +76,7 @@ const GeneratePaper = () => {
         standard: "",
         semester: "",
         subject: "",
+        subjectName: "",
         chapter: "",
       }));
     }
@@ -92,6 +99,7 @@ const GeneratePaper = () => {
         ...prev,
         semester: "",
         subject: "",
+        subjectName: "",
         chapter: "",
       }));
     }
@@ -112,6 +120,7 @@ const GeneratePaper = () => {
       setFormData((prev) => ({
         ...prev,
         subject: "",
+        subjectName : "",
         chapter: "",
       }));
     }
@@ -351,7 +360,8 @@ const GeneratePaper = () => {
       </div>
 
       {currentStep === 3 && formData.chapter && (
-        <Questionlist chapterId={formData.chapter} />
+        <Questionlist chapterId={formData.chapter} />,
+        <GeneratePDF formData={formData} />
       )}
     </div>
   );
