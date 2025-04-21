@@ -12,6 +12,7 @@ const GeneratePaper = () => {
   const [allData, setAllData] = useState([]);
 
   const fetch = useAuthenticatedFetch();
+
   const [formData, setFormData] = useState({
     board: "",
     standard: "",
@@ -52,19 +53,18 @@ const GeneratePaper = () => {
       ...prev,
       [name]: value,
     }));
+
     if (name === "board") {
       const selectedBoard = allData.find((board) => board.name === value);
-      console.log(selectedBoard, "selectedBoard");
-      const stdOptions =
-        selectedBoard?.standards?.map((std) => ({
-          label: std.name,
-          value: std._id,
-        })) || [];
+      const stdOptions = selectedBoard?.standards?.map((std) => ({
+        label: std.name,
+        value: std._id,
+      })) || [];
 
       setStandards(stdOptions);
       setSemesters([]);
       setSubjects([]);
-
+      setChapters([]);
       setFormData((prev) => ({
         ...prev,
         standard: "",
@@ -78,17 +78,16 @@ const GeneratePaper = () => {
       const selectedBoard = allData.find(
         (board) => board.name === formData.board
       );
-      const semOptions =
-        selectedBoard?.semesters
-          ?.filter((sem) => sem.Standard_id === value)
-          .map((sem) => ({
-            label: sem.name,
-            value: sem._id,
-          })) || [];
+      const semOptions = selectedBoard?.semesters
+        ?.filter((sem) => sem.Standard_id === value)
+        .map((sem) => ({
+          label: sem.name,
+          value: sem._id,
+        })) || [];
 
       setSemesters(semOptions);
       setSubjects([]);
-
+      setChapters([]);
       setFormData((prev) => ({
         ...prev,
         semester: "",
@@ -101,18 +100,15 @@ const GeneratePaper = () => {
       const selectedBoard = allData.find(
         (board) => board.name === formData.board
       );
-
-      const subOptions =
-        selectedBoard.subjects
-          .filter((sub) => sub.Semester_id === value)
-          .map((sub) => ({
-            label: sub.name,
-            value: sub._id,
-          })) || [];
+      const subOptions = selectedBoard.subjects
+        .filter((sub) => sub.Semester_id === value)
+        .map((sub) => ({
+          label: sub.name,
+          value: sub._id,
+        })) || [];
 
       setSubjects(subOptions);
       setChapters([]);
-
       setFormData((prev) => ({
         ...prev,
         subject: "",
@@ -124,16 +120,14 @@ const GeneratePaper = () => {
       const selectedBoard = allData.find(
         (board) => board.name === formData.board
       );
-      const chOptions =
-        selectedBoard.chapters
-          .filter((ch) => ch.Subject_id === value)
-          .map((ch) => ({
-            label: ch.name,
-            value: ch._id,
-          })) || [];
+      const chOptions = selectedBoard.chapters
+        .filter((ch) => ch.Subject_id === value)
+        .map((ch) => ({
+          label: ch.name,
+          value: ch._id,
+        })) || [];
 
       setChapters(chOptions);
-
       setFormData((prev) => ({
         ...prev,
         chapter: "",
@@ -167,10 +161,12 @@ const GeneratePaper = () => {
                     : "Step 3"}
                 </h3>
                 <p>
-                  {stepNum === 1 && "Select Board, Standard, Semester, Subject"}
+                  {stepNum === 1 &&
+                    "Select Board, Standard, Semester, Subject"}
                   {stepNum === 2 &&
                     "Manage Paper Details Date, Time, Difficulty"}
-                  {stepNum === 3 && "Choose Questions of Chapters & Subjects"}
+                  {stepNum === 3 &&
+                    "Choose Questions of Chapters & Subjects"}
                 </p>
               </div>
             </div>
@@ -264,7 +260,6 @@ const GeneratePaper = () => {
               <input
                 type="date"
                 name="date"
-                id="date"
                 value={formData.date}
                 min="2024-01-01"
                 max="2030-12-31"
@@ -331,6 +326,7 @@ const GeneratePaper = () => {
             </div>
           </div>
         )}
+
         <div className="button-row">
           {currentStep > 1 && (
             <button
@@ -353,8 +349,9 @@ const GeneratePaper = () => {
           )}
         </div>
       </div>
-      {currentStep === 3 && (
-      <Questionlist />
+
+      {currentStep === 3 && formData.chapter && (
+        <Questionlist chapterId={formData.chapter} />
       )}
     </div>
   );

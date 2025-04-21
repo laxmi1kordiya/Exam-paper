@@ -27,6 +27,11 @@ const apiEndpoints = {
     add: "addChapterData",
     delete: "deleteChapterData",
   },
+  Question: {
+    fetch: "getQuestionData",
+    add: "addQuestionData",
+    delete: "deleteQuestionData",
+  },
 };
 
 export default function ManageEducationData() {
@@ -95,23 +100,24 @@ export default function ManageEducationData() {
       (sem) => sem._id === item.Semester_id
     );
     const subject = board.subjects?.find((sub) => sub._id === item.Subject_id);
+    const chapter = board.chapters?.find((chap) => chap._id === item.Chapter_id);
 
     return (
       <>
-        {["Standard", "Semester", "Subject", "Chapter"].includes(activeTab) && (
+        {["Standard", "Semester", "Subject", "Chapter", "Question"].includes(activeTab) && (
           <td>{board.name}</td>
         )}
-        {["Semester", "Subject", "Chapter"].includes(activeTab) && (
+        {["Semester", "Subject", "Chapter", "Question"].includes(activeTab) && (
           <td>{standard?.name}</td>
         )}
-        {activeTab === "Subject" && <td>{semester?.name}</td>}
-        {activeTab === "Chapter" && <td>{subject?.name}</td>}
+        {["Subject", "Chapter", "Question"].includes(activeTab) && <td>{semester?.name}</td>}
+        {["Chapter", "Question"].includes(activeTab) && <td>{subject?.name}</td>}
+        {activeTab === "Question" && <td>{chapter?.name}</td>}
       </>
     );
   };
 
   const renderFormFields = () => {
-    console.log(allData, "allData");
     const boardOptions = allData.map((b) => ({ label: b.name, value: b._id }));
     const selectedBoard = allData.find((b) => b._id === formData.Board_id);
     const standardOptions =
@@ -122,19 +128,20 @@ export default function ManageEducationData() {
         ?.filter((sem) => sem.Standard_id === formData.Standard_id)
         .map((sem) => ({ label: sem.name, value: sem._id })) || [];
     const subjectOptions =
-      selectedBoard?.subjects?.filter((sub) => sub.Semester_id === formData.Semester_id).map((sub) => ({
-        label: sub.name,
-        value: sub._id,
-      })) || [];
-    const chapterOptions = selectedBoard?.chapters?.filter((chap) => chap.Subject_id === formData.Subject_id).map((chap) => ({
-      label: chap.name,
-      value: chap._id,
-    })) || [];
+      selectedBoard?.subjects
+        ?.filter((sub) => sub.Semester_id === formData.Semester_id)
+        .map((sub) => ({ label: sub.name, value: sub._id })) || [];
+    const chapterOptions =
+      selectedBoard?.chapters
+        ?.filter((chap) => chap.Subject_id === formData.Subject_id)
+        .map((chap) => ({ label: chap.name, value: chap._id })) || [];    
+
 
     return (
       <>
-        {["Standard", "Semester", "Subject", "Chapter"].includes(activeTab) && (
-          <select className="form-control"
+        {["Standard", "Semester", "Subject", "Chapter", "Question"].includes(activeTab) && (
+          <select
+            className="form-control"
             value={formData.Board_id || ""}
             onChange={(e) =>
               setFormData({
@@ -143,6 +150,7 @@ export default function ManageEducationData() {
                 Standard_id: "",
                 Semester_id: "",
                 Subject_id: "",
+                Chapter_id: "",
               })
             }
           >
@@ -155,8 +163,9 @@ export default function ManageEducationData() {
           </select>
         )}
 
-        {["Semester", "Subject", "Chapter"].includes(activeTab) && (
-          <select className="form-control"
+        {["Semester", "Subject", "Chapter", "Question"].includes(activeTab) && (
+          <select
+            className="form-control"
             value={formData.Standard_id || ""}
             onChange={(e) =>
               setFormData({
@@ -164,6 +173,7 @@ export default function ManageEducationData() {
                 Standard_id: e.target.value,
                 Semester_id: "",
                 Subject_id: "",
+                Chapter_id: "",
               })
             }
           >
@@ -176,15 +186,20 @@ export default function ManageEducationData() {
           </select>
         )}
 
-        {["Subject", "Chapter"].includes(activeTab) && (
-          <select className="form-control"
+        {["Subject", "Chapter", "Question"].includes(activeTab) && (
+          <select
+            className="form-control"
             value={formData.Semester_id || ""}
             onChange={(e) =>
-              setFormData({ ...formData, Semester_id: e.target.value })
+              setFormData({
+                ...formData,
+                Semester_id: e.target.value,
+                Subject_id: "",
+                Chapter_id: "",
+              })
             }
           >
             <option value="">-- Select Semester --</option>
-            {console.log(semesterOptions, "semesterOptions")}
             {semesterOptions.map((opt) => (
               <option key={opt.value} value={opt.value}>
                 {opt.label}
@@ -193,11 +208,16 @@ export default function ManageEducationData() {
           </select>
         )}
 
-        {activeTab === "Chapter" && (
-          <select className="form-control"
+        {["Chapter", "Question"].includes(activeTab) && (
+          <select
+            className="form-control"
             value={formData.Subject_id || ""}
             onChange={(e) =>
-              setFormData({ ...formData, Subject_id: e.target.value })
+              setFormData({
+                ...formData,
+                Subject_id: e.target.value,
+                Chapter_id: "",
+              })
             }
           >
             <option value="">-- Select Subject --</option>
@@ -209,7 +229,25 @@ export default function ManageEducationData() {
           </select>
         )}
 
-        <input className="form-control"
+        {activeTab === "Question" && (
+          <select
+            className="form-control"
+            value={formData.Chapter_id || ""}
+            onChange={(e) =>
+              setFormData({ ...formData, Chapter_id: e.target.value })
+            }
+          >
+            <option value="">-- Select Chapter --</option>
+            {chapterOptions.map((opt) => (
+              <option key={opt.value} value={opt.value}>
+                {opt.label}
+              </option>
+            ))}
+          </select>
+        )}
+
+        <input
+          className="form-control"
           type="text"
           placeholder={`Enter ${activeTab} Name`}
           value={formData.name}
@@ -275,14 +313,15 @@ export default function ManageEducationData() {
               <thead>
                 <tr>
                   <th>ID</th>
-                  {["Standard", "Semester", "Subject", "Chapter"].includes(
+                  {["Standard", "Semester", "Subject", "Chapter", "Question"].includes(
                     activeTab
                   ) && <th>Board Name</th>}
-                  {["Semester", "Subject", "Chapter"].includes(activeTab) && (
+                  {["Semester", "Subject", "Chapter", "Question"].includes(activeTab) && (
                     <th>Standard Name</th>
                   )}
-                  {activeTab === "Subject" && <th>Semester Name</th>}
-                  {activeTab === "Chapter" && <th>Subject Name</th>}
+                  {["Subject", "Chapter", "Question"].includes(activeTab) && <th>Semester Name</th>}
+                  {["Chapter", "Question"].includes(activeTab) && <th>Subject Name</th>}
+                  {activeTab === "Question" && <th>Chapter Name</th>}
                   <th>{activeTab} Name</th>
                   <th>Actions</th>
                 </tr>

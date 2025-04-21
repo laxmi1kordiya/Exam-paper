@@ -1,19 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { useAuthenticatedFetch } from "../../Api/Axios";
 
-const Questionlist = () => {
+const Questionlist = ({ chapterId }) => {
   const [questions, setQuestions] = useState([]);
   const [loading, setLoading] = useState(true);
   const fetch = useAuthenticatedFetch();
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    if (chapterId) {
+      fetchData();
+    }
+  }, [chapterId]);
 
   const fetchData = async () => {
     try {
       const response = await fetch.get("getQuestions");
-      setQuestions(response.data);
+      const filteredQuestions = response.data.filter(
+        (q) => q.Chapter_id === chapterId
+      );
+      setQuestions(filteredQuestions);
     } catch (error) {
       console.error("Error fetching questions:", error);
       setQuestions([]);
@@ -21,6 +26,8 @@ const Questionlist = () => {
       setLoading(false);
     }
   };
+
+  if (!chapterId) return null;
 
   return (
     <div className="main-content">
@@ -40,7 +47,7 @@ const Questionlist = () => {
             </ul>
           </details>
         ) : (
-          <p>No questions available.</p>
+          <p>No questions available for this chapter.</p>
         )}
       </div>
     </div>
