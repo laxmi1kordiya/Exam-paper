@@ -192,3 +192,13 @@ export const addSaveData = async (req, res, next) => {
     next(err);
   }
 };
+
+export const getQuestions = async (req, res, next) => {
+  let rcResponse = new ApiResponse();
+  try {
+    rcResponse.data = await find("Question", {});
+    return res.status(rcResponse.code).send(rcResponse);
+  } catch (err) {
+    next(err);
+  }
+};

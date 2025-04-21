@@ -8,6 +8,7 @@ import subject from "../Schema/Subject.js";
 import board from "../Schema/Board.js";
 import chapter from "../Schema/Chapter.js";
 import paperSetting from "../Schema/PaperSetting.js";
+import Question from "../Schema/Question.js";
 
 const models = {
   signUp,
@@ -17,7 +18,8 @@ const models = {
   subject,
   board,
   chapter,
-  paperSetting
+  paperSetting,
+  Question
 };
 
 const findOne = async (collection, query, property, sort) => {

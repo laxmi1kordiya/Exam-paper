@@ -454,7 +454,6 @@ section.section1 > div :nth-child(2){
   }
 }
 
-
 /* Features & packages Styles*/
 
 .py-12 {
@@ -1581,4 +1580,69 @@ right: 10px;
   color: white !important;
   font-weight: bold;
   border-radius: 5px;
+}
+
+
+.selecttt {
+  background-color: #f9fbfc;
+  border: 1px solid #d0d0d0;
+  border-radius: 10px;
+  padding: 20px;
+  width: 100%;
+  max-width: 800px;
+  margin: 20px auto;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.custom-checkbox .custom-control-input:disabled:checked~.custom-control-label::before,
+.custom-radio .custom-control-input:disabled:checked~.custom-control-label::before {
+  display: none;
+}
+
+.custom-checkbox .custom-control-input:disabled:checked~.custom-control-label::after,
+.custom-radio .custom-control-input:disabled:checked~.custom-control-label::after {
+  display: none;
+}
+
+details {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  padding: 8px 12px;
+  transition: all 0.3s ease;
+}
+
+details > summary {
+  list-style: none;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+}
+
+details summary::before {
+  content: "🡒";
+  margin-right: 8px;
+  color: #007bff;
+  font-size: 18px;
+}
+
+details[open] summary::before {
+  content: "🡑";
+}
+
+details summary::-webkit-details-marker {
+  display: none;
+}
+
+ul {
+  padding-left: 20px;
+}
+
+li {
+  margin: 5px 0;
+  font-size: 15px;
+  line-height: 1.5;
 }

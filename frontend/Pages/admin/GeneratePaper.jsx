@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useAuthenticatedFetch } from "../../Api/Axios";
+import Questionlist from "./questions";
 
 const GeneratePaper = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -330,7 +331,6 @@ const GeneratePaper = () => {
             </div>
           </div>
         )}
-
         <div className="button-row">
           {currentStep > 1 && (
             <button
@@ -353,6 +353,9 @@ const GeneratePaper = () => {
           )}
         </div>
       </div>
+      {currentStep === 3 && (
+      <Questionlist />
+      )}
     </div>
   );
 };
