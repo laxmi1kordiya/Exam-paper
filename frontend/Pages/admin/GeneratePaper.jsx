@@ -54,7 +54,7 @@ const GeneratePaper = () => {
 
   useEffect(() => {
     fetchData();
-  }, [fetchData]);
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;

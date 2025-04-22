@@ -1646,3 +1646,78 @@ li {
   font-size: 15px;
   line-height: 1.5;
 }
+
+/* header css */
+
+.user-profile {
+  position: relative;
+}
+
+.profile-toggle {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.profile-image {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+}
+
+.profile-info {
+  display: flex;
+  flex-direction: column;
+  margin-left: 20px;
+}
+
+.profile-name {
+  font-weight: 500;
+}
+
+.profile-type {
+  font-size: 12px;
+  color: #777;
+}
+
+.profile-popup {
+  position: absolute;
+  top: 60px;
+  right: 0;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  width: 200px;
+  z-index: 100;
+}
+
+.profile-popup-header {
+  /* background: #4CAF50; */
+  padding: 10px;
+  border-radius: 10px;
+  color: #000;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.popup-greeting {
+  font-weight: bold;
+}
+
+.popup-type {
+  margin-top: 4px;
+}
+
+.signout-button {
+  background: #4CAF50;
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  padding: 8px 16px;
+  cursor: pointer;
+  width: 100%;
+  font-size: 14px;
+}
+

@@ -44,3 +44,13 @@ export const verifyData = async (req, res, next) => {
     next(err);
   }
 };
+
+export const getUserData = async (req, res, next) => {
+  let rcResponse = new ApiResponse();
+  try {
+    rcResponse.data = await findOne("signUp", {});
+    return res.status(rcResponse.code).send(rcResponse);
+  } catch (err) {
+    next(err);
+  }
+};

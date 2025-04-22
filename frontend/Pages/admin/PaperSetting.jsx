@@ -108,7 +108,7 @@ const PaperSetting = () => {
     <div className="content-page">
       <div className="main-content">
         <div className="signin-box">
-          <h3 className="text-center">Paper Heaader Settings</h3>
+          <h3 className="text-center">Paper Header Settings</h3>
           <p className="text-center text-dark">Configure details for the exam paper</p>
 
           <form className="mt-4" style={{ padding: "20px" }} onSubmit={handleSubmit}>
