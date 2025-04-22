@@ -75,15 +75,16 @@ const PaperSetting = () => {
 
     if (!formData.title.trim()) return toast.error("Please enter the Title.");
     if (!formData.subtitle.trim()) return toast.error("Please enter the Subtitle.");
-    if (!formData.studentName.trim()) return toast.error("Please enter the Student Name.");
-    if (!formData.standard.trim()) return toast.error("Please enter the Standard.");
-    if (!formData.subject.trim()) return toast.error("Please enter the Subject.");
-    if (!formData.totalMarks.trim()) return toast.error("Please enter the Total Marks.");
-    if (!formData.obtainedMarks.trim()) return toast.error("Please enter the Obtained Marks.");
-    if (!formData.date.trim()) return toast.error("Please select the Date.");
+    // if (!formData.studentName.trim()) return toast.error("Please enter the Student Name.");
+    // if (!formData.standard.trim()) return toast.error("Please enter the Standard.");
+    // if (!formData.subject.trim()) return toast.error("Please enter the Subject.");
+    // if (!formData.totalMarks.trim()) return toast.error("Please enter the Total Marks.");
+    // if (!formData.obtainedMarks.trim()) return toast.error("Please enter the Obtained Marks.");
+    // if (!formData.date.trim()) return toast.error("Please select the Date.");
     if (logoError) return toast.error("Please fix the logo upload error before submitting.");
 
     try {
+      console.log(formData,"formData");
       await fetch.post("paperSetting", formData);
       toast.success("Form submitted successfully!");
       setFormData({
@@ -107,7 +108,7 @@ const PaperSetting = () => {
     <div className="content-page">
       <div className="main-content">
         <div className="signin-box">
-          <h3 className="text-center">Exam Paper Settings</h3>
+          <h3 className="text-center">Paper Heaader Settings</h3>
           <p className="text-center text-dark">Configure details for the exam paper</p>
 
           <form className="mt-4" style={{ padding: "20px" }} onSubmit={handleSubmit}>
@@ -115,12 +116,12 @@ const PaperSetting = () => {
               {[
                 { label: "Title", name: "title", placeholder: "Enter Exam Title" },
                 { label: "Subtitle", name: "subtitle", placeholder: "Enter Subtitle" },
-                { label: "Student Name", name: "studentName", placeholder: "Enter Student Name" },
-                { label: "Standard", name: "standard", placeholder: "Enter Class/Standard" },
-                { label: "Subject", name: "subject", placeholder: "Enter Subject" },
-                { label: "Total Marks", name: "totalMarks", type: "number", placeholder: "Enter Total Marks" },
-                { label: "Obtained Marks", name: "obtainedMarks", type: "number", placeholder: "Enter Marks Obtained" },
-                { label: "Date", name: "date", type: "date", placeholder: "" },
+                // { label: "Student Name", name: "studentName", placeholder: "Enter Student Name" },
+                // { label: "Standard", name: "standard", placeholder: "Enter Class/Standard" },
+                // { label: "Subject", name: "subject", placeholder: "Enter Subject" },
+                // { label: "Total Marks", name: "totalMarks", type: "number", placeholder: "Enter Total Marks" },
+                // { label: "Obtained Marks", name: "obtainedMarks", type: "number", placeholder: "Enter Marks Obtained" },
+                // { label: "Date", name: "date", type: "date", placeholder: "" },
               ].map(({ label, name, type = "text", placeholder }) => (
                 <div key={name} className="form-group">
                   <label htmlFor={name}>{label}</label>

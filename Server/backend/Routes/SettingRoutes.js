@@ -19,7 +19,8 @@ import {
   deleteChapterData,
   getQuestions,
   addQuestionData,
-  deleteQuestionData
+  deleteQuestionData,
+  getHeaderData
 } from "../Controllers/Setting.Ctrl.js";
 
 const settingRoutes = Router();
@@ -40,8 +41,11 @@ settingRoutes.post("/addSemesterData", addSemesterData);
 settingRoutes.post("/addSubjectData", addSubjectData);
 settingRoutes.post("/addChapterData", addChapterData);
 settingRoutes.post("/paperSetting", addSaveData);
+settingRoutes.get("/getQuestions", getQuestions);
 settingRoutes.get("/getQuestionData", getQuestions);
 settingRoutes.post("/addQuestionData", addQuestionData);
 settingRoutes.delete("/deleteQuestionData/:id", deleteQuestionData);
+settingRoutes.get("/getHeaderData", getHeaderData);
+
 
 export default settingRoutes;

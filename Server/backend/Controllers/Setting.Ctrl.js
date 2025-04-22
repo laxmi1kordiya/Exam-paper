@@ -224,3 +224,13 @@ export const deleteQuestionData = async (req, res, next) => {
     next(err);
   }
 };
+
+export const getHeaderData = async (req, res, next) => {
+  let rcResponse = new ApiResponse();
+  try {
+    rcResponse.data = await find("paperSetting", {});
+    return res.status(rcResponse.code).send(rcResponse);
+  } catch (err) {
+    next(err);
+  }
+};
