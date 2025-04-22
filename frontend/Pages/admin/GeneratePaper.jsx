@@ -361,7 +361,7 @@ const GeneratePaper = () => {
 
       {currentStep === 3 && formData.chapter && (
         <Questionlist chapterId={formData.chapter} />,
-        <GeneratePDF formData={formData} />
+        <GeneratePDF formData={formData} allData={allData} />
       )}
     </div>
   );
