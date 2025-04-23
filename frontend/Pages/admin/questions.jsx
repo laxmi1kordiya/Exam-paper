@@ -1,5 +1,3 @@
-//questions.jsx
-
 import React, { useState, useEffect } from "react";
 import { useAuthenticatedFetch } from "../../Api/Axios";
 import GeneratePDF from "../generatePDF";
@@ -30,7 +28,7 @@ const Questionlist = ({ chapterId, formData, allData, data }) => {
         initialSelection[q._id] = false;
       });
       setSelectedQuestions(initialSelection);
-      console.log("Initial selectedQuestions:", initialSelection); // ADD THIS LOG
+      console.log("Initial selectedQuestions:", initialSelection);
     } catch (error) {
       console.error("Error fetching questions:", error);
       setQuestions([]);
@@ -44,14 +42,14 @@ const Questionlist = ({ chapterId, formData, allData, data }) => {
       ...prev,
       [questionId]: !prev[questionId],
     }));
-    console.log("selectedQuestions after change:", selectedQuestions); // ADD THIS LOG
+    console.log("selectedQuestions after change:", selectedQuestions);
   };
 
   const selectedQuestionsArray = Object.keys(selectedQuestions)
     .filter((id) => selectedQuestions[id])
     .map((id) => questions.find((q) => q._id === id));
 
-  console.log("selectedQuestionsArray in Questionlist:", selectedQuestionsArray); // ADD THIS LOG
+  console.log("selectedQuestionsArray in Questionlist:", selectedQuestionsArray);
 
   if (!chapterId) return null;
 
@@ -64,18 +62,45 @@ const Questionlist = ({ chapterId, formData, allData, data }) => {
         ) : questions.length > 0 ? (
           <details open>
             <summary>Questions ({questions.length})</summary>
-            <ul style={{ listStyleType: 'none', paddingLeft: 0 }}>
+            <ul style={{ listStyleType: "none", paddingLeft: 0, margin: 0 }}>
               {questions.map((q, index) => (
                 <React.Fragment key={q._id}>
-                  <li className="custom-checkbox" style={{ display: 'flex', alignItems: 'flex-start', marginBottom: '8px' }}>
+                  <li
+                    className="custom-checkbox"
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      marginBottom: "8px",
+                      padding: 0, // Reset padding that might come from custom-checkbox
+                    }}
+                  >
                     <input
                       type="checkbox"
                       id={`question-${q._id}`}
                       checked={selectedQuestions[q._id] || false}
                       onChange={() => handleCheckboxChange(q._id)}
-                      style={{ marginRight: '8px', marginTop: '4px' }}
+                      style={{
+                        margin: "0 2px 0 0", // Tighten the space: no left margin, 2px right margin
+                        padding: 0, // Reset any default padding
+                        verticalAlign: "middle",
+                        flexShrink: 0, // Prevent checkbox from shrinking
+                        width: "16px", // Consistent size
+                        height: "16px",
+                      }}
                     />
-                    <label htmlFor={`question-${q._id}`} style={{ flexGrow: 1, wordBreak: 'break-word' }}>{q.name}</label>
+                    <label
+                      htmlFor={`question-${q._id}`}
+                      style={{
+                        flexGrow: 1,
+                        wordBreak: "break-word",
+                        margin: 0, // Remove any default margin
+                        paddingLeft: "2px", // Minimal spacing between checkbox and text
+                        lineHeight: "1.2", // Tighten line height for better alignment
+                        display: "inline-block", // Ensure label behaves correctly
+                      }}
+                    >
+                      {q.name}
+                    </label>
                   </li>
                   {index < questions.length - 1 && <hr />}
                 </React.Fragment>
