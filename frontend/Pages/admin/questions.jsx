@@ -7,21 +7,33 @@ const Questionlist = ({ chapterId, formData, allData, data }) => {
   const [loading, setLoading] = useState(true);
   const fetch = useAuthenticatedFetch();
   const [selectedQuestions, setSelectedQuestions] = useState({});
+  const [oneMark, setoneMark] = useState([]);
+  const [twoMark, setTwoMark] = useState([]);
 
   useEffect(() => {
     if (chapterId) {
       fetchData();
     }
   }, [chapterId]);
-
+  
   const fetchData = async () => {
     try {
       const response = await fetch.get("getQuestions");
       const questionsData = Array.isArray(response.data) ? response.data : [];
+      // const filterOneMarksType = questionsData.filter(
+      //   (q) => q.questionType === "OneMarks"
+      // );
+      // console.log(filterOneMarksType,'filterOneMarksType')
+      // const filteredQuestions = filterOneMarksType.filter(
+      //   (q) => q.Chapter_id === chapterId
+      // );
+
+      console.log(questionsData,'questionsData')
       const filteredQuestions = questionsData.filter(
-        (q) => q.Chapter_id === chapterId
+        (q) => q.questionType === "OneMarks" && q.Chapter_id === chapterId
       );
-      console.log(filteredQuestions, "filteredQuestions");
+      console.log(filteredQuestions, "filteredQuestions-------");
+      
       setQuestions(filteredQuestions);
       const initialSelection = {};
       filteredQuestions.forEach((q) => {
@@ -61,9 +73,9 @@ const Questionlist = ({ chapterId, formData, allData, data }) => {
           <p>Loading questions...</p>
         ) : questions.length > 0 ? (
           <details open>
-            <summary>Questions ({questions.length})</summary>
+            <summary> {questions[0].questionType ==="OneMarks"?"નીચે આપેલા પ્રશ્નોના સંક્ષિપ્ત ઉત્તર આપો.":""}</summary>
             <ul style={{ listStyleType: "none", paddingLeft: 0, margin: 0 }}>
-              {questions.map((q, index) => (
+              {questions[0].questionList.map((q, index) => (
                 <React.Fragment key={q._id}>
                   <li
                     className="custom-checkbox"
@@ -99,7 +111,7 @@ const Questionlist = ({ chapterId, formData, allData, data }) => {
                         display: "inline-block", // Ensure label behaves correctly
                       }}
                     >
-                      {q.name}
+                      {q.question}
                     </label>
                   </li>
                   {index < questions.length - 1 && <hr />}
