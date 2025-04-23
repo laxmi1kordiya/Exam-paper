@@ -1,24 +1,8 @@
 // generatepdf.jsx
-
 import React, { useEffect, useState } from "react";
 import pdfMake from "../Utils/pdfMakeWrapper";
 
 const GeneratePDF = ({ formData, allData, selectedQuestions, data }) => {
-  //   const [data, setData] = useState({});
-
-  //    useEffect(() => {
-  //       fetchData();
-  //     }, []);
-
-  //     const fetchData = async () => {
-  //       try {
-  //         const res = await fetch.get("getHeaderData");
-  //         console.log(res,'res')
-  //         setData(res.data);
-  //       } catch (err) {
-  //         console.error("Error fetching data");
-  //       }
-  //     };
   const findData = (formData, type) => {
     if (!formData) return null;
 
@@ -90,13 +74,12 @@ const GeneratePDF = ({ formData, allData, selectedQuestions, data }) => {
                   style: "label",
                 },
                 {
-                  text: `Date : ${
-                    formData?.date
-                      ? new Date(formData.date).toLocaleDateString()
-                      : "_________________"
+                  text: `Subject : ${
+                    findData(formData, "subject") || "_________________"
                   }`,
-                  style: "value",
+                  style: "label",
                 },
+               
                 { text: "Total Marks :", style: "label" },
                 {
                   text: formData?.totalMarks || "_________________",
@@ -105,10 +88,12 @@ const GeneratePDF = ({ formData, allData, selectedQuestions, data }) => {
               ],
               [
                 {
-                  text: `Subject : ${
-                    findData(formData, "subject") || "_________________"
+                  text: `Date : ${
+                    formData?.date
+                      ? new Date(formData.date).toLocaleDateString()
+                      : "_________________"
                   }`,
-                  style: "label",
+                  style: "value",
                 },
                 "", // Empty cell for spacing
                 { text: "Obtain Marks :", style: "label" },
@@ -155,9 +140,9 @@ const GeneratePDF = ({ formData, allData, selectedQuestions, data }) => {
         },
         selectedQuestions && selectedQuestions.length > 0
           ? {
-              ol: selectedQuestions.map((question) => ({
-                text: question ? question.name : " ",
-                margin: [0, 0, 0, 10], // Adds bottom space like in normal papers
+              ol: selectedQuestions.map((question, index) => ({
+                text: `${index + 1}. ${question ? question.name : " "}`,
+                margin: [0, 0, 0, 12], // Adds bottom space like in normal papers
               })),
               style: "questionList",
             }

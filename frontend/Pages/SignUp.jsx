@@ -12,9 +12,11 @@ const SignUp = () => {
     address: "",
     type: "",
     codel: "",
+    gender: "",
     mobileError: false,
     codelError: false,
   });
+  const [isSubmitting, setIsSubmitting] = useState(false); // Track submission status
 
   const setNavigate = navigate();
   const fetch = useAuthenticatedFetch();
@@ -45,44 +47,87 @@ const SignUp = () => {
 
   const submitData = async () => {
     let hasError = false;
-  
+
+    // Validate form data
     if (formData.name.trim().length < 3) {
-      toast.error("Please enter a valid Name.", { className: "toastify-custom-error" });
+      toast.error("Please enter a valid Name.", {
+        className: "toastify-custom-error",
+      });
       hasError = true;
     } else if (formData.mobile.trim().length !== 10 || formData.mobileError) {
-      toast.error("Please enter a valid Mobile Number.", { className: "toastify-custom-error" });
+      toast.error("Please enter a valid Mobile Number.", {
+        className: "toastify-custom-error",
+      });
       hasError = true;
-    } else if (formData.district === "") {
-      toast.error("Please select District.", { className: "toastify-custom-error" });
+    }else if (formData.type === "") {
+      toast.error("Please select Type.", {
+        className: "toastify-custom-error",
+      });
+      hasError = true;
+    }else if (formData.gender === "") {
+      toast.error("Please select Gender.", {
+        className: "toastify-custom-error",
+      });
+      hasError = true;
+    }else if (formData.district === "") {
+      toast.error("Please select District.", {
+        className: "toastify-custom-error",
+      });
       hasError = true;
     } else if (formData.address.trim().length < 5) {
-      toast.error("Please enter a valid Address.", { className: "toastify-custom-error" });
+      toast.error("Please enter a valid Address.", {
+        className: "toastify-custom-error",
+      });
       hasError = true;
-    } else if (formData.type === "") {
-      toast.error("Please select Type.", { className: "toastify-custom-error" });
-      hasError = true;
-    } else if (formData.codel && (formData.codel.length !== 6 || formData.codelError)) {
-      toast.error("Referral Code must be 6 digits.", { className: "toastify-custom-error" });
+    }  else if (
+      formData.codel &&
+      (formData.codel.length !== 6 || formData.codelError)
+    ) {
+      toast.error("Referral Code must be 6 digits.", {
+        className: "toastify-custom-error",
+      });
       hasError = true;
     }
-  
+
     if (!hasError) {
+      setIsSubmitting(true); // Disable button
       try {
         await fetch.post("signUp", formData);
-        toast.success("Registration Successful!", { className: "toastify-custom-success" });
+        toast.success("Registration Successful!", {
+          className: "toastify-custom-success",
+        });
+        // Reset form
+        setFormData({
+          name: "",
+          mobile: "",
+          district: "",
+          address: "",
+          type: "",
+          codel: "",
+          mobileError: false,
+          codelError: false,
+        });
         setTimeout(() => {
-          setNavigate("/admin");
+          setNavigate("/login");
         }, 1500);
       } catch (error) {
-        if (error.response && error.response.status === 409) {
-          toast.error("Already Registered with this Mobile Number, Try Another one.", { className: "toastify-custom-error" });
+        setIsSubmitting(false); // Re-enable button on error
+        if (error.response?.status === 500) {
+          toast.error(
+            "This mobile number is already registered. Please use a different number.",
+            {
+              className: "toastify-custom-error",
+            }
+          );
         } else {
-          toast.error("Registration failed, please try again.", { className: "toastify-custom-error" });
+          toast.error("Registration failed, please try again later.", {
+            className: "toastify-custom-error",
+          });
+          console.error("Frontend error:", error); // Log for debugging
         }
       }
     }
   };
-  
 
   const goToLogin = () => {
     setNavigate("/login");
@@ -96,13 +141,19 @@ const SignUp = () => {
             Sign in
           </button>
         </div>
-        <img src="" className="img-fluid" style={{ width: "100px" }} alt="Logo" />
+        <img
+          src=""
+          className="img-fluid"
+          style={{ width: "100px" }}
+          alt="Logo"
+        />
         <div className="sign-in-from">
           <h3 className="text-center">Sign Up</h3>
-          <p className="text-center text-dark">Register your account with 360Exam with your profession</p>
+          <p className="text-center text-dark">
+            Register your account with 360Exam with your profession
+          </p>
           <form className="mt-4" style={{ padding: "20px" }}>
             <div className="row">
-
               <div className="form-group">
                 <label htmlFor="name">Your Name</label>
                 <input
@@ -134,10 +185,43 @@ const SignUp = () => {
                   required
                 />
                 {formData.mobileError && (
-                  <small className="text-warning errmob">Enter Only Digits</small>
+                  <small className="text-warning errmob">
+                    Enter Only Digits
+                  </small>
                 )}
               </div>
-
+              <div className="form-group">
+                <label htmlFor="type">Type</label>
+                <select
+                  className="form-control"
+                  id="type"
+                  name="type"
+                  value={formData.type}
+                  onChange={handleChange}
+                  required
+                >
+                  <option value="">--Select--</option>
+                  <option value="School">School</option>
+                  <option value="Student">Student</option>
+                  <option value="Teacher">Teacher</option>
+                  <option value="Classes">Classes</option>
+                </select>
+              </div>
+              <div className="form-group">
+                <label htmlFor="type">Gender</label>
+                <select
+                  className="form-control"
+                  id="gender"
+                  name="gender"
+                  value={formData.gender}
+                  onChange={handleChange}
+                  required
+                >
+                  <option value="">--Select--</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                </select>
+              </div>
               <div className="form-group">
                 <label htmlFor="district">District</label>
                 <select
@@ -150,13 +234,43 @@ const SignUp = () => {
                 >
                   <option value="">--Select District--</option>
                   {[
-                    "Ahmedabad", "Amreli", "Anand", "Arvalli", "Banaskantha", "Bhavnagar", "Botad",
-                    "Chhotaudaipur", "Devbhumi Dwarka", "Dahod", "Dang", "Gandhinagar", "Gir Somnath",
-                    "Jamnagar", "Junagadh", "Kheda", "Kachchh", "Mahesana", "Mahisagar", "Morbi",
-                    "Narmada", "Navsari", "Panchmahal", "Patan", "Porbandar", "Rajkot",
-                    "Surendranagar", "Sabarkantha", "Surat", "Tapi", "Vadodara", "Valsad", "Other"
+                    "Ahmedabad",
+                    "Amreli",
+                    "Anand",
+                    "Arvalli",
+                    "Banaskantha",
+                    "Bhavnagar",
+                    "Botad",
+                    "Chhotaudaipur",
+                    "Devbhumi Dwarka",
+                    "Dahod",
+                    "Dang",
+                    "Gandhinagar",
+                    "Gir Somnath",
+                    "Jamnagar",
+                    "Junagadh",
+                    "Kheda",
+                    "Kachchh",
+                    "Mahesana",
+                    "Mahisagar",
+                    "Morbi",
+                    "Narmada",
+                    "Navsari",
+                    "Panchmahal",
+                    "Patan",
+                    "Porbandar",
+                    "Rajkot",
+                    "Surendranagar",
+                    "Sabarkantha",
+                    "Surat",
+                    "Tapi",
+                    "Vadodara",
+                    "Valsad",
+                    "Other",
                   ].map((district) => (
-                    <option key={district} value={district}>{district}</option>
+                    <option key={district} value={district}>
+                      {district}
+                    </option>
                   ))}
                 </select>
               </div>
@@ -175,48 +289,16 @@ const SignUp = () => {
                   required
                 />
               </div>
-
-              <div className="form-group">
-                <label htmlFor="type">Type</label>
-                <select
-                  className="form-control"
-                  id="type"
-                  name="type"
-                  value={formData.type}
-                  onChange={handleChange}
-                  required
-                >
-                  <option value="">--Select--</option>
-                  <option value="School">School</option>
-                  <option value="Student">Student</option>
-                  <option value="Teacher">Teacher</option>
-                  <option value="Classes">Classes</option>
-                </select>
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="codel">Referral Code <b>(Optional)</b></label>
-                <input
-                  type="text"
-                  name="codel"
-                  className="form-control"
-                  id="codel"
-                  placeholder="887788"
-                  minLength="6"
-                  maxLength="6"
-                  value={formData.codel}
-                  onChange={handleChange}
-                />
-                {formData.codelError && (
-                  <small className="text-warning errmob">Enter Only Digits</small>
-                )}
-              </div>
-
             </div>
 
             <div className="sign-info text-center">
-              <button type="button" id="verify_button" onClick={submitData}>
-                Register
+              <button
+                type="button"
+                id="verify_button"
+                onClick={submitData}
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? "Registering..." : "Register"}
               </button>
             </div>
           </form>

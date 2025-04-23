@@ -8,7 +8,7 @@ const path = require("path");
 
 const PORT = process.env.PORT || 8081;
 const VitePort = 5173;
-const APP_URL="https://localhost:4200"
+const APP_URL = "https://localhost:4200";
 
 const proxyOptions = {
   target: `http://127.0.0.1:${PORT}`,
@@ -20,27 +20,27 @@ const proxyOptions = {
 const host = APP_URL ? APP_URL.replace(/https?:\/\//, "") : "localhost";
 let hmrConfig;
 // if (host === "localhost") {
-//   hmrConfig = {
-//     protocol: "ws",
-//     host: "localhost",
-//     port: 64999,
-//     clientPort: 64999,
-//   };
+//  hmrConfig = {
+//   protocol: "ws",
+//   host: "localhost",
+//   port: 64999,
+//   clientPort: 64999,
+//  };
 // } else {
-//   hmrConfig = {
-//     protocol: "ws",
-//     host: "localhost",
-//     port: 64999,
-//     clientPort: 64999,
-//   };
+//  hmrConfig = {
+//   protocol: "ws",
+//   host: "localhost",
+//   port: 64999,
+//   clientPort: 64999,
+//  };
 // }
 
 export default defineConfig({
   define: {
-    "APP_URL": JSON.stringify(APP_URL),
+    APP_URL: JSON.stringify(APP_URL),
     appOrigin: JSON.stringify(APP_URL.replace(/https:\/\//, "")),
   },
-  plugins: [react(), reactRefresh()],
+  plugins: [react() /* , reactRefresh() */], // Using only @vitejs/plugin-react as it includes Fast Refresh
   build: {
     outDir: "../dist/client/",
     sourcemap: true,
@@ -53,7 +53,8 @@ export default defineConfig({
   server: {
     host: "localhost",
     port: VitePort,
-    hmr: hmrConfig,
+    hmr: true, // Keeping it simple, Vite handles the details
+    // hmr: hmrConfig, // Commenting out the custom hmrConfig
     proxy: {
       // Routes are kept separate on purpose
       // "^/uploads(/|(\\?.*)?$)": proxyOptions,

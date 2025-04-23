@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect } from "react";
 import { useAuthenticatedFetch } from "../../Api/Axios";
 import { navigate } from "../../Components/NavigationMenu";
 import { useLocation } from "react-router-dom";
+import {femaleIcon,maleIcon } from "../../Assets";
 
 const Header = () => {
   const setNavigate = navigate();
@@ -40,6 +41,13 @@ const Header = () => {
     setNavigate("/");
   };
 
+  const getProfileIcon = () => {
+    if (data.gender === "Male") {
+      return maleIcon;
+    } else if (data.gender === "Female") {
+      return femaleIcon;
+    }
+  };
   return (
     <div className="top-nav">
       <div>{url}</div>
@@ -48,7 +56,9 @@ const Header = () => {
           onClick={() => setShowPopup(!showPopup)}
           className="profile-toggle"
         >
-          <div className="user-avatar">👤</div>
+          <div className="user-avatar">
+            <img src={getProfileIcon()} alt="Profile Icon" />
+          </div>
           <div className="profile-info">
             <div className="profile-name">{data.name || "User"}</div>
             <div className="profile-type">{data.type || "Type"}</div>

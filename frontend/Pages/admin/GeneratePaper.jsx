@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useAuthenticatedFetch } from "../../Api/Axios";
 import Questionlist from "./questions";
-import GeneratePDF from "../generatePDF"; 
+import GeneratePDF from "../generatePDF";
 
 const GeneratePaper = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -35,10 +35,10 @@ const GeneratePaper = () => {
 
   const fetchData = useCallback(async () => {
     try {
-      const [boardRes, allData,header] = await Promise.all([
+      const [boardRes, allData, header] = await Promise.all([
         fetch.get("getBoardData"),
         fetch.get("getAllData"),
-        fetch.get("getHeaderData")
+        fetch.get("getHeaderData"),
       ]);
       const boardOptions = boardRes.data.map((item) => ({
         label: item.name,
@@ -46,7 +46,7 @@ const GeneratePaper = () => {
       }));
       setAllData(allData.data);
       setBoards(boardOptions);
-      setData(header.data[0])
+      setData(header.data[0]);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -65,10 +65,11 @@ const GeneratePaper = () => {
 
     if (name === "board") {
       const selectedBoard = allData.find((board) => board.name === value);
-      const stdOptions = selectedBoard?.standards?.map((std) => ({
-        label: std.name,
-        value: std._id,
-      })) || [];
+      const stdOptions =
+        selectedBoard?.standards?.map((std) => ({
+          label: std.name,
+          value: std._id,
+        })) || [];
 
       setStandards(stdOptions);
       setSemesters([]);
@@ -88,12 +89,13 @@ const GeneratePaper = () => {
       const selectedBoard = allData.find(
         (board) => board.name === formData.board
       );
-      const semOptions = selectedBoard?.semesters
-        ?.filter((sem) => sem.Standard_id === value)
-        .map((sem) => ({
-          label: sem.name,
-          value: sem._id,
-        })) || [];
+      const semOptions =
+        selectedBoard?.semesters
+          ?.filter((sem) => sem.Standard_id === value)
+          .map((sem) => ({
+            label: sem.name,
+            value: sem._id,
+          })) || [];
 
       setSemesters(semOptions);
       setSubjects([]);
@@ -111,19 +113,20 @@ const GeneratePaper = () => {
       const selectedBoard = allData.find(
         (board) => board.name === formData.board
       );
-      const subOptions = selectedBoard.subjects
-        .filter((sub) => sub.Semester_id === value)
-        .map((sub) => ({
-          label: sub.name,
-          value: sub._id,
-        })) || [];
+      const subOptions =
+        selectedBoard.subjects
+          .filter((sub) => sub.Semester_id === value)
+          .map((sub) => ({
+            label: sub.name,
+            value: sub._id,
+          })) || [];
 
       setSubjects(subOptions);
       setChapters([]);
       setFormData((prev) => ({
         ...prev,
         subject: "",
-        subjectName : "",
+        subjectName: "",
         chapter: "",
       }));
     }
@@ -132,12 +135,13 @@ const GeneratePaper = () => {
       const selectedBoard = allData.find(
         (board) => board.name === formData.board
       );
-      const chOptions = selectedBoard.chapters
-        .filter((ch) => ch.Subject_id === value)
-        .map((ch) => ({
-          label: ch.name,
-          value: ch._id,
-        })) || [];
+      const chOptions =
+        selectedBoard.chapters
+          .filter((ch) => ch.Subject_id === value)
+          .map((ch) => ({
+            label: ch.name,
+            value: ch._id,
+          })) || [];
 
       setChapters(chOptions);
       setFormData((prev) => ({
@@ -173,12 +177,10 @@ const GeneratePaper = () => {
                     : "Step 3"}
                 </h3>
                 <p>
-                  {stepNum === 1 &&
-                    "Select Board, Standard, Semester, Subject"}
+                  {stepNum === 1 && "Select Board, Standard, Semester, Subject"}
                   {stepNum === 2 &&
                     "Manage Paper Details Date, Time, Difficulty"}
-                  {stepNum === 3 &&
-                    "Choose Questions of Chapters & Subjects"}
+                  {stepNum === 3 && "Choose Questions of Chapters & Subjects"}
                 </p>
               </div>
             </div>
@@ -250,18 +252,6 @@ const GeneratePaper = () => {
                 ))}
               </select>
             </div>
-
-            <div className="form-group">
-              <label>Category</label>
-              <select
-                name="category"
-                value={formData.category}
-                onChange={handleChange}
-              >
-                <option value="ALL">ALL</option>
-                <option value="Custom">Custom</option>
-              </select>
-            </div>
           </div>
         )}
 
@@ -277,16 +267,6 @@ const GeneratePaper = () => {
                 max="2030-12-31"
                 onChange={handleChange}
                 required
-              />
-            </div>
-
-            <div className="form-group">
-              <label>Paper Type</label>
-              <input
-                type="text"
-                name="paperType"
-                value={formData.paperType}
-                onChange={handleChange}
               />
             </div>
 
@@ -362,8 +342,13 @@ const GeneratePaper = () => {
         </div>
       </div>
 
-      {currentStep === 3  && (
-        <Questionlist chapterId={formData.chapter} formData={formData} allData={allData} data={data} />
+      {currentStep === 3 && (
+        <Questionlist
+          chapterId={formData.chapter}
+          formData={formData}
+          allData={allData}
+          data={data}
+        />
       )}
     </div>
   );
