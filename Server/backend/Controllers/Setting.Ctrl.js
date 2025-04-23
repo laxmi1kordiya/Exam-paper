@@ -7,55 +7,6 @@ import {
   findOneAndUpdate,
 } from "../Model/common.js";
 
-export const getBoardData = async (req, res, next) => {
-  let rcResponse = new ApiResponse();
-  try {
-    rcResponse.data = await find("board", {});
-    return res.status(rcResponse.code).send(rcResponse);
-  } catch (err) {
-    next(err);
-  }
-};
-export const getStdData = async (req, res, next) => {
-  let rcResponse = new ApiResponse();
-  try {
-    rcResponse.data = await find("standard", {});
-    return res.status(rcResponse.code).send(rcResponse);
-  } catch (err) {
-    next(err);
-  }
-};
-
-export const getSemData = async (req, res, next) => {
-  let rcResponse = new ApiResponse();
-  try {
-    rcResponse.data = await find("semester", {});
-    return res.status(rcResponse.code).send(rcResponse);
-  } catch (err) {
-    next(err);
-  }
-};
-
-export const getSubData = async (req, res, next) => {
-  let rcResponse = new ApiResponse();
-  try {
-    rcResponse.data = await find("subject", {});
-    return res.status(rcResponse.code).send(rcResponse);
-  } catch (err) {
-    next(err);
-  }
-};
-
-export const getChapterData = async (req, res, next) => {
-  let rcResponse = new ApiResponse();
-  try {
-    rcResponse.data = await find("chapter", {});
-    return res.status(rcResponse.code).send(rcResponse);
-  } catch (err) {
-    next(err);
-  }
-};
-
 export const getAllData = async (req, res, next) => {
   try {
     const rcResponse = new ApiResponse();
@@ -66,171 +17,67 @@ export const getAllData = async (req, res, next) => {
   }
 };
 
-export const addBoardData = async (req, res, next) => {
-  let rcResponse = new ApiResponse();
-  let { body } = req;
+const handleGetAll = (modelName) => async (req, res, next) => {
+  const rcResponse = new ApiResponse();
+  try {
+    rcResponse.data = await find(modelName, {});
+    return res.status(rcResponse.code).send(rcResponse);
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const getBoardData = handleGetAll("board");
+export const getStdData = handleGetAll("standard");
+export const getSemData = handleGetAll("semester");
+export const getSubData = handleGetAll("subject");
+export const getChapterData = handleGetAll("chapter");
+export const getQuestions = handleGetAll("Question");
+export const getHeaderData = handleGetAll("paperSetting");
+
+const handleDelete = (modelName) => async (req, res, next) => {
+  const rcResponse = new ApiResponse();
+  const { id } = req.params;
+
+  try {
+    rcResponse.data = await deleteOne(modelName, { _id: id });
+    return res.status(rcResponse.code).send(rcResponse);
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const deleteBoardData = handleDelete("board");
+export const deleteStandardData = handleDelete("standard");
+export const deleteSemesterData = handleDelete("semester");
+export const deleteSubjectData = handleDelete("subject");
+export const deleteChapterData = handleDelete("chapter");
+export const deleteQuestionData = handleDelete("Question");
+
+const handleCreateOrUpdate = (modelName) => async (req, res, next) => {
+  const rcResponse = new ApiResponse();
+  const { body } = req;
+
   try {
     if (body._id) {
       rcResponse.data = await findOneAndUpdate(
-        "board",
+        modelName,
         { _id: body._id },
         body
       );
     } else {
-      rcResponse.data = await create("board", body);
+      rcResponse.data = await create(modelName, body);
     }
-    return res.status(rcResponse.code).send(rcResponse);
-  } catch (err) {
-    next(err);
-  }
-};
-export const deleteBoardData = async (req, res, next) => {
-  let rcResponse = new ApiResponse();
-  let { id } = req.params;
-  try {
-    rcResponse.data = await deleteOne("board", { _id: id });
-    return res.status(rcResponse.code).send(rcResponse);
-  } catch (err) {
-    next(err);
-  }
-};
 
-export const deleteStandardData = async (req, res, next) => {
-  let rcResponse = new ApiResponse();
-  let { id } = req.params;
-  try {
-    rcResponse.data = await deleteOne("standard", { _id: id });
     return res.status(rcResponse.code).send(rcResponse);
   } catch (err) {
     next(err);
   }
 };
-
-export const deleteSemesterData = async (req, res, next) => {
-  let rcResponse = new ApiResponse();
-  let { id } = req.params;
-  try {
-    rcResponse.data = await deleteOne("semester", { _id: id });
-    return res.status(rcResponse.code).send(rcResponse);
-  } catch (err) {
-    next(err);
-  }
-};
-
-export const deleteSubjectData = async (req, res, next) => {
-  let rcResponse = new ApiResponse();
-  let { id } = req.params;
-  try {
-    rcResponse.data = await deleteOne("subject", { _id: id });
-    return res.status(rcResponse.code).send(rcResponse);
-  } catch (err) {
-    next(err);
-  }
-};
-
-export const deleteChapterData = async (req, res, next) => {
-  let rcResponse = new ApiResponse();
-  let { id } = req.params;
-  try {
-    rcResponse.data = await deleteOne("chapter", { _id: id });
-    return res.status(rcResponse.code).send(rcResponse);
-  } catch (err) {
-    next(err);
-  }
-};
-export const addStandardData = async (req, res, next) => {
-  let rcResponse = new ApiResponse();
-  let { body } = req;
-  try {
-    rcResponse.data = await create("standard", body);
-    return res.status(rcResponse.code).send(rcResponse);
-  } catch (err) {
-    next(err);
-  }
-};
-
-export const addSemesterData = async (req, res, next) => {
-  let rcResponse = new ApiResponse();
-  let { body } = req;
-  try {
-    rcResponse.data = await create("semester", body);
-    return res.status(rcResponse.code).send(rcResponse);
-  } catch (err) {
-    next(err);
-  }
-};
-
-export const addSubjectData = async (req, res, next) => {
-  let rcResponse = new ApiResponse();
-  let { body } = req;
-  try {
-    rcResponse.data = await create("subject", body);
-    return res.status(rcResponse.code).send(rcResponse);
-  } catch (err) {
-    next(err);
-  }
-};
-
-export const addChapterData = async (req, res, next) => {
-  let rcResponse = new ApiResponse();
-  let { body } = req;
-  try {
-    rcResponse.data = await create("chapter", body);
-    return res.status(rcResponse.code).send(rcResponse);
-  } catch (err) {
-    next(err);
-  }
-};
-
-export const addSaveData = async (req, res, next) => {
-  let rcResponse = new ApiResponse();
-  let { body } = req;
-  try {
-    rcResponse.data = await create("paperSetting", body);
-    return res.status(rcResponse.code).send(rcResponse);
-  } catch (err) {
-    next(err);
-  }
-};
-
-export const getQuestions = async (req, res, next) => {
-  let rcResponse = new ApiResponse();
-  try {
-    rcResponse.data = await find("Question", {});
-    return res.status(rcResponse.code).send(rcResponse);
-  } catch (err) {
-    next(err);
-  }
-};
-
-export  const addQuestionData = async (req, res, next) => {
-  let rcResponse = new ApiResponse();
-  let { body } = req;
-  try {
-    rcResponse.data = await create("Question", body);
-    return res.status(rcResponse.code).send(rcResponse);
-  } catch (err) {
-    next(err);
-  }
-};
-
-export const deleteQuestionData = async (req, res, next) => {
-  let rcResponse = new ApiResponse();
-  let { id } = req.params;
-  try {
-    rcResponse.data = await deleteOne("Question", { _id: id });
-    return res.status(rcResponse.code).send(rcResponse);
-  } catch (err) {
-    next(err);
-  }
-};
-
-export const getHeaderData = async (req, res, next) => {
-  let rcResponse = new ApiResponse();
-  try {
-    rcResponse.data = await find("paperSetting", {});
-    return res.status(rcResponse.code).send(rcResponse);
-  } catch (err) {
-    next(err);
-  }
-};
+export const addBoardData = handleCreateOrUpdate("board");
+export const addStandardData = handleCreateOrUpdate("standard");
+export const addSemesterData = handleCreateOrUpdate("semester");
+export const addSubjectData = handleCreateOrUpdate("subject");
+export const addChapterData = handleCreateOrUpdate("chapter");
+export const addQuestionData = handleCreateOrUpdate("Question");
+export const addSaveData = handleCreateOrUpdate("paperSetting");

@@ -62,10 +62,8 @@ export default function ManageEducationData() {
 
   const handleSave = async () => {
     try {
-      if (!selectedItem) {
         const res = await fetch.post(apiEndpoints[activeTab].add, formData);
         if (res?.code === 200) setFormData({ name: "" });
-      }
       setShowModal(false);
       setSelectedItem(null);
       fetchData();
