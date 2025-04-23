@@ -14,6 +14,7 @@ import Home from "./Pages/Home";
 import GeneratePDF from "./Pages/generatePDF";
 import PaperSetting from "./Pages/admin/PaperSetting";
 import EducationManager from "./Pages/formData/GenerateTable";
+import QuestionTable from "./Pages/formData/QuestionTable";
 
 const Routes = () => {
   return (
@@ -28,6 +29,7 @@ const Routes = () => {
         <Route path="/about" element={<AboutUs />} />
         <Route path="/table" element={<EducationManager />} />
         <Route path="/header" element={<GeneratePDF />} />
+        <Route path="/questionTable" element={<QuestionTable />} />
 
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<MyDashboard />} />
