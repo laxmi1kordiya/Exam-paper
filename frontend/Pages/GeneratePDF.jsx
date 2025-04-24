@@ -21,21 +21,19 @@ const GeneratePDF = ({ formData, allData, selectedQuestions, data }) => {
   const getSectionTitle = (questionType) => {
     switch (questionType) {
       case "OneMarks":
-        return "નીચે આપેલા પ્રશ્નોના સંક્ષિપ્ત ઉત્તર આપો.";
+        return "Answer the following questions briefly.";
       case "TwoMarks":
-        return "નીચે આપેલા પ્રશ્નોના બે ગુણના ઉત્તર આપો.";
+        return "Answer the following questions with two marks each.";
       case "ThreeMarks":
-        return "નીચે આપેલા પ્રશ્નોના તણ ગુણના ઉત્તર આપો.";
+        return "Answer the following questions with three marks each.";
       case "FourMarks":
-        return "નીચે આપેલા પ્રશ્નોના ચાર ગુણના ઉત્તર આપો.";
+        return "Answer the following questions with four marks each.";
       case "FiveMarks":
-        return "નીચે આપેલા પ્રશ્નોના પાંચ ગુણના ઉત્તર આપો.";
+        return "Answer the following questions with five marks each.";
       default:
         return `${questionType.replace(/([A-Z])/g, " $1").trim()} Questions`;
     }
   };
-
-  const gujaratiNumbers = ["૧", "૨", "૩", "૪", "૫", "૬", "૭", "૮", "૯", "૧૦"]; // Add more if needed
 
   const handleDownload = () => {
     // Group selected questions by questionType
@@ -172,29 +170,27 @@ const GeneratePDF = ({ formData, allData, selectedQuestions, data }) => {
           style: "subheader",
           margin: [0, 20, 0, 5],
         },
-        // Dynamically generate content based on sections
+        // Dynamically generate content based on sections as numbered questions
         Object.keys(questionsBySection).length > 0 ? (
-          Object.keys(questionsBySection).map((sectionKey) => [
+          Object.keys(questionsBySection).map((sectionKey, sectionIndex) => [
             {
-              text: `Section ${sectionMapping[sectionKey]}`,
+              text: `Section ${sectionMapping[sectionKey]}`, // Added Section Label
               style: "sectionHeader",
-              alignment: "center", // Center the section title
+              alignment: "center",
               margin: [0, 15, 0, 5],
             },
             {
-              text: getSectionTitle(sectionKey), // Use the translated title
-              style: "summaryTitle",
-              alignment: "left", // Align to the left
+              text: `Q.${sectionIndex + 1}. ${getSectionTitle(sectionKey)}`,
+              style: "sectionAsQuestion", // New style for the section title
               margin: [0, 5, 0, 5],
             },
             {
-              ol: questionsBySection[sectionKey].map((question, index) => ({
-                text: `પ્રશ્ન.${gujaratiNumbers[index % gujaratiNumbers.length]}. ${
-                  question.question || "No question text"
-                }`,
-                margin: [0, 0, 0, 12],
+              ol: questionsBySection[sectionKey].map((question) => ({
+                text: question.question || "No question text",
+                margin: [0, 0, 0, 10],
               })),
-              style: "questionList",
+              style: "individualQuestions", // New style for the individual questions
+              margin: [15, 0, 0, 15], // Indent the individual questions
             },
           ])
         ) : (
@@ -224,22 +220,22 @@ const GeneratePDF = ({ formData, allData, selectedQuestions, data }) => {
           decoration: "underline",
           margin: [0, 10, 0, 5],
         },
-        sectionHeader: {
+        sectionHeader: { // Style for the Section Label
           fontSize: 12,
           bold: true,
           margin: [0, 10, 0, 5],
         },
-        summaryTitle: {
-          fontSize: 11, // Normal font size, not bold
+        sectionAsQuestion: {
+          fontSize: 12,
+          bold: true,
           margin: [0, 5, 0, 5],
+        },
+        individualQuestions: {
+          fontSize: 11,
         },
         instructions: {
           fontSize: 10,
           margin: [0, 0, 0, 8],
-        },
-        questionList: {
-          fontSize: 11,
-          margin: [0, 5, 5, 5],
         },
         noQuestions: {
           fontSize: 11,
