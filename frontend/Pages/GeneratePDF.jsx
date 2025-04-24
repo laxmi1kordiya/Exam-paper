@@ -1,5 +1,4 @@
-// generatepdf.jsx
-import React, { useEffect, useState } from "react";
+import React from "react";
 import pdfMake from "../Utils/pdfMakeWrapper";
 
 const GeneratePDF = ({ formData, allData, selectedQuestions, data }) => {
@@ -19,7 +18,43 @@ const GeneratePDF = ({ formData, allData, selectedQuestions, data }) => {
     return data ? data.name : null;
   };
 
+  const getSectionTitle = (questionType) => {
+    switch (questionType) {
+      case "OneMarks":
+        return "નીચે આપેલા પ્રશ્નોના સંક્ષિપ્ત ઉત્તર આપો.";
+      case "TwoMarks":
+        return "નીચે આપેલા પ્રશ્નોના બે ગુણના ઉત્તર આપો.";
+      case "ThreeMarks":
+        return "નીચે આપેલા પ્રશ્નોના તણ ગુણના ઉત્તર આપો.";
+      case "FourMarks":
+        return "નીચે આપેલા પ્રશ્નોના ચાર ગુણના ઉત્તર આપો.";
+      case "FiveMarks":
+        return "નીચે આપેલા પ્રશ્નોના પાંચ ગુણના ઉત્તર આપો.";
+      default:
+        return `${questionType.replace(/([A-Z])/g, " $1").trim()} Questions`;
+    }
+  };
+
+  const gujaratiNumbers = ["૧", "૨", "૩", "૪", "૫", "૬", "૭", "૮", "૯", "૧૦"]; // Add more if needed
+
   const handleDownload = () => {
+    // Group selected questions by questionType
+    const questionsBySection = {};
+    selectedQuestions.forEach((question) => {
+      if (!questionsBySection[question.questionType]) {
+        questionsBySection[question.questionType] = [];
+      }
+      questionsBySection[question.questionType].push(question);
+    });
+
+    // Map questionTypes to Section labels (Section A, Section B, etc.)
+    const sectionLabels = ["A", "B", "C", "D", "E"];
+    const sectionKeys = Object.keys(questionsBySection);
+    const sectionMapping = {};
+    sectionKeys.forEach((key, index) => {
+      sectionMapping[key] = sectionLabels[index] || `Section ${index + 1}`; // Fallback if more than 5 sections
+    });
+
     const docDefinition = {
       content: [
         {
@@ -79,7 +114,6 @@ const GeneratePDF = ({ formData, allData, selectedQuestions, data }) => {
                   }`,
                   style: "label",
                 },
-               
                 { text: "Total Marks :", style: "label" },
                 {
                   text: formData?.totalMarks || "_________________",
@@ -134,19 +168,38 @@ const GeneratePDF = ({ formData, allData, selectedQuestions, data }) => {
           style: "instructions",
         },
         {
-          text: "Questions:",
+          text: "",
           style: "subheader",
           margin: [0, 20, 0, 5],
         },
-        selectedQuestions && selectedQuestions.length > 0
-          ? {
-              ol: selectedQuestions.map((question, index) => ({
-                text: `${index + 1}. ${question ? question.name : " "}`,
-                margin: [0, 0, 0, 12], // Adds bottom space like in normal papers
+        // Dynamically generate content based on sections
+        Object.keys(questionsBySection).length > 0 ? (
+          Object.keys(questionsBySection).map((sectionKey) => [
+            {
+              text: `Section ${sectionMapping[sectionKey]}`,
+              style: "sectionHeader",
+              alignment: "center", // Center the section title
+              margin: [0, 15, 0, 5],
+            },
+            {
+              text: getSectionTitle(sectionKey), // Use the translated title
+              style: "summaryTitle",
+              alignment: "left", // Align to the left
+              margin: [0, 5, 0, 5],
+            },
+            {
+              ol: questionsBySection[sectionKey].map((question, index) => ({
+                text: `પ્રશ્ન.${gujaratiNumbers[index % gujaratiNumbers.length]}. ${
+                  question.question || "No question text"
+                }`,
+                margin: [0, 0, 0, 12],
               })),
               style: "questionList",
-            }
-          : { text: "No questions selected.", style: "noQuestions" },
+            },
+          ])
+        ) : (
+          { text: "No questions selected.", style: "noQuestions" }
+        ),
       ],
       styles: {
         website: {
@@ -170,6 +223,15 @@ const GeneratePDF = ({ formData, allData, selectedQuestions, data }) => {
           bold: true,
           decoration: "underline",
           margin: [0, 10, 0, 5],
+        },
+        sectionHeader: {
+          fontSize: 12,
+          bold: true,
+          margin: [0, 10, 0, 5],
+        },
+        summaryTitle: {
+          fontSize: 11, // Normal font size, not bold
+          margin: [0, 5, 0, 5],
         },
         instructions: {
           fontSize: 10,

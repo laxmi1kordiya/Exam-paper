@@ -53,7 +53,7 @@ export default defineConfig({
   server: {
     host: "localhost",
     port: VitePort,
-    hmr: true, // Keeping it simple, Vite handles the details
+    // hmr: true, 
     // hmr: hmrConfig, // Commenting out the custom hmrConfig
     proxy: {
       // Routes are kept separate on purpose
