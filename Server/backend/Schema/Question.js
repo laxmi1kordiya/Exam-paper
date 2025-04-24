@@ -15,6 +15,10 @@ const Questionschema = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "chapter",
   },
+  Board_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "board",
+  },
 });
 
 const Question = mongoose.model("Question", Questionschema);
