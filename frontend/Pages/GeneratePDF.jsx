@@ -1,5 +1,6 @@
 import React from "react";
-import pdfMake from "../Utils/pdfMakeWrapper";
+import { jsPDF } from "jspdf";
+import { addGujaratiFont } from "../Utils/addGujaratiFont";
 
 const GeneratePDF = ({ formData, allData, selectedQuestions, data }) => {
   const findData = (formData, type) => {
@@ -33,7 +34,17 @@ const GeneratePDF = ({ formData, allData, selectedQuestions, data }) => {
   };
 
   const handleDownload = () => {
-    const defaultFont = formData?.board === "GSEB-GUJ" ? "NotoSansGujarati" : "Roboto";
+    const doc = new jsPDF();
+
+    // 1. Add Gujarati font into jsPDF
+    addGujaratiFont(doc);
+
+    // 2. Set font based on Board
+    if (formData?.board === "GSEB-GUJ") {
+      doc.setFont("NotoSansGujarati");
+    } else {
+      doc.setFont("Helvetica");
+    }
 
     const questionsBySection = {};
     selectedQuestions.forEach((question) => {
@@ -50,129 +61,70 @@ const GeneratePDF = ({ formData, allData, selectedQuestions, data }) => {
       sectionMapping[key] = sectionLabels[index] || `Section ${index + 1}`;
     });
 
-    const docDefinition = {
-      content: [
-        {
-          columns: [
-            {
-              image: data.logoPreview ? data.logoPreview : undefined,
-              width: data.logoPreview ? 60 : 0,
-            },
-            {
-              stack: [
-                { text: data.title, style: "website", alignment: "center" },
-                { text: data.subtitle, style: "generatedBy", alignment: "center" },
-              ],
-              width: "*",
-            },
-            { text: "", width: "auto" },
-          ],
-          margin: [0, 0, 0, 5],
-        },
-        {
-          table: {
-            widths: ["auto", "*", "auto", "*"],
-            body: [
-              [
-                { text: "Student Name :", style: "label" },
-                { text: "__________________________________", style: "value" },
-                { text: "Roll No. :", style: "label" },
-                { text: formData?.rollNo || "_________________", style: "value" },
-              ],
-              [
-                {
-                  text: `Std : ${findData(formData, "standard") || "_________________"}`,
-                  style: "label",
-                },
-                {
-                  text: `Subject : ${findData(formData, "subject") || "_________________"}`,
-                  style: "label",
-                },
-                { text: "Total Marks :", style: "label" },
-                { text: formData?.totalMarks || "_________________", style: "value" },
-              ],
-              [
-                {
-                  text: `Date : ${
-                    formData?.date
-                      ? new Date(formData.date).toLocaleDateString()
-                      : "_________________"
-                  }`,
-                  style: "value",
-                },
-                "", 
-                { text: "Obtain Marks :", style: "label" },
-                { text: formData?.obtainMarks || "_________________", style: "value" },
-              ],
-            ],
-          },
-          layout: "noBorders",
-        },
-        {
-          canvas: [
-            { type: "line", x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 1, lineColor: "#000" },
-          ],
-          margin: [0, 10, 0, 10],
-        },
-        {
-          text: "Instructions:",
-          style: "subheader",
-          margin: [0, 0, 0, 5],
-        },
-        {
-          ul: [
-            "Read all questions carefully.",
-            "Answer all questions in the given space.",
-            "No electronic gadgets allowed.",
-          ],
-          style: "instructions",
-        },
-        {
-          text: "",
-          style: "subheader",
-          margin: [0, 20, 0, 5],
-        },
-        ...Object.keys(questionsBySection).length > 0
-          ? sectionKeys.flatMap((sectionKey, sectionIndex) => ([
-              {
-                text: `Section ${sectionMapping[sectionKey]}`,
-                style: "sectionHeader",
-                alignment: "center",
-                margin: [0, 15, 0, 5],
-              },
-              {
-                text: `Q.${sectionIndex + 1}. ${getSectionTitle(sectionKey)}`,
-                style: "sectionAsQuestion",
-                margin: [0, 5, 0, 5],
-              },
-              {
-                ol: questionsBySection[sectionKey].map((question) => ({
-                  text: question.question || "No question text",
-                  margin: [0, 0, 0, 10],
-                })),
-                style: "individualQuestions",
-                margin: [15, 0, 0, 15],
-              },
-            ]))
-          : [{ text: "No questions selected.", style: "noQuestions" }],
-      ],
-      styles: {
-        website: { fontSize: 14, bold: true },
-        generatedBy: { fontSize: 10 },
-        label: { fontSize: 11, bold: true, margin: [0, 2, 5, 2] },
-        value: { fontSize: 11, margin: [0, 2, 0, 2] },
-        subheader: { fontSize: 13, bold: true, decoration: "underline", margin: [0, 10, 0, 5] },
-        sectionHeader: { fontSize: 12, bold: true, margin: [0, 10, 0, 5] },
-        sectionAsQuestion: { fontSize: 12, bold: true, margin: [0, 5, 0, 5] },
-        individualQuestions: { fontSize: 11 },
-        instructions: { fontSize: 10, margin: [0, 0, 0, 8] },
-        noQuestions: { fontSize: 11, italics: true, margin: [0, 5, 0, 5] },
-      },
-      pageMargins: [40, 20, 40, 40],
-      defaultStyle: { font: defaultFont },
-    };
+    // Adding header (logo, title, subtitle)
+    let yPosition = 10;
+    if (data.logoPreview) {
+      doc.addImage(data.logoPreview, "PNG", 10, yPosition, 40, 40);
+      yPosition += 40;
+    }
+    doc.setFontSize(14);
+    doc.text(String(data.title || ""), 105, yPosition, { align: "center" });
+    yPosition += 10;
+    doc.setFontSize(10);
+    doc.text(String(data.subtitle || ""), 105, yPosition, { align: "center" });
+    yPosition += 10;
 
-    pdfMake.createPdf(docDefinition).download("generate-paper.pdf");
+    // Student Info
+    const studentInfo = [
+      { label: "Student Name", value: "__________________________________" },
+      { label: "Roll No.", value: formData?.rollNo || "_________________" },
+      { label: `Std: ${findData(formData, "standard") || "_________________"}`, value: `Subject: ${findData(formData, "subject") || "_________________"}` },
+      { label: "Total Marks", value: formData?.totalMarks || "_________________" },
+      { label: `Date: ${formData?.date ? new Date(formData.date).toLocaleDateString() : "_________________"}`, value: "" },
+      { label: "Obtain Marks", value: formData?.obtainMarks || "_________________" }
+    ];
+
+    let tableYPosition = yPosition + 20;
+    studentInfo.forEach((info) => {
+      doc.text(String(info.label), 10, tableYPosition);
+      doc.text(String(info.value), 80, tableYPosition);
+      tableYPosition += 10;
+    });
+
+    // Instructions
+    yPosition = tableYPosition + 10;
+    doc.setFontSize(13);
+    doc.text("Instructions:", 10, yPosition);
+    doc.setFontSize(10);
+    doc.text("1. Read all questions carefully.", 10, yPosition + 10);
+    doc.text("2. Answer all questions in the given space.", 10, yPosition + 15);
+    doc.text("3. No electronic gadgets allowed.", 10, yPosition + 20);
+
+    // Sections and Questions
+    let sectionY = yPosition + 35;
+    Object.keys(questionsBySection).forEach((sectionKey) => {
+      doc.setFontSize(12);
+      doc.text(`Section ${sectionMapping[sectionKey]}`, 10, sectionY);
+      sectionY += 10;
+      doc.setFontSize(11);
+      doc.text(getSectionTitle(sectionKey), 10, sectionY);
+      sectionY += 10;
+
+      questionsBySection[sectionKey].forEach((question, idx) => {
+        let questionText = `Q.${idx + 1}. ${question.question || "No question text"}`;
+        doc.text(questionText, 10, sectionY);
+        sectionY += 10;
+
+        // If sectionY crosses page limit, add new page
+        if (sectionY > 270) {
+          doc.addPage();
+          sectionY = 20;
+        }
+      });
+    });
+
+    // Save the PDF
+    doc.save("generate-paper.pdf");
   };
 
   return <button onClick={handleDownload}>Download PDF</button>;
