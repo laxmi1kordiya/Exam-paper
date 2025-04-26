@@ -14,8 +14,6 @@ export default function QuestionTable() {
   const [selectedChapter, setSelectedChapter] = useState("");
   const [questionList, setQuestionList] = useState([{ question: "" }]);
   const [questionType, setQuestionType] = useState("OneMarks");
-  const [showModal, setShowModal] = useState(false);
-  const [showQuestion, setShowQuestion] = useState(false);
   const [filteredQuestions, setFilteredQuestions] = useState([]);
   const [questionData, setQuestionData] = useState([]);
 
@@ -98,20 +96,16 @@ export default function QuestionTable() {
 
   const handleTypeChange = (e) => {
     const selectedId = e.target.value;
-    console.log(selectedId, "selectedId");
-
     const questionOptions = filteredQuestions?.filter(
       (q) => q.questionType === selectedId
     );
     setQuestionData(questionOptions[0].questionList);
-    setShowModal(false)
   };
 
   const handleQuestionChange = (index, value) => {
     const updatedList = [...questionList];
     updatedList[index].question = value;
     setQuestionList(updatedList);
-
   };
 
   const addNewQuestion = () => {
@@ -152,184 +146,91 @@ export default function QuestionTable() {
   const openModal = () => {
     setShowModal(true);
   };
-  const showModals = () => {
-    setShowQuestion(true);
-  };
+
   return (
     <div className="content-page">
       <div className="main-content">
-        <button onClick={() => openModal()}> Add Question</button>
+        <h2 className="text-xl font-semibold mb-4">Add Questions</h2>
 
-        {showModal && (
-          <div className="modal-backdrop">
-            <div className="modal">
-              <h2 className="text-xl font-semibold mb-4">Add Questions</h2>
+        <div>
+          <select value={selectedBoard} onChange={handleBoardChange}>
+            <option value="">Select Board</option>
+            {boardList.map((board) => (
+              <option key={board.value} value={board.value}>
+                {board.label}
+              </option>
+            ))}
+          </select>
 
-              {/* Form Starts Here */}
-              <div>
-                <select value={selectedBoard} onChange={handleBoardChange}>
-                  <option value="">Select Board</option>
-                  {boardList.map((board) => (
-                    <option key={board.value} value={board.value}>
-                      {board.label}
-                    </option>
-                  ))}
-                </select>
+          <select value={selectedStandard} onChange={handleStandardChange}>
+            <option value="">Select Standard</option>
+            {standardList.map((std) => (
+              <option key={std.value} value={std.value}>
+                {std.label}
+              </option>
+            ))}
+          </select>
 
-                <select
-                  value={selectedStandard}
-                  onChange={handleStandardChange}
-                >
-                  <option value="">Select Standard</option>
-                  {standardList.map((std) => (
-                    <option key={std.value} value={std.value}>
-                      {std.label}
-                    </option>
-                  ))}
-                </select>
+          <select value={selectedSubject} onChange={handleSubjectChange}>
+            <option value="">Select Subject</option>
+            {subjectList.map((subj) => (
+              <option key={subj.value} value={subj.value}>
+                {subj.label}
+              </option>
+            ))}
+          </select>
 
-                <select value={selectedSubject} onChange={handleSubjectChange}>
-                  <option value="">Select Subject</option>
-                  {subjectList.map((subj) => (
-                    <option key={subj.value} value={subj.value}>
-                      {subj.label}
-                    </option>
-                  ))}
-                </select>
+          <select value={selectedChapter} onChange={handleChapterChange}>
+            <option value="">Select Chapter</option>
+            {chapterList.map((chap) => (
+              <option key={chap.value} value={chap.value}>
+                {chap.label}
+              </option>
+            ))}
+          </select>
 
-                <select value={selectedChapter} onChange={handleChapterChange}>
-                  <option value="">Select Chapter</option>
-                  {chapterList.map((chap) => (
-                    <option key={chap.value} value={chap.value}>
-                      {chap.label}
-                    </option>
-                  ))}
-                </select>
+          <select value={questionType} onChange={handleTypeChange}>
+            <option value="OneMarks">Question Type</option>
+            <option value="OneMarks">One Marks</option>
+            <option value="TwoMarks">Two Marks</option>
+            <option value="ThreeMarks">Three Marks</option>
+          </select>
 
-                <select
-                  value={questionType}
-                  onChange={(e) => setQuestionType(e.target.value)}
-                >
-                  <option value="OneMarks">One Marks</option>
-                  <option value="TwoMarks">Two Marks</option>
-                  <option value="ThreeMarks">Three Marks</option>
-                </select>
-
-                {questionList.map((q, index) => (
-                  <div key={index} className="flex gap-2 mb-2">
-                    <input
-                      type="text"
-                      value={q.question}
-                      onChange={(e) =>
-                        handleQuestionChange(index, e.target.value)
-                      }
-                      className="w-full p-2 border rounded"
-                      placeholder={`Question ${index + 1}`}
-                    />
-                    {questionList.length > 1 && (
-                      <button
-                        type="button"
-                        onClick={() => removeQuestion(index)}
-                        className="text-red-500 font-bold"
-                      >
-                        ×
-                      </button>
-                    )}
-                  </div>
-                ))}
+          {questionList.map((q, index) => (
+            <div key={index} className="flex gap-2 mb-2">
+              <input
+                type="text"
+                value={q.question}
+                onChange={(e) => handleQuestionChange(index, e.target.value)}
+                className="w-full p-2 border rounded"
+                placeholder={`Question ${index + 1}`}
+              />
+              {questionList.length > 1 && (
                 <button
                   type="button"
-                  onClick={addNewQuestion}
-                  className="bg-gray-200 text-sm px-3 py-1 rounded w-fit"
+                  onClick={() => removeQuestion(index)}
+                  className="text-red-500 font-bold"
                 >
-                  + Add Question
+                  ×
                 </button>
-
-                <button
-                  onClick={handleSaveQuestions}
-                  className="bg-green-600 text-white px-6 py-2 rounded mt-4"
-                >
-                  Save Questions
-                </button>
-                <button
-                  onClick={() => {
-                    setShowModal(false);
-                  }}
-                >
-                  Cancel
-                </button>
-              </div>
+              )}
             </div>
-          </div>
-        )}
+          ))}
+          <button
+            type="button"
+            onClick={addNewQuestion}
+            className="bg-gray-200 text-sm px-3 py-1 rounded w-fit"
+          >
+            + Add Question
+          </button>
 
-        <button onClick={() => showModals()}> show Question</button>
-
-        {showQuestion && (
-          <div className="modal-backdrop">
-            <div className="modal">
-              <h2 className="text-xl font-semibold mb-4">
-                show Questions List
-              </h2>
-
-              {/* Form Starts Here */}
-              <div>
-                <select value={selectedBoard} onChange={handleBoardChange}>
-                  <option value="">Select Board</option>
-                  {boardList.map((board) => (
-                    <option key={board.value} value={board.value}>
-                      {board.label}
-                    </option>
-                  ))}
-                </select>
-
-                <select
-                  value={selectedStandard}
-                  onChange={handleStandardChange}
-                >
-                  <option value="">Select Standard</option>
-                  {standardList.map((std) => (
-                    <option key={std.value} value={std.value}>
-                      {std.label}
-                    </option>
-                  ))}
-                </select>
-
-                <select value={selectedSubject} onChange={handleSubjectChange}>
-                  <option value="">Select Subject</option>
-                  {subjectList.map((subj) => (
-                    <option key={subj.value} value={subj.value}>
-                      {subj.label}
-                    </option>
-                  ))}
-                </select>
-
-                <select value={selectedChapter} onChange={handleChapterChange}>
-                  <option value="">Select Chapter</option>
-                  {chapterList.map((chap) => (
-                    <option key={chap.value} value={chap.value}>
-                      {chap.label}
-                    </option>
-                  ))}
-                </select>
-
-                <select value={questionType} onChange={handleTypeChange}>
-                  <option value="OneMarks">One Marks</option>
-                  <option value="TwoMarks">Two Marks</option>
-                  <option value="ThreeMarks">Three Marks</option>
-                </select>
-
-                <button
-                  onClick={() => {
-                    setShowQuestion(false);
-                  }}
-                >
-                  Cancel
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
+          <button
+            onClick={handleSaveQuestions}
+            className="bg-green-600 text-white px-6 py-2 rounded mt-4"
+          >
+            Save Questions
+          </button>
+        </div>
 
         <table border="1" cellPadding="8">
           <thead>
