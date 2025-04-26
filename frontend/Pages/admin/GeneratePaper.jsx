@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useAuthenticatedFetch } from "../../Api/Axios";
 import Questionlist from "./questions";
-import GeneratePDF from "../generatePDF";
 
 const GeneratePaper = () => {
   const [currentStep, setCurrentStep] = useState(1);

@@ -11,10 +11,10 @@ import AdminLayout from "./Pages/admin/AdminLayout";
 import PurchasePackage from "./Pages/admin/PurchasePackage";
 import SignUp from "./Pages/SignUp";
 import Home from "./Pages/Home";
-import GeneratePDF from "./Pages/generatePDF";
 import PaperSetting from "./Pages/admin/PaperSetting";
 import EducationManager from "./Pages/formData/GenerateTable";
 import QuestionTable from "./Pages/formData/QuestionTable";
+import GeneratePDF from "./Pages/GeneratePDF";
 
 const Routes = () => {
   return (
