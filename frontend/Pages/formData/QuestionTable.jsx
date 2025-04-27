@@ -13,7 +13,7 @@ export default function QuestionTable() {
   const [selectedSubject, setSelectedSubject] = useState("");
   const [selectedChapter, setSelectedChapter] = useState("");
   const [questionList, setQuestionList] = useState([{ question: "" }]);
-  const [questionType, setQuestionType] = useState("OneMarks");
+  const [questionType, setQuestionType] = useState("");
   const [filteredQuestions, setFilteredQuestions] = useState([]);
   const [questionData, setQuestionData] = useState([]);
 
@@ -23,89 +23,98 @@ export default function QuestionTable() {
 
   const fetchData = async () => {
     try {
-      const [all] = await Promise.all([fetch.get("getAllData")]);
-      setAllData(all.data || []);
+      const { data } = await fetch.get("getAllData");
+      setAllData(data || []);
 
-      const boardOptions = all.data.map((b) => ({
+      const boardOptions = (data || []).map((b) => ({
         label: b.name,
         value: b._id,
       }));
       setBoardList(boardOptions);
     } catch (err) {
-      console.error(`Error fetching data`, err);
+      console.error("Error fetching data", err);
+    }
+  };
+
+  const resetSelections = (level) => {
+    if (level === "board") {
+      setSelectedStandard("");
+      setSelectedSubject("");
+      setSelectedChapter("");
+      setStandardList([]);
+      setSubjectList([]);
+      setChapterList([]);
+    }
+    if (level === "standard") {
+      setSelectedSubject("");
+      setSelectedChapter("");
+      setSubjectList([]);
+      setChapterList([]);
+    }
+    if (level === "subject") {
+      setSelectedChapter("");
+      setChapterList([]);
     }
   };
 
   const handleBoardChange = (e) => {
-    const selectedId = e.target.value;
-    setSelectedBoard(selectedId);
-    setSelectedStandard("");
-    setSelectedSubject("");
-    setSelectedChapter("");
+    const id = e.target.value;
+    setSelectedBoard(id);
+    resetSelections("board");
 
-    const selectedBoardData = allData.find((b) => b._id === selectedId);
-    const standardOptions =
-      selectedBoardData?.standards?.map((s) => ({
-        label: s.name,
-        value: s._id,
-      })) || [];
-    setStandardList(standardOptions);
-    setSubjectList([]);
-    setChapterList([]);
+    const board = allData.find((b) => b._id === id);
+    const standards = board?.standards?.map((s) => ({ label: s.name, value: s._id })) || [];
+    setStandardList(standards);
   };
 
   const handleStandardChange = (e) => {
-    const selectedId = e.target.value;
-    setSelectedStandard(selectedId);
-    setSelectedSubject("");
-    setSelectedChapter("");
+    const id = e.target.value;
+    setSelectedStandard(id);
+    resetSelections("standard");
 
-    const boardData = allData.find((b) => b._id === selectedBoard);
-    const subjectOptions =
-      boardData?.subjects
-        ?.filter((s) => s.Standard_id === selectedId)
-        ?.map((s) => ({ label: s.name, value: s._id })) || [];
-
-    setSubjectList(subjectOptions);
-    setChapterList([]);
+    const board = allData.find((b) => b._id === selectedBoard);
+    const subjects = board?.subjects
+      ?.filter((s) => s.Standard_id === id)
+      ?.map((s) => ({ label: s.name, value: s._id })) || [];
+    setSubjectList(subjects);
   };
 
   const handleSubjectChange = (e) => {
-    const selectedId = e.target.value;
-    setSelectedSubject(selectedId);
-    setSelectedChapter("");
+    const id = e.target.value;
+    setSelectedSubject(id);
+    resetSelections("subject");
 
-    const boardData = allData.find((b) => b._id === selectedBoard);
-    const chapterOptions =
-      boardData?.chapters
-        ?.filter((c) => c.Subject_id === selectedId)
-        ?.map((c) => ({ label: c.name, value: c._id })) || [];
-
-    setChapterList(chapterOptions);
+    const board = allData.find((b) => b._id === selectedBoard);
+    const chapters = board?.chapters
+      ?.filter((c) => c.Subject_id === id)
+      ?.map((c) => ({ label: c.name, value: c._id })) || [];
+    setChapterList(chapters);
   };
 
   const handleChapterChange = (e) => {
-    const selectedId = e.target.value;
-    setSelectedChapter(selectedId);
-    const boardData = allData.find((b) => b._id === selectedBoard);
-    const questionOptions = boardData?.questions?.filter(
-      (q) => q.Chapter_id === selectedId
-    );
-    setFilteredQuestions(questionOptions);
+    const id = e.target.value;
+    setSelectedChapter(id);
+
+    const board = allData.find((b) => b._id === selectedBoard);
+    const questions = board?.questions?.filter((q) => q.Chapter_id === id) || [];
+    setFilteredQuestions(questions);
+    setQuestionData([]);
   };
 
   const handleTypeChange = (e) => {
-    const selectedId = e.target.value;
-    const questionOptions = filteredQuestions?.filter(
-      (q) => q.questionType === selectedId
-    );
-    setQuestionData(questionOptions[0].questionList);
+    const type = e.target.value;
+    setQuestionType(type);
+
+    const questions = filteredQuestions?.filter((q) => q.questionType === type);
+
+    const combinedQuestions = questions.flatMap(q => q.questionList || []);
+    setQuestionData(combinedQuestions);
   };
 
   const handleQuestionChange = (index, value) => {
-    const updatedList = [...questionList];
-    updatedList[index].question = value;
-    setQuestionList(updatedList);
+    const updated = [...questionList];
+    updated[index].question = value;
+    setQuestionList(updated);
   };
 
   const addNewQuestion = () => {
@@ -113,8 +122,7 @@ export default function QuestionTable() {
   };
 
   const removeQuestion = (index) => {
-    const updatedList = questionList.filter((_, i) => i !== index);
-    setQuestionList(updatedList);
+    setQuestionList((prev) => prev.filter((_, i) => i !== index));
   };
 
   const handleSaveQuestions = async () => {
@@ -127,15 +135,12 @@ export default function QuestionTable() {
       questionType,
       Chapter_id: selectedChapter,
       Board_id: selectedBoard,
-      questionList: questionList.map((q) => ({
-        question: q.question,
-      })),
+      questionList: questionList,
     };
 
     try {
       await fetch.post("/addQuestionData", payload);
       alert("Questions saved successfully!");
-      setShowModal(false);
       setQuestionList([{ question: "" }]);
       document.getElementById("modal-toggle").checked = false;
     } catch (error) {
@@ -143,8 +148,20 @@ export default function QuestionTable() {
       alert("Error saving questions.");
     }
   };
-  const openModal = () => {
-    setShowModal(true);
+
+  const openModal = (row) => {
+    setQuestionList([{ question: row.question }]);
+    setQuestionType(row.questionType || "");
+  };
+
+  const handleDelete = async (item) => {
+    const mainId = selectedChapter; 
+    const questionId = item.q_id;
+    try {
+      await fetch.delete(`deleteOneQuestion/${mainId}/${questionId}`);
+    } catch (err) {
+      console.error("Error deleting question", err);
+    }
   };
 
   return (
@@ -156,61 +173,48 @@ export default function QuestionTable() {
           <select value={selectedBoard} onChange={handleBoardChange}>
             <option value="">Select Board</option>
             {boardList.map((board) => (
-              <option key={board.value} value={board.value}>
-                {board.label}
-              </option>
+              <option key={board.value} value={board.value}>{board.label}</option>
             ))}
           </select>
 
           <select value={selectedStandard} onChange={handleStandardChange}>
             <option value="">Select Standard</option>
             {standardList.map((std) => (
-              <option key={std.value} value={std.value}>
-                {std.label}
-              </option>
+              <option key={std.value} value={std.value}>{std.label}</option>
             ))}
           </select>
 
           <select value={selectedSubject} onChange={handleSubjectChange}>
             <option value="">Select Subject</option>
             {subjectList.map((subj) => (
-              <option key={subj.value} value={subj.value}>
-                {subj.label}
-              </option>
+              <option key={subj.value} value={subj.value}>{subj.label}</option>
             ))}
           </select>
 
           <select value={selectedChapter} onChange={handleChapterChange}>
             <option value="">Select Chapter</option>
             {chapterList.map((chap) => (
-              <option key={chap.value} value={chap.value}>
-                {chap.label}
-              </option>
+              <option key={chap.value} value={chap.value}>{chap.label}</option>
             ))}
           </select>
 
           <select value={questionType} onChange={handleTypeChange}>
-            <option value="OneMarks">Question Type</option>
+            <option value="">Question Type</option>
             <option value="OneMarks">One Marks</option>
             <option value="TwoMarks">Two Marks</option>
             <option value="ThreeMarks">Three Marks</option>
           </select>
 
           {questionList.map((q, index) => (
-            <div key={index} className="flex gap-2 mb-2">
+            <div key={index} style={{display:"flex", gap:"10px"}}>
               <input
                 type="text"
                 value={q.question}
                 onChange={(e) => handleQuestionChange(index, e.target.value)}
-                className="w-full p-2 border rounded"
                 placeholder={`Question ${index + 1}`}
               />
               {questionList.length > 1 && (
-                <button
-                  type="button"
-                  onClick={() => removeQuestion(index)}
-                  className="text-red-500 font-bold"
-                >
+                <button type="button" onClick={() => removeQuestion(index)} >
                   ×
                 </button>
               )}
@@ -219,30 +223,30 @@ export default function QuestionTable() {
           <button
             type="button"
             onClick={addNewQuestion}
-            className="bg-gray-200 text-sm px-3 py-1 rounded w-fit"
+            style={{margin:"10px"}}
           >
             + Add Question
           </button>
 
           <button
             onClick={handleSaveQuestions}
-            className="bg-green-600 text-white px-6 py-2 rounded mt-4"
+            style={{margin:"10px"}}
           >
             Save Questions
           </button>
         </div>
 
-        <table border="1" cellPadding="8">
+        <table border="1" cellPadding="8" >
           <thead>
             <tr>
-              <th>no.</th>
+              <th>No.</th>
               <th>Question</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody>
-            {questionData?.map((item, index) => (
-              <tr key={item._id}>
+            {questionData.map((item, index) => (
+              <tr key={index}>
                 <td>{index + 1}</td>
                 <td>{item.question}</td>
                 <td>

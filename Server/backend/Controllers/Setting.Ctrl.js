@@ -81,3 +81,23 @@ export const addSubjectData = handleCreateOrUpdate("subject");
 export const addChapterData = handleCreateOrUpdate("chapter");
 export const addQuestionData = handleCreateOrUpdate("Question");
 export const addSaveData = handleCreateOrUpdate("paperSetting");
+
+
+export const deleteOneQuestion = () => async (req, res, next) => {
+  const rcResponse = new ApiResponse();
+  const { id, q_id } = req.params; // q_id = questionList's q_id
+
+  try {
+    console.log(id, q_id,'id, q_id')
+    rcResponse.data = await deleteOne(
+      "Question",
+      { _id: id },
+      { $pull: { questionList: { q_id: q_id } } }
+    );
+    return res.status(rcResponse.code).send(rcResponse);
+  } catch (err) {
+    console.log(err,'"err--"');
+    next(err);
+  }
+};
+
