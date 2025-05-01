@@ -41,7 +41,7 @@ const Home = () => {
         <AboutUs />
       </section>
 
-      <a href="#" class="scroll-to-top">
+      <a href="#">
         &#8679;
       </a>
 

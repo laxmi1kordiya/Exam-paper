@@ -4,6 +4,7 @@ import {
   deleteOne,
   find,
   findAllData,
+  findOne,
   findOneAndUpdate,
 } from "../Model/common.js";
 
@@ -33,7 +34,6 @@ export const getSemData = handleGetAll("semester");
 export const getSubData = handleGetAll("subject");
 export const getChapterData = handleGetAll("chapter");
 export const getQuestions = handleGetAll("Question");
-export const getHeaderData = handleGetAll("paperSetting");
 
 const handleDelete = (modelName) => async (req, res, next) => {
   const rcResponse = new ApiResponse();
@@ -41,6 +41,15 @@ const handleDelete = (modelName) => async (req, res, next) => {
 
   try {
     rcResponse.data = await deleteOne(modelName, { _id: id });
+    return res.status(rcResponse.code).send(rcResponse);
+  } catch (err) {
+    next(err);
+  }
+};
+export const getHeaderData = async (req, res, next) => {
+  let rcResponse = new ApiResponse();
+  try {
+    rcResponse.data = await findOne("paperSetting", {});
     return res.status(rcResponse.code).send(rcResponse);
   } catch (err) {
     next(err);

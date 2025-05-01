@@ -16,7 +16,7 @@ const SignUp = () => {
     mobileError: false,
     codelError: false,
   });
-  const [isSubmitting, setIsSubmitting] = useState(false); // Track submission status
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const setNavigate = navigate();
   const fetch = useAuthenticatedFetch();
@@ -48,7 +48,6 @@ const SignUp = () => {
   const submitData = async () => {
     let hasError = false;
 
-    // Validate form data
     if (formData.name.trim().length < 3) {
       toast.error("Please enter a valid Name.", {
         className: "toastify-custom-error",
@@ -59,17 +58,17 @@ const SignUp = () => {
         className: "toastify-custom-error",
       });
       hasError = true;
-    }else if (formData.type === "") {
+    } else if (formData.type === "") {
       toast.error("Please select Type.", {
         className: "toastify-custom-error",
       });
       hasError = true;
-    }else if (formData.gender === "") {
+    } else if (formData.gender === "") {
       toast.error("Please select Gender.", {
         className: "toastify-custom-error",
       });
       hasError = true;
-    }else if (formData.district === "") {
+    } else if (formData.district === "") {
       toast.error("Please select District.", {
         className: "toastify-custom-error",
       });
@@ -79,7 +78,7 @@ const SignUp = () => {
         className: "toastify-custom-error",
       });
       hasError = true;
-    }  else if (
+    } else if (
       formData.codel &&
       (formData.codel.length !== 6 || formData.codelError)
     ) {
@@ -90,13 +89,14 @@ const SignUp = () => {
     }
 
     if (!hasError) {
-      setIsSubmitting(true); // Disable button
+      setIsSubmitting(true);
       try {
-        await fetch.post("signUp", formData);
+        const res = await fetch.post("signUp", formData);
+        localStorage.setItem("userId", res?.data?._id);
+
         toast.success("Registration Successful!", {
           className: "toastify-custom-success",
         });
-        // Reset form
         setFormData({
           name: "",
           mobile: "",
@@ -111,7 +111,7 @@ const SignUp = () => {
           setNavigate("/login");
         }, 1500);
       } catch (error) {
-        setIsSubmitting(false); // Re-enable button on error
+        setIsSubmitting(false);
         if (error.response?.status === 500) {
           toast.error(
             "This mobile number is already registered. Please use a different number.",
@@ -123,7 +123,7 @@ const SignUp = () => {
           toast.error("Registration failed, please try again later.", {
             className: "toastify-custom-error",
           });
-          console.error("Frontend error:", error); // Log for debugging
+          console.error("Frontend error:", error);
         }
       }
     }
