@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const Schema = mongoose.Schema;
 
-const signUpSchema = new Schema({
+const userSchema = new Schema({
   name: { type: String ,required: true},
   mobile: { type: String, unique: true, required: true },
   district: { type: String ,required: true},
@@ -15,5 +15,5 @@ const signUpSchema = new Schema({
   otpExpiresAt: { type: Date },
 });
 
-const signUp = mongoose.model("signUp", signUpSchema);
-export default signUp;
+const user = mongoose.model("user", userSchema);
+export default user;
