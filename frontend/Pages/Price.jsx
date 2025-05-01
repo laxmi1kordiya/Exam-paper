@@ -11,7 +11,7 @@ const Price = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 max-w-6xl mx-auto px-4">
           {plans.map((plan, index) => (
             <div key={index} className={`p-6 rounded-xl shadow-md ${plan.bgColor}`}>
-              <h3 className="text-lg font-semibold mb-2">{plan.title}</h3>
+              <h3 className="plan-title">{plan.title}</h3>
               <p className="text-4xl font-bold text-purple-800">{plan.price}</p>
               <p className="text-gray-600 mb-2">{plan.duration}</p>
               <hr className="my-2" />

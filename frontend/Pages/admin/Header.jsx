@@ -42,9 +42,9 @@ const Header = () => {
   };
 
   const getProfileIcon = () => {
-    if (data.gender === "Male") {
+    if (data?.gender === "Male") {
       return maleIcon;
-    } else if (data.gender === "Female") {
+    } else if (data?.gender === "Female") {
       return femaleIcon;
     }
   };
@@ -60,16 +60,16 @@ const Header = () => {
             <img src={getProfileIcon()} alt="Profile Icon" />
           </div>
           <div className="profile-info">
-            <div className="profile-name">{data.name || "User"}</div>
-            <div className="profile-type">{data.type || "Type"}</div>
+            <div className="profile-name">{data?.name || "User"}</div>
+            <div className="profile-type">{data?.type || "Type"}</div>
           </div>
         </div>
 
         {showPopup && (
           <div className="profile-popup">
             <div className="profile-popup-header">
-              <div className="popup-greeting">Hello {data.name || "User"}</div>
-              <div className="popup-type">{data.type || "Type"}</div>
+              <div className="popup-greeting">Hello {data?.name || "User"}</div>
+              <div className="popup-type">{data?.type || "Type"}</div>
             </div>
             <button onClick={signOut} className="signout-button">
               Sign out 🔓

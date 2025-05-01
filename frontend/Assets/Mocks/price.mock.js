@@ -1,6 +1,6 @@
 export const plans = [
     {
-      title: "Standard 1 to 8 (1.Y)",
+      title: "Standard 11 to 12 (1.Y)",
       price: "₹9999",
       duration: "1 Year",
       credits: "1000 Paper Credit + 500 Extra Credit",
@@ -10,7 +10,7 @@ export const plans = [
       bgColor: "bg-blue-100",
     },
     {
-      title: "Standard 1 to 10 (1.Y)",
+      title: "Standard 11 (1.Y)",
       price: "₹12999",
       duration: "1 Year",
       credits: "1200 Paper Credit + 550 Extra Credit",
@@ -20,7 +20,7 @@ export const plans = [
       bgColor: "bg-purple-100",
     },
     {
-      title: "Standard 1 to 12 (1.Y)",
+      title: "Standard 12 (1.Y)",
       price: "₹14999",
       duration: "1 Year",
       credits: "1600 Paper Credit + 600 Extra Credit",
@@ -30,7 +30,7 @@ export const plans = [
       bgColor: "bg-yellow-100",
     },
     {
-      title: "Standard 9 to 12 (1.Y)",
+      title: "JEE Main & NEET (1.Y)",
       price: "₹9999",
       duration: "1 Year",
       credits: "1000 Paper Credit + 500 Extra Credit",

@@ -13,10 +13,11 @@ const Home = () => {
       <Navbar />
       <section id="home" className="section1">
         <div>
-          <span>Generate Exams Papers For GSEB Board</span>
+          <span>Create Exam Papers for GSEB Board</span>
           <span>
-            We Provide users to generate exam paper with many plans. you can
-            also register as Teachers , Students , Schools , and Classes.
+            We Provide users to design and generate customized exam papers for
+            the GSEB Board Whether you're a teacher, student, school, or
+            managing multiple classes.
           </span>
         </div>
         <div className="img">

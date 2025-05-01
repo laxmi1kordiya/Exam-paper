@@ -14,10 +14,7 @@ const Footer = () => {
         </div>
 
         {/* Middle Section 1: Exam8 App */}
-        <div className="footer-section">
-          <h3>ExamPaper App</h3>
-          <button className="download-btn">Download App</button>
-        </div>
+      
 
         {/* Middle Section 2: Learn More */}
         <div className="footer-section">

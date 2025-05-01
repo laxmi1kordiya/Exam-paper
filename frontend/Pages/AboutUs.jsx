@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import SectionWrapper from "./SectionWrapper";
 
 const AboutUs = () => {
@@ -13,18 +13,32 @@ const AboutUs = () => {
           <h2>About Exam Paper</h2>
           <div className="rating">
             {[...Array(5)].map((_, index) => (
-              <span key={index} className={index < 4 ? 'star filled' : 'star'}>★</span>
+              <span key={index} className={index < 4 ? "star filled" : "star"}>
+                ★
+              </span>
             ))}
           </div>
           <p>
-            We are group of enthusiasts with diverse career interests but bound by one common passion, to create something special for Teachers and children. Every individual is a craftsman in his or her own way and contribute different and skills to the Education world to build the product.
+            We are a passionate and dynamic team, each member bringing a wealth
+            of diverse skills and experiences, united by a single purpose: to
+            make a positive impact on education. While our backgrounds vary, we
+            all share a deep commitment to creating tools that empower both
+            teachers and students in their learning journey.
           </p>
           <p>
-            Whether we will achieve success in building a world wonder, we do not know. But what we do know is that we are on this never ending journey to create a better future for our children. We enjoy their company, we enjoy doing something special for them and that makes us a happy MY Team.
+            Our mission isn’t just about building a product – it’s about shaping
+            the future of education and making it more accessible, engaging, and
+            effective for everyone. The road ahead may be uncertain, but the joy
+            of contributing to a brighter future for children is our true
+            motivation.
           </p>
           <div className="contact-info">
-            <p><strong>Mail</strong> – info.360exam</p>
-            <p><strong>Contact</strong> – +91 945929 6160</p>
+            <p>
+              <strong>Mail-</strong> info.CreatePaper
+            </p>
+            <p>
+              <strong>Contact-</strong> +91 9876543210
+            </p>
           </div>
         </div>
         <div className="about-us-image">
@@ -36,7 +50,11 @@ const AboutUs = () => {
               className="person-image"
             />
             {/* SVG for the purple splash background */}
-            <svg className="splash-background" viewBox="0 0 300 400" preserveAspectRatio="none">
+            <svg
+              className="splash-background"
+              viewBox="0 0 300 400"
+              preserveAspectRatio="none"
+            >
               <path
                 d="M0,0 C150,100 300,0 300,200 C300,400 150,300 0,400 Z"
                 fill="#8B5CF6"
@@ -53,4 +71,4 @@ const AboutUs = () => {
   );
 };
 
-export default SectionWrapper(AboutUs,"about");
+export default SectionWrapper(AboutUs, "about");
