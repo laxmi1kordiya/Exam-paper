@@ -1,0 +1,1 @@
+{"version":3,"file":"NavigationMenu-df044dd9.js","sources":["../../../frontend/Components/NavigationMenu.jsx"],"sourcesContent":["import { useNavigate } from \"react-router-dom\";\nexport const navigate = () => {\n  return useNavigate();\n};\n"],"names":["navigate","useNavigate"],"mappings":"wCACO,MAAMA,EAAW,IACfC,EAAY"}

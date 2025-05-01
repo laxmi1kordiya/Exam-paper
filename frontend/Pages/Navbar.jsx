@@ -1,32 +1,44 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { navLinks } from "../Assets/Mocks/navLink.mock"; // Importing mock data
-// import "./Navbar.css"; // Import CSS file
+import React, { useState } from "react";
+import { Link as ScrollLink } from "react-scroll";
+import { navLinks } from "../Assets/Mocks/navLink.mock";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const openRegisterPage = () => {
+    navigate("/signUp");
+  };
+
   return (
-    <nav className="header">
-      {/* Logo */}
-      <div className="logo">
-        <img src="logo.png" alt="Logo" />
+    <nav className="navbar">
+      <div className="hamburger" onClick={() => setMenuOpen(!menuOpen)}>☰</div>
+      <div className="navbar-logo">
+        <img alt="Company Logo" />
       </div>
 
-      {/* Navigation Links */}
-      <ul className="nav">
-        {navLinks.map((item) => (
-          <li key={item.id}>
-            <Link to={item.path}>{item.title}</Link>
+      <ul className={`navbar-links ${menuOpen ? "active" : ""}`}>
+        {navLinks.map(({ id, title }) => (
+          <li key={id}>
+            <ScrollLink
+              to={id}
+              smooth={true}
+              duration={500}
+              offset={-70}
+              onClick={() => setMenuOpen(false)}
+            >
+              {title}
+            </ScrollLink>
           </li>
         ))}
       </ul>
 
-      {/* Login Button */}
-      <Link to="/login">
-        <button className="login-btn">Login</button>
-      </Link>
+      <button className="navbar-register-btn" onClick={openRegisterPage}>
+        Login/Register
+      </button>
     </nav>
   );
 };
 
 export default Navbar;
-
