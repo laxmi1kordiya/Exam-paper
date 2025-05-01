@@ -1,6 +1,4 @@
-// module.exports.brokenLinks = require('../schema/brokenLinks');
 import mongoose from "mongoose";
-import login from "../Schema/Login.js";
 import standard from "../Schema/Standard.js";
 import semester from "../Schema/Semester.js";
 import subject from "../Schema/Subject.js";
@@ -12,7 +10,6 @@ import user from "../Schema/User.js"
 
 const models = {
   user,
-  login,
   standard,
   semester,
   subject,
