@@ -11,11 +11,11 @@ const PaperSetting = () => {
     subtitle: "Paper Generate by Create Paper",
     logo: null,
     logoPreview: null,
-    questionfontSize: 14
-    questionTypefontSize: 16
-    spaceBetweenQuestions: 0
-    WaterMark: false
-    WaterMarkTaxt:""
+    questionfontSize: 14,
+    questionTypefontSize: 16,
+    spaceBetweenQuestions: 0,
+    WaterMark: false,
+    WaterMarkTaxt:"",
   });
 
   const [logoError, setLogoError] = useState("");
