@@ -20,7 +20,7 @@ const GeneratePaper = () => {
     semester: "",
     subject: "",
     subjectName: "",
-    chapter: [],
+    chapter: "",
     generateType: "",
     totalMarks: 0,
   });
@@ -46,17 +46,7 @@ const GeneratePaper = () => {
 
   useEffect(() => {
     fetchData();
-  }, []);
-
-  const handleMultiSelectChange = (e) => {
-    const selectedOptions = Array.from(e.target.selectedOptions).map(option => option.value);
-    setFormData(prev => ({
-      ...prev,
-      chapter: selectedOptions
-    }));
-  };
-
-  
+  }, []);  
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -221,7 +211,6 @@ const GeneratePaper = () => {
           <div className="form-group">
             <select
               name="chapter"
-              multiple
               value={formData.chapter}
               onChange={handleChange}
             >
