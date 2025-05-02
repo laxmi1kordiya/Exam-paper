@@ -7,8 +7,8 @@ const PaperSetting = () => {
   const fetch = useAuthenticatedFetch();
 
   const [formData, setFormData] = useState({
-    title: "",
-    subtitle: "",
+    title: "Create Paper",
+    subtitle: "Generate by Create Paper",
     logo: null,
     logoPreview: null,
   });
@@ -84,33 +84,31 @@ const PaperSetting = () => {
           </p>
           <form>
             <div className="row">
-              <div className="form-group col-md-12">
+              <div className="form-group">
                 <label htmlFor="title">Title</label>
                 <input
                   type="text"
                   name="title"
                   className="form-control"
                   id="title"
-                  placeholder="Enter Exam Title"
                   value={formData.title}
                   onChange={handleChange}
                 />
               </div>
 
-              <div className="form-group col-md-12">
+              <div className="form-group">
                 <label htmlFor="subtitle">Subtitle</label>
                 <input
                   type="text"
                   name="subtitle"
                   className="form-control"
                   id="subtitle"
-                  placeholder="Enter Subtitle"
                   value={formData.subtitle}
                   onChange={handleChange}
                 />
               </div>
 
-              <div className="form-group col-md-12">
+              <div className="form-group">
                 <label htmlFor="logo">Upload Logo</label>
                 <input
                   type="file"
