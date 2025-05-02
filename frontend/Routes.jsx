@@ -14,7 +14,8 @@ import Home from "./Pages/Home";
 import PaperSetting from "./Pages/admin/PaperSetting";
 import EducationManager from "./Pages/formData/GenerateTable";
 import QuestionTable from "./Pages/formData/QuestionTable";
-import GeneratePDF from "./Pages/GeneratePDF";
+import MyPapers from "./Pages/admin/MyPapers";
+import HowToUses from "./Pages/admin/HowToUse";
 
 const Routes = () => {
   return (
@@ -28,7 +29,6 @@ const Routes = () => {
         <Route path="/howtouse" element={<HowToUse />} />
         <Route path="/about" element={<AboutUs />} />
         <Route path="/table" element={<EducationManager />} />
-        <Route path="/header" element={<GeneratePDF />} />
         <Route path="/questionTable" element={<QuestionTable />} />
 
         <Route path="/admin" element={<AdminLayout />}>
@@ -37,10 +37,8 @@ const Routes = () => {
           <Route path="generate-paper" element={<GeneratePaper />} />
           <Route path="paper-setting" element={<PaperSetting />} />
           <Route path="purchase-package" element={<PurchasePackage />} />
-          {/* <Route path="my-papers" element={<MyPapers />} />
-          <Route path="generate-worksheet" element={<GenerateWorksheet />} />
-          <Route path="my-worksheets" element={<MyWorksheets />} />
-          <Route path="how-to-use" element={<HowToUse />} /> */}
+          <Route path="my-papers" element={<MyPapers />} />
+          <Route path="how-to-use" element={<HowToUses />} />
         </Route>
       </ReactRouterRoutes>
     </Suspense>

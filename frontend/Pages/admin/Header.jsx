@@ -2,7 +2,7 @@ import React, { useState, useCallback, useEffect } from "react";
 import { useAuthenticatedFetch } from "../../Api/Axios";
 import { navigate } from "../../Components/NavigationMenu";
 import { useLocation } from "react-router-dom";
-import {femaleIcon,maleIcon } from "../../Assets";
+import { femaleIcon, maleIcon } from "../../Assets";
 
 const Header = () => {
   const setNavigate = navigate();
@@ -32,6 +32,10 @@ const Header = () => {
       setUrl(" Paper Heading");
     } else if (path === "/admin/purchase-package") {
       setUrl("Plan package");
+    } else if (path === "/admin/my-papers") {
+      setUrl("My Papers");
+    } else if (path === "/admin/how-to-use") {
+      setUrl("How To Use");
     } else {
       setUrl(""); // default if needed
     }

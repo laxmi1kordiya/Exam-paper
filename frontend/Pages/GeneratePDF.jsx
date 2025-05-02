@@ -160,4 +160,3 @@ const GeneratePDF = ({ formData, allData, selectedQuestions, data }) => {
 };
 
 export default GeneratePDF;
-
