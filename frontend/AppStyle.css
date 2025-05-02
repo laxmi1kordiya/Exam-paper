@@ -56,7 +56,7 @@ p {
   margin-bottom: 15px;
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: 150%;
   max-width: 260px;
   margin-left: 25px;
 }
@@ -1310,6 +1310,9 @@ section.section1 > div :nth-child(2){
 }
 
 .form-container {
+  align-items: inherit;
+  flex-direction: column;
+  justify-content: center;
   display: flex;
   gap: 20px;
   margin-bottom: 20px;
@@ -1858,4 +1861,14 @@ div.content-page div.card-content h2 {
   background-clip: text !important;
   color: transparent !important;
 }
-
+.attention{
+  align-self: flex-start;
+}
+b, strong {
+  font-weight: bold !important;
+}
+.warning{
+  color: #fe517e  !important;
+  display: inline-block;
+  margin-top: 8px;
+}
