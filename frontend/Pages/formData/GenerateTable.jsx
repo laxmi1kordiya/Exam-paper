@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useAuthenticatedFetch } from "../../Api/Axios";
+import QuestionTable from "./QuestionTable";
 
 const apiEndpoints = {
   Board: {
@@ -62,8 +63,8 @@ export default function ManageEducationData() {
 
   const handleSave = async () => {
     try {
-        const res = await fetch.post(apiEndpoints[activeTab].add, formData);
-        if (res?.code === 200) setFormData({ name: "" });
+      const res = await fetch.post(apiEndpoints[activeTab].add, formData);
+      if (res?.code === 200) setFormData({ name: "" });
       setShowModal(false);
       setSelectedItem(null);
       fetchData();
@@ -277,7 +278,7 @@ export default function ManageEducationData() {
           <h3>All {activeTab}s</h3>
           {data.length === 0 ? (
             <p>No {activeTab}s added yet.</p>
-          ) : (
+          ) : activeTab !== "Question" ? (
             <table border="1" cellPadding="8">
               <thead>
                 <tr>
@@ -305,6 +306,8 @@ export default function ManageEducationData() {
                 ))}
               </tbody>
             </table>
+          ) : (
+            <QuestionTable />
           )}
         </div>
       </div>
