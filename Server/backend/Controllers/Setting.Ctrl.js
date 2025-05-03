@@ -90,6 +90,7 @@ export const addSubjectData = handleCreateOrUpdate("subject");
 export const addChapterData = handleCreateOrUpdate("chapter");
 export const addQuestionData = handleCreateOrUpdate("Question");
 export const addSaveData = handleCreateOrUpdate("paperSetting");
+export const addPaperData = handleCreateOrUpdate("paper");
 
 
 export const deleteOneQuestion = () => async (req, res, next) => {

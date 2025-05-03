@@ -12,7 +12,7 @@ export const menuItems = [
     isNew: false,
   },
   {
-    name: "Paper Setting",
+    name: "Header Setting",
     path: "/admin/paper-setting",
     icon: "⚙️",
     isNew: false,

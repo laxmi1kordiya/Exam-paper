@@ -1,14 +1,24 @@
 import React from "react";
 import { jsPDF } from "jspdf";
+import { useAuthenticatedFetch } from "../Api/Axios";
 import { addGujaratiFont } from "../Utils/addGujaratiFont";
 import { addShrutiFont } from "../Utils/addShrutiFont";
 
 const GeneratePDF = ({ formData, allData, selectedQuestions, data }) => {
   const translations = {
     instructionsTitle: { en: "Instructions:", gu: "સૂચનાઓ:" },
-    instruction1: { en: "1. Read all questions carefully.", gu: "૧. બધી પ્રશ્નોને ધ્યાનપૂર્વક વાંચો." },
-    instruction2: { en: "2. Answer all questions in the given space.", gu: "૨. આપેલ જગ્યા પર બધા પ્રશ્નોના જવાબો લખો." },
-    instruction3: { en: "3. No electronic gadgets allowed.", gu: "૩. ઇલેક્ટ્રોનિક ઉપકરણોની પરવાનગી નથી." },
+    instruction1: {
+      en: "1. Read all questions carefully.",
+      gu: "૧. બધી પ્રશ્નોને ધ્યાનપૂર્વક વાંચો.",
+    },
+    instruction2: {
+      en: "2. Answer all questions in the given space.",
+      gu: "૨. આપેલ જગ્યા પર બધા પ્રશ્નોના જવાબો લખો.",
+    },
+    instruction3: {
+      en: "3. No electronic gadgets allowed.",
+      gu: "૩. ઇલેક્ટ્રોનિક ઉપકરણોની પરવાનગી નથી.",
+    },
     studentName: { en: "Student Name", gu: "વિદ્યાર્થીનું નામ" },
     rollNo: { en: "Roll No.", gu: "ક્રમ નંબર" },
     std: { en: "Std", gu: "ધોરણ" },
@@ -17,11 +27,26 @@ const GeneratePDF = ({ formData, allData, selectedQuestions, data }) => {
     date: { en: "Date", gu: "તારીખ" },
     obtainMarks: { en: "Obtain Marks", gu: "મેળવેલા ગુણો" },
     section: { en: "Section", gu: "વિભાગ" },
-    oneMarkQuestions: { en: "Answer the following questions briefly.", gu: "નીચે આપેલા પ્રશ્નોના ટુંકમાં જવાબ આપો." },
-    twoMarkQuestions: { en: "Answer the following questions with two marks each.", gu: "દર બે ગુણના પ્રશ્નોના જવાબ આપો." },
-    threeMarkQuestions: { en: "Answer the following questions with three marks each.", gu: "દર ત્રણ ગુણના પ્રશ્નોના જવાબ આપો." },
-    fourMarkQuestions: { en: "Answer the following questions with four marks each.", gu: "દર ચાર ગુણના પ્રશ્નોના જવાબ આપો." },
-    fiveMarkQuestions: { en: "Answer the following questions with five marks each.", gu: "દર પાંચ ગુણના પ્રશ્નોના જવાબ આપો." },
+    oneMarkQuestions: {
+      en: "Answer the following questions briefly.",
+      gu: "નીચે આપેલા પ્રશ્નોના ટુંકમાં જવાબ આપો.",
+    },
+    twoMarkQuestions: {
+      en: "Answer the following questions with two marks each.",
+      gu: "દર બે ગુણના પ્રશ્નોના જવાબ આપો.",
+    },
+    threeMarkQuestions: {
+      en: "Answer the following questions with three marks each.",
+      gu: "દર ત્રણ ગુણના પ્રશ્નોના જવાબ આપો.",
+    },
+    fourMarkQuestions: {
+      en: "Answer the following questions with four marks each.",
+      gu: "દર ચાર ગુણના પ્રશ્નોના જવાબ આપો.",
+    },
+    fiveMarkQuestions: {
+      en: "Answer the following questions with five marks each.",
+      gu: "દર પાંચ ગુણના પ્રશ્નોના જવાબ આપો.",
+    },
   };
 
   const t = (key) => {
@@ -38,7 +63,9 @@ const GeneratePDF = ({ formData, allData, selectedQuestions, data }) => {
     if (!board || !Array.isArray(board.standards)) return null;
     let data = {};
     if (type === "standard") {
-      data = board.standards.find((standard) => standard._id === formData.standard);
+      data = board.standards.find(
+        (standard) => standard._id === formData.standard
+      );
     } else if (type === "subject") {
       data = board.subjects.find((subject) => subject._id === formData.subject);
     }
@@ -63,6 +90,7 @@ const GeneratePDF = ({ formData, allData, selectedQuestions, data }) => {
   };
 
   const handleDownload = () => {
+
     const doc = new jsPDF();
 
     // 1. Add Gujarati font
@@ -107,10 +135,28 @@ const GeneratePDF = ({ formData, allData, selectedQuestions, data }) => {
     const studentInfo = [
       { label: t("studentName"), value: "__________________________________" },
       { label: t("rollNo"), value: formData?.rollNo || "_________________" },
-      { label: `${t("std")}: ${findData(formData, "standard") || "_________________"}`, value: `${t("subject")}: ${findData(formData, "subject") || "_________________"}` },
-      { label: t("totalMarks"), value: formData?.totalMarks || "_________________" },
-      { label: `${t("date")}`, value: formData?.date ? new Date(formData.date).toLocaleDateString() : "_________________" },
-      { label: t("obtainMarks"), value: formData?.obtainMarks || "_________________" }
+      {
+        label: `${t("std")}: ${
+          findData(formData, "standard") || "_________________"
+        }`,
+        value: `${t("subject")}: ${
+          findData(formData, "subject") || "_________________"
+        }`,
+      },
+      {
+        label: t("totalMarks"),
+        value: formData?.totalMarks || "_________________",
+      },
+      {
+        label: `${t("date")}`,
+        value: formData?.date
+          ? new Date(formData.date).toLocaleDateString()
+          : "_________________",
+      },
+      {
+        label: t("obtainMarks"),
+        value: formData?.obtainMarks || "_________________",
+      },
     ];
 
     let tableYPosition = yPosition + 20;
@@ -140,7 +186,9 @@ const GeneratePDF = ({ formData, allData, selectedQuestions, data }) => {
       sectionY += 10;
 
       questionsBySection[sectionKey].forEach((question, idx) => {
-        let questionText = `Q.${idx + 1}. ${question.question || "No question text"}`;
+        let questionText = `Q.${idx + 1}. ${
+          question.question || "No question text"
+        }`;
         doc.text(questionText, 10, sectionY);
         sectionY += 10;
 
@@ -152,11 +200,31 @@ const GeneratePDF = ({ formData, allData, selectedQuestions, data }) => {
       });
     });
 
+    
     // Save the PDF
     doc.save("generate-paper.pdf");
   };
 
-  return <button onClick={handleDownload}>Download PDF</button>;
+  const fetch = useAuthenticatedFetch();
+const handleChange = async() => {
+  const data = {
+    paperSetting:{
+    formData: formData,
+    selectedQuestions: selectedQuestions,
+    },
+    userId: localStorage.getItem("userId") 
+  }
+  await fetch.post("AddPaper", data);
+
+console.log(data,'data')
+  }
+
+  return(
+    <>
+  <button onClick={handleDownload}>Download PDF</button>
+ <button onClick={handleChange}>Download</button>
+  </>
+  );
 };
 
 export default GeneratePDF;
