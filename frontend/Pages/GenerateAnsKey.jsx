@@ -3,7 +3,12 @@ import { jsPDF } from "jspdf";
 import { addShrutiFont } from "../Utils/addShrutiFont";
 import { findData } from "../Utils/AppUtils";
 
-const GenerateAnsKey = ({ formData, allData, selectedQuestions, headerData }) => {
+const GenerateAnsKey = ({
+  formData,
+  allData,
+  selectedQuestions,
+  headerData,
+}) => {
   const translations = {
     std: { en: "Std", gu: "ધોરણ" },
     subject: { en: "Subject", gu: "વિષય" },
@@ -123,7 +128,6 @@ const GenerateAnsKey = ({ formData, allData, selectedQuestions, headerData }) =>
     doc.setFontSize(13);
     doc.setFontSize(10);
 
-    // Sections and Questions
     let sectionY = yPosition + 35;
     Object.keys(questionsBySection).forEach((sectionKey) => {
       doc.setFontSize(12);
@@ -134,13 +138,12 @@ const GenerateAnsKey = ({ formData, allData, selectedQuestions, headerData }) =>
       sectionY += 10;
 
       questionsBySection[sectionKey].forEach((question, idx) => {
-        let questionText = `Q.${idx + 1}. ${
+        const questionText = `Q.${idx + 1} ${
           question.question || "No question text"
-        }`;
+        }\nAns: ${question.answer || "No answer text"}`;
         doc.text(questionText, 10, sectionY);
-        sectionY += 10;
+        sectionY += 20;
 
-        // If sectionY crosses page limit, add new page
         if (sectionY > 270) {
           doc.addPage();
           sectionY = 20;
