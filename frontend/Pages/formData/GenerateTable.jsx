@@ -276,7 +276,7 @@ export default function ManageEducationData() {
 
         <div className="table-container" style={{ marginTop: 20 }}>
           <h3>All {activeTab}s</h3>
-          {data.length === 0 ? (
+          {data.length === 0 && activeTab !== "Question" ? (
             <p>No {activeTab}s added yet.</p>
           ) : activeTab !== "Question" ? (
             <table border="1" cellPadding="8">

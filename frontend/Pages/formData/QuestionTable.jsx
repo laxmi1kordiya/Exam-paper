@@ -12,7 +12,9 @@ export default function QuestionTable() {
   const [selectedStandard, setSelectedStandard] = useState("");
   const [selectedSubject, setSelectedSubject] = useState("");
   const [selectedChapter, setSelectedChapter] = useState("");
-  const [questionList, setQuestionList] = useState([{ question: "" }]);
+  const [questionList, setQuestionList] = useState([
+    { question: "", answer: "" },
+  ]);
   const [questionType, setQuestionType] = useState("");
   const [filteredQuestions, setFilteredQuestions] = useState([]);
   const [questionData, setQuestionData] = useState([]);
@@ -63,7 +65,8 @@ export default function QuestionTable() {
     resetSelections("board");
 
     const board = allData.find((b) => b._id === id);
-    const standards = board?.standards?.map((s) => ({ label: s.name, value: s._id })) || [];
+    const standards =
+      board?.standards?.map((s) => ({ label: s.name, value: s._id })) || [];
     setStandardList(standards);
   };
 
@@ -73,9 +76,10 @@ export default function QuestionTable() {
     resetSelections("standard");
 
     const board = allData.find((b) => b._id === selectedBoard);
-    const subjects = board?.subjects
-      ?.filter((s) => s.Standard_id === id)
-      ?.map((s) => ({ label: s.name, value: s._id })) || [];
+    const subjects =
+      board?.subjects
+        ?.filter((s) => s.Standard_id === id)
+        ?.map((s) => ({ label: s.name, value: s._id })) || [];
     setSubjectList(subjects);
   };
 
@@ -85,9 +89,10 @@ export default function QuestionTable() {
     resetSelections("subject");
 
     const board = allData.find((b) => b._id === selectedBoard);
-    const chapters = board?.chapters
-      ?.filter((c) => c.Subject_id === id)
-      ?.map((c) => ({ label: c.name, value: c._id })) || [];
+    const chapters =
+      board?.chapters
+        ?.filter((c) => c.Subject_id === id)
+        ?.map((c) => ({ label: c.name, value: c._id })) || [];
     setChapterList(chapters);
   };
 
@@ -96,7 +101,8 @@ export default function QuestionTable() {
     setSelectedChapter(id);
 
     const board = allData.find((b) => b._id === selectedBoard);
-    const questions = board?.questions?.filter((q) => q.Chapter_id === id) || [];
+    const questions =
+      board?.questions?.filter((q) => q.Chapter_id === id) || [];
     setFilteredQuestions(questions);
     setQuestionData([]);
   };
@@ -107,18 +113,18 @@ export default function QuestionTable() {
 
     const questions = filteredQuestions?.filter((q) => q.questionType === type);
 
-    const combinedQuestions = questions.flatMap(q => q.questionList || []);
+    const combinedQuestions = questions.flatMap((q) => q.questionList || []);
     setQuestionData(combinedQuestions);
   };
 
-  const handleQuestionChange = (index, value) => {
+  const handleQuestionChange = (index, field, value) => {
     const updated = [...questionList];
-    updated[index].question = value;
+    updated[index][field] = value;
     setQuestionList(updated);
   };
 
   const addNewQuestion = () => {
-    setQuestionList([...questionList, { question: "" }]);
+    setQuestionList([...questionList, { question: "", answer: "" }]);
   };
 
   const removeQuestion = (index) => {
@@ -141,7 +147,7 @@ export default function QuestionTable() {
     try {
       await fetch.post("/addQuestionData", payload);
       alert("Questions saved successfully!");
-      setQuestionList([{ question: "" }]);
+      setQuestionList([{ question: "", answer: "" }]);
       document.getElementById("modal-toggle").checked = false;
     } catch (error) {
       console.error("Error saving questions:", error);
@@ -150,12 +156,12 @@ export default function QuestionTable() {
   };
 
   const openModal = (row) => {
-    setQuestionList([{ question: row.question }]);
+    setQuestionList([{ question: row.question, answer: row.answer }]);
     setQuestionType(row.questionType || "");
   };
 
   const handleDelete = async (item) => {
-    const mainId = selectedChapter; 
+    const mainId = selectedChapter;
     const questionId = item.q_id;
     try {
       await fetch.delete(`deleteOneQuestion/${mainId}/${questionId}`);
@@ -167,34 +173,40 @@ export default function QuestionTable() {
   return (
     <div className="content-page">
       <div className="main-content">
-        <h2 className="text-xl font-semibold mb-4">Add Questions</h2>
-
         <div>
           <select value={selectedBoard} onChange={handleBoardChange}>
             <option value="">Select Board</option>
             {boardList.map((board) => (
-              <option key={board.value} value={board.value}>{board.label}</option>
+              <option key={board.value} value={board.value}>
+                {board.label}
+              </option>
             ))}
           </select>
 
           <select value={selectedStandard} onChange={handleStandardChange}>
             <option value="">Select Standard</option>
             {standardList.map((std) => (
-              <option key={std.value} value={std.value}>{std.label}</option>
+              <option key={std.value} value={std.value}>
+                {std.label}
+              </option>
             ))}
           </select>
 
           <select value={selectedSubject} onChange={handleSubjectChange}>
             <option value="">Select Subject</option>
             {subjectList.map((subj) => (
-              <option key={subj.value} value={subj.value}>{subj.label}</option>
+              <option key={subj.value} value={subj.value}>
+                {subj.label}
+              </option>
             ))}
           </select>
 
           <select value={selectedChapter} onChange={handleChapterChange}>
             <option value="">Select Chapter</option>
             {chapterList.map((chap) => (
-              <option key={chap.value} value={chap.value}>{chap.label}</option>
+              <option key={chap.value} value={chap.value}>
+                {chap.label}
+              </option>
             ))}
           </select>
 
@@ -206,15 +218,28 @@ export default function QuestionTable() {
           </select>
 
           {questionList.map((q, index) => (
-            <div key={index} style={{display:"flex", gap:"10px"}}>
+            <div
+              key={index}
+              style={{ display: "flex", gap: "10px", marginBottom: "10px" }}
+            >
               <input
                 type="text"
                 value={q.question}
-                onChange={(e) => handleQuestionChange(index, e.target.value)}
+                onChange={(e) =>
+                  handleQuestionChange(index, "question", e.target.value)
+                }
                 placeholder={`Question ${index + 1}`}
               />
+              <input
+                type="text"
+                value={q.answer}
+                onChange={(e) =>
+                  handleQuestionChange(index, "answer", e.target.value)
+                }
+                placeholder={`Answer ${index + 1}`}
+              />
               {questionList.length > 1 && (
-                <button type="button" onClick={() => removeQuestion(index)} >
+                <button type="button" onClick={() => removeQuestion(index)}>
                   ×
                 </button>
               )}
@@ -223,20 +248,17 @@ export default function QuestionTable() {
           <button
             type="button"
             onClick={addNewQuestion}
-            style={{margin:"10px"}}
+            style={{ margin: "10px" }}
           >
             + Add Question
           </button>
 
-          <button
-            onClick={handleSaveQuestions}
-            style={{margin:"10px"}}
-          >
+          <button onClick={handleSaveQuestions} style={{ margin: "10px" }}>
             Save Questions
           </button>
         </div>
 
-        <table border="1" cellPadding="8" >
+        <table border="1" cellPadding="8">
           <thead>
             <tr>
               <th>No.</th>

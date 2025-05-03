@@ -5,6 +5,7 @@ const Schema = mongoose.Schema;
 // Define the structure for each question in questionList with q_id
 const questionSchema = new Schema({
   question: { type: String },
+  answer: { type: String },
   q_id: { type: mongoose.Schema.Types.ObjectId, default: () => new mongoose.Types.ObjectId() },
 }, { _id: false }); // Disable automatic _id for sub-documents
 
