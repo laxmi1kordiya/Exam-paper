@@ -3,15 +3,12 @@ import { useAuthenticatedFetch } from "../../Api/Axios";
 import Questionlist from "./questions";
 
 const GeneratePaper = () => {
-  const [currentStep, setCurrentStep] = useState(1);
   const [boards, setBoards] = useState([]);
   const [standards, setStandards] = useState([]);
   const [semesters, setSemesters] = useState([]);
   const [subjects, setSubjects] = useState([]);
   const [chapters, setChapters] = useState([]);
   const [allData, setAllData] = useState([]);
-  const [data, setData] = useState({});
-
   const fetch = useAuthenticatedFetch();
 
   const [formData, setFormData] = useState({
@@ -27,10 +24,9 @@ const GeneratePaper = () => {
 
   const fetchData = useCallback(async () => {
     try {
-      const [boardRes, allData, header] = await Promise.all([
+      const [boardRes, allData] = await Promise.all([
         fetch.get("getBoardData"),
         fetch.get("getAllData"),
-        fetch.get("getHeaderData"),
       ]);
       const boardOptions = boardRes.data.map((item) => ({
         label: item.name,
@@ -38,7 +34,6 @@ const GeneratePaper = () => {
       }));
       setAllData(allData.data);
       setBoards(boardOptions);
-      setData(header.data[0]);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -46,7 +41,7 @@ const GeneratePaper = () => {
 
   useEffect(() => {
     fetchData();
-  }, []);  
+  }, []);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -236,13 +231,12 @@ const GeneratePaper = () => {
           </div>
         </div>
         <Questionlist
-        chapterId={formData.chapter}
-        formData={formData}
-        allData={allData}
-        data={data}
-      />
-        </div>
+          chapterId={formData.chapter}
+          formData={formData}
+          allData={allData}
+        />
       </div>
+    </div>
   );
 };
 

@@ -1,10 +1,9 @@
 import React from "react";
 import { jsPDF } from "jspdf";
-import { useAuthenticatedFetch } from "../Api/Axios";
-import { addGujaratiFont } from "../Utils/addGujaratiFont";
 import { addShrutiFont } from "../Utils/addShrutiFont";
+import { findData } from "../Utils/AppUtils";
 
-const GeneratePDF = ({ formData, allData, selectedQuestions, data }) => {
+const GeneratePDF = ({ formData, allData, selectedQuestions, headerData }) => {
   const translations = {
     instructionsTitle: { en: "Instructions:", gu: "સૂચનાઓ:" },
     instruction1: {
@@ -57,21 +56,6 @@ const GeneratePDF = ({ formData, allData, selectedQuestions, data }) => {
     }
   };
 
-  const findData = (formData, type) => {
-    if (!formData) return null;
-    const board = allData.find((board) => board.name === formData.board);
-    if (!board || !Array.isArray(board.standards)) return null;
-    let data = {};
-    if (type === "standard") {
-      data = board.standards.find(
-        (standard) => standard._id === formData.standard
-      );
-    } else if (type === "subject") {
-      data = board.subjects.find((subject) => subject._id === formData.subject);
-    }
-    return data ? data.name : null;
-  };
-
   const getSectionTitle = (questionType) => {
     switch (questionType) {
       case "OneMarks":
@@ -90,7 +74,6 @@ const GeneratePDF = ({ formData, allData, selectedQuestions, data }) => {
   };
 
   const handleDownload = () => {
-
     const doc = new jsPDF();
 
     // 1. Add Gujarati font
@@ -120,15 +103,19 @@ const GeneratePDF = ({ formData, allData, selectedQuestions, data }) => {
 
     // Adding header (logo, title, subtitle)
     let yPosition = 10;
-    if (data.logoPreview) {
-      doc.addImage(data.logoPreview, "PNG", 10, yPosition, 40, 40);
+    if (headerData?.logoPreview) {
+      doc.addImage(headerData?.logoPreview, "PNG", 10, yPosition, 40, 40);
       yPosition += 40;
     }
     doc.setFontSize(14);
-    doc.text(String(data.title || ""), 105, yPosition, { align: "center" });
+    doc.text(String(headerData?.title || ""), 105, yPosition, {
+      align: "center",
+    });
     yPosition += 10;
     doc.setFontSize(10);
-    doc.text(String(data.subtitle || ""), 105, yPosition, { align: "center" });
+    doc.text(String(headerData?.subtitle || ""), 105, yPosition, {
+      align: "center",
+    });
     yPosition += 10;
 
     // Student Info
@@ -137,10 +124,10 @@ const GeneratePDF = ({ formData, allData, selectedQuestions, data }) => {
       { label: t("rollNo"), value: formData?.rollNo || "_________________" },
       {
         label: `${t("std")}: ${
-          findData(formData, "standard") || "_________________"
+          findData(formData, allData, "standard") || "_________________"
         }`,
         value: `${t("subject")}: ${
-          findData(formData, "subject") || "_________________"
+          findData(formData, allData, "subject") || "_________________"
         }`,
       },
       {
@@ -150,7 +137,7 @@ const GeneratePDF = ({ formData, allData, selectedQuestions, data }) => {
       {
         label: `${t("date")}`,
         value: formData?.date
-          ? new Date(formData.date).toLocaleDateString()
+          ? new Date(formData?.date).toLocaleDateString()
           : "_________________",
       },
       {
@@ -200,31 +187,10 @@ const GeneratePDF = ({ formData, allData, selectedQuestions, data }) => {
       });
     });
 
-    
-    // Save the PDF
     doc.save("generate-paper.pdf");
   };
 
-  const fetch = useAuthenticatedFetch();
-const handleChange = async() => {
-  const data = {
-    paperSetting:{
-    formData: formData,
-    selectedQuestions: selectedQuestions,
-    },
-    userId: localStorage.getItem("userId") 
-  }
-  await fetch.post("AddPaper", data);
-
-console.log(data,'data')
-  }
-
-  return(
-    <>
-  <button onClick={handleDownload}>Download PDF</button>
- <button onClick={handleChange}>Download</button>
-  </>
-  );
+  return <button onClick={handleDownload}>Download PDF</button>;
 };
 
 export default GeneratePDF;

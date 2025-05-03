@@ -34,6 +34,7 @@ export const getSemData = handleGetAll("semester");
 export const getSubData = handleGetAll("subject");
 export const getChapterData = handleGetAll("chapter");
 export const getQuestions = handleGetAll("Question");
+export const getPaperData = handleGetAll("paper");
 
 const handleDelete = (modelName) => async (req, res, next) => {
   const rcResponse = new ApiResponse();
@@ -62,6 +63,7 @@ export const deleteSemesterData = handleDelete("semester");
 export const deleteSubjectData = handleDelete("subject");
 export const deleteChapterData = handleDelete("chapter");
 export const deleteQuestionData = handleDelete("Question");
+export const deletePaperData = handleDelete("paper");
 
 const handleCreateOrUpdate = (modelName) => async (req, res, next) => {
   const rcResponse = new ApiResponse();

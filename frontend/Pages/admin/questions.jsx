@@ -1,5 +1,7 @@
 import React, { useState, useEffect, memo } from "react";
 import { useAuthenticatedFetch } from "../../Api/Axios";
+import { navigate } from "../../Components/NavigationMenu";
+import { findData } from "../../Utils/AppUtils";
 import GeneratePDF from "../generatePDF";
 
 // Memoize the RenderQuestions component to prevent unnecessary re-renders
@@ -80,7 +82,7 @@ const RenderQuestions = memo(
   }
 );
 
-const Questionlist = ({ chapterId, formData, allData, data }) => {
+const Questionlist = ({ chapterId, formData, allData }) => {
   const [oneMarkQuestions, setOneMarkQuestions] = useState([]);
   const [twoMarkQuestions, setTwoMarkQuestions] = useState([]);
   const [threeMarkQuestions, setThreeMarkQuestions] = useState([]);
@@ -89,6 +91,7 @@ const Questionlist = ({ chapterId, formData, allData, data }) => {
   const [loading, setLoading] = useState(true);
   const [selectedQuestions, setSelectedQuestions] = useState({});
   const fetch = useAuthenticatedFetch();
+  const setNavigate = navigate();
 
   const DEBUG = false;
   const logDebug = (...args) => DEBUG && console.log(...args);
@@ -223,6 +226,23 @@ const Questionlist = ({ chapterId, formData, allData, data }) => {
   logDebug("selectedQuestionsArray:", selectedQuestionsArray);
 
   if (!chapterId) return null;
+  const handleChange = async () => {
+    const payload = {
+      paperSetting: {
+        board: formData.board,
+        standard: findData(formData, allData, "standard"),
+        subject: findData(formData, allData, "subject"),
+        formData: formData,
+        allData: allData,
+        selectedQuestionsArray: selectedQuestionsArray,
+      },
+      userId: localStorage.getItem("userId"),
+    };
+    const res = await fetch.post("AddPaper", payload);
+    if (res) {
+      setNavigate("/admin/my-papers");
+    }
+  };
 
   return (
     <div className="main-content">
@@ -274,12 +294,7 @@ const Questionlist = ({ chapterId, formData, allData, data }) => {
             )}
           </>
         )}
-        <GeneratePDF
-          formData={formData}
-          allData={allData}
-          selectedQuestions={selectedQuestionsArray}
-          data={data}
-        />
+        <button onClick={handleChange}>Download</button>
       </div>
     </div>
   );
