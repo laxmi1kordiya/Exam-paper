@@ -49,7 +49,7 @@ settingRoutes.post("/addQuestionData", addQuestionData);
 settingRoutes.delete("/deleteQuestionData/:id", deleteQuestionData);
 settingRoutes.get("/getHeaderData", getHeaderData);
 settingRoutes.delete('/deleteOneQuestion/:id/:q_id', deleteOneQuestion);
-settingRoutes.post('/addPaperData', addPaperData);
+settingRoutes.post('/addPaper', addPaperData);
 
 
 export default settingRoutes;
