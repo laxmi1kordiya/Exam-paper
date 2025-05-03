@@ -3,28 +3,11 @@ import { jsPDF } from "jspdf";
 import { addShrutiFont } from "../Utils/addShrutiFont";
 import { findData } from "../Utils/AppUtils";
 
-const GeneratePDF = ({ formData, allData, selectedQuestions, headerData }) => {
+const GenerateAnsKey = ({ formData, allData, selectedQuestions, headerData }) => {
   const translations = {
-    instructionsTitle: { en: "Instructions:", gu: "સૂચનાઓ:" },
-    instruction1: {
-      en: "1. Read all questions carefully.",
-      gu: "૧. બધી પ્રશ્નોને ધ્યાનપૂર્વક વાંચો.",
-    },
-    instruction2: {
-      en: "2. Answer all questions in the given space.",
-      gu: "૨. આપેલ જગ્યા પર બધા પ્રશ્નોના જવાબો લખો.",
-    },
-    instruction3: {
-      en: "3. No electronic gadgets allowed.",
-      gu: "૩. ઇલેક્ટ્રોનિક ઉપકરણોની પરવાનગી નથી.",
-    },
-    studentName: { en: "Student Name", gu: "વિદ્યાર્થીનું નામ" },
-    rollNo: { en: "Roll No.", gu: "ક્રમ નંબર" },
     std: { en: "Std", gu: "ધોરણ" },
     subject: { en: "Subject", gu: "વિષય" },
-    totalMarks: { en: "Total Marks", gu: "કુલ ગુણો" },
     date: { en: "Date", gu: "તારીખ" },
-    obtainMarks: { en: "Obtain Marks", gu: "મેળવેલા ગુણો" },
     section: { en: "Section", gu: "વિભાગ" },
     oneMarkQuestions: {
       en: "Answer the following questions briefly.",
@@ -76,10 +59,8 @@ const GeneratePDF = ({ formData, allData, selectedQuestions, headerData }) => {
   const handleDownload = () => {
     const doc = new jsPDF();
 
-    // 1. Add Gujarati font
     addShrutiFont(doc);
 
-    // 2. Set font based on Board
     if (formData?.board === "GSEB-GUJ") {
       doc.setFont("Shruti");
     } else {
@@ -120,8 +101,6 @@ const GeneratePDF = ({ formData, allData, selectedQuestions, headerData }) => {
 
     // Student Info
     const studentInfo = [
-      { label: t("studentName"), value: "__________________________________" },
-      { label: t("rollNo"), value: formData?.rollNo || "_________________" },
       {
         label: `${t("std")}: ${
           findData(formData, allData, "standard") || "_________________"
@@ -129,20 +108,6 @@ const GeneratePDF = ({ formData, allData, selectedQuestions, headerData }) => {
         value: `${t("subject")}: ${
           findData(formData, allData, "subject") || "_________________"
         }`,
-      },
-      {
-        label: t("totalMarks"),
-        value: formData?.totalMarks || "_________________",
-      },
-      {
-        label: `${t("date")}`,
-        value: formData?.date
-          ? new Date(formData?.date).toLocaleDateString()
-          : "_________________",
-      },
-      {
-        label: t("obtainMarks"),
-        value: formData?.obtainMarks || "_________________",
       },
     ];
 
@@ -156,11 +121,7 @@ const GeneratePDF = ({ formData, allData, selectedQuestions, headerData }) => {
     // Instructions
     yPosition = tableYPosition + 10;
     doc.setFontSize(13);
-    doc.text(t("instructionsTitle"), 10, yPosition);
     doc.setFontSize(10);
-    doc.text(t("instruction1"), 10, yPosition + 10);
-    doc.text(t("instruction2"), 10, yPosition + 15);
-    doc.text(t("instruction3"), 10, yPosition + 20);
 
     // Sections and Questions
     let sectionY = yPosition + 35;
@@ -187,10 +148,10 @@ const GeneratePDF = ({ formData, allData, selectedQuestions, headerData }) => {
       });
     });
 
-    doc.save("generate-paper.pdf");
+    doc.save("generate-AnswerKey.pdf");
   };
 
-  return <button onClick={handleDownload}>Que.Paper</button>;
+  return <button onClick={handleDownload}>Answer Key</button>;
 };
 
-export default GeneratePDF;
+export default GenerateAnsKey;

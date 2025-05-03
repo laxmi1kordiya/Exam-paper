@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useAuthenticatedFetch } from "../../Api/Axios";
-import GeneratePDF from "../generatePDF";
+import GenerateAnsKey from "../GenerateAnsKey";
+import GeneratePDF from "../GeneratePDF";
 
 const MyPapers = () => {
   const [myPapers, setMyPapers] = useState([]);
@@ -68,7 +69,14 @@ const MyPapers = () => {
                     }
                     headerData={headerData}
                   />
-                  <button>Answer Key</button>
+                  <GenerateAnsKey
+                    formData={paper?.paperSetting?.formData}
+                    allData={paper?.paperSetting?.allData}
+                    selectedQuestions={
+                      paper?.paperSetting?.selectedQuestionsArray
+                    }
+                    headerData={headerData}
+                  />
                   <button
                     onClick={() => {
                       deletePaperData(paper._id);
