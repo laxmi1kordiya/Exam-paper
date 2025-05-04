@@ -97,7 +97,7 @@ export const addPaperData = handleCreateOrUpdate("paper");
 
 export const deleteOneQuestion = () => async (req, res, next) => {
   const rcResponse = new ApiResponse();
-  const { id, q_id } = req.params; // q_id = questionList's q_id
+  const { id, q_id } = req.params;
 
   try {
     console.log(id, q_id,'id, q_id')

@@ -248,7 +248,9 @@ export default function ManageEducationData() {
 
         <h2>{activeTab} Management</h2>
         <br />
-        <button onClick={() => openModal()}>Add {activeTab}</button>
+        {activeTab !== "Question" && (
+          <button onClick={() => openModal()}>Add {activeTab}</button>
+        )}
 
         {showModal && (
           <div className="modal-backdrop">

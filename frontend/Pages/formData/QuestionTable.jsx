@@ -132,23 +132,17 @@ export default function QuestionTable() {
   };
 
   const handleSaveQuestions = async () => {
-    if (!selectedChapter) {
-      alert("Please select a chapter first.");
-      return;
-    }
-
     const payload = {
-      questionType,
+      questionType: questionType,
       Chapter_id: selectedChapter,
       Board_id: selectedBoard,
       questionList: questionList,
     };
 
     try {
-      await fetch.post("/addQuestionData", payload);
+      await fetch.post("addQuestionData", payload);
       alert("Questions saved successfully!");
-      setQuestionList([{ question: "", answer: "" }]);
-      document.getElementById("modal-toggle").checked = false;
+      fetchData()
     } catch (error) {
       console.error("Error saving questions:", error);
       alert("Error saving questions.");
@@ -156,8 +150,9 @@ export default function QuestionTable() {
   };
 
   const openModal = (row) => {
-    setQuestionList([{ question: row.question, answer: row.answer }]);
-    setQuestionType(row.questionType || "");
+    setQuestionList([
+      { question: row.question, answer: row.answer, q_id: row.q_id },
+    ]);
   };
 
   const handleDelete = async (item) => {
@@ -215,6 +210,8 @@ export default function QuestionTable() {
             <option value="OneMarks">One Marks</option>
             <option value="TwoMarks">Two Marks</option>
             <option value="ThreeMarks">Three Marks</option>
+            <option value="FourMarks">Four Marks</option>
+            <option value="FiveMarks">Five Marks</option>
           </select>
 
           {questionList.map((q, index) => (
