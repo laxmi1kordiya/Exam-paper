@@ -6,6 +6,7 @@ import {
   findAllData,
   findOne,
   findOneAndUpdate,
+  deleteFromArray,
 } from "../Model/common.js";
 
 export const getAllData = async (req, res, next) => {
@@ -94,21 +95,19 @@ export const addQuestionData = handleCreateOrUpdate("Question");
 export const addSaveData = handleCreateOrUpdate("paperSetting");
 export const addPaperData = handleCreateOrUpdate("paper");
 
-
-export const deleteOneQuestion = () => async (req, res, next) => {
+export const deleteOneQuestion = async (req, res, next) => {
   const rcResponse = new ApiResponse();
-  const { id, q_id } = req.params; // q_id = questionList's q_id
+  const { id, q_id } = req.params;
 
   try {
-    console.log(id, q_id,'id, q_id')
-    rcResponse.data = await deleteOne(
+    rcResponse.data = await deleteFromArray(
       "Question",
       { _id: id },
-      { $pull: { questionList: { q_id: q_id } } }
+      { questionList: { q_id: q_id } }
     );
     return res.status(rcResponse.code).send(rcResponse);
   } catch (err) {
-    console.log(err,'"err--"');
+    console.log(err, '"err--"');
     next(err);
   }
 };

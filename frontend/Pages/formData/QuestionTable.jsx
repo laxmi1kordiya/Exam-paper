@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useAuthenticatedFetch } from "../../Api/Axios";
+import { generateObjectId } from "../../Utils/AppUtils";
 
 export default function QuestionTable() {
   const fetch = useAuthenticatedFetch();
@@ -13,11 +14,12 @@ export default function QuestionTable() {
   const [selectedSubject, setSelectedSubject] = useState("");
   const [selectedChapter, setSelectedChapter] = useState("");
   const [questionList, setQuestionList] = useState([
-    { question: "", answer: "" },
+    { question: "", answer: "", q_id: generateObjectId() },
   ]);
   const [questionType, setQuestionType] = useState("");
   const [filteredQuestions, setFilteredQuestions] = useState([]);
   const [questionData, setQuestionData] = useState([]);
+  const [selectedQuestion, setSelectedQuestion] = useState("");
 
   useEffect(() => {
     fetchData();
@@ -112,7 +114,7 @@ export default function QuestionTable() {
     setQuestionType(type);
 
     const questions = filteredQuestions?.filter((q) => q.questionType === type);
-
+    setSelectedQuestion(questions[0]?._id);
     const combinedQuestions = questions.flatMap((q) => q.questionList || []);
     setQuestionData(combinedQuestions);
   };
@@ -124,7 +126,10 @@ export default function QuestionTable() {
   };
 
   const addNewQuestion = () => {
-    setQuestionList([...questionList, { question: "", answer: "" }]);
+    setQuestionList([
+      ...questionList,
+      { question: "", answer: "", q_id: generateObjectId() },
+    ]);
   };
 
   const removeQuestion = (index) => {
@@ -132,42 +137,40 @@ export default function QuestionTable() {
   };
 
   const handleSaveQuestions = async () => {
-    if (!selectedChapter) {
-      alert("Please select a chapter first.");
-      return;
-    }
-
-    const payload = {
-      questionType,
-      Chapter_id: selectedChapter,
-      Board_id: selectedBoard,
-      questionList: questionList,
-    };
-
-    try {
-      await fetch.post("/addQuestionData", payload);
+    if(selectedQuestion){
+      const payload = {
+        _id: selectedQuestion,
+        questionType: questionType,
+        Chapter_id: selectedChapter,
+        Board_id: selectedBoard,
+        questionList: questionList,
+      };
+      await fetch.post("addQuestionData", payload);
+      alert("Questions updated successfully!");
+      fetchData();
+    }else{
+      const payload = {
+        questionType: questionType,
+        Chapter_id: selectedChapter,
+        Board_id: selectedBoard,
+        questionList: questionList,
+      };
+      await fetch.post("addQuestionData", payload);
       alert("Questions saved successfully!");
-      setQuestionList([{ question: "", answer: "" }]);
-      document.getElementById("modal-toggle").checked = false;
-    } catch (error) {
-      console.error("Error saving questions:", error);
-      alert("Error saving questions.");
+      fetchData();
     }
   };
 
   const openModal = (row) => {
-    setQuestionList([{ question: row.question, answer: row.answer }]);
-    setQuestionType(row.questionType || "");
+    setQuestionList([
+      { question: row.question, answer: row.answer, q_id: row.q_id },
+    ]);
   };
 
   const handleDelete = async (item) => {
-    const mainId = selectedChapter;
+    const mainId = selectedQuestion;
     const questionId = item.q_id;
-    try {
-      await fetch.delete(`deleteOneQuestion/${mainId}/${questionId}`);
-    } catch (err) {
-      console.error("Error deleting question", err);
-    }
+    await fetch.delete(`deleteOneQuestion/${mainId}/${questionId}`);
   };
 
   return (
@@ -215,6 +218,8 @@ export default function QuestionTable() {
             <option value="OneMarks">One Marks</option>
             <option value="TwoMarks">Two Marks</option>
             <option value="ThreeMarks">Three Marks</option>
+            <option value="FourMarks">Four Marks</option>
+            <option value="FiveMarks">Five Marks</option>
           </select>
 
           {questionList.map((q, index) => (
