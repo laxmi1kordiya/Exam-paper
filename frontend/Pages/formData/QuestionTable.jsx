@@ -114,7 +114,7 @@ export default function QuestionTable() {
     setQuestionType(type);
 
     const questions = filteredQuestions?.filter((q) => q.questionType === type);
-    setSelectedQuestion(questions[0]._id);
+    setSelectedQuestion(questions[0]?._id);
     const combinedQuestions = questions.flatMap((q) => q.questionList || []);
     setQuestionData(combinedQuestions);
   };
@@ -137,20 +137,27 @@ export default function QuestionTable() {
   };
 
   const handleSaveQuestions = async () => {
-    const payload = {
-      questionType: questionType,
-      Chapter_id: selectedChapter,
-      Board_id: selectedBoard,
-      questionList: questionList,
-    };
-
-    try {
+    if(selectedQuestion){
+      const payload = {
+        _id: selectedQuestion,
+        questionType: questionType,
+        Chapter_id: selectedChapter,
+        Board_id: selectedBoard,
+        questionList: questionList,
+      };
+      await fetch.post("addQuestionData", payload);
+      alert("Questions updated successfully!");
+      fetchData();
+    }else{
+      const payload = {
+        questionType: questionType,
+        Chapter_id: selectedChapter,
+        Board_id: selectedBoard,
+        questionList: questionList,
+      };
       await fetch.post("addQuestionData", payload);
       alert("Questions saved successfully!");
       fetchData();
-    } catch (error) {
-      console.error("Error saving questions:", error);
-      alert("Error saving questions.");
     }
   };
 
