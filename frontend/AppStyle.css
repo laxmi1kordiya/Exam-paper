@@ -1867,8 +1867,103 @@ div.content-page div.card-content h2 {
 b, strong {
   font-weight: bold !important;
 }
-.warning{
-  color: #fe517e  !important;
+.warning {
+  color: #fe517e !important; /* Custom color */
   display: inline-block;
-  margin-top: 8px;
+  margin-top: 8px; /* Margin to push the text down */
+  font-weight: 550; /* Keep text bold */
+  transition: transform 0.3s ease, text-shadow 0.3s ease; /* Smooth transition for zoom and glow */
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 16px;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  padding: 16px; /* Padding around the whole table */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for the box effect */
+  border-radius: 8px; /* Rounded corners for the table box */
+  background-color: #f4f4f4; /* Light grey background for the table box */
+}
+
+/* Table header and cells */
+table th,
+table td {
+  padding: 10px 12px;
+  text-align: left;
+}
+
+table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+table tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Button styles */
+td button {
+  margin-right: 8px;
+  padding: 6px 12px;
+  border: none;               /* No border */
+  outline: none;              /* No focus outline box */
+  border-radius: 4px;
+  background-color: transparent; /* base transparent, then override in each button */
+  font-size: 13px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+/* Question Paper button */
+td button.qpaper {
+  background-color: #2196f3; /* blue */
+  color: white;
+}
+
+td button.qpaper:hover {
+  background-color: #1976d2;
+}
+
+/* Answer Key button */
+td button.anskey {
+  background-color: #4caf50; /* green */
+  color: white;
+}
+
+td button.anskey:hover {
+  background-color: #388e3c;
+}
+
+/* Delete button */
+td button.delete {
+  background-color: #e53935; /* red */
+  color: white;
+}
+
+td button.delete:hover {
+  background-color: #c62828;
+}
+
+/* Style for the board >> standard >> subject text */
+td .paper-info {
+  font-weight: 600;
+  color: #333;
+  font-size: 14px;
+}
+
+/* Style for the date text */
+td .paper-date {
+  color: #444;
+  font-size: 13px;
+  font-weight: bold;
+  font-style: italic;
+}
+
+/* Button group styling */
+td.button-group {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px; /* space between buttons */
 }

@@ -37,11 +37,7 @@ const MyPapers = () => {
             <b>Attention:</b>
             <br></br>
             <span className="warning">
-              1.The generated paper will be saved for 30 days.
-            </span>
-            <br></br>
-            <span className="warning">
-              2.You can edit the paper within 7 days of creation.
+            ➤ The Generated Paper will be saved for 30 days.
             </span>
             <br></br>
           </div>
@@ -54,40 +50,47 @@ const MyPapers = () => {
               {myPapers.map((paper) => (
                 <tr key={paper._id}>
                   <td>
-                    {`${paper?.paperSetting?.board} >> ${paper?.paperSetting?.standard} >> ${paper?.paperSetting?.subject}`}
+                    <span className="paper-info">
+                      {`${paper?.paperSetting?.board} >> ${paper?.paperSetting?.standard} >> ${paper?.paperSetting?.subject}`}
+                    </span>
                   </td>
 
                   <td>
-                    {new Date(paper.created).toLocaleDateString("en-US", {
-                      day: "2-digit",
-                      month: "short",
-                      year: "numeric",
-                    })}
+                    <span className="paper-date">
+                      {new Date(paper.created).toLocaleDateString("en-US", {
+                        day: "2-digit",
+                        month: "short",
+                        year: "numeric",
+                      })}
+                    </span>
                   </td>
                   <td>
-                    <GeneratePDF
-                      formData={paper?.paperSetting?.formData}
-                      allData={paper?.paperSetting?.allData}
-                      selectedQuestions={
-                        paper?.paperSetting?.selectedQuestionsArray
-                      }
-                      headerData={headerData}
-                    />
-                    <GenerateAnsKey
-                      formData={paper?.paperSetting?.formData}
-                      allData={paper?.paperSetting?.allData}
-                      selectedQuestions={
-                        paper?.paperSetting?.selectedQuestionsArray
-                      }
-                      headerData={headerData}
-                    />
-                    <button
-                      onClick={() => {
-                        deletePaperData(paper._id);
-                      }}
-                    >
-                      Delete
-                    </button>
+                    <td className="button-group">
+                      <GeneratePDF
+                        formData={paper?.paperSetting?.formData}
+                        allData={paper?.paperSetting?.allData}
+                        selectedQuestions={
+                          paper?.paperSetting?.selectedQuestionsArray
+                        }
+                        headerData={headerData}
+                      />
+
+                      <GenerateAnsKey
+                        formData={paper?.paperSetting?.formData}
+                        allData={paper?.paperSetting?.allData}
+                        selectedQuestions={
+                          paper?.paperSetting?.selectedQuestionsArray
+                        }
+                        headerData={headerData}
+                      />
+
+                      <button
+                        className="delete"
+                        onClick={() => deletePaperData(paper._id)}
+                      >
+                        Delete
+                      </button>
+                    </td>
                   </td>
                 </tr>
               ))}

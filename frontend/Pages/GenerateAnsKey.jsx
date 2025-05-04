@@ -35,7 +35,8 @@ const GenerateAnsKey = ({
       gu: "દર પાંચ ગુણના પ્રશ્નોના જવાબ આપો.",
     },
   };
-
+  const subject = findData(formData, allData, "subject") || "Subject";
+  const standard = findData(formData, allData, "standard") || "Standard";
   const t = (key) => {
     if (formData?.board === "GSEB-GUJ") {
       return translations[key]?.gu || key;
@@ -63,7 +64,6 @@ const GenerateAnsKey = ({
 
   const handleDownload = () => {
     const doc = new jsPDF();
-
     addShrutiFont(doc);
 
     if (formData?.board === "GSEB-GUJ") {
@@ -87,62 +87,66 @@ const GenerateAnsKey = ({
       sectionMapping[key] = sectionLabels[index] || `Section ${index + 1}`;
     });
 
-    // Adding header (logo, title, subtitle)
+    // Header (Logo, Title, Subtitle)
     let yPosition = 10;
+
     if (headerData?.logoPreview) {
-      doc.addImage(headerData?.logoPreview, "PNG", 10, yPosition, 40, 40);
-      yPosition += 40;
+      doc.addImage(headerData.logoPreview, "PNG", 10, yPosition, 25, 25);
     }
-    doc.setFontSize(14);
-    doc.text(String(headerData?.title || ""), 105, yPosition, {
+
+    // Title and Subtitle next to logo
+    const textStartX = 40;
+    doc.setFontSize(16);
+    doc.text(String(headerData?.title || ""), 105, yPosition + 8, {
       align: "center",
     });
-    yPosition += 10;
-    doc.setFontSize(10);
-    doc.text(String(headerData?.subtitle || ""), 105, yPosition, {
+
+    doc.setFontSize(12);
+    doc.text(String(headerData?.subtitle || ""), 105, yPosition + 16, {
       align: "center",
     });
+
+    yPosition += 35; // leave 2-line space after subtitle
+
+    // Line: Standard (Subject) - Centered
+    const stdSub = `${
+      findData(formData, allData, "standard") || "_________________"
+    } (${findData(formData, allData, "subject") || "_________________"})`;
+    doc.setFontSize(11);
+    doc.text(stdSub, 105, yPosition, { align: "center" });
+
+    // Time Allowed (left) and Total Marks (right)
+    const timeAllowed = formData?.timeAllowed || "_________________";
+    const totalMarks = formData?.totalMarks || "_________________";
+
     yPosition += 10;
-
-    // Student Info
-    const studentInfo = [
-      {
-        label: `${t("std")}: ${
-          findData(formData, allData, "standard") || "_________________"
-        }`,
-        value: `${t("subject")}: ${
-          findData(formData, allData, "subject") || "_________________"
-        }`,
-      },
-    ];
-
-    let tableYPosition = yPosition + 20;
-    studentInfo.forEach((info) => {
-      doc.text(String(info.label), 10, tableYPosition);
-      doc.text(String(info.value), 80, tableYPosition);
-      tableYPosition += 10;
+    doc.text("Time Allowed: " + timeAllowed, 10, yPosition);
+    doc.text(`${t("totalMarks")}: ${totalMarks}`, 200, yPosition, {
+      align: "right",
     });
 
-    // Instructions
-    yPosition = tableYPosition + 10;
-    doc.setFontSize(13);
-    doc.setFontSize(10);
-
-    let sectionY = yPosition + 35;
+    // Start Sections
+    let sectionY = yPosition + 15;
     Object.keys(questionsBySection).forEach((sectionKey) => {
       doc.setFontSize(12);
-      doc.text(`${t("section")} ${sectionMapping[sectionKey]}`, 10, sectionY);
+      doc.text(`${t("section")} ${sectionMapping[sectionKey]}`, 105, sectionY, {
+        align: "center",
+      });
       sectionY += 10;
+
       doc.setFontSize(11);
       doc.text(getSectionTitle(sectionKey), 10, sectionY);
       sectionY += 10;
 
       questionsBySection[sectionKey].forEach((question, idx) => {
-        const questionText = `Q.${idx + 1} ${
-          question.question || "No question text"
-        }\nAns: ${question.answer || "No answer text"}`;
-        doc.text(questionText, 10, sectionY);
-        sectionY += 20;
+        doc.text(
+          `Q.${idx + 1} ${question.question || "No question text"}`,
+          10,
+          sectionY
+        );
+        sectionY += 7; // Add a bit of space before the answer
+        doc.text(`Ans: ${question.answer || "No answer text"}`, 10, sectionY);
+        sectionY += 10; // Space before the next question
 
         if (sectionY > 270) {
           doc.addPage();
@@ -151,10 +155,14 @@ const GenerateAnsKey = ({
       });
     });
 
-    doc.save("generate-AnswerKey.pdf");
+    doc.save(`Ans.Key_${subject}_${standard}.pdf`);
   };
 
-  return <button onClick={handleDownload}>Answer Key</button>;
+  return (
+    <button className="anskey" onClick={handleDownload}>
+      Answer Key
+    </button>
+  );
 };
 
 export default GenerateAnsKey;
