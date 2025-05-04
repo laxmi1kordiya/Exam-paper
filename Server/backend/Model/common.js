@@ -338,6 +338,17 @@ const findAllData = async (collection) => {
   }
 };
 
+const deleteFromArray = async (collection, matchQuery, pullQuery) => {
+  try {
+    return await models[collection]
+      .updateOne(matchQuery, { $pull: pullQuery })
+      .lean()
+      .exec();
+  } catch (err) {
+    throw err;
+  }
+};
+
 export {
   findOne,
   create,
@@ -358,4 +369,5 @@ export {
   getAllCollectionNames,
   getDirectDataFromDb,
   findAllData,
+  deleteFromArray
 };

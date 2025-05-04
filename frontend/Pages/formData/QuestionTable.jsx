@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useAuthenticatedFetch } from "../../Api/Axios";
+import { generateObjectId } from "../../Utils/AppUtils";
 
 export default function QuestionTable() {
   const fetch = useAuthenticatedFetch();
@@ -13,11 +14,12 @@ export default function QuestionTable() {
   const [selectedSubject, setSelectedSubject] = useState("");
   const [selectedChapter, setSelectedChapter] = useState("");
   const [questionList, setQuestionList] = useState([
-    { question: "", answer: "" },
+    { question: "", answer: "", q_id: generateObjectId() },
   ]);
   const [questionType, setQuestionType] = useState("");
   const [filteredQuestions, setFilteredQuestions] = useState([]);
   const [questionData, setQuestionData] = useState([]);
+  const [selectedQuestion, setSelectedQuestion] = useState("");
 
   useEffect(() => {
     fetchData();
@@ -112,7 +114,7 @@ export default function QuestionTable() {
     setQuestionType(type);
 
     const questions = filteredQuestions?.filter((q) => q.questionType === type);
-
+    setSelectedQuestion(questions[0]._id);
     const combinedQuestions = questions.flatMap((q) => q.questionList || []);
     setQuestionData(combinedQuestions);
   };
@@ -124,7 +126,10 @@ export default function QuestionTable() {
   };
 
   const addNewQuestion = () => {
-    setQuestionList([...questionList, { question: "", answer: "" }]);
+    setQuestionList([
+      ...questionList,
+      { question: "", answer: "", q_id: generateObjectId() },
+    ]);
   };
 
   const removeQuestion = (index) => {
@@ -142,7 +147,7 @@ export default function QuestionTable() {
     try {
       await fetch.post("addQuestionData", payload);
       alert("Questions saved successfully!");
-      fetchData()
+      fetchData();
     } catch (error) {
       console.error("Error saving questions:", error);
       alert("Error saving questions.");
@@ -156,13 +161,9 @@ export default function QuestionTable() {
   };
 
   const handleDelete = async (item) => {
-    const mainId = selectedChapter;
+    const mainId = selectedQuestion;
     const questionId = item.q_id;
-    try {
-      await fetch.delete(`deleteOneQuestion/${mainId}/${questionId}`);
-    } catch (err) {
-      console.error("Error deleting question", err);
-    }
+    await fetch.delete(`deleteOneQuestion/${mainId}/${questionId}`);
   };
 
   return (
