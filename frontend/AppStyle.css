@@ -581,55 +581,118 @@ section.section1 > div :nth-child(2){
   margin-bottom: 40px;
 }
 
-.steps-container {
+
+
+/* Stepper container */
+.flex.justify-center.mb-6 {
   display: flex;
-  justify-content: space-between;
-  gap: 20px;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 1rem;
+  margin-bottom: 3rem;
 }
 
-.step-card {
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  padding: 30px;
-  width: 30%;
+/* Individual step wrapper */
+.flex.items-center {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Step column (circle + label) */
+.flex.flex-col.items-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 0.5rem;
+}
+
+/* Step circle */
+.w-8.h-8.rounded-full.flex.items-center.justify-center {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* Completed step */
+.w-8.h-8.rounded-full.bg-green-500.text-white {
+  background-color: #22c55e;
+  color: white;
+}
+
+/* Current step */
+.w-8.h-8.rounded-full.bg-blue-500.text-white {
+  background-color: #3b82f6;
+  color: white;
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+}
+
+/* Future step */
+.w-8.h-8.rounded-full.bg-gray-300.text-gray-700 {
+  background-color: #d1d5db;
+  color: #374151;
+}
+
+/* Checkmark SVG for completed steps */
+.w-8.h-8.rounded-full.bg-green-500.text-white svg.w-5.h-5 {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+/* Step label */
+.text-sm.mt-1 {
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  color: #374151;
   text-align: center;
-  position: relative;
+  max-width: 100px;
 }
 
-.step-number {
-  background-color: #f0f0f0;
-  color: #333;
-  font-size: 14px;
-  font-weight: 600;
-  padding: 5px 15px;
-  border-radius: 20px;
-  display: inline-block;
-  margin-bottom: 20px;
+/* Connecting line */
+.h-1.w-16.mx-2 {
+  height: 4px;
+  width: 4rem;
+  margin: 0 0.5rem;
+  transition: background-color 0.3s ease;
 }
 
-.step-title {
-  font-size: 20px;
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 15px;
+/* Completed connector */
+.h-1.w-16.mx-2.bg-green-500 {
+  background-color: #22c55e;
 }
 
-.step-description {
-  font-size: 14px;
-  color: #666;
-  line-height: 1.5;
+/* Future connector */
+.h-1.w-16.mx-2.bg-gray-300 {
+  background-color: #d1d5db;
 }
 
-/* Optional: Add dashed lines between cards (simplified) */
-.step-card:not(:last-child)::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  right: -50px;
-  width: 50px;
-  height: 2px;
-  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="2"><line x1="0" y1="1" x2="10" y2="1" stroke="blue" stroke-dasharray="2,2"/></svg>') repeat-x;
+/* Add padding to content sections to ensure consistent spacing */
+.header, .form-container, .signin-box {
+  padding-top: 0.2rem;
+}
+
+/* Ensure Step 3 content is visible */
+.question-list-wrapper {
+  min-height: 200px;
+  padding: 1rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background-color: #ffffff;
+  margin-top: 1rem;
 }
 
 /* AboutUs Styles */
@@ -1213,59 +1276,7 @@ section.section1 > div :nth-child(2){
   margin: 5px 0 0;
 }
 
-.steps-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-}
 
-.step {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.step-number {
-  width: 40px;
-  height: 40px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 18px;
-  font-weight: bold;
-  color: #39413e;
-  background-color: #cdddff;
-  border-radius: 8px;
-}
-
-
-.step.active .step-number {
-  background-color: #1e3a8a; /* Dark blue for active step */
-  color: #fff;
-}
-
-.step-content {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-}
-
-.step-content h3 {
-  font-size: 16px;
-  font-weight: 600;
-  color: #1e3a8a; /* Dark blue for text */
-  margin: 0;
-}
-
-.step-content p {
-  font-size: 14px;
-  color: #4b5e8e; /* Lighter blue-gray for description */
-  margin: 5px 0 0 0;
-}
 
 .board-selection {
   display: flex;

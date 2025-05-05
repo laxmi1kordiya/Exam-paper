@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 import standard from "../Schema/Standard.js";
-import semester from "../Schema/Semester.js";
 import subject from "../Schema/Subject.js";
 import board from "../Schema/Board.js";
 import chapter from "../Schema/Chapter.js";
@@ -12,7 +11,6 @@ import paper from "../Schema/Paper.js";
 const models = {
   user,
   standard,
-  semester,
   subject,
   board,
   chapter,
@@ -298,14 +296,6 @@ const findAllData = async (collection) => {
           localField: "_id",
           foreignField: "Board_id",
           as: "standards",
-        },
-      },
-      {
-        $lookup: {
-          from: "semesters",
-          localField: "_id",
-          foreignField: "Board_id",
-          as: "semesters",
         },
       },
       {

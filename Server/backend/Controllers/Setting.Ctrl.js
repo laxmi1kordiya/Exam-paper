@@ -31,7 +31,6 @@ const handleGetAll = (modelName) => async (req, res, next) => {
 
 export const getBoardData = handleGetAll("board");
 export const getStdData = handleGetAll("standard");
-export const getSemData = handleGetAll("semester");
 export const getSubData = handleGetAll("subject");
 export const getChapterData = handleGetAll("chapter");
 export const getQuestions = handleGetAll("Question");
@@ -60,7 +59,6 @@ export const getHeaderData = async (req, res, next) => {
 
 export const deleteBoardData = handleDelete("board");
 export const deleteStandardData = handleDelete("standard");
-export const deleteSemesterData = handleDelete("semester");
 export const deleteSubjectData = handleDelete("subject");
 export const deleteChapterData = handleDelete("chapter");
 export const deleteQuestionData = handleDelete("Question");
@@ -88,7 +86,6 @@ const handleCreateOrUpdate = (modelName) => async (req, res, next) => {
 };
 export const addBoardData = handleCreateOrUpdate("board");
 export const addStandardData = handleCreateOrUpdate("standard");
-export const addSemesterData = handleCreateOrUpdate("semester");
 export const addSubjectData = handleCreateOrUpdate("subject");
 export const addChapterData = handleCreateOrUpdate("chapter");
 export const addQuestionData = handleCreateOrUpdate("Question");

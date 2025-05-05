@@ -12,10 +12,6 @@ const subjectSchema = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "standard",
   },
-  Semester_id: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "semester",
-  },
 });
 
 const subject = mongoose.model("subject", subjectSchema);

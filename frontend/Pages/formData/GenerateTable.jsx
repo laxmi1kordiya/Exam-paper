@@ -13,11 +13,6 @@ const apiEndpoints = {
     add: "addStandardData",
     delete: "deleteStandardData",
   },
-  Semester: {
-    fetch: "getsemData",
-    add: "addSemesterData",
-    delete: "deleteSemesterData",
-  },
   Subject: {
     fetch: "getsubData",
     add: "addSubjectData",
@@ -95,9 +90,6 @@ export default function ManageEducationData() {
     const standard = board.standards?.find(
       (std) => std._id === item.Standard_id
     );
-    const semester = board.semesters?.find(
-      (sem) => sem.Standard_id === item.Standard_id
-    );
     const subject = board.subjects?.find((sub) => sub._id === item.Subject_id);
     const chapter = board.chapters?.find(
       (chap) => chap._id === item.Chapter_id
@@ -107,7 +99,6 @@ export default function ManageEducationData() {
       <>
         {shouldShow("board") && <td>{board.name}</td>}
         {shouldShow("standard") && <td>{standard?.name}</td>}
-        {shouldShow("semester") && <td>{semester?.name}</td>}
         {shouldShow("subject") && <td>{subject?.name}</td>}
         {isQuestion && <td>{chapter?.name}</td>}
       </>
@@ -131,13 +122,9 @@ export default function ManageEducationData() {
     const standardOptions =
       selectedBoard?.standards?.map((s) => ({ label: s.name, value: s._id })) ||
       [];
-    const semesterOptions =
-      selectedBoard?.semesters
-        ?.filter((sem) => sem.Standard_id === formData.Standard_id)
-        .map((sem) => ({ label: sem.name, value: sem._id })) || [];
     const subjectOptions =
       selectedBoard?.subjects
-        ?.filter((sub) => sub.Semester_id === formData.Semester_id)
+        ?.filter((sub) => sub.Standard_id === formData.Standard_id)
         .map((sub) => ({ label: sub.name, value: sub._id })) || [];
     const chapterOptions =
       selectedBoard?.chapters
@@ -146,7 +133,7 @@ export default function ManageEducationData() {
 
     return (
       <>
-        {["Standard", "Semester", "Subject", "Chapter", "Question"].includes(
+        {["Standard", "Subject", "Chapter", "Question"].includes(
           activeTab
         ) &&
           renderSelect("Board", formData.Board_id, boardOptions, (e) =>
@@ -154,28 +141,16 @@ export default function ManageEducationData() {
               ...formData,
               Board_id: e.target.value,
               Standard_id: "",
-              Semester_id: "",
-              Subject_id: "",
-              Chapter_id: "",
-            })
-          )}
-
-        {["Semester", "Subject", "Chapter", "Question"].includes(activeTab) &&
-          renderSelect("Standard", formData.Standard_id, standardOptions, (e) =>
-            setFormData({
-              ...formData,
-              Standard_id: e.target.value,
-              Semester_id: "",
               Subject_id: "",
               Chapter_id: "",
             })
           )}
 
         {["Subject", "Chapter", "Question"].includes(activeTab) &&
-          renderSelect("Semester", formData.Semester_id, semesterOptions, (e) =>
+          renderSelect("Standard", formData.Standard_id, standardOptions, (e) =>
             setFormData({
               ...formData,
-              Semester_id: e.target.value,
+              Standard_id: e.target.value,
               Subject_id: "",
               Chapter_id: "",
             })
@@ -216,9 +191,8 @@ export default function ManageEducationData() {
   };
 
   const columnsVisibility = {
-    board: ["Standard", "Semester", "Subject", "Chapter", "Question"],
-    standard: ["Semester", "Subject", "Chapter", "Question"],
-    semester: ["Subject", "Chapter", "Question"],
+    board: ["Standard",  "Subject", "Chapter", "Question"],
+    standard: ["Subject", "Chapter", "Question"],
     subject: ["Chapter", "Question"],
     chapter: ["Question"],
   };
@@ -287,7 +261,6 @@ export default function ManageEducationData() {
                   <th>ID</th>
                   {shouldShow("board") && <th>Board Name</th>}
                   {shouldShow("standard") && <th>Standard Name</th>}
-                  {shouldShow("semester") && <th>Semester Name</th>}
                   {shouldShow("subject") && <th>Subject Name</th>}
                   {isQuestion && <th>Chapter Name</th>}
                   <th>{activeTab} Name</th>
