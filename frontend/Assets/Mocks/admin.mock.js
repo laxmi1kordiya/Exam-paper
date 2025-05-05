@@ -11,12 +11,12 @@ export const menuItems = [
     icon: "📝",
     isNew: false,
   },
-  {
-    name: "Header Setting",
-    path: "/admin/paper-setting",
-    icon: "⚙️",
-    isNew: false,
-  },
+  // {
+  //   name: "Header Setting",
+  //   path: "/admin/paper-setting",
+  //   icon: "⚙️",
+  //   isNew: false,
+  // },
   {
     name: "My Papers",
     path: "/admin/my-papers",

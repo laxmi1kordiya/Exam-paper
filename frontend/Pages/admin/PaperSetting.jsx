@@ -2,23 +2,18 @@ import React, { useEffect, useState, useCallback } from "react";
 import { useAuthenticatedFetch } from "../../Api/Axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { navigate } from "../../Components/NavigationMenu";
 
 const PaperSetting = () => {
   const fetch = useAuthenticatedFetch();
+  const setNavigate = navigate();
 
   const [formData, setFormData] = useState({
     title: "Create Paper",
     subtitle: "Paper Generate by Create Paper",
-    logo: null,
-    logoPreview: null,
-    questionfontSize: 14,
-    questionTypefontSize: 16,
-    spaceBetweenQuestions: 0,
-    WaterMark: false,
-    WaterMarkTaxt:"",
+    // WaterMark: false,
+    // WaterMarkTaxt: "",
   });
-
-  const [logoError, setLogoError] = useState("");
 
   const fetchData = useCallback(async () => {
     const res = await fetch.get("getHeaderData");
@@ -39,44 +34,16 @@ const PaperSetting = () => {
       [name]: value,
     }));
   };
-
-  const handleLogoChange = (e) => {
-    const file = e.target.files[0];
-
-    if (file) {
-      const allowedTypes = ["image/jpeg", "image/png", "image/jpg"];
-      const maxSize = 2 * 1024 * 1024;
-
-      if (!allowedTypes.includes(file.type)) {
-        setLogoError("Only JPG, JPEG, and PNG formats are allowed.");
-        return;
-      }
-
-      if (file.size > maxSize) {
-        setLogoError("File size must be less than or equal to 2MB.");
-        return;
-      }
-
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setFormData((prev) => ({
-          ...prev,
-          logo: file,
-          logoPreview: reader.result,
-        }));
-        setLogoError("");
-      };
-
-      reader.readAsDataURL(file);
-    }
-  };
-
-  const handleSubmit = async () => {
-    if (logoError) return toast.error(logoError);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log(formData, "formData");
     formData["userId"] = localStorage.getItem("userId");
-    console.log(formData,'formData')
-    await fetch.post("paperSetting", formData);
+    const res1 = await fetch.post("paperSetting", formData);
+    console.log(res1, "res1");
     toast.success("Paper header updated successfully!");
+    if (res1) {
+      setNavigate("/admin/my-papers");
+    }
   };
 
   return (
@@ -87,7 +54,7 @@ const PaperSetting = () => {
           <p className="text-center text-dark">
             Configure details for the exam paper
           </p>
-          <form>
+          <form onSubmit={handleSubmit}>
             <div className="row">
               <div className="form-group">
                 <label htmlFor="title">Title</label>
@@ -112,34 +79,9 @@ const PaperSetting = () => {
                   onChange={handleChange}
                 />
               </div>
-
-              <div className="form-group">
-                <label htmlFor="logo">Upload Logo</label>
-                <input
-                  type="file"
-                  accept="image/*"
-                  className="form-control"
-                  id="logo"
-                  onChange={handleLogoChange}
-                />
-                {logoError && (
-                  <small className="text-danger">{logoError}</small>
-                )}
-                {formData.logoPreview && !logoError && (
-                  <img
-                    src={formData.logoPreview}
-                    alt="Logo Preview"
-                    style={{
-                      marginTop: "10px",
-                      width: "100px",
-                      height: "auto",
-                    }}
-                  />
-                )}
-              </div>
             </div>
 
-            <button onClick={handleSubmit}>Submit</button>
+            <button type="submit">Submit</button>
           </form>
         </div>
       </div>

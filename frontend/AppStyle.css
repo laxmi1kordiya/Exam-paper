@@ -1967,3 +1967,11 @@ td.button-group {
   align-items: center;
   gap: 8px; /* space between buttons */
 }
+
+.checkbox-inline {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+}
+

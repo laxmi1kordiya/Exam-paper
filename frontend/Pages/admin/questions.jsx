@@ -2,7 +2,6 @@ import React, { useState, useEffect, memo } from "react";
 import { useAuthenticatedFetch } from "../../Api/Axios";
 import { navigate } from "../../Components/NavigationMenu";
 import { findData } from "../../Utils/AppUtils";
-import GeneratePDF from "../generatePDF";
 
 // Memoize the RenderQuestions component to prevent unnecessary re-renders
 const RenderQuestions = memo(
@@ -223,7 +222,7 @@ const Questionlist = ({ chapterId, formData, allData }) => {
     })
     .filter((q) => q !== undefined);
 
-  logDebug("selectedQuestionsArray:", selectedQuestionsArray);
+  // logDebug("selectedQuestionsArray:", selectedQuestionsArray);
 
   if (!chapterId) return null;
   const handleChange = async () => {
@@ -239,9 +238,9 @@ const Questionlist = ({ chapterId, formData, allData }) => {
       userId: localStorage.getItem("userId"),
     };
     const res = await fetch.post("AddPaper", payload);
-    if (res) {
+    console.log(res, "res");
+  console.log(payload, "payload");
       setNavigate("/admin/my-papers");
-    }
   };
 
   return (

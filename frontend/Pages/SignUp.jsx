@@ -150,7 +150,7 @@ const SignUp = () => {
         <div className="sign-in-from">
           <h3 className="text-center">Sign Up</h3>
           <p className="text-center text-dark">
-            Register your account with 360Exam with your profession
+            Register your account with ExamPaper
           </p>
           <form className="mt-4" style={{ padding: "20px" }}>
             <div className="row">
