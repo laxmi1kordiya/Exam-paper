@@ -11,40 +11,43 @@ const Home = () => {
   return (
     <>
       <Navbar />
-      <section id="home" className="section1">
-        <div>
-          <span>Create Exam Papers for GSEB Board</span>
-          <span>
-            We Provide users to design and generate customized exam papers for
-            the GSEB Board Whether you're a teacher, student, school, or
-            managing multiple classes.
-          </span>
+        <div >
+          <section id="home" className="section1">
+            <div>
+              <span>Create Exam Papers for GSEB Board</span>
+              <span>
+                We Provide users to design and generate customized exam papers
+                for the GSEB Board Whether you're a teacher, student, school, or
+                managing multiple classes.
+              </span>
+            </div>
+            <div className="img">
+              <img src={iphoneImage} alt="Error" />
+            </div>
+          </section>
         </div>
-        <div className="img">
-          <img src={iphoneImage} alt="Error" />
+        <div className="main-content">
+          <section id="features" className="section1">
+            <Features />
+          </section>
         </div>
-      </section>
+        <div className="main-content">
+          <section id="packages" className="section1">
+            <Price />
+          </section>
+        </div>
+        <div className="main-content">
+          <section id="how-to-use" className="section1">
+            <HowToUse />
+          </section>
+        </div>
+        <div className="main-content">
+          <section id="about" className="section1">
+            <AboutUs />
+          </section>
+        </div>
 
-      <section id="features" className="section1">
-        <Features />
-      </section>
-
-      <section id="packages" className="section1">
-        <Price />
-      </section>
-
-      <section id="how-to-use" className="section1">
-        <HowToUse />
-      </section>
-
-      <section id="about" className="section1">
-        <AboutUs />
-      </section>
-
-      <a href="#">
-        &#8679;
-      </a>
-
+        <a href="#">&#8679;</a>
       <Footer />
     </>
   );

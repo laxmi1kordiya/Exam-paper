@@ -139,14 +139,29 @@ const GenerateAnsKey = ({
       sectionY += 10;
 
       questionsBySection[sectionKey].forEach((question, idx) => {
-        doc.text(
-          `Q.${idx + 1} ${question.question || "No question text"}`,
-          10,
-          sectionY
+        const questionNumber = `Q.${idx + 1}. `;
+        const availableWidth = doc.internal.pageSize.getWidth() - 20; // Total width minus left and right margins
+
+        // Wrap question text
+        const wrappedQuestion = doc.splitTextToSize(
+          question.question || "No question text",
+          availableWidth - doc.getTextWidth(questionNumber)
         );
-        sectionY += 7; // Add a bit of space before the answer
-        doc.text(`Ans: ${question.answer || "No answer text"}`, 10, sectionY);
-        sectionY += 10; // Space before the next question
+        doc.text(questionNumber, 10, sectionY);
+        doc.text(wrappedQuestion, 10 + doc.getTextWidth(questionNumber), sectionY);
+        sectionY += wrappedQuestion.length * 7; // Adjust line height
+
+        sectionY += 0; // Add a bit of space before "Ans:"
+
+        // Wrap answer text
+        const answerPrefix = "Ans: ";
+        const wrappedAnswer = doc.splitTextToSize(
+          question.answer || "No answer text",
+          availableWidth - doc.getTextWidth(answerPrefix)
+        );
+        doc.text(answerPrefix, 10, sectionY);
+        doc.text(wrappedAnswer, 10 + doc.getTextWidth(answerPrefix), sectionY);
+        sectionY += wrappedAnswer.length * 7 + 3; // Adjust line height and add space before next question
 
         if (sectionY > 270) {
           doc.addPage();

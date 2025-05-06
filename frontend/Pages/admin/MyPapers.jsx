@@ -5,13 +5,11 @@ import GeneratePDF from "../GeneratePDF";
 
 const MyPapers = () => {
   const [myPapers, setMyPapers] = useState([]);
-  const [headerData, setHeaderData] = useState([]);
+  const [headerData] = useState([]);
   const fetch = useAuthenticatedFetch();
   const fetchData = async () => {
     try {
       const { data } = await fetch.get("getMyPapers");
-      const header = await fetch.get("getHeaderData");
-      setHeaderData(header?.data);
       setMyPapers(data || []);
     } catch (err) {
       console.error("Error fetching data", err);
@@ -72,7 +70,7 @@ const MyPapers = () => {
                         selectedQuestions={
                           paper?.paperSetting?.selectedQuestionsArray
                         }
-                        headerData={headerData}
+                        headerData={paper?.paperSetting?.headerData}
                       />
 
                       <GenerateAnsKey
@@ -81,7 +79,7 @@ const MyPapers = () => {
                         selectedQuestions={
                           paper?.paperSetting?.selectedQuestionsArray
                         }
-                        headerData={headerData}
+                        headerData={paper?.paperSetting?.headerData}
                       />
 
                       <button

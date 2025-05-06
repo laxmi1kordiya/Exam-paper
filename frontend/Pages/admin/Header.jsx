@@ -37,7 +37,7 @@ const Header = () => {
     } else if (path === "/admin/how-to-use") {
       setUrl("How To Use");
     } else {
-      setUrl(""); // default if needed
+      setUrl(""); 
     }
   }, [location.pathname]);
 

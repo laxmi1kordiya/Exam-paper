@@ -3,33 +3,57 @@ import { useAuthenticatedFetch } from "../../Api/Axios";
 import { navigate } from "../../Components/NavigationMenu";
 import { findData } from "../../Utils/AppUtils";
 
-// Memoize the RenderQuestions component to prevent unnecessary re-renders
 const RenderQuestions = memo(
-  ({ questions, questionType, selectedQuestions, handleCheckboxChange }) => {
-    if (!questions.length) {
-      console.log(`No questions for ${questionType}`);
-      return <p>No {questionType} questions available for this chapter.</p>;
+  ({
+    questions,
+    questionType,
+    selectedQuestions,
+    handleCheckboxChange,
+    board,
+  }) => {
+    if (!questions || questions.length === 0) {
+      return null;
+    }
+
+    let summaryText = "";
+    switch (questionType) {
+      case "OneMarks":
+        summaryText =
+          board === "GSEB-GUJ"
+            ? "નીચે આપેલા પ્રશ્નોના ટુંકમાં જવાબ આપો."
+            : "Answer the following questions briefly.";
+        break;
+      case "TwoMarks":
+        summaryText =
+          board === "GSEB-GUJ"
+            ? "નીચે આપેલા બે ગુણના પ્રશ્નોના જવાબ આપો."
+            : "Answer the following questions with two marks each.";
+        break;
+      case "ThreeMarks":
+        summaryText =
+          board === "GSEB-GUJ"
+            ? "નીચે આપેલા ત્રણ ગુણના પ્રશ્નોના જવાબ આપો."
+            : "Answer the following questions with three marks each.";
+        break;
+      case "FourMarks":
+        summaryText =
+          board === "GSEB-GUJ"
+            ? "નીચે આપેલા ચાર ગુણના પ્રશ્નોના જવાબ આપો."
+            : "Answer the following questions with four marks each.";
+        break;
+      case "FiveMarks":
+        summaryText =
+          board === "GSEB-GUJ"
+            ? "નીચે આપેલા પાંચ ગુણના પ્રશ્નોના જવાબ આપો."
+            : "Answer the following questions with five marks each.";
+        break;
+      default:
+        return null;
     }
 
     return (
       <details open>
-        <summary>
-          {questionType === "OneMarks" &&
-            "Answer the following questions briefly."}
-          {questionType === "TwoMarks" &&
-            "Answer the following questions with two marks each."}
-          {questionType === "ThreeMarks" &&
-            "Answer the following questions with three marks each."}
-          {questionType === "FourMarks" &&
-            "Answer the following questions with four marks each."}
-          {questionType === "FiveMarks" &&
-            "Answer the following questions with five marks each."}
-          {/* {questionType === "OneMarks" && "નીચે આપેલા પ્રશ્નોના સંક્ષિપ્ત ઉત્તર આપો."}
-        {questionType === "TwoMarks" && "નીચે આપેલા પ્રશ્નોના બે ગુણના ઉત્તર આપો."}
-        {questionType === "ThreeMarks" && "નીચે આપેલા પ્રશ્નોના તણ ગુણના ઉત્તર આપો."}
-        {questionType === "FourMarks" && "નીચે આપેલા પ્રશ્નોના ચાર ગુણના ઉત્તર આપો."}
-        {questionType === "FiveMarks" && "નીચે આપેલા પ્રશ્નોના પાંચ ગુણના ઉત્તર આપો."} */}
-        </summary>
+        <summary>{summaryText}</summary>
         <ul style={{ listStyleType: "none", paddingLeft: 0, margin: 0 }}>
           {questions.map((q, index) => (
             <React.Fragment key={q.q_id}>
@@ -81,7 +105,7 @@ const RenderQuestions = memo(
   }
 );
 
-const Questionlist = ({ chapterId, formData, allData }) => {
+const Questionlist = ({ chapterId, formData, allData, headerData }) => {
   const [oneMarkQuestions, setOneMarkQuestions] = useState([]);
   const [twoMarkQuestions, setTwoMarkQuestions] = useState([]);
   const [threeMarkQuestions, setThreeMarkQuestions] = useState([]);
@@ -124,27 +148,27 @@ const Questionlist = ({ chapterId, formData, allData }) => {
         .filter(
           (q) => q.questionType === "OneMarks" && q.Chapter_id === chapterId
         )
-        .flatMap((q) => q.questionList);
+        .flatMap((q) => q.questionList || []);
       const twoMarks = questionsData
         .filter(
           (q) => q.questionType === "TwoMarks" && q.Chapter_id === chapterId
         )
-        .flatMap((q) => q.questionList);
+        .flatMap((q) => q.questionList || []);
       const threeMarks = questionsData
         .filter(
           (q) => q.questionType === "ThreeMarks" && q.Chapter_id === chapterId
         )
-        .flatMap((q) => q.questionList);
+        .flatMap((q) => q.questionList || []);
       const fourMarks = questionsData
         .filter(
           (q) => q.questionType === "FourMarks" && q.Chapter_id === chapterId
         )
-        .flatMap((q) => q.questionList);
+        .flatMap((q) => q.questionList || []);
       const fiveMarks = questionsData
         .filter(
           (q) => q.questionType === "FiveMarks" && q.Chapter_id === chapterId
         )
-        .flatMap((q) => q.questionList);
+        .flatMap((q) => q.questionList || []);
 
       logDebug("OneMarks:", oneMarks);
       logDebug("TwoMarks:", twoMarks);
@@ -204,7 +228,6 @@ const Questionlist = ({ chapterId, formData, allData }) => {
         ...fiveMarkQuestions,
       ].find((q) => q.q_id === id);
       if (question) {
-        // Determine the questionType based on which array it belongs to
         let questionType = null;
         if (oneMarkQuestions.some((q) => q.q_id === id))
           questionType = "OneMarks";
@@ -218,11 +241,11 @@ const Questionlist = ({ chapterId, formData, allData }) => {
           questionType = "FiveMarks";
         return { ...question, questionType };
       }
-      return question;
+      return undefined;
     })
     .filter((q) => q !== undefined);
 
-  // logDebug("selectedQuestionsArray:", selectedQuestionsArray);
+  logDebug("selectedQuestionsArray:", selectedQuestionsArray);
 
   if (!chapterId) return null;
   const handleChange = async () => {
@@ -233,14 +256,13 @@ const Questionlist = ({ chapterId, formData, allData }) => {
         subject: findData(formData, allData, "subject"),
         formData: formData,
         allData: allData,
+        headerData: headerData,
         selectedQuestionsArray: selectedQuestionsArray,
       },
       userId: localStorage.getItem("userId"),
     };
-    const res = await fetch.post("AddPaper", payload);
-    console.log(res, "res");
-  console.log(payload, "payload");
-      setNavigate("/admin/my-papers");
+    await fetch.post("AddPaper", payload);
+    setNavigate("/admin/my-papers");
   };
 
   return (
@@ -264,30 +286,35 @@ const Questionlist = ({ chapterId, formData, allData }) => {
                   questionType="OneMarks"
                   selectedQuestions={selectedQuestions}
                   handleCheckboxChange={handleCheckboxChange}
+                  board={formData.board}
                 />
                 <RenderQuestions
                   questions={twoMarkQuestions}
                   questionType="TwoMarks"
                   selectedQuestions={selectedQuestions}
                   handleCheckboxChange={handleCheckboxChange}
+                  board={formData.board}
                 />
                 <RenderQuestions
                   questions={threeMarkQuestions}
                   questionType="ThreeMarks"
                   selectedQuestions={selectedQuestions}
                   handleCheckboxChange={handleCheckboxChange}
+                  board={formData.board}
                 />
                 <RenderQuestions
                   questions={fourMarkQuestions}
                   questionType="FourMarks"
                   selectedQuestions={selectedQuestions}
                   handleCheckboxChange={handleCheckboxChange}
+                  board={formData.board}
                 />
                 <RenderQuestions
                   questions={fiveMarkQuestions}
                   questionType="FiveMarks"
                   selectedQuestions={selectedQuestions}
                   handleCheckboxChange={handleCheckboxChange}
+                  board={formData.board}
                 />
               </>
             )}
