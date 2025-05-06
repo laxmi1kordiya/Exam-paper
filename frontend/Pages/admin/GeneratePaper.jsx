@@ -3,6 +3,7 @@ import { useAuthenticatedFetch } from "../../Api/Axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Questionlist from "./questions";
+import FilterData from "./filterData";
 
 const GeneratePaper = () => {
   const [boards, setBoards] = useState([]);
@@ -57,53 +58,56 @@ const GeneratePaper = () => {
     setHeaderData((prev) => ({ ...prev, [name]: value }));
   }, []);
 
-  const updateForm = useCallback((e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+  const updateForm = useCallback(
+    (e) => {
+      const { name, value } = e.target;
+      setFormData((prev) => ({ ...prev, [name]: value }));
 
-    switch (name) {
-      case "board":
-        const selectedBoard = allData.find((b) => b.name === value);
-        setStandards(
-          selectedBoard?.standards?.map(({ name, _id }) => ({
-            label: name,
-            value: _id,
-          })) || []
-        );
-        setSubjects([]);
-        setChapters([]);
-        setFormData((prev) => ({
-          ...prev,
-          standard: "",
-          subject: "",
-          chapter: "",
-        }));
-        break;
-      case "standard":
-        const currentBoard = allData.find((b) => b.name === formData.board);
-        setSubjects(
-          currentBoard?.subjects
-            ?.filter((sub) => sub.Standard_id === value)
-            .map(({ name, _id }) => ({ label: name, value: _id })) || []
-        );
-        setChapters([]);
-        setFormData((prev) => ({ ...prev, subject: "", chapter: "" }));
-        break;
-      case "subject":
-        const currentBoardData = allData.find(
-          (b) => b.name === formData.board
-        );
-        setChapters(
-          currentBoardData?.chapters
-            ?.filter((ch) => ch.Subject_id === value)
-            .map(({ name, _id }) => ({ label: name, value: _id })) || []
-        );
-        setFormData((prev) => ({ ...prev, chapter: "" }));
-        break;
-      default:
-        break;
-    }
-  }, [allData, formData.board]);
+      switch (name) {
+        case "board":
+          const selectedBoard = allData.find((b) => b.name === value);
+          setStandards(
+            selectedBoard?.standards?.map(({ name, _id }) => ({
+              label: name,
+              value: _id,
+            })) || []
+          );
+          setSubjects([]);
+          setChapters([]);
+          setFormData((prev) => ({
+            ...prev,
+            standard: "",
+            subject: "",
+            chapter: "",
+          }));
+          break;
+        case "standard":
+          const currentBoard = allData.find((b) => b.name === formData.board);
+          setSubjects(
+            currentBoard?.subjects
+              ?.filter((sub) => sub.Standard_id === value)
+              .map(({ name, _id }) => ({ label: name, value: _id })) || []
+          );
+          setChapters([]);
+          setFormData((prev) => ({ ...prev, subject: "", chapter: "" }));
+          break;
+        case "subject":
+          const currentBoardData = allData.find(
+            (b) => b.name === formData.board
+          );
+          setChapters(
+            currentBoardData?.chapters
+              ?.filter((ch) => ch.Subject_id === value)
+              .map(({ name, _id }) => ({ label: name, value: _id })) || []
+          );
+          setFormData((prev) => ({ ...prev, chapter: "" }));
+          break;
+        default:
+          break;
+      }
+    },
+    [allData, formData.board]
+  );
 
   const steps = [
     { id: 1, name: "Select Options" },
@@ -159,49 +163,15 @@ const GeneratePaper = () => {
 
   const renderStep1 = useCallback(
     () => (
-      <>
-        <div className="header">
-          <div className="title-container">
-            <h2>Generate Paper</h2>
-            <p>Generate Paper of Your Choice</p>
-          </div>
-        </div>
-
-        <div className="form-container">
-          {[
-            { label: "--Select Board--", value: "", options: boards, name: "board" },
-            { label: "--Select Standard--", value: "", options: standards, name: "standard" },
-            { label: "--Select Subject--", value: "", options: subjects, name: "subject" },
-            { label: "--Select Chapter--", value: "", options: chapters, name: "chapter" },
-            {
-              label: "--Generate Type--",
-              value: "",
-              options: [
-                { label: "Manually", value: "Manually" },
-                { label: "Random", value: "Random" },
-              ],
-              name: "generateType",
-            },
-          ].map(({ label, value, options, name }) => (
-            <div key={name} className="form-group">
-              <select name={name} value={formData[name]} onChange={updateForm}>
-                <option value="">{label}</option>
-                {options.map((opt) => (
-                  <option key={opt.value} value={opt.value}>
-                    {opt.label}
-                  </option>
-                ))}
-              </select>
-            </div>
-          ))}
-
-          {formData.generateType === "Manually" && (
-            <button type="button" onClick={goToStep2}>
-              Next
-            </button>
-          )}
-        </div>
-      </>
+      <FilterData
+        boards={boards}
+        standards={standards}
+        subjects={subjects}
+        chapters={chapters}
+        formData={formData}
+        updateForm={updateForm}
+        goToStep2={goToStep2}
+      />
     ),
     [boards, standards, subjects, chapters, formData, updateForm, goToStep2]
   );
@@ -210,7 +180,9 @@ const GeneratePaper = () => {
     () => (
       <div className="signin-box">
         <h3 className="text-center">Paper Header Settings</h3>
-        <p className="text-center text-dark">Configure details for the exam paper</p>
+        <p className="text-center text-dark">
+          Configure details for the exam paper
+        </p>
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -267,22 +239,25 @@ const GeneratePaper = () => {
     [headerData, updateHeader]
   );
 
-  const renderStep3 = useCallback(() => (
-    <div className="question-list-wrapper">
-      {formData.chapter ? (
-        <Questionlist
-          chapterId={formData.chapter}
-          formData={formData}
-          allData={allData}
-          headerData={headerData}
-        />
-      ) : (
-        <div className="text-center text-red-500">
-          No chapter selected. Please go back to Step 1 and select a chapter.
-        </div>
-      )}
-    </div>
-  ), [formData.chapter, formData, allData, headerData]);
+  const renderStep3 = useCallback(
+    () => (
+      <div className="question-list-wrapper">
+        {formData.chapter ? (
+          <Questionlist
+            chapterId={formData.chapter}
+            formData={formData}
+            allData={allData}
+            headerData={headerData}
+          />
+        ) : (
+          <div className="text-center text-red-500">
+            No chapter selected. Please go back to Step 1 and select a chapter.
+          </div>
+        )}
+      </div>
+    ),
+    [formData.chapter, formData, allData, headerData]
+  );
 
   return (
     <div className="content-page">
@@ -292,7 +267,9 @@ const GeneratePaper = () => {
         </div>
 
         {currentStep === 1 && renderStep1()}
-        {currentStep === 2 && formData.generateType === "Manually" && renderStep2()}
+        {currentStep === 2 &&
+          formData.generateType === "Manually" &&
+          renderStep2()}
         {currentStep === 3 && isSubmitted && renderStep3()}
         {currentStep === 3 && !isSubmitted && (
           <div className="text-center text-red-500">
