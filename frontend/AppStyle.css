@@ -2049,3 +2049,123 @@ td.button-group {
   margin-top: 6px;
 }
 
+/* GeneratePaper.css */
+
+/* Step indicator styles */
+.step-indicator-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.step-item {
+  display: flex;
+  align-items: center;
+}
+
+.step-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.step-circle {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.step-circle.active {
+  background-color: #3b82f6; /* blue-500 */
+  color: #fff;
+}
+
+.step-circle.completed {
+  background-color: #22c55e; /* green-500 */
+  color: #fff;
+}
+
+.step-circle.inactive {
+  background-color: #d1d5db; /* gray-300 */
+  color: #4b5563; /* gray-700 */
+}
+
+.step-name {
+  font-size: 0.875rem; /* text-sm */
+  margin-top: 0.25rem; /* mt-1 */
+}
+
+.step-separator {
+  height: 0.25rem; /* h-1 */
+  width: 4rem; /* w-16 */
+  margin-left: 0.5rem; /* mx-2 */
+  margin-right: 0.5rem; /* mx-2 */
+}
+
+.step-separator.completed {
+  background-color: #22c55e; /* green-500 */
+}
+
+.step-separator.inactive {
+  background-color: #d1d5db; /* gray-300 */
+}
+
+/* Paper header settings form styles */
+.paper-header-container {
+  width: 100%;
+  max-width: 32rem; 
+  margin-left: auto; 
+  margin-right: auto;
+  padding: 1rem; 
+  background-color: #fff;
+  border-radius: 0.25rem; 
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+/* .form-row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: -0.5rem;
+  margin-right: -0.5rem;
+} */
+
+/* Button styles */
+.button {
+  padding: 0.5rem 1rem; /* px-4 py-2 */
+  border-radius: 0.25rem; /* rounded */
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.button-back-gray {
+  background-color: #6b7280; /* gray-500 */
+  color: #fff; /* text-white */
+}
+
+.button-back-gray:hover {
+  background-color: #4b5563; /* hover:bg-gray-600 */
+}
+
+.button-next-blue {
+  background-color: #3b82f6; /* bg-blue-500 */
+  color: #fff; /* text-white */
+}
+
+.button-next-blue:hover {
+  background-color: #2563eb; /* hover:bg-blue-600 */
+}
+
+.button-disabled {
+  background-color: #9ca3af; /* bg-gray-400 */
+  color: #fff; /* text-white */
+  cursor: not-allowed; /* cursor-not-allowed */
+}
+
+/* Error message */
+.error-message {
+  text-align: center; /* text-center */
+  color: #ef4444; /* text-red-500 */
+}

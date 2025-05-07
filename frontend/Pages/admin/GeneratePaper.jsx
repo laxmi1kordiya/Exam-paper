@@ -45,13 +45,29 @@ const GeneratePaper = () => {
     fetchData();
   }, [fetchData]);
 
-  const goToStep2 = useCallback(() => {
+  const handleBack = () => {
+    if (currentStep > 1) {
+      setCurrentStep((prev) => prev - 1);
+    }
+  };
+
+  const handleNextFromStep1 = () => {
     if (!formData.chapter) {
       toast.error("Please select a chapter.");
       return;
     }
     setCurrentStep(2);
-  }, [formData.chapter]);
+  };
+
+  const handleNextFromStep2 = (e) => {
+    e.preventDefault();
+    if (!headerData.title.trim() || !headerData.subtitle.trim()) {
+      toast.error("Please fill in both Title and Subtitle.");
+      return;
+    }
+    setIsSubmitted(true);
+    setCurrentStep(3);
+  };
 
   const updateHeader = useCallback((e) => {
     const { name, value } = e.target;
@@ -117,15 +133,15 @@ const GeneratePaper = () => {
 
   const renderStepIndicator = useCallback(
     (step) => (
-      <div key={step.id} className="flex items-center">
-        <div className="flex flex-col items-center">
+      <div key={step.id} className="step-item">
+        <div className="step-details">
           <div
-            className={`w-8 h-8 rounded-full flex items-center justify-center ${
+            className={`step-circle ${
               currentStep === step.id
-                ? "bg-blue-500 text-white"
+                ? "active"
                 : currentStep > step.id
-                ? "bg-green-500 text-white"
-                : "bg-gray-300 text-gray-700"
+                ? "completed"
+                : "inactive"
             }`}
           >
             {currentStep > step.id ? (
@@ -147,12 +163,12 @@ const GeneratePaper = () => {
               step.id
             )}
           </div>
-          <span className="text-sm mt-1">{step.name}</span>
+          <span className="step-name">{step.name}</span>
         </div>
         {step.id < steps.length && (
           <div
-            className={`h-1 w-16 mx-2 ${
-              currentStep > step.id ? "bg-green-500" : "bg-gray-300"
+            className={`step-separator ${
+              currentStep > step.id ? "completed" : "inactive"
             }`}
           ></div>
         )}
@@ -161,108 +177,103 @@ const GeneratePaper = () => {
     [currentStep, steps.length]
   );
 
-  const renderStep1 = useCallback(
-    () => (
-      <FilterData
-        boards={boards}
-        standards={standards}
-        subjects={subjects}
-        chapters={chapters}
-        formData={formData}
-        updateForm={updateForm}
-        goToStep2={goToStep2}
-      />
-    ),
-    [boards, standards, subjects, chapters, formData, updateForm, goToStep2]
+  const renderStep1 = () => (
+    <FilterData
+      boards={boards}
+      standards={standards}
+      subjects={subjects}
+      chapters={chapters}
+      formData={formData}
+      updateForm={updateForm}
+      goToStep2={handleNextFromStep1}
+    />
   );
 
-  const renderStep2 = useCallback(
-    () => (
-      <div className="signin-box">
-        <h3 className="text-center">Paper Header Settings</h3>
-        <p className="text-center text-dark">
-          Configure details for the exam paper
-        </p>
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            if (!headerData.title.trim() || !headerData.subtitle.trim()) {
-              toast.error("Please fill in both Title and Subtitle.");
-              return;
-            }
-            setIsSubmitted(true);
-            setCurrentStep(3);
-          }}
-        >
-          <div className="row">
-            <div className="form-group">
-              <label htmlFor="title">Title</label>
-              <input
-                type="text"
-                name="title"
-                className="form-control"
-                id="title"
-                value={headerData.title}
-                onChange={updateHeader}
-                placeholder="Enter paper title"
-              />
-            </div>
+  const renderStep2 = () => (
+    <div className="signin-box">
+      <h3 className="paper-header-title">Paper Header Settings</h3>
+      <p className="paper-header-subtitle">
+        Configure details for the exam paper
+      </p>
 
-            <div className="form-group">
-              <label htmlFor="subtitle">Subtitle</label>
-              <input
-                type="text"
-                name="subtitle"
-                className="form-control"
-                id="subtitle"
-                value={headerData.subtitle}
-                onChange={updateHeader}
-                placeholder="Enter subtitle"
-              />
-            </div>
+      <form onSubmit={handleNextFromStep2}>
+        <div className="row">
+          <div className="form-group">
+            <label htmlFor="title">Title</label>
+            <input
+              type="text"
+              name="title"
+              className="form-control"
+              id="title"
+              value={headerData.title}
+              onChange={updateHeader}
+              placeholder="Enter paper title"
+            />
           </div>
+          <div className="form-group">
+            <label htmlFor="subtitle">Subtitle</label>
+            <input
+              type="text"
+              name="subtitle"
+              className="form-control"
+              id="subtitle"
+              value={headerData.subtitle}
+              onChange={updateHeader}
+              placeholder="Enter subtitle"
+            />
+          </div>
+        </div>
 
+        <div className="w-full flex justify-between mt-4">
+          <button
+            type="button"
+            onClick={handleBack}
+            className="button button-back-gray"
+          >
+            Back
+          </button>
           <button
             type="submit"
             disabled={!headerData.title.trim() || !headerData.subtitle.trim()}
-            className={`mt-4 px-4 py-2 rounded ${
+            className={`button ${
               !headerData.title.trim() || !headerData.subtitle.trim()
-                ? "bg-gray-400 cursor-not-allowed text-white"
-                : "bg-blue-500 hover:bg-blue-600 text-white"
+                ? "button-disabled"
+                : "button-next-blue"
             }`}
           >
             Next
           </button>
-        </form>
-      </div>
-    ),
-    [headerData, updateHeader]
+        </div>
+      </form>
+    </div>
   );
 
-  const renderStep3 = useCallback(
-    () => (
-      <div className="question-list-wrapper">
-        {formData.chapter ? (
-          <Questionlist
-            chapterId={formData.chapter}
-            formData={formData}
-            allData={allData}
-            headerData={headerData}
-          />
-        ) : (
-          <div className="text-center text-red-500">
-            No chapter selected. Please go back to Step 1 and select a chapter.
-          </div>
-        )}
+  const renderStep3 = () => (
+    <div className="question-list-wrapper">
+      <div className="w-full flex justify-between mb-4">
+        <button onClick={handleBack} className="button button-back-gray">
+          Back
+        </button>
+        {/* If you have a "Next" or other button for the final step, it will be on the right */}
       </div>
-    ),
-    [formData.chapter, formData, allData, headerData]
+      {formData.chapter ? (
+        <Questionlist
+          chapterId={formData.chapter}
+          formData={formData}
+          allData={allData}
+          headerData={headerData}
+        />
+      ) : (
+        <div className="error-message">
+          No chapter selected. Please go back to Step 1 and select a chapter.
+        </div>
+      )}
+    </div>
   );
-
   return (
     <div className="content-page">
       <div className="main-content">
-        <div className="flex justify-center mb-6">
+        <div className="step-indicator-container">
           {steps.map(renderStepIndicator)}
         </div>
 
@@ -272,7 +283,7 @@ const GeneratePaper = () => {
           renderStep2()}
         {currentStep === 3 && isSubmitted && renderStep3()}
         {currentStep === 3 && !isSubmitted && (
-          <div className="text-center text-red-500">
+          <div className="error-message">
             Error: isSubmitted is false while currentStep is 3.
           </div>
         )}
