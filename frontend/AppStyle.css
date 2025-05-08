@@ -2146,26 +2146,28 @@ td.button-group {
 }
 
 .button-back-gray:hover {
-  background-color: #4b5563; /* hover:bg-gray-600 */
+  background-color: #4b5563;
 }
 
 .button-next-blue {
-  background-color: #3b82f6; /* bg-blue-500 */
-  color: #fff; /* text-white */
-}
-
-.button-next-blue:hover {
-  background-color: #2563eb; /* hover:bg-blue-600 */
+  /* background-color: #3b82f6; */
+  color: #fff;
 }
 
 .button-disabled {
-  background-color: #9ca3af; /* bg-gray-400 */
-  color: #fff; /* text-white */
-  cursor: not-allowed; /* cursor-not-allowed */
+  background-color: #9ca3af;
+  color: #fff;
+  cursor: not-allowed;
 }
 
-/* Error message */
 .error-message {
-  text-align: center; /* text-center */
-  color: #ef4444; /* text-red-500 */
+  text-align: cente
+  color: #ef4444; 
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem; 
+  gap: 30rem;
 }

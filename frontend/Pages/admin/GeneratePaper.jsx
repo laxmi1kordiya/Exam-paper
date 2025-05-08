@@ -224,18 +224,18 @@ const GeneratePaper = () => {
           </div>
         </div>
 
-        <div className="w-full flex justify-between mt-4">
+        <div className="button-container">
           <button
             type="button"
             onClick={handleBack}
-            className="button button-back-gray"
+            className="button-back-gray"
           >
             Back
           </button>
           <button
             type="submit"
             disabled={!headerData.title.trim() || !headerData.subtitle.trim()}
-            className={`button ${
+            className={` ${
               !headerData.title.trim() || !headerData.subtitle.trim()
                 ? "button-disabled"
                 : "button-next-blue"
@@ -251,7 +251,7 @@ const GeneratePaper = () => {
   const renderStep3 = () => (
     <div className="question-list-wrapper">
       <div className="w-full flex justify-between mb-4">
-        <button onClick={handleBack} className="button button-back-gray">
+        <button onClick={handleBack} className="button-back-gray">
           Back
         </button>
         {/* If you have a "Next" or other button for the final step, it will be on the right */}

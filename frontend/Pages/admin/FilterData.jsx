@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 const FilterData = ({
   boards,
@@ -9,6 +9,15 @@ const FilterData = ({
   updateForm,
   goToStep2,
 }) => {
+  const [allFieldsFilled, setAllFieldsFilled] = useState(false);
+
+  useEffect(() => {
+    const { board, standard, subject, chapter, generateType } = formData;
+    setAllFieldsFilled(
+      board !== "" && standard !== "" && subject !== "" && chapter !== "" && generateType !== ""
+    );
+  }, [formData]);
+
   return (
     <>
       <div className="header">
@@ -66,8 +75,8 @@ const FilterData = ({
           </div>
         ))}
 
-        {formData.generateType === "Manually" && (
-          <button type="button" onClick={goToStep2}>
+        { allFieldsFilled && (
+          <button type="button" onClick={goToStep2} disabled={!allFieldsFilled}>
             Next
           </button>
         )}
