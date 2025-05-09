@@ -2054,8 +2054,9 @@ td.button-group {
 /* Step indicator styles */
 .step-indicator-container {
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   margin-bottom: 1.5rem;
+  width: 100%;
 }
 
 .step-item {
@@ -2098,12 +2099,6 @@ td.button-group {
   margin-top: 0.25rem; /* mt-1 */
 }
 
-.step-separator {
-  height: 0.25rem; /* h-1 */
-  width: 4rem; /* w-16 */
-  margin-left: 0.5rem; /* mx-2 */
-  margin-right: 0.5rem; /* mx-2 */
-}
 
 .step-separator.completed {
   background-color: #22c55e; /* green-500 */
@@ -2161,7 +2156,7 @@ td.button-group {
 }
 
 .error-message {
-  text-align: cente
+  text-align: center;
   color: #ef4444; 
 }
 

@@ -22,8 +22,8 @@ const FilterData = ({
     <>
       <div className="header">
         <div className="title-container">
-          <h2>Generate Paper</h2>
-          <p>Generate Paper of Your Choice</p>
+          <h2>Generate Your Custom Question Paper</h2>
+          <p>Select your preferences below to begin</p>
         </div>
       </div>
 

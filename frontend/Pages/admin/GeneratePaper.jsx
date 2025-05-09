@@ -126,9 +126,9 @@ const GeneratePaper = () => {
   );
 
   const steps = [
-    { id: 1, name: "Select Options" },
-    { id: 2, name: "Paper Header" },
-    { id: 3, name: "Question List" },
+    { id: 1, name: "Paper Configuration" },
+    { id: 2, name: "Customize Header" },
+    { id: 3, name: "View Questions" },
   ];
 
   const renderStepIndicator = useCallback(
@@ -190,12 +190,13 @@ const GeneratePaper = () => {
   );
 
   const renderStep2 = () => (
-    <div className="signin-box">
-      <h3 className="paper-header-title">Paper Header Settings</h3>
-      <p className="paper-header-subtitle">
-        Configure details for the exam paper
-      </p>
-
+    <>
+      <div className="header">
+        <div className="title-container">
+          <h2>Customize Exam Paper Header</h2>
+          <p>Set the title and subtitle for your exam paper.</p>
+        </div>
+      </div>
       <form onSubmit={handleNextFromStep2}>
         <div className="row">
           <div className="form-group">
@@ -245,7 +246,7 @@ const GeneratePaper = () => {
           </button>
         </div>
       </form>
-    </div>
+    </>
   );
 
   const renderStep3 = () => (
