@@ -2,9 +2,9 @@ import React from "react";
 import { findData } from "../Utils/AppUtils";
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
-import {font} from '../Utils/shruti-regular'
+// import {font} from '../Utils/shruti-regular'
 pdfMake.vfs = pdfFonts.pdfMake?.vfs;
-window.pdfMake.vfs["shruti.ttf"] = font
+// window.pdfMake.vfs["shruti.ttf"] = font
 
 const GenerateAnsKey = ({ formData, allData, selectedQuestions, headerData }) => {
    pdfMake.fonts={
@@ -14,12 +14,12 @@ const GenerateAnsKey = ({ formData, allData, selectedQuestions, headerData }) =>
       italics: "Roboto-Italic.ttf",
       bolditalics: "Roboto-MediumItalic.ttf",
     },
-    shruti: {
-      normal: "shruti.ttf",
-      bold: "shruti.ttf", 
-      italics: "shruti.ttf", 
-      bolditalics: "shruti.ttf" 
-    },
+    // shruti: {
+    //   normal: "shruti.ttf",
+    //   bold: "shruti.ttf", 
+    //   italics: "shruti.ttf", 
+    //   bolditalics: "shruti.ttf" 
+    // },
       }
   const translations = {
     std: { en: "Std", gu: "ધોરણ" },
@@ -183,7 +183,7 @@ const GenerateAnsKey = ({ formData, allData, selectedQuestions, headerData }) =>
         })),
       ],
       defaultStyle: {
-        font: formData?.board === "GSEB-GUJ" ? "shruti" : "Roboto",
+        font: formData?.board === "GSEB-GUJ" ? "Roboto" : "Roboto",
       },
       pageMargins: [20, 20, 20, 20],
     };

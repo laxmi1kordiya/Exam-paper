@@ -1,26 +1,39 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { findData } from "../Utils/AppUtils";
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
-import {font} from '../Utils/shruti-regular'
-pdfMake.vfs = pdfFonts.pdfMake.vfs;
-window.pdfMake.vfs["shruti.ttf"] = font
+import { font } from "../Utils/shruti-regular";
 
 const GeneratePDF = ({ formData, allData, selectedQuestions, headerData }) => {
-  pdfMake.fonts={
-       Roboto: {
-    normal: "Roboto-Regular.ttf",
-    bold: "Roboto-Medium.ttf",
-    italics: "Roboto-Italic.ttf",
-    bolditalics: "Roboto-MediumItalic.ttf",
-  },
-  shruti: {
-    normal: "shruti.ttf",
-    bold: "shruti.ttf", 
-    italics: "shruti.ttf", 
-    bolditalics: "shruti.ttf" 
-  },
+  useEffect(() => {
+    console.log("Initializing pdfMake...");
+    console.log("pdfMake object:", pdfMake); // This will log the pdfMake object
+
+    pdfMake.vfs = pdfFonts.pdfMake?.vfs || {}; // Ensure vfs is initialized
+    console.log("pdfMake.vfs initialized:", pdfMake.vfs); // Check if vfs is set properly
+
+    if (pdfMake.vfs) {
+      pdfMake.vfs["shruti.ttf"] = font;
+      console.log("Shruti font loaded into VFS:", pdfMake.vfs["shruti.ttf"]); // Confirm Shruti font in VFS
     }
+
+    pdfMake.fonts = {
+      shruti: {
+        normal: "shruti.ttf",
+        bold: "shruti.ttf",
+        italics: "shruti.ttf",
+        bolditalics: "shruti.ttf",
+      },
+      Roboto: {
+        normal: "Roboto-Regular.ttf",
+        bold: "Roboto-Medium.ttf",
+        italics: "Roboto-Italic.ttf",
+        bolditalics: "Roboto-MediumItalic.ttf",
+      },
+    };
+    console.log("Fonts set in pdfMake:", pdfMake.fonts); // Confirm font configuration
+  }, []);
+
   const translations = {
     oneMarkQuestions: {
       en: "Answer the following questions briefly.",
@@ -47,15 +60,22 @@ const GeneratePDF = ({ formData, allData, selectedQuestions, headerData }) => {
   const subject = findData(formData, allData, "subject") || "Subject";
   const standard = findData(formData, allData, "standard") || "Standard";
 
+  console.log("Selected Subject:", subject);
+  console.log("Selected Standard:", standard);
+
   const t = (key) => {
+    console.log(`Getting translation for key: ${key}`);
     if (formData?.board === "GSEB-ENG") {
+      console.log(`English translation for '${key}':`, translations[key]?.en);
       return translations[key]?.en || key;
     } else {
+      console.log(`Gujarati translation for '${key}':`, translations[key]?.gu);
       return translations[key]?.gu || key;
     }
   };
 
   const getSectionTitle = (questionType) => {
+    console.log(`Determining title for question type: ${questionType}`);
     switch (questionType) {
       case "OneMarks":
         return t("oneMarkQuestions");
@@ -73,6 +93,7 @@ const GeneratePDF = ({ formData, allData, selectedQuestions, headerData }) => {
   };
 
   const handleDownload = () => {
+    console.log("Organizing questions by section...");
     // Organize questions by section
     const questionsBySection = {};
     selectedQuestions.forEach((question) => {
@@ -82,12 +103,18 @@ const GeneratePDF = ({ formData, allData, selectedQuestions, headerData }) => {
       questionsBySection[question.questionType].push(question);
     });
 
+    console.log("Questions by Section:", questionsBySection);
+
     const SectionLabels = ["A", "B", "C", "D", "E"];
     const sectionKeys = Object.keys(questionsBySection);
+    console.log("Section Keys:", sectionKeys);
+
     const sectionMapping = {};
     sectionKeys.forEach((key, index) => {
       sectionMapping[key] = SectionLabels[index] || `Section ${index + 1}`;
     });
+
+    console.log("Section Mapping:", sectionMapping);
 
     // Define PDF document
     const docDefinition = {
@@ -160,15 +187,21 @@ const GeneratePDF = ({ formData, allData, selectedQuestions, headerData }) => {
       pageMargins: [20, 20, 20, 20],
     };
 
+    console.log("Document Definition:", docDefinition); // Log the full document definition
+
     // Generate and download PDF
-    pdfMake.createPdf(docDefinition).download(`Que.Key_${subject}_${standard}.pdf`);
+    try {
+      console.log("Generating PDF...");
+      pdfMake.createPdf(docDefinition).download(`Que.Key_${subject}_${standard}.pdf`);
+    } catch (error) {
+      console.error("Error during PDF generation:", error);
+    }
   };
 
   return <button className="qpaper" onClick={handleDownload}>Que.Paper</button>;
 };
 
 export default GeneratePDF;
-
 // const handleDownload = () => {
 //   console.log("run")
 // }
