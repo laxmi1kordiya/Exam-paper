@@ -6,6 +6,7 @@ import Questionlist from "./questions";
 import FilterData from "./filterData";
 
 const GeneratePaper = () => {
+  const fetch = useAuthenticatedFetch();
   const [boards, setBoards] = useState([]);
   const [standards, setStandards] = useState([]);
   const [subjects, setSubjects] = useState([]);
@@ -13,7 +14,6 @@ const GeneratePaper = () => {
   const [allData, setAllData] = useState([]);
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const fetch = useAuthenticatedFetch();
 
   const [formData, setFormData] = useState({
     board: "",
@@ -46,9 +46,7 @@ const GeneratePaper = () => {
   }, [fetchData]);
 
   const handleBack = () => {
-    if (currentStep > 1) {
-      setCurrentStep((prev) => prev - 1);
-    }
+    if (currentStep > 1) setCurrentStep((prev) => prev - 1);
   };
 
   const handleNextFromStep1 = () => {
@@ -80,7 +78,7 @@ const GeneratePaper = () => {
       setFormData((prev) => ({ ...prev, [name]: value }));
 
       switch (name) {
-        case "board":
+        case "board": {
           const selectedBoard = allData.find((b) => b.name === value);
           setStandards(
             selectedBoard?.standards?.map(({ name, _id }) => ({
@@ -97,7 +95,8 @@ const GeneratePaper = () => {
             chapter: "",
           }));
           break;
-        case "standard":
+        }
+        case "standard": {
           const currentBoard = allData.find((b) => b.name === formData.board);
           setSubjects(
             currentBoard?.subjects
@@ -107,7 +106,8 @@ const GeneratePaper = () => {
           setChapters([]);
           setFormData((prev) => ({ ...prev, subject: "", chapter: "" }));
           break;
-        case "subject":
+        }
+        case "subject": {
           const currentBoardData = allData.find(
             (b) => b.name === formData.board
           );
@@ -118,6 +118,7 @@ const GeneratePaper = () => {
           );
           setFormData((prev) => ({ ...prev, chapter: "" }));
           break;
+        }
         default:
           break;
       }
@@ -150,7 +151,6 @@ const GeneratePaper = () => {
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
               >
                 <path
                   strokeLinecap="round"
@@ -176,18 +176,58 @@ const GeneratePaper = () => {
     ),
     [currentStep, steps.length]
   );
-
-  const renderStep1 = () => (
-    <FilterData
-      boards={boards}
-      standards={standards}
-      subjects={subjects}
-      chapters={chapters}
-      formData={formData}
-      updateForm={updateForm}
-      goToStep2={handleNextFromStep1}
-    />
+  const renderButtonContainer = ({
+    onNext,
+    onBack,
+    isDisabled,
+    showBack = false,
+    hideNext = false,
+  }) => (
+    <div className="button-container">
+      {showBack && (
+        <button type="button" onClick={onBack} className="button-back-gray">
+          Back
+        </button>
+      )}
+      {!hideNext && (
+        <button
+          type="button"
+          onClick={onNext}
+          disabled={!isDisabled}
+          className={isDisabled ? "button-next-blue" : "button-disabled"}
+        >
+          Next
+        </button>
+      )}
+    </div>
   );
+
+  const renderStep1 = () => {
+    const { board, standard, subject, chapter, generateType } = formData;
+
+    const isValid =
+      board !== "" &&
+      standard !== "" &&
+      subject !== "" &&
+      chapter !== "" &&
+      generateType !== "";
+    return (
+      <>
+        <FilterData
+          boards={boards}
+          standards={standards}
+          subjects={subjects}
+          chapters={chapters}
+          formData={formData}
+          updateForm={updateForm}
+        />
+        {renderButtonContainer({
+          onNext: handleNextFromStep1,
+          isDisabled: isValid,
+        })}
+      </>
+    );
+  };
 
   const renderStep2 = () => (
     <>
@@ -224,39 +264,19 @@ const GeneratePaper = () => {
             />
           </div>
         </div>
-
-        <div className="button-container">
-          <button
-            type="button"
-            onClick={handleBack}
-            className="button-back-gray"
-          >
-            Back
-          </button>
-          <button
-            type="submit"
-            disabled={!headerData.title.trim() || !headerData.subtitle.trim()}
-            className={` ${
-              !headerData.title.trim() || !headerData.subtitle.trim()
-                ? "button-disabled"
-                : "button-next-blue"
-            }`}
-          >
-            Next
-          </button>
-        </div>
       </form>
+      {renderButtonContainer({
+        onNext: handleNextFromStep2,
+        showBack: true,
+        onBack: handleBack,
+        isDisabled: true,
+        isSubmit: true,
+      })}
     </>
   );
 
   const renderStep3 = () => (
-    <div className="question-list-wrapper">
-      <div className="w-full flex justify-between mb-4">
-        <button onClick={handleBack} className="button-back-gray">
-          Back
-        </button>
-        {/* If you have a "Next" or other button for the final step, it will be on the right */}
-      </div>
+    <>
       {formData.chapter ? (
         <Questionlist
           chapterId={formData.chapter}
@@ -269,7 +289,12 @@ const GeneratePaper = () => {
           No chapter selected. Please go back to Step 1 and select a chapter.
         </div>
       )}
-    </div>
+      {renderButtonContainer({
+        onBack: handleBack,
+        showBack: true,
+        hideNext: true,
+      })}
+    </>
   );
   return (
     <div className="content-page">

@@ -7,16 +7,8 @@ const FilterData = ({
   chapters,
   formData,
   updateForm,
-  goToStep2,
 }) => {
-  const [allFieldsFilled, setAllFieldsFilled] = useState(false);
 
-  useEffect(() => {
-    const { board, standard, subject, chapter, generateType } = formData;
-    setAllFieldsFilled(
-      board !== "" && standard !== "" && subject !== "" && chapter !== "" && generateType !== ""
-    );
-  }, [formData]);
 
   return (
     <>
@@ -74,12 +66,6 @@ const FilterData = ({
             </select>
           </div>
         ))}
-
-        { allFieldsFilled && (
-          <button type="button" onClick={goToStep2} disabled={!allFieldsFilled}>
-            Next
-          </button>
-        )}
       </div>
     </>
   );

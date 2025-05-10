@@ -16,36 +16,42 @@ const RenderQuestions = memo(
     }
 
     let summaryText = "";
+    let mark = "";
     switch (questionType) {
       case "OneMarks":
         summaryText =
           board === "GSEB-GUJ"
             ? "નીચે આપેલા પ્રશ્નોના ટુંકમાં જવાબ આપો."
             : "Answer the following questions briefly.";
+        mark = 1;
         break;
       case "TwoMarks":
         summaryText =
           board === "GSEB-GUJ"
             ? "નીચે આપેલા બે ગુણના પ્રશ્નોના જવાબ આપો."
             : "Answer the following questions with two marks each.";
+        mark = 2;
         break;
       case "ThreeMarks":
         summaryText =
           board === "GSEB-GUJ"
             ? "નીચે આપેલા ત્રણ ગુણના પ્રશ્નોના જવાબ આપો."
             : "Answer the following questions with three marks each.";
+        mark = 3;
         break;
       case "FourMarks":
         summaryText =
           board === "GSEB-GUJ"
             ? "નીચે આપેલા ચાર ગુણના પ્રશ્નોના જવાબ આપો."
             : "Answer the following questions with four marks each.";
+        mark = 4;
         break;
       case "FiveMarks":
         summaryText =
           board === "GSEB-GUJ"
             ? "નીચે આપેલા પાંચ ગુણના પ્રશ્નોના જવાબ આપો."
             : "Answer the following questions with five marks each.";
+        mark = 5;
         break;
       default:
         return null;
@@ -57,15 +63,7 @@ const RenderQuestions = memo(
         <ul style={{ listStyleType: "none", paddingLeft: 0, margin: 0 }}>
           {questions.map((q, index) => (
             <React.Fragment key={q.q_id}>
-              <li
-                className="custom-checkbox"
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  marginBottom: "8px",
-                  padding: 0,
-                }}
-              >
+              <li className="custom-checkbox">
                 <input
                   type="checkbox"
                   id={`question-${q.q_id}`}
@@ -82,21 +80,11 @@ const RenderQuestions = memo(
                     transition: "all 0.2s ease",
                   }}
                 />
-                <label
-                  htmlFor={`question-${q.q_id}`}
-                  style={{
-                    flexGrow: 1,
-                    wordBreak: "break-word",
-                    margin: 0,
-                    paddingLeft: "2px",
-                    lineHeight: "1.2",
-                    display: "inline-block",
-                  }}
-                >
+                <div htmlFor={`question-${q.q_id}`} className="question">
                   {q.question || "No question text available"}
-                </label>
+                </div>
+                <div className="mark">{mark}</div>
               </li>
-              {index < questions.length - 1 && <hr />}
             </React.Fragment>
           ))}
         </ul>
@@ -266,9 +254,14 @@ const Questionlist = ({ chapterId, formData, allData, headerData }) => {
   };
 
   return (
-    <div className="main-content">
-      <div className="selecttt">
-        <h2>Question List</h2>
+    <>
+      <div className="header">
+        <div className="title-container">
+          <h2>Question List</h2>
+          <p>Set the Question for your exam paper.</p>
+        </div>
+      </div>
+      <div>
         {loading ? (
           <p>Loading questions...</p>
         ) : (
@@ -322,7 +315,7 @@ const Questionlist = ({ chapterId, formData, allData, headerData }) => {
         )}
         <button onClick={handleChange}>Download</button>
       </div>
-    </div>
+    </>
   );
 };
 

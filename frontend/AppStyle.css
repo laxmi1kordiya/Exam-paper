@@ -685,16 +685,6 @@ section.section1 > div :nth-child(2){
   padding-top: 0.2rem;
 }
 
-/* Ensure Step 3 content is visible */
-.question-list-wrapper {
-  min-height: 200px;
-  padding: 1rem;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  background-color: #ffffff;
-  margin-top: 1rem;
-}
-
 .how-to-work-container {
   max-width: 1200px;
   margin: 0 auto;
@@ -1185,6 +1175,7 @@ section.section1 > div :nth-child(2){
   margin-left: 250px;
   background-color: #f5f5f5;
   height: 100%;
+  min-height: 100vh;
 }
 
 
@@ -1316,6 +1307,7 @@ section.section1 > div :nth-child(2){
   display: flex;
   flex-direction: column;
   align-items: center;
+  min-height: 86vh;
 }
 
 .header {
@@ -1385,7 +1377,7 @@ section.section1 > div :nth-child(2){
 
 .form-container {
   align-items: inherit;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
   display: flex;
   gap: 20px;
@@ -1423,7 +1415,7 @@ section.section1 > div :nth-child(2){
   font-size: 20px;
   font-weight: bold;
   text-align: center;
-  margin-bottom: 10px;
+  margin-bottom: 30px;
   color: #333;
 }
 
@@ -1513,28 +1505,27 @@ right: 10px;
 .row{
   display: flex;
   flex-wrap: wrap;
-  justify-content: flex-start;
+  justify-content: center;
   text-align: center;
   align-items: center;
 }
 .form-control {
-  height: 45px;
-  line-height: 45px;
-  background: transparent;
-  border: 1px solid #d8d4d4;
-  font-size: 14px;
-  /* color: #a09e9e; */
-  width: 100%;
-  padding: 8px; 
-  margin: 8px 0;
-  /* border: 1px solid #000000; */
-  border-radius: 5px;
+    /* height: 45px; */
+    /* line-height: 45px; */
+    background: transparent;
+    border: 1px solid #d8d4d4;
+    font-size: 14px;
+    /* color: #a09e9e; */
+    width: 100%;
+    padding: 12px 20px;
+    /* margin: 8px 20px; */
+    /* border: 1px solid #000000; */
+    border-radius: 5px;
 }
 
 .content-page{
   overflow: hidden;
-  padding: 40px 15px 0;
-  min-height: 100vh;
+  padding: 20px;
   transition: all 0.3s ease-out 0s;
   opacity: 0;
   transform: translateY(30px) scale(0.95);
@@ -1682,6 +1673,12 @@ right: 10px;
   margin: 20px auto;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
+.custom-checkbox{
+  border-bottom: 1px solid #ede8e8;
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
 
 .custom-checkbox .custom-control-input:disabled:checked~.custom-control-label::before,
 .custom-radio .custom-control-input:disabled:checked~.custom-control-label::before {
@@ -1695,11 +1692,13 @@ right: 10px;
 
 details {
   background: white;
-  border: 1px solid #ddd;
+  /* border: 1px solid #ddd; */
   border-radius: 8px;
   margin-bottom: 10px;
   padding: 8px 12px;
   transition: all 0.3s ease;
+  max-width: 1100px;
+  min-width: 1050px;
 }
 
 details > summary {
@@ -2163,6 +2162,15 @@ td.button-group {
 .button-container {
   display: flex;
   justify-content: center;
-  margin-top: 1rem; 
-  gap: 30rem;
+  gap: 30px;
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+}
+.question{
+  padding: 0px 20px;
+  flex-grow: 1;
+}
+.mark{
+font-weight: 600;
 }
