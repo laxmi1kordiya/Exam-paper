@@ -16,7 +16,7 @@ const GenerateAnsKey = ({ formData, allData, selectedQuestions, headerData }) =>
   
       pdfMake.fonts = {
         shruti: {
-          normal: "shruti-normal.ttf",
+          normal: "shruti.ttf",
           bold: "shruti.ttf",
           italics: "shruti.ttf",
           bolditalics: "shruti.ttf",
