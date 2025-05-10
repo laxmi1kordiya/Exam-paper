@@ -44,11 +44,11 @@ const GeneratePaper = () => {
     } catch (error) {
       toast.error("Failed to fetch initial data.");
     }
-  }, [fetch]);
+  }, []);
 
   useEffect(() => {
     fetchData();
-  }, [fetchData]);
+  }, []);
 
   const handleBack = () => {
     if (currentStep > 1) setCurrentStep((prev) => prev - 1);

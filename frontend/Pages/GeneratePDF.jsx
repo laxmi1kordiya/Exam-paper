@@ -189,6 +189,57 @@ const GeneratePDF = ({ formData, allData, selectedQuestions, headerData }) => {
 
     console.log("Document Definition:", docDefinition); // Log the full document definition
 
+    yPosition += 35; // leave 2-line space after subtitle
+
+    // Line: Standard (Subject) - Centered
+    const stdSub = `${
+      findData(formData, allData, "standard") || "_________________"
+    } (${findData(formData, allData, "subject") || "_________________"})`;
+    doc.setFontSize(11);
+    doc.text(stdSub, 105, yPosition, { align: "center" });
+
+    // Time Allowed (left) and Total Marks (right)
+    const timeAllowed = headerData?.paperTime || "_________________";
+    const totalMarks = headerData?.totalMarks || "_________________";
+
+    yPosition += 10;
+    doc.text("Time Allowed: " + timeAllowed, 10, yPosition);
+    doc.text(`${("totalMarks")}: ${totalMarks}`, 200, yPosition, {
+      align: "right",
+    });
+
+    // Start Sections
+    let sectionY = yPosition + 15;
+    Object.keys(questionsBySection).forEach((sectionKey) => {
+      doc.setFontSize(12);
+      doc.text(`${("Section")} ${sectionMapping[sectionKey]}`, 105, sectionY, {
+        align: "center",
+      });
+      sectionY += 10;
+
+      doc.setFontSize(11);
+      doc.text(getSectionTitle(sectionKey), 10, sectionY);
+      sectionY += 10;
+
+      questionsBySection[sectionKey].forEach((question, idx) => {
+        const questionNumber = `Q.${idx + 1}. `;
+        const availableWidth = doc.internal.pageSize.getWidth() - 20; // Total width minus left and right margins
+        const questionText = question.question || "No question text";
+
+        // Use splitTextToSize to handle line breaks
+        const wrappedText = doc.splitTextToSize(questionText, availableWidth - doc.getTextWidth(questionNumber));
+        doc.text(questionNumber, 10, sectionY);
+        doc.text(wrappedText, 10 + doc.getTextWidth(questionNumber), sectionY);
+        sectionY += wrappedText.length * 7; // Adjust line height based on number of lines
+
+        if (sectionY > 270) {
+          doc.addPage();
+          sectionY = 20;
+        }
+      });
+    });
+
+    doc.save(`Que.Paper_${subject}_${standard}.pdf`);
     // Generate and download PDF
     try {
       console.log("Generating PDF...");
