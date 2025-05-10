@@ -1,26 +1,34 @@
-import React from "react";
+import React,{useEffect} from "react";
 import { findData } from "../Utils/AppUtils";
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
-// import {font} from '../Utils/shruti-regular'
-pdfMake.vfs = pdfFonts.pdfMake?.vfs;
-// window.pdfMake.vfs["shruti.ttf"] = font
+import {font} from '../Utils/shruti-regular'
+
 
 const GenerateAnsKey = ({ formData, allData, selectedQuestions, headerData }) => {
-   pdfMake.fonts={
-         Roboto: {
-      normal: "Roboto-Regular.ttf",
-      bold: "Roboto-Medium.ttf",
-      italics: "Roboto-Italic.ttf",
-      bolditalics: "Roboto-MediumItalic.ttf",
-    },
-    // shruti: {
-    //   normal: "shruti.ttf",
-    //   bold: "shruti.ttf", 
-    //   italics: "shruti.ttf", 
-    //   bolditalics: "shruti.ttf" 
-    // },
+    useEffect(() => {
+  
+      pdfMake.vfs = pdfFonts.pdfMake?.vfs || {}; // Ensure vfs is initialized
+  
+      if (pdfMake.vfs) {
+        pdfMake.vfs["shruti.ttf"] = font;
       }
+  
+      pdfMake.fonts = {
+        shruti: {
+          normal: "shruti-normal.ttf",
+          bold: "shruti.ttf",
+          italics: "shruti.ttf",
+          bolditalics: "shruti.ttf",
+        },
+        Roboto: {
+          normal: "Roboto-Regular.ttf",
+          bold: "Roboto-Medium.ttf",
+          italics: "Roboto-Italic.ttf",
+          bolditalics: "Roboto-MediumItalic.ttf",
+        },
+      };
+    }, []);
   const translations = {
     std: { en: "Std", gu: "ધોરણ" },
     subject: { en: "Subject", gu: "વિષય" },
@@ -183,7 +191,7 @@ const GenerateAnsKey = ({ formData, allData, selectedQuestions, headerData }) =>
         })),
       ],
       defaultStyle: {
-        font: formData?.board === "GSEB-GUJ" ? "Roboto" : "Roboto",
+        font: formData?.board === "GSEB-GUJ" ? "shruti" : "Roboto",
       },
       pageMargins: [20, 20, 20, 20],
     };

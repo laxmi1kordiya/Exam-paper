@@ -19,7 +19,7 @@ const GeneratePDF = ({ formData, allData, selectedQuestions, headerData }) => {
 
     pdfMake.fonts = {
       shruti: {
-        normal: "shruti.ttf",
+        normal: "shruti-normal.ttf",
         bold: "shruti.ttf",
         italics: "shruti.ttf",
         bolditalics: "shruti.ttf",
