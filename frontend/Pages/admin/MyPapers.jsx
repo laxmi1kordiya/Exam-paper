@@ -29,20 +29,18 @@ const MyPapers = () => {
   };
   return (
     <>
-      <div className="banner">
-        <div className="main-content">
-          <div className="attention">
-            <b>Attention:</b>
-            <br></br>
-            <span className="warning">
-            ➤ The Generated Paper will be saved for 30 days.
-            </span>
-            <br></br>
-          </div>
-        </div>
-      </div>
       <div className="content-page">
         <div className="main-content">
+          <div className="banner">
+            <div className="attention">
+              <b>Attention:</b>
+              <br></br>
+              <span className="warning">
+                ➤ The Generated Paper will be saved for 30 days.
+              </span>
+              <br></br>
+            </div>
+          </div>
           <table>
             <tbody>
               {myPapers.map((paper) => (

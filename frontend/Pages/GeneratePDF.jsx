@@ -4,6 +4,7 @@ import { addShrutiFont } from "../Utils/addShrutiFont";
 import { findData } from "../Utils/AppUtils";
 
 const GeneratePDF = ({ formData, allData, selectedQuestions, headerData }) => {
+  console.log(headerData,'headerData')
   const translations = {
     oneMarkQuestions: {
       en: "Answer the following questions briefly.",
@@ -101,8 +102,8 @@ const GeneratePDF = ({ formData, allData, selectedQuestions, headerData }) => {
     doc.text(stdSub, 105, yPosition, { align: "center" });
 
     // Time Allowed (left) and Total Marks (right)
-    const timeAllowed = formData?.timeAllowed || "_________________";
-    const totalMarks = formData?.totalMarks || "_________________";
+    const timeAllowed = headerData?.paperTime || "_________________";
+    const totalMarks = headerData?.totalMarks || "_________________";
 
     yPosition += 10;
     doc.text("Time Allowed: " + timeAllowed, 10, yPosition);
