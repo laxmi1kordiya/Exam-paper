@@ -17,6 +17,7 @@ import QuestionTable from "./Pages/formData/QuestionTable";
 import MyPapers from "./Pages/admin/MyPapers";
 import HowToUses from "./Pages/admin/HowToUse";
 import Syllabus from "./Pages/admin/syllabus";
+import Blueprint from "./Pages/admin/Blueprint";
 
 const Routes = () => {
   return (
@@ -41,6 +42,7 @@ const Routes = () => {
           <Route path="my-papers" element={<MyPapers />} />
           <Route path="how-to-use" element={<HowToUses />} />
           <Route path="syllabus" element={<Syllabus />} />
+          <Route path="blueprint" element={<Blueprint />} />
         </Route>
       </ReactRouterRoutes>
     </Suspense>

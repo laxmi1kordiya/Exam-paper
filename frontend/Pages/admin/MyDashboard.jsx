@@ -50,7 +50,7 @@ const MyDashboard = () => {
             title="Blueprints"
             image={blueprints}
             alt="Question Paper Blueprint Icon"
-            destination="/admin/my-worksheets"
+            destination="/admin/blueprint"
           />
         </div>
       </div>
