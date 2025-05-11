@@ -16,6 +16,7 @@ import EducationManager from "./Pages/formData/GenerateTable";
 import QuestionTable from "./Pages/formData/QuestionTable";
 import MyPapers from "./Pages/admin/MyPapers";
 import HowToUses from "./Pages/admin/HowToUse";
+import Syllabus from "./Pages/admin/syllabus";
 
 const Routes = () => {
   return (
@@ -39,6 +40,7 @@ const Routes = () => {
           <Route path="purchase-package" element={<PurchasePackage />} />
           <Route path="my-papers" element={<MyPapers />} />
           <Route path="how-to-use" element={<HowToUses />} />
+          <Route path="syllabus" element={<Syllabus />} />
         </Route>
       </ReactRouterRoutes>
     </Suspense>
