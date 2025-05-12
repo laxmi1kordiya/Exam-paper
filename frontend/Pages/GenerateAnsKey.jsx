@@ -1,34 +1,32 @@
-import React,{useEffect} from "react";
+import React, { useEffect } from "react";
 import { findData } from "../Utils/AppUtils";
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
-import {font} from '../Utils/shruti-regular'
-
+import { font } from "../Utils/shruti-regular";
 
 const GenerateAnsKey = ({ formData, allData, selectedQuestions, headerData }) => {
-    useEffect(() => {
-  
-      pdfMake.vfs = pdfFonts.pdfMake?.vfs || {}; // Ensure vfs is initialized
-  
-      if (pdfMake.vfs) {
-        pdfMake.vfs["shruti.ttf"] = font;
-      }
-  
-      pdfMake.fonts = {
-        shruti: {
-          normal: "shruti.ttf",
-          bold: "shruti.ttf",
-          italics: "shruti.ttf",
-          bolditalics: "shruti.ttf",
-        },
-        Roboto: {
-          normal: "Roboto-Regular.ttf",
-          bold: "Roboto-Medium.ttf",
-          italics: "Roboto-Italic.ttf",
-          bolditalics: "Roboto-MediumItalic.ttf",
-        },
-      };
-    }, []);
+  useEffect(() => {
+    pdfMake.vfs = pdfFonts.pdfMake?.vfs || {};
+    if (pdfMake.vfs) {
+      pdfMake.vfs["shruti.ttf"] = font;
+    }
+
+    pdfMake.fonts = {
+      shruti: {
+        normal: "shruti.ttf",
+        bold: "shruti.ttf",
+        italics: "shruti.ttf",
+        bolditalics: "shruti.ttf",
+      },
+      Roboto: {
+        normal: "Roboto-Regular.ttf",
+        bold: "Roboto-Medium.ttf",
+        italics: "Roboto-Italic.ttf",
+        bolditalics: "Roboto-MediumItalic.ttf",
+      },
+    };
+  }, []);
+
   const translations = {
     std: { en: "Std", gu: "ધોરણ" },
     subject: { en: "Subject", gu: "વિષય" },
@@ -60,38 +58,38 @@ const GenerateAnsKey = ({ formData, allData, selectedQuestions, headerData }) =>
   const standard = findData(formData, allData, "standard") || "Standard";
 
   const t = (key) => {
-    if (formData?.board === "GSEB-GUJ") {
-      return translations[key]?.gu || key;
-    } else {
-      return translations[key]?.en || key;
-    }
+    return formData?.board === "GSEB-GUJ" ? translations[key]?.gu || key : translations[key]?.en || key;
   };
 
   const getSectionTitle = (questionType) => {
     switch (questionType) {
-      case "OneMarks":
-        return t("oneMarkQuestions");
-      case "TwoMarks":
-        return t("twoMarkQuestions");
-      case "ThreeMarks":
-        return t("threeMarkQuestions");
-      case "FourMarks":
-        return t("fourMarkQuestions");
-      case "FiveMarks":
-        return t("fiveMarkQuestions");
-      default:
-        return `${questionType.replace(/([A-Z])/g, " $1").trim()} Questions`;
+      case "OneMarks": return t("oneMarkQuestions");
+      case "TwoMarks": return t("twoMarkQuestions");
+      case "ThreeMarks": return t("threeMarkQuestions");
+      case "FourMarks": return t("fourMarkQuestions");
+      case "FiveMarks": return t("fiveMarkQuestions");
+      default: return `${questionType.replace(/([A-Z])/g, " $1").trim()} Questions`;
+    }
+  };
+
+  const getMarksFromType = (type) => {
+    switch (type) {
+      case "OneMarks": return 1;
+      case "TwoMarks": return 2;
+      case "ThreeMarks": return 3;
+      case "FourMarks": return 4;
+      case "FiveMarks": return 5;
+      default: return "?";
     }
   };
 
   const handleDownload = () => {
-    // Organize questions by section
     const questionsBySection = {};
-    selectedQuestions.forEach((question) => {
-      if (!questionsBySection[question.questionType]) {
-        questionsBySection[question.questionType] = [];
+    selectedQuestions.forEach((q) => {
+      if (!questionsBySection[q.questionType]) {
+        questionsBySection[q.questionType] = [];
       }
-      questionsBySection[question.questionType].push(question);
+      questionsBySection[q.questionType].push(q);
     });
 
     const sectionLabels = ["A", "B", "C", "D", "E"];
@@ -101,46 +99,30 @@ const GenerateAnsKey = ({ formData, allData, selectedQuestions, headerData }) =>
       sectionMapping[key] = sectionLabels[index] || `Section ${index + 1}`;
     });
 
-    // Define PDF document
     const docDefinition = {
       content: [
-        // Header (Logo, Title, Subtitle)
+        // Header with Logo, Title, Subtitle
         {
           columns: [
             headerData?.logoPreview
-              ? {
-                  image: headerData.logoPreview,
-                  width: 25,
-                  height: 25,
-                }
+              ? { image: headerData.logoPreview, width: 25, height: 25 }
               : { text: "", width: 25 },
             {
               stack: [
-                {
-                  text: headerData?.title || "",
-                  fontSize: 16,
-                  alignment: "center",
-                },
-                {
-                  text: headerData?.subtitle || "",
-                  fontSize: 12,
-                  alignment: "center",
-                  margin: [0, 8, 0, 0],
-                },
+                { text: headerData?.title || "", fontSize: 16, alignment: "center" },
+                { text: headerData?.subtitle || "", fontSize: 12, alignment: "center", margin: [0, 8, 0, 0] },
               ],
               width: "*",
             },
           ],
-          margin: [0, 0, 0, 20], // Match 2-line space after subtitle
+          margin: [0, 0, 0, 20],
         },
-        // Standard (Subject)
         {
           text: `${standard} (${subject})`,
           fontSize: 11,
           alignment: "center",
           margin: [0, 0, 0, 10],
         },
-        // Time Allowed and Total Marks
         {
           columns: [
             {
@@ -155,48 +137,75 @@ const GenerateAnsKey = ({ formData, allData, selectedQuestions, headerData }) =>
           ],
           margin: [0, 0, 0, 15],
         },
+
         // Sections
         ...sectionKeys.map((sectionKey) => ({
           stack: [
-            // Section Header
             {
               text: `${t("section")} ${sectionMapping[sectionKey]}`,
               fontSize: 12,
-              bold: true, // Will use regular weight due to single font
+              bold: true,
               alignment: "center",
               margin: [0, 0, 0, 10],
             },
-            // Section Title
             {
               text: getSectionTitle(sectionKey),
               fontSize: 11,
               margin: [0, 0, 0, 10],
             },
-            // Questions and Answers
-            ...questionsBySection[sectionKey].map((question, idx) => ({
+            ...questionsBySection[sectionKey].map((q, idx) => ({
               stack: [
                 {
-                  text: `Q.${idx + 1}. ${question.question || "No question text"}`,
-                  fontSize: 11,
-                  margin: [0, 0, 0, 0],
+                  columns: [
+                    {
+                      text: `${idx + 1}. ${q.question || "No question text"}`,
+                      fontSize: 11,
+                      width: "*",
+                      lineHeight: 1.5, // Add line height here
+                    },
+                    {
+                      text: `[${q.marks || getMarksFromType(sectionKey)}]`,
+                      fontSize: 11,
+                      bold: true,
+                      alignment: "right",
+                      width: "auto",
+                      margin: [0, 0, 10, 0],
+                      lineHeight: 1.5, // Add line height here
+                    },
+                  ],
+                  margin: [0, 0, 0, 2],
                 },
                 {
-                  text: `Ans: ${question.answer || "No answer text"}`,
+                  text: `Ans: ${q.answer || "No answer text"}`,
                   fontSize: 11,
-                  margin: [0, 0, 0, 10], // Space before next question
+                  margin: [0, 5, 0, 5],
+                  lineHeight: 1.5, // Add line height here
                 },
+                {
+                  text: q.answer && q.answer.split('\n').slice(1).join('\n'),
+                  fontSize: 11,
+                  margin: [20, 0, 0, 10],
+                  lineHeight: 1.5, // Add line height here
+                }
               ],
             })),
           ],
+          margin: [0, 0, 0, 20],
         })),
       ],
       defaultStyle: {
         font: formData?.board === "GSEB-GUJ" ? "shruti" : "Roboto",
+        lineHeight: 1.5, // And also here for default
       },
-      pageMargins: [20, 20, 20, 20],
+      pageMargins: [20, 20, 20, 40],
+      footer: (currentPage, pageCount) => ({
+        text: `${currentPage} of ${pageCount}`,
+        alignment: "center",
+        fontSize: 9,
+        margin: [0, 10, 0, 0],
+      }),
     };
 
-    // Generate and download PDF
     pdfMake.createPdf(docDefinition).download(`Ans.Key_${subject}_${standard}.pdf`);
   };
 

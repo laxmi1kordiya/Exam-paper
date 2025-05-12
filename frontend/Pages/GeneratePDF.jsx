@@ -6,15 +6,9 @@ import { font } from "../Utils/shruti-regular";
 
 const GeneratePDF = ({ formData, allData, selectedQuestions, headerData }) => {
   useEffect(() => {
-    console.log("Initializing pdfMake...");
-    console.log("pdfMake object:", pdfMake); // This will log the pdfMake object
-
-    pdfMake.vfs = pdfFonts.pdfMake?.vfs || {}; // Ensure vfs is initialized
-    console.log("pdfMake.vfs initialized:", pdfMake.vfs); // Check if vfs is set properly
-
+    pdfMake.vfs = pdfFonts.pdfMake?.vfs || {};
     if (pdfMake.vfs) {
       pdfMake.vfs["shruti.ttf"] = font;
-      console.log("Shruti font loaded into VFS:", pdfMake.vfs["shruti.ttf"]); // Confirm Shruti font in VFS
     }
 
     pdfMake.fonts = {
@@ -31,8 +25,24 @@ const GeneratePDF = ({ formData, allData, selectedQuestions, headerData }) => {
         bolditalics: "Roboto-MediumItalic.ttf",
       },
     };
-    console.log("Fonts set in pdfMake:", pdfMake.fonts); // Confirm font configuration
   }, []);
+
+  const getMarksFromType = (questionType) => {
+    switch (questionType) {
+      case "OneMarks":
+        return 1;
+      case "TwoMarks":
+        return 2;
+      case "ThreeMarks":
+        return 3;
+      case "FourMarks":
+        return 4;
+      case "FiveMarks":
+        return 5;
+      default:
+        return "?";
+    }
+  };
 
   const translations = {
     oneMarkQuestions: {
@@ -60,22 +70,15 @@ const GeneratePDF = ({ formData, allData, selectedQuestions, headerData }) => {
   const subject = findData(formData, allData, "subject") || "Subject";
   const standard = findData(formData, allData, "standard") || "Standard";
 
-  console.log("Selected Subject:", subject);
-  console.log("Selected Standard:", standard);
-
   const t = (key) => {
-    console.log(`Getting translation for key: ${key}`);
     if (formData?.board === "GSEB-ENG") {
-      console.log(`English translation for '${key}':`, translations[key]?.en);
       return translations[key]?.en || key;
     } else {
-      console.log(`Gujarati translation for '${key}':`, translations[key]?.gu);
       return translations[key]?.gu || key;
     }
   };
 
   const getSectionTitle = (questionType) => {
-    console.log(`Determining title for question type: ${questionType}`);
     switch (questionType) {
       case "OneMarks":
         return t("oneMarkQuestions");
@@ -93,8 +96,6 @@ const GeneratePDF = ({ formData, allData, selectedQuestions, headerData }) => {
   };
 
   const handleDownload = () => {
-    console.log("Organizing questions by section...");
-    // Organize questions by section
     const questionsBySection = {};
     selectedQuestions.forEach((question) => {
       if (!questionsBySection[question.questionType]) {
@@ -103,44 +104,34 @@ const GeneratePDF = ({ formData, allData, selectedQuestions, headerData }) => {
       questionsBySection[question.questionType].push(question);
     });
 
-    console.log("Questions by Section:", questionsBySection);
-
     const SectionLabels = ["A", "B", "C", "D", "E"];
     const sectionKeys = Object.keys(questionsBySection);
-    console.log("Section Keys:", sectionKeys);
 
     const sectionMapping = {};
     sectionKeys.forEach((key, index) => {
       sectionMapping[key] = SectionLabels[index] || `Section ${index + 1}`;
     });
 
-    console.log("Section Mapping:", sectionMapping);
-
-    // Define PDF document
     const docDefinition = {
       content: [
-        // Title
         {
           text: headerData?.title || "",
           fontSize: 16,
           alignment: "center",
           margin: [0, 8, 0, 0],
         },
-        // Subtitle
         {
           text: headerData?.subtitle || "",
           fontSize: 12,
           alignment: "center",
-          margin: [0, 8, 0, 20], // Extra margin to match 2-line space
+          margin: [0, 8, 0, 20],
         },
-        // Standard (Subject)
         {
           text: `${standard} (${subject})`,
           fontSize: 11,
           alignment: "center",
           margin: [0, 0, 0, 10],
         },
-        // Time Allowed and Total Marks
         {
           columns: [
             {
@@ -155,42 +146,57 @@ const GeneratePDF = ({ formData, allData, selectedQuestions, headerData }) => {
           ],
           margin: [0, 0, 0, 15],
         },
-        // Sections
         ...sectionKeys.map((sectionKey) => ({
           stack: [
-            // Section Header
             {
               text: `Section ${sectionMapping[sectionKey]}`,
               fontSize: 12,
-              bold: true, // Will use regular weight due to single font
+              bold: true,
               alignment: "center",
               margin: [0, 0, 0, 10],
             },
-            // Section Title
             {
               text: getSectionTitle(sectionKey),
               fontSize: 11,
               margin: [0, 0, 0, 10],
             },
-            // Questions
             ...questionsBySection[sectionKey].map((question, idx) => ({
-              text: `Q.${idx + 1}. ${question.question || "No question text"}`,
-              fontSize: 11,
+              columns: [
+                {
+                  text: `${idx + 1}. ${question.question || "No question text"}`,
+                  fontSize: 11,
+                  width: '*',
+                },
+                {
+                  text: `[${question.marks || getMarksFromType(sectionKey)}]`,
+                  fontSize: 11,
+                  bold: true,
+                  alignment: 'right',
+                  width: 'auto',
+                },
+              ],
+              columnGap: 10,
               margin: [0, 0, 0, 7],
             })),
           ],
+          margin: [0, 0, 0, 20], // <-- Added space between sections
         })),
       ],
       defaultStyle: {
         font: formData?.board === "GSEB-GUJ" ? "shruti" : "Roboto",
       },
-      pageMargins: [20, 20, 20, 20],
+      pageMargins: [20, 20, 20, 40],
+      footer: function (currentPage, pageCount) {
+        return {
+          text: `${currentPage} of ${pageCount}`,
+          alignment: "center",
+          fontSize: 9,
+          margin: [0, 10, 0, 0],
+        };
+      },
     };
 
-    console.log("Document Definition:", docDefinition); // Log the full document definition
-    // Generate and download PDF
     try {
-      console.log("Generating PDF...");
       pdfMake.createPdf(docDefinition).download(`Que.Key_${subject}_${standard}.pdf`);
     } catch (error) {
       console.error("Error during PDF generation:", error);
@@ -201,6 +207,10 @@ const GeneratePDF = ({ formData, allData, selectedQuestions, headerData }) => {
 };
 
 export default GeneratePDF;
+
+
+
+
 // const handleDownload = () => {
 //   console.log("run")
 // }
