@@ -41,57 +41,56 @@ const MyPapers = () => {
               <br></br>
             </div>
           </div>
-          <table>
-            <tbody>
-              {myPapers.map((paper) => (
-                <tr key={paper._id}>
-                  <td>
-                    <span className="paper-info">
-                      {`${paper?.paperSetting?.board} >> ${paper?.paperSetting?.standard} >> ${paper?.paperSetting?.subject}`}
-                    </span>
-                  </td>
-
-                  <td>
-                    <span className="paper-date">
-                      {new Date(paper.created).toLocaleDateString("en-US", {
-                        day: "2-digit",
-                        month: "short",
-                        year: "numeric",
-                      })}
-                    </span>
-                  </td>
-                  <td>
-                    <td className="button-group">
-                      <GeneratePDF
-                        formData={paper?.paperSetting?.formData}
-                        allData={paper?.paperSetting?.allData}
-                        selectedQuestions={
-                          paper?.paperSetting?.selectedQuestionsArray
-                        }
-                        headerData={paper?.paperSetting?.headerData}
-                      />
-
-                      <GenerateAnsKey
-                        formData={paper?.paperSetting?.formData}
-                        allData={paper?.paperSetting?.allData}
-                        selectedQuestions={
-                          paper?.paperSetting?.selectedQuestionsArray
-                        }
-                        headerData={paper?.paperSetting?.headerData}
-                      />
-
-                      <button
-                        className="delete"
-                        onClick={() => deletePaperData(paper._id)}
-                      >
-                        Delete
-                      </button>
+          <div className="table-responsive">
+            <table>
+              <tbody>
+                {myPapers.map((paper) => (
+                  <tr key={paper._id}>
+                    <td>
+                      <span className="paper-info">
+                        {`${paper?.paperSetting?.board} >> ${paper?.paperSetting?.standard} >> ${paper?.paperSetting?.subject}`}
+                      </span>
                     </td>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                    <td>
+                      <span className="paper-date">
+                        {new Date(paper.created).toLocaleDateString("en-US", {
+                          day: "2-digit",
+                          month: "short",
+                          year: "numeric",
+                        })}
+                      </span>
+                    </td>
+                    <td>
+                      <div className="button-group">
+                        <GeneratePDF
+                          formData={paper?.paperSetting?.formData}
+                          allData={paper?.paperSetting?.allData}
+                          selectedQuestions={
+                            paper?.paperSetting?.selectedQuestionsArray
+                          }
+                          headerData={paper?.paperSetting?.headerData}
+                        />
+                        <GenerateAnsKey
+                          formData={paper?.paperSetting?.formData}
+                          allData={paper?.paperSetting?.allData}
+                          selectedQuestions={
+                            paper?.paperSetting?.selectedQuestionsArray
+                          }
+                          headerData={paper?.paperSetting?.headerData}
+                        />
+                        <button
+                          className="delete"
+                          onClick={() => deletePaperData(paper._id)}
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </>

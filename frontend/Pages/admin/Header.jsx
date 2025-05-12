@@ -54,7 +54,7 @@ const Header = () => {
   };
   return (
     <div className="top-nav">
-      <div>{url}</div>
+      <div className="url">{url}</div>
       <div className="user-profile">
         <div
           onClick={() => setShowPopup(!showPopup)}
