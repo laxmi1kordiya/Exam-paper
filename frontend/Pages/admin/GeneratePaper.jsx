@@ -225,6 +225,8 @@ const GeneratePaper = () => {
           chapters={chapters}
           formData={formData}
           updateForm={updateForm}
+          type="paper"
+          title="Generate Your Custom Question Paper"
         />
         {renderButtonContainer({
           onNext: handleNextFromStep1,
