@@ -112,6 +112,8 @@ const GeneratePDF = ({ formData, allData, selectedQuestions, headerData }) => {
       sectionMapping[key] = SectionLabels[index] || `Section ${index + 1}`;
     });
 
+    const watermarkText = headerData?.WaterMark === "false" && headerData?.WaterMarkTaxt;
+
     const docDefinition = {
       content: [
         {
@@ -165,21 +167,21 @@ const GeneratePDF = ({ formData, allData, selectedQuestions, headerData }) => {
                 {
                   text: `${idx + 1}. ${question.question || "No question text"}`,
                   fontSize: 11,
-                  width: '*',
+                  width: "*",
                 },
                 {
                   text: `[${question.marks || getMarksFromType(sectionKey)}]`,
                   fontSize: 11,
                   bold: true,
-                  alignment: 'right',
-                  width: 'auto',
+                  alignment: "right",
+                  width: "auto",
                 },
               ],
               columnGap: 10,
               margin: [0, 0, 0, 7],
             })),
           ],
-          margin: [0, 0, 0, 20], // <-- Added space between sections
+          margin: [0, 0, 0, 20],
         })),
       ],
       defaultStyle: {
@@ -194,6 +196,16 @@ const GeneratePDF = ({ formData, allData, selectedQuestions, headerData }) => {
           margin: [0, 10, 0, 0],
         };
       },
+      watermark: watermarkText
+        ? {
+            text: watermarkText, 
+            color: "gray",
+            opacity: 0.3,
+            fontSize: 50, 
+            alignment: "center",
+            margin: [0, 780, 0, 0],
+          }
+        : undefined,
     };
 
     try {
