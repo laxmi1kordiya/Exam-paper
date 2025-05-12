@@ -126,11 +126,11 @@ const GenerateAnsKey = ({ formData, allData, selectedQuestions, headerData }) =>
         {
           columns: [
             {
-              text: `Time Allowed: ${formData?.timeAllowed || "_________________"}`,
+              text: `Time Allowed: ${headerData?.paperTime || "_________________"}`,
               fontSize: 11,
             },
             {
-              text: `Total Marks: ${formData?.totalMarks || "_________________"}`,
+              text: `Total Marks: ${headerData?.totalMarks || "_________________"}`,
               fontSize: 11,
               alignment: "right",
             },
