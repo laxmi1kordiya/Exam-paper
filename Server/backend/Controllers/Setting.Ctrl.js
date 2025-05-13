@@ -35,6 +35,7 @@ export const getSubData = handleGetAll("subject");
 export const getChapterData = handleGetAll("chapter");
 export const getQuestions = handleGetAll("Question");
 export const getPaperData = handleGetAll("paper");
+export const getSyllabusData = handleGetAll("Syllabus");
 
 const handleDelete = (modelName) => async (req, res, next) => {
   const rcResponse = new ApiResponse();
