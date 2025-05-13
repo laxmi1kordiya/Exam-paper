@@ -4,7 +4,7 @@ import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
 import { font } from "../Utils/shruti-regular";
 
-const GenerateAnsKey = ({ formData, allData, selectedQuestions, headerData }) => {
+const GenerateAnsKey = ({ formData, allData, selectedQuestions, headerData, totalMarks }) => {
   useEffect(() => {
     pdfMake.vfs = pdfFonts.pdfMake?.vfs || {};
     if (pdfMake.vfs) {
@@ -98,7 +98,7 @@ const GenerateAnsKey = ({ formData, allData, selectedQuestions, headerData }) =>
     sectionKeys.forEach((key, index) => {
       sectionMapping[key] = sectionLabels[index] || `Section ${index + 1}`;
     });
-
+const watermarkText = headerData?.WaterMark === "false" && headerData?.WaterMarkTaxt;
     const docDefinition = {
       content: [
         // Header with Logo, Title, Subtitle
@@ -130,7 +130,7 @@ const GenerateAnsKey = ({ formData, allData, selectedQuestions, headerData }) =>
               fontSize: 11,
             },
             {
-              text: `Total Marks: ${headerData?.totalMarks || "_________________"}`,
+              text: `Total Marks: ${totalMarks || "_________________"}`,
               fontSize: 11,
               alignment: "right",
             },
@@ -204,6 +204,16 @@ const GenerateAnsKey = ({ formData, allData, selectedQuestions, headerData }) =>
         fontSize: 9,
         margin: [0, 10, 0, 0],
       }),
+       watermark: watermarkText
+        ? {
+            text: watermarkText, 
+            color: "gray",
+            opacity: 0.3,
+            fontSize: 50, 
+            alignment: "center",
+            margin: [0, 780, 0, 0],
+          }
+        : undefined,
     };
 
     pdfMake.createPdf(docDefinition).download(`Ans.Key_${subject}_${standard}.pdf`);

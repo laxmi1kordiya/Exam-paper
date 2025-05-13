@@ -69,6 +69,7 @@ const MyPapers = () => {
                             paper?.paperSetting?.selectedQuestionsArray
                           }
                           headerData={paper?.paperSetting?.headerData}
+                          totalMarks={paper?.paperSetting?.totalMarks}
                         />
                         <GenerateAnsKey
                           formData={paper?.paperSetting?.formData}
@@ -77,6 +78,7 @@ const MyPapers = () => {
                             paper?.paperSetting?.selectedQuestionsArray
                           }
                           headerData={paper?.paperSetting?.headerData}
+                          totalMarks={paper?.paperSetting?.totalMarks}
                         />
                         <button
                           className="delete"

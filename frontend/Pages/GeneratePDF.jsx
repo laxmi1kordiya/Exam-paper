@@ -4,7 +4,7 @@ import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
 import { font } from "../Utils/shruti-regular";
 
-const GeneratePDF = ({ formData, allData, selectedQuestions, headerData }) => {
+const GeneratePDF = ({ formData, allData, selectedQuestions, headerData, totalMarks }) => {
   useEffect(() => {
     pdfMake.vfs = pdfFonts.pdfMake?.vfs || {};
     if (pdfMake.vfs) {
@@ -141,7 +141,7 @@ const GeneratePDF = ({ formData, allData, selectedQuestions, headerData }) => {
               fontSize: 11,
             },
             {
-              text: `Total Marks: ${headerData?.totalMarks || "_________________"}`,
+              text: `Total Marks: ${totalMarks|| "_________________"}`,
               fontSize: 11,
               alignment: "right",
             },
@@ -219,49 +219,3 @@ const GeneratePDF = ({ formData, allData, selectedQuestions, headerData }) => {
 };
 
 export default GeneratePDF;
-
-
-
-
-// const handleDownload = () => {
-//   console.log("run")
-// }
-
-// const GeneratePDF = ({ formData, allData, selectedQuestions, data }) => {
-//   const docDefinition = {
-//     content: [
-//       {
-//         columns: [
-        
-//           {
-//             stack: [
-//               { text: "test", style: "website", alignment: "center" },
-//               { text: "test subtitle", style: "generatedBy", alignment: "center" },
-//             ],
-//             width: "*",
-//           },
-//           { text: "", width: "auto" },
-//         ],
-//         margin: [0, 0, 0, 5],
-//       },
-   
-//     ],
-//     styles: {
-//       website: { fontSize: 14, bold: true },
-//       generatedBy: { fontSize: 10 },
-//       label: { fontSize: 11, bold: true, margin: [0, 2, 5, 2] },
-//       value: { fontSize: 11, margin: [0, 2, 0, 2] },
-//       subheader: { fontSize: 13, bold: true, decoration: "underline", margin: [0, 10, 0, 5] },
-//       sectionHeader: { fontSize: 12, bold: true, margin: [0, 10, 0, 5] },
-//       sectionAsQuestion: { fontSize: 12, bold: true, margin: [0, 5, 0, 5] },
-//       individualQuestions: { fontSize: 11 },
-//       instructions: { fontSize: 10, margin: [0, 0, 0, 8] },
-//       noQuestions: { fontSize: 11, italics: true, margin: [0, 5, 0, 5] },
-//     },
-//     pageMargins: [40, 20, 40, 40],
-//     // defaultStyle: { font: defaultFont },
-//   };
-//   // pdfMake.createPdf(docDefinition).download("generate-paper.pdf");
-//   return <button onClick={handleDownload}>Download PDF</button>;
-// }
-// export default GeneratePDF;
