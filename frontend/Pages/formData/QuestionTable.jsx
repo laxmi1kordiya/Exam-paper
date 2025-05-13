@@ -20,6 +20,7 @@ export default function QuestionTable() {
   const [filteredQuestions, setFilteredQuestions] = useState([]);
   const [questionData, setQuestionData] = useState([]);
   const [selectedQuestion, setSelectedQuestion] = useState("");
+  const [fetchQuestion, setFetchQuestion] = useState([]);
 
   useEffect(() => {
     fetchData();
@@ -115,6 +116,7 @@ export default function QuestionTable() {
 
     const questions = filteredQuestions?.filter((q) => q.questionType === type);
     setSelectedQuestion(questions[0]?._id);
+    setFetchQuestion([...questions[0]?.questionList]);
     const combinedQuestions = questions.flatMap((q) => q.questionList || []);
     setQuestionData(combinedQuestions);
   };
@@ -137,32 +139,20 @@ export default function QuestionTable() {
   };
 
   const handleSaveQuestions = async () => {
-    if(selectedQuestion){
-      const payload = {
-        _id: selectedQuestion,
-        questionType: questionType,
-        Chapter_id: selectedChapter,
-        Board_id: selectedBoard,
-        questionList: questionList,
-      };
-      await fetch.post("addQuestionData", payload);
-      alert("Questions updated successfully!");
-      fetchData();
-    }else{
       const payload = {
         questionType: questionType,
         Chapter_id: selectedChapter,
         Board_id: selectedBoard,
-        questionList: questionList,
+        questionList: [...questionList,...fetchQuestion],
       };
       await fetch.post("addQuestionData", payload);
       alert("Questions saved successfully!");
       fetchData();
-    }
   };
 
   const openModal = (row) => {
     setQuestionList([
+      ...questionList,
       { question: row.question, answer: row.answer, q_id: row.q_id },
     ]);
   };

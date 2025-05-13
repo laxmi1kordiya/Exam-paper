@@ -24,9 +24,7 @@ const apiEndpoints = {
     delete: "deleteChapterData",
   },
   Question: {
-    fetch: "getQuestionData",
-    add: "addQuestionData",
-    delete: "deleteQuestionData",
+   
   },
 };
 

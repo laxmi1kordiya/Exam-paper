@@ -62,7 +62,6 @@ export const deleteBoardData = handleDelete("board");
 export const deleteStandardData = handleDelete("standard");
 export const deleteSubjectData = handleDelete("subject");
 export const deleteChapterData = handleDelete("chapter");
-export const deleteQuestionData = handleDelete("Question");
 export const deletePaperData = handleDelete("paper");
 export const deleteOneTopic = handleDelete("Syllabus");
 
@@ -90,7 +89,7 @@ export const addBoardData = handleCreateOrUpdate("board");
 export const addStandardData = handleCreateOrUpdate("standard");
 export const addSubjectData = handleCreateOrUpdate("subject");
 export const addChapterData = handleCreateOrUpdate("chapter");
-export const addQuestionData = handleCreateOrUpdate("Question");
+// export const addQuestionData = handleCreateOrUpdate("Question");
 export const addSaveData = handleCreateOrUpdate("paperSetting");
 export const addPaperData = handleCreateOrUpdate("paper");
 export const addSyllabusData = handleCreateOrUpdate("Syllabus");
@@ -108,6 +107,27 @@ export const deleteOneQuestion = async (req, res, next) => {
     return res.status(rcResponse.code).send(rcResponse);
   } catch (err) {
     console.log(err, '"err--"');
+    next(err);
+  }
+};
+
+export const addQuestionData = async (req, res, next) => {
+  const rcResponse = new ApiResponse();
+  const { body } = req;
+
+  try {
+    let data = await findOne("Question", {Chapter_id:body.Chapter_id ,questionType:body.questionType});
+      if (data) {
+      rcResponse.data = await findOneAndUpdate(
+        "Question",
+        { _id: body._id },
+        body
+      );
+    } else {
+      rcResponse.data = await create("Question", body);
+    }
+    return res.status(rcResponse.code).send(rcResponse);
+  } catch (err) {
     next(err);
   }
 };

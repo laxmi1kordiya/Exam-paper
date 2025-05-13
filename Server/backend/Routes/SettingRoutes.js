@@ -16,7 +16,6 @@ import {
   deleteChapterData,
   getQuestions,
   addQuestionData,
-  deleteQuestionData,
   getHeaderData,
   deleteOneQuestion,
   addPaperData,
@@ -45,7 +44,6 @@ settingRoutes.post("/paperSetting", addSaveData);
 settingRoutes.get("/getQuestions", getQuestions);
 settingRoutes.get("/getQuestionData", getQuestions);
 settingRoutes.post("/addQuestionData", addQuestionData);
-settingRoutes.delete("/deleteQuestionData/:id", deleteQuestionData);
 settingRoutes.get("/getHeaderData", getHeaderData);
 settingRoutes.delete('/deleteOneQuestion/:id/:q_id', deleteOneQuestion);
 settingRoutes.post('/addPaper', addPaperData);
