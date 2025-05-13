@@ -18,6 +18,7 @@ import MyPapers from "./Pages/admin/MyPapers";
 import HowToUses from "./Pages/admin/HowToUse";
 import Syllabus from "./Pages/admin/syllabus";
 import Blueprint from "./Pages/admin/Blueprint";
+import SyllabusTable from "./Pages/formData/SyllabusTable";
 
 const Routes = () => {
   return (
@@ -32,6 +33,7 @@ const Routes = () => {
         <Route path="/about" element={<AboutUs />} />
         <Route path="/table" element={<EducationManager />} />
         <Route path="/questionTable" element={<QuestionTable />} />
+        <Route path="/SyllabusData" element={<SyllabusTable />} />
 
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<MyDashboard />} />

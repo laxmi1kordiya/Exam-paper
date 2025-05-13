@@ -7,6 +7,7 @@ import paperSetting from "../Schema/PaperSetting.js";
 import Question from "../Schema/Question.js";
 import user from "../Schema/User.js"
 import paper from "../Schema/Paper.js";
+import Syllabus from "../Schema/Syllabus.js";
 
 const models = {
   user,
@@ -16,7 +17,8 @@ const models = {
   chapter,
   paperSetting,
   Question,
-  paper
+  paper,
+  Syllabus
 };
 
 const findOne = async (collection, query, property, sort) => {

@@ -21,7 +21,9 @@ import {
   deleteOneQuestion,
   addPaperData,
   getPaperData,
-  deletePaperData
+  deletePaperData,
+  addSyllabusData,
+  deleteOneTopic
 } from "../Controllers/Setting.Ctrl.js";
 
 const settingRoutes = Router();
@@ -48,6 +50,8 @@ settingRoutes.delete('/deleteOneQuestion/:id/:q_id', deleteOneQuestion);
 settingRoutes.post('/addPaper', addPaperData);
 settingRoutes.get('/getMyPapers', getPaperData);
 settingRoutes.delete('/deleteMyPapers/:id', deletePaperData);
+settingRoutes.post('/addSyllabusData', addSyllabusData);
+settingRoutes.delete("/deleteOneTopic/:id", deleteOneTopic);
 
 
 export default settingRoutes;

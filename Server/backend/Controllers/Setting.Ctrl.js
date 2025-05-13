@@ -63,6 +63,7 @@ export const deleteSubjectData = handleDelete("subject");
 export const deleteChapterData = handleDelete("chapter");
 export const deleteQuestionData = handleDelete("Question");
 export const deletePaperData = handleDelete("paper");
+export const deleteOneTopic = handleDelete("Syllabus");
 
 const handleCreateOrUpdate = (modelName) => async (req, res, next) => {
   const rcResponse = new ApiResponse();
@@ -91,6 +92,7 @@ export const addChapterData = handleCreateOrUpdate("chapter");
 export const addQuestionData = handleCreateOrUpdate("Question");
 export const addSaveData = handleCreateOrUpdate("paperSetting");
 export const addPaperData = handleCreateOrUpdate("paper");
+export const addSyllabusData = handleCreateOrUpdate("Syllabus");
 
 export const deleteOneQuestion = async (req, res, next) => {
   const rcResponse = new ApiResponse();
