@@ -4,7 +4,13 @@ import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
 import { font } from "../Utils/shruti-regular";
 
-const GeneratePDF = ({ formData, allData, selectedQuestions, headerData, totalMarks }) => {
+const GeneratePDF = ({
+  formData,
+  allData,
+  selectedQuestions,
+  headerData,
+  totalMarks,
+}) => {
   useEffect(() => {
     pdfMake.vfs = pdfFonts.pdfMake?.vfs || {};
     if (pdfMake.vfs) {
@@ -68,7 +74,9 @@ const GeneratePDF = ({ formData, allData, selectedQuestions, headerData, totalMa
   };
 
   const subject = findData(formData, allData, "subject") || "Subject";
-  const standard = findData(formData, allData, "standard") || "Standard";
+  const rawStandard = findData(formData, allData, "standard") || "Standard";
+  const parts = rawStandard.split(" ");
+  const standard = parts.slice(0, 2).join(" ");
 
   const t = (key) => {
     if (formData?.board === "GSEB-ENG") {
@@ -95,6 +103,25 @@ const GeneratePDF = ({ formData, allData, selectedQuestions, headerData, totalMa
     }
   };
 
+  const formatTimeAllowed = (minutes) => {
+    const min = parseInt(minutes, 10);
+    if (isNaN(min)) return "_________________";
+
+    if (min <= 60) {
+      return `${min} Minute${min === 1 ? "" : "s"}`;
+    }
+
+    const hours = Math.floor(min / 60);
+    const remainingMinutes = min % 60;
+
+    const hourPart = `${hours} Hour${hours === 1 ? "" : "s"}`;
+    const minutePart = remainingMinutes
+      ? ` ${remainingMinutes} Minute${remainingMinutes === 1 ? "" : "s"}`
+      : "";
+
+    return hourPart + minutePart;
+  };
+
   const handleDownload = () => {
     const questionsBySection = {};
     selectedQuestions.forEach((question) => {
@@ -112,37 +139,43 @@ const GeneratePDF = ({ formData, allData, selectedQuestions, headerData, totalMa
       sectionMapping[key] = SectionLabels[index] || `Section ${index + 1}`;
     });
 
-    const watermarkText = headerData?.WaterMark === "false" && headerData?.WaterMarkTaxt;
+    const watermarkText =
+      headerData?.WaterMark === "false" && headerData?.WaterMarkTaxt;
 
     const docDefinition = {
       content: [
         {
           text: headerData?.title || "",
           fontSize: 16,
+          bold: true,
           alignment: "center",
           margin: [0, 8, 0, 0],
         },
         {
           text: headerData?.subtitle || "",
           fontSize: 12,
+          bold: true,
           alignment: "center",
           margin: [0, 8, 0, 20],
         },
         {
-          text: `${standard} (${subject})`,
+          text: `${standard} - ${subject}`,
           fontSize: 11,
+          bold: true,
           alignment: "center",
           margin: [0, 0, 0, 10],
         },
         {
           columns: [
             {
-              text: `Time Allowed: ${headerData?.paperTime || "_________________"}`,
+              text: `Time Allowed: ${formatTimeAllowed(headerData?.paperTime)}`,
               fontSize: 11,
+              bold: true,
             },
             {
               text: `Total Marks: ${headerData?.totalMarks|| "_________________"}`,
               fontSize: 11,
+              bold: true,
               alignment: "right",
             },
           ],
@@ -165,7 +198,9 @@ const GeneratePDF = ({ formData, allData, selectedQuestions, headerData, totalMa
             ...questionsBySection[sectionKey].map((question, idx) => ({
               columns: [
                 {
-                  text: `${idx + 1}. ${question.question || "No question text"}`,
+                  text: `${idx + 1}. ${
+                    question.question || "No question text"
+                  }`,
                   fontSize: 11,
                   width: "*",
                 },
@@ -198,10 +233,10 @@ const GeneratePDF = ({ formData, allData, selectedQuestions, headerData, totalMa
       },
       watermark: watermarkText
         ? {
-            text: watermarkText, 
+            text: watermarkText,
             color: "gray",
             opacity: 0.3,
-            fontSize: 50, 
+            fontSize: 50,
             alignment: "center",
             margin: [0, 780, 0, 0],
           }
@@ -209,13 +244,19 @@ const GeneratePDF = ({ formData, allData, selectedQuestions, headerData, totalMa
     };
 
     try {
-      pdfMake.createPdf(docDefinition).download(`Que.Key_${subject}_${standard}.pdf`);
+      pdfMake
+        .createPdf(docDefinition)
+        .download(`Que.Key_${subject}_${standard}.pdf`);
     } catch (error) {
       console.error("Error during PDF generation:", error);
     }
   };
 
-  return <button className="qpaper" onClick={handleDownload}>Que.Paper</button>;
+  return (
+    <button className="qpaper" onClick={handleDownload}>
+      Que.Paper
+    </button>
+  );
 };
 
 export default GeneratePDF;
