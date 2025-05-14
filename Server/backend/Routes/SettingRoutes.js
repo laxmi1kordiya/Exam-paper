@@ -9,14 +9,12 @@ import {
   addStandardData,
   addSubjectData,
   addChapterData,
-  addSaveData,
   deleteBoardData,
   deleteStandardData,
   deleteSubjectData,
   deleteChapterData,
   getQuestions,
   addQuestionData,
-  getHeaderData,
   deleteOneQuestion,
   addPaperData,
   getPaperData,
@@ -40,11 +38,9 @@ settingRoutes.delete("/deleteChapterData/:id", deleteChapterData);
 settingRoutes.post("/addStandardData", addStandardData);
 settingRoutes.post("/addSubjectData", addSubjectData);
 settingRoutes.post("/addChapterData", addChapterData);
-settingRoutes.post("/paperSetting", addSaveData);
 settingRoutes.get("/getQuestions", getQuestions);
 settingRoutes.get("/getQuestionData", getQuestions);
 settingRoutes.post("/addQuestionData", addQuestionData);
-settingRoutes.get("/getHeaderData", getHeaderData);
 settingRoutes.delete('/deleteOneQuestion/:id/:q_id', deleteOneQuestion);
 settingRoutes.post('/addPaper', addPaperData);
 settingRoutes.get('/getMyPapers', getPaperData);

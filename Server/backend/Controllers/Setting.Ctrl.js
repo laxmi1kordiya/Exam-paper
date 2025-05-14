@@ -48,15 +48,6 @@ const handleDelete = (modelName) => async (req, res, next) => {
     next(err);
   }
 };
-export const getHeaderData = async (req, res, next) => {
-  let rcResponse = new ApiResponse();
-  try {
-    rcResponse.data = await findOne("paperSetting", {});
-    return res.status(rcResponse.code).send(rcResponse);
-  } catch (err) {
-    next(err);
-  }
-};
 
 export const deleteBoardData = handleDelete("board");
 export const deleteStandardData = handleDelete("standard");
@@ -89,8 +80,6 @@ export const addBoardData = handleCreateOrUpdate("board");
 export const addStandardData = handleCreateOrUpdate("standard");
 export const addSubjectData = handleCreateOrUpdate("subject");
 export const addChapterData = handleCreateOrUpdate("chapter");
-// export const addQuestionData = handleCreateOrUpdate("Question");
-export const addSaveData = handleCreateOrUpdate("paperSetting");
 export const addPaperData = handleCreateOrUpdate("paper");
 export const addSyllabusData = handleCreateOrUpdate("Syllabus");
 

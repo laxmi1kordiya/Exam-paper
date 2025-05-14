@@ -73,10 +73,13 @@ const GeneratePaper = () => {
   };
 
   const updateHeader = useCallback((e) => {
-    const { name, value } = e.target;
-    setHeaderData((prev) => ({ ...prev, [name]: value }));
-  }, [headerData]);
-
+    const { name, value, type, checked } = e.target;
+    let newValue = value;
+    if (name === "WaterMark") {
+      newValue = type === "checkbox" ? checked : value === "true";
+    }
+    setHeaderData((prev) => ({ ...prev, [name]: newValue }));
+  }, []);
   const updateForm = useCallback(
     (e) => {
       const { name, value } = e.target;

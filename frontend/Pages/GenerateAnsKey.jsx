@@ -130,7 +130,7 @@ const watermarkText = headerData?.WaterMark === "false" && headerData?.WaterMark
               fontSize: 11,
             },
             {
-              text: `Total Marks: ${totalMarks || "_________________"}`,
+              text: `Total Marks: ${headerData?.totalMarks || "_________________"}`,
               fontSize: 11,
               alignment: "right",
             },

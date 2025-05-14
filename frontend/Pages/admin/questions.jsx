@@ -4,40 +4,51 @@ import { navigate } from "../../Components/NavigationMenu";
 import { findData } from "../../Utils/AppUtils";
 
 const RenderQuestions = memo(
-  ({ questions, questionType, selectedQuestions, handleCheckboxChange, board }) => {
+  ({
+    questions,
+    questionType,
+    selectedQuestions,
+    handleCheckboxChange,
+    board,
+  }) => {
     if (!questions || questions.length === 0) return null;
 
     let summaryText = "";
     let mark = "";
     switch (questionType) {
       case "OneMarks":
-        summaryText = board === "GSEB-GUJ"
-          ? "નીચે આપેલા પ્રશ્નોના ટુંકમાં જવાબ આપો."
-          : "Answer the following questions briefly.";
+        summaryText =
+          board === "GSEB-GUJ"
+            ? "નીચે આપેલા પ્રશ્નોના ટુંકમાં જવાબ આપો."
+            : "Answer the following questions briefly.";
         mark = 1;
         break;
       case "TwoMarks":
-        summaryText = board === "GSEB-GUJ"
-          ? "નીચે આપેલા બે ગુણના પ્રશ્નોના જવાબ આપો."
-          : "Answer the following questions with two marks each.";
+        summaryText =
+          board === "GSEB-GUJ"
+            ? "નીચે આપેલા બે ગુણના પ્રશ્નોના જવાબ આપો."
+            : "Answer the following questions with two marks each.";
         mark = 2;
         break;
       case "ThreeMarks":
-        summaryText = board === "GSEB-GUJ"
-          ? "નીચે આપેલા ત્રણ ગુણના પ્રશ્નોના જવાબ આપો."
-          : "Answer the following questions with three marks each.";
+        summaryText =
+          board === "GSEB-GUJ"
+            ? "નીચે આપેલા ત્રણ ગુણના પ્રશ્નોના જવાબ આપો."
+            : "Answer the following questions with three marks each.";
         mark = 3;
         break;
       case "FourMarks":
-        summaryText = board === "GSEB-GUJ"
-          ? "નીચે આપેલા ચાર ગુણના પ્રશ્નોના જવાબ આપો."
-          : "Answer the following questions with four marks each.";
+        summaryText =
+          board === "GSEB-GUJ"
+            ? "નીચે આપેલા ચાર ગુણના પ્રશ્નોના જવાબ આપો."
+            : "Answer the following questions with four marks each.";
         mark = 4;
         break;
       case "FiveMarks":
-        summaryText = board === "GSEB-GUJ"
-          ? "નીચે આપેલા પાંચ ગુણના પ્રશ્નોના જવાબ આપો."
-          : "Answer the following questions with five marks each.";
+        summaryText =
+          board === "GSEB-GUJ"
+            ? "નીચે આપેલા પાંચ ગુણના પ્રશ્નોના જવાબ આપો."
+            : "Answer the following questions with five marks each.";
         mark = 5;
         break;
       default:
@@ -108,20 +119,30 @@ const Questionlist = ({ chapterId, formData, allData, headerData }) => {
       const questionsData = response.data;
 
       const oneMarks = questionsData
-        .filter(q => q.questionType === "OneMarks" && q.Chapter_id === chapterId)
-        .flatMap(q => q.questionList || []);
+        .filter(
+          (q) => q.questionType === "OneMarks" && q.Chapter_id === chapterId
+        )
+        .flatMap((q) => q.questionList || []);
       const twoMarks = questionsData
-        .filter(q => q.questionType === "TwoMarks" && q.Chapter_id === chapterId)
-        .flatMap(q => q.questionList || []);
+        .filter(
+          (q) => q.questionType === "TwoMarks" && q.Chapter_id === chapterId
+        )
+        .flatMap((q) => q.questionList || []);
       const threeMarks = questionsData
-        .filter(q => q.questionType === "ThreeMarks" && q.Chapter_id === chapterId)
-        .flatMap(q => q.questionList || []);
+        .filter(
+          (q) => q.questionType === "ThreeMarks" && q.Chapter_id === chapterId
+        )
+        .flatMap((q) => q.questionList || []);
       const fourMarks = questionsData
-        .filter(q => q.questionType === "FourMarks" && q.Chapter_id === chapterId)
-        .flatMap(q => q.questionList || []);
+        .filter(
+          (q) => q.questionType === "FourMarks" && q.Chapter_id === chapterId
+        )
+        .flatMap((q) => q.questionList || []);
       const fiveMarks = questionsData
-        .filter(q => q.questionType === "FiveMarks" && q.Chapter_id === chapterId)
-        .flatMap(q => q.questionList || []);
+        .filter(
+          (q) => q.questionType === "FiveMarks" && q.Chapter_id === chapterId
+        )
+        .flatMap((q) => q.questionList || []);
 
       setOneMarkQuestions(oneMarks);
       setTwoMarkQuestions(twoMarks);
@@ -130,7 +151,13 @@ const Questionlist = ({ chapterId, formData, allData, headerData }) => {
       setFiveMarkQuestions(fiveMarks);
 
       const initialSelection = {};
-      [...oneMarks, ...twoMarks, ...threeMarks, ...fourMarks, ...fiveMarks].forEach(q => {
+      [
+        ...oneMarks,
+        ...twoMarks,
+        ...threeMarks,
+        ...fourMarks,
+        ...fiveMarks,
+      ].forEach((q) => {
         if (q.q_id) initialSelection[q.q_id] = false;
       });
       setSelectedQuestions(initialSelection);
@@ -161,11 +188,16 @@ const Questionlist = ({ chapterId, formData, allData, headerData }) => {
 
       if (question) {
         let questionType = null;
-        if (oneMarkQuestions.some((q) => q.q_id === id)) questionType = "OneMarks";
-        else if (twoMarkQuestions.some((q) => q.q_id === id)) questionType = "TwoMarks";
-        else if (threeMarkQuestions.some((q) => q.q_id === id)) questionType = "ThreeMarks";
-        else if (fourMarkQuestions.some((q) => q.q_id === id)) questionType = "FourMarks";
-        else if (fiveMarkQuestions.some((q) => q.q_id === id)) questionType = "FiveMarks";
+        if (oneMarkQuestions.some((q) => q.q_id === id))
+          questionType = "OneMarks";
+        else if (twoMarkQuestions.some((q) => q.q_id === id))
+          questionType = "TwoMarks";
+        else if (threeMarkQuestions.some((q) => q.q_id === id))
+          questionType = "ThreeMarks";
+        else if (fourMarkQuestions.some((q) => q.q_id === id))
+          questionType = "FourMarks";
+        else if (fiveMarkQuestions.some((q) => q.q_id === id))
+          questionType = "FiveMarks";
         return { ...question, questionType };
       }
       return undefined;
@@ -174,16 +206,23 @@ const Questionlist = ({ chapterId, formData, allData, headerData }) => {
 
   const totalMarks = selectedQuestionsArray.reduce((total, q) => {
     switch (q.questionType) {
-      case "OneMarks": return total + 1;
-      case "TwoMarks": return total + 2;
-      case "ThreeMarks": return total + 3;
-      case "FourMarks": return total + 4;
-      case "FiveMarks": return total + 5;
-      default: return total;
+      case "OneMarks":
+        return total + 1;
+      case "TwoMarks":
+        return total + 2;
+      case "ThreeMarks":
+        return total + 3;
+      case "FourMarks":
+        return total + 4;
+      case "FiveMarks":
+        return total + 5;
+      default:
+        return total;
     }
   }, 0);
 
   const handleChange = async () => {
+    headerData.totalMarks = totalMarks;
     const payload = {
       paperSetting: {
         board: formData.board,
@@ -193,12 +232,11 @@ const Questionlist = ({ chapterId, formData, allData, headerData }) => {
         allData: allData,
         headerData: headerData,
         selectedQuestionsArray: selectedQuestionsArray,
-        totalMarks: totalMarks,
       },
       userId: localStorage.getItem("userId"),
     };
     await fetch.post("AddPaper", payload);
-    console.log(payload,'payload');
+    console.log(payload, "payload");
     setNavigate("/admin/my-papers");
   };
 
@@ -265,9 +303,8 @@ const Questionlist = ({ chapterId, formData, allData, headerData }) => {
           </>
         )}
       </div>
-<button onClick={handleChange} >Download</button>
+      <button onClick={handleChange}>Download</button>
       {selectedQuestionsArray.length > 0 && (
-        
         <div
           style={{
             position: "fixed",
