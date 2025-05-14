@@ -4,7 +4,13 @@ import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
 import { font } from "../Utils/shruti-regular";
 
-const GenerateAnsKey = ({ formData, allData, selectedQuestions, headerData, totalMarks }) => {
+const GenerateAnsKey = ({
+  formData,
+  allData,
+  selectedQuestions,
+  headerData,
+  totalMarks,
+}) => {
   useEffect(() => {
     pdfMake.vfs = pdfFonts.pdfMake?.vfs || {};
     if (pdfMake.vfs) {
@@ -55,31 +61,47 @@ const GenerateAnsKey = ({ formData, allData, selectedQuestions, headerData, tota
   };
 
   const subject = findData(formData, allData, "subject") || "Subject";
-  const standard = findData(formData, allData, "standard") || "Standard";
+  const rawStandard = findData(formData, allData, "standard") || "Standard";
+  const parts = rawStandard.split(" ");
+  const standard = parts.slice(0, 2).join(" ");
 
   const t = (key) => {
-    return formData?.board === "GSEB-GUJ" ? translations[key]?.gu || key : translations[key]?.en || key;
+    return formData?.board === "GSEB-GUJ"
+      ? translations[key]?.gu || key
+      : translations[key]?.en || key;
   };
 
   const getSectionTitle = (questionType) => {
     switch (questionType) {
-      case "OneMarks": return t("oneMarkQuestions");
-      case "TwoMarks": return t("twoMarkQuestions");
-      case "ThreeMarks": return t("threeMarkQuestions");
-      case "FourMarks": return t("fourMarkQuestions");
-      case "FiveMarks": return t("fiveMarkQuestions");
-      default: return `${questionType.replace(/([A-Z])/g, " $1").trim()} Questions`;
+      case "OneMarks":
+        return t("oneMarkQuestions");
+      case "TwoMarks":
+        return t("twoMarkQuestions");
+      case "ThreeMarks":
+        return t("threeMarkQuestions");
+      case "FourMarks":
+        return t("fourMarkQuestions");
+      case "FiveMarks":
+        return t("fiveMarkQuestions");
+      default:
+        return `${questionType.replace(/([A-Z])/g, " $1").trim()} Questions`;
     }
   };
 
   const getMarksFromType = (type) => {
     switch (type) {
-      case "OneMarks": return 1;
-      case "TwoMarks": return 2;
-      case "ThreeMarks": return 3;
-      case "FourMarks": return 4;
-      case "FiveMarks": return 5;
-      default: return "?";
+      case "OneMarks":
+        return 1;
+      case "TwoMarks":
+        return 2;
+      case "ThreeMarks":
+        return 3;
+      case "FourMarks":
+        return 4;
+      case "FiveMarks":
+        return 5;
+      default:
+        return "?";
     }
   };
 
@@ -91,7 +113,9 @@ const GenerateAnsKey = ({ formData, allData, selectedQuestions, headerData, tota
 
     const hours = Math.floor(min / 60);
     const remainingMinutes = min % 60;
-    return `${hours} Hour${hours > 1 ? "s" : ""}${remainingMinutes > 0 ? ` ${remainingMinutes} Minutes` : ""}`;
+    return `${hours} Hour${hours > 1 ? "s" : ""}${
+      remainingMinutes > 0 ? ` ${remainingMinutes} Minutes` : ""
+    }`;
   };
 
   const handleDownload = () => {
@@ -110,7 +134,8 @@ const GenerateAnsKey = ({ formData, allData, selectedQuestions, headerData, tota
       sectionMapping[key] = sectionLabels[index] || `Section ${index + 1}`;
     });
 
-    const watermarkText = headerData?.WaterMark === "false" && headerData?.WaterMarkTaxt;
+    const watermarkText =
+      headerData?.WaterMark === "false" && headerData?.WaterMarkTaxt;
 
     const docDefinition = {
       content: [
@@ -118,8 +143,19 @@ const GenerateAnsKey = ({ formData, allData, selectedQuestions, headerData, tota
           columns: [
             {
               stack: [
-                { text: headerData?.title || "", fontSize: 16,bold: true, alignment: "center" },
-                { text: headerData?.subtitle || "", fontSize: 12,bold: true, alignment: "center", margin: [0, 8, 0, 0] },
+                {
+                  text: headerData?.title || "",
+                  fontSize: 16,
+                  bold: true,
+                  alignment: "center",
+                },
+                {
+                  text: headerData?.subtitle || "",
+                  fontSize: 12,
+                  bold: true,
+                  alignment: "center",
+                  margin: [0, 8, 0, 0],
+                },
               ],
               width: "*",
             },
@@ -127,7 +163,7 @@ const GenerateAnsKey = ({ formData, allData, selectedQuestions, headerData, tota
           margin: [0, 0, 0, 20],
         },
         {
-          text: `${standard} (${subject})`,
+          text: `${standard} - ${subject}`,
           fontSize: 11,
           bold: true,
           alignment: "center",
@@ -193,11 +229,11 @@ const GenerateAnsKey = ({ formData, allData, selectedQuestions, headerData, tota
                   lineHeight: 1.5,
                 },
                 {
-                  text: q.answer && q.answer.split('\n').slice(1).join('\n'),
+                  text: q.answer && q.answer.split("\n").slice(1).join("\n"),
                   fontSize: 11,
                   margin: [20, 0, 0, 10],
                   lineHeight: 1.5,
-                }
+                },
               ],
             })),
           ],
@@ -227,7 +263,9 @@ const GenerateAnsKey = ({ formData, allData, selectedQuestions, headerData, tota
         : undefined,
     };
 
-    pdfMake.createPdf(docDefinition).download(`Ans.Key_${subject}_${standard}.pdf`);
+    pdfMake
+      .createPdf(docDefinition)
+      .download(`Ans.Key_${subject}_${standard}.pdf`);
   };
 
   return (
