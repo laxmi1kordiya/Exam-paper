@@ -83,6 +83,17 @@ const GenerateAnsKey = ({ formData, allData, selectedQuestions, headerData, tota
     }
   };
 
+  const formatTime = (minutes) => {
+    const min = parseInt(minutes, 10);
+    if (isNaN(min)) return "_________________";
+
+    if (min <= 60) return `${min} Minutes`;
+
+    const hours = Math.floor(min / 60);
+    const remainingMinutes = min % 60;
+    return `${hours} Hour${hours > 1 ? "s" : ""}${remainingMinutes > 0 ? ` ${remainingMinutes} Minutes` : ""}`;
+  };
+
   const handleDownload = () => {
     const questionsBySection = {};
     selectedQuestions.forEach((q) => {
@@ -98,19 +109,17 @@ const GenerateAnsKey = ({ formData, allData, selectedQuestions, headerData, tota
     sectionKeys.forEach((key, index) => {
       sectionMapping[key] = sectionLabels[index] || `Section ${index + 1}`;
     });
-const watermarkText = headerData?.WaterMark === "false" && headerData?.WaterMarkTaxt;
+
+    const watermarkText = headerData?.WaterMark === "false" && headerData?.WaterMarkTaxt;
+
     const docDefinition = {
       content: [
-        // Header with Logo, Title, Subtitle
         {
           columns: [
-            headerData?.logoPreview
-              ? { image: headerData.logoPreview, width: 25, height: 25 }
-              : { text: "", width: 25 },
             {
               stack: [
-                { text: headerData?.title || "", fontSize: 16, alignment: "center" },
-                { text: headerData?.subtitle || "", fontSize: 12, alignment: "center", margin: [0, 8, 0, 0] },
+                { text: headerData?.title || "", fontSize: 16,bold: true, alignment: "center" },
+                { text: headerData?.subtitle || "", fontSize: 12,bold: true, alignment: "center", margin: [0, 8, 0, 0] },
               ],
               width: "*",
             },
@@ -120,25 +129,27 @@ const watermarkText = headerData?.WaterMark === "false" && headerData?.WaterMark
         {
           text: `${standard} (${subject})`,
           fontSize: 11,
+          bold: true,
           alignment: "center",
           margin: [0, 0, 0, 10],
         },
         {
           columns: [
             {
-              text: `Time Allowed: ${headerData?.paperTime || "_________________"}`,
+              text: `Time Allowed: ${formatTime(headerData?.paperTime)}`,
               fontSize: 11,
+              bold: true,
             },
             {
               text: `Total Marks: ${totalMarks || "_________________"}`,
               fontSize: 11,
+              bold: true,
               alignment: "right",
             },
           ],
           margin: [0, 0, 0, 15],
         },
 
-        // Sections
         ...sectionKeys.map((sectionKey) => ({
           stack: [
             {
@@ -161,7 +172,7 @@ const watermarkText = headerData?.WaterMark === "false" && headerData?.WaterMark
                       text: `${idx + 1}. ${q.question || "No question text"}`,
                       fontSize: 11,
                       width: "*",
-                      lineHeight: 1.5, // Add line height here
+                      lineHeight: 1.5,
                     },
                     {
                       text: `[${q.marks || getMarksFromType(sectionKey)}]`,
@@ -170,7 +181,7 @@ const watermarkText = headerData?.WaterMark === "false" && headerData?.WaterMark
                       alignment: "right",
                       width: "auto",
                       margin: [0, 0, 10, 0],
-                      lineHeight: 1.5, // Add line height here
+                      lineHeight: 1.5,
                     },
                   ],
                   margin: [0, 0, 0, 2],
@@ -179,13 +190,13 @@ const watermarkText = headerData?.WaterMark === "false" && headerData?.WaterMark
                   text: `Ans: ${q.answer || "No answer text"}`,
                   fontSize: 11,
                   margin: [0, 5, 0, 5],
-                  lineHeight: 1.5, // Add line height here
+                  lineHeight: 1.5,
                 },
                 {
                   text: q.answer && q.answer.split('\n').slice(1).join('\n'),
                   fontSize: 11,
                   margin: [20, 0, 0, 10],
-                  lineHeight: 1.5, // Add line height here
+                  lineHeight: 1.5,
                 }
               ],
             })),
@@ -195,7 +206,7 @@ const watermarkText = headerData?.WaterMark === "false" && headerData?.WaterMark
       ],
       defaultStyle: {
         font: formData?.board === "GSEB-GUJ" ? "shruti" : "Roboto",
-        lineHeight: 1.5, // And also here for default
+        lineHeight: 1.5,
       },
       pageMargins: [20, 20, 20, 40],
       footer: (currentPage, pageCount) => ({
@@ -204,12 +215,12 @@ const watermarkText = headerData?.WaterMark === "false" && headerData?.WaterMark
         fontSize: 9,
         margin: [0, 10, 0, 0],
       }),
-       watermark: watermarkText
+      watermark: watermarkText
         ? {
-            text: watermarkText, 
+            text: watermarkText,
             color: "gray",
             opacity: 0.3,
-            fontSize: 50, 
+            fontSize: 50,
             alignment: "center",
             margin: [0, 780, 0, 0],
           }

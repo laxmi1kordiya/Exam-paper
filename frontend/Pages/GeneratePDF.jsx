@@ -95,6 +95,25 @@ const GeneratePDF = ({ formData, allData, selectedQuestions, headerData, totalMa
     }
   };
 
+  const formatTimeAllowed = (minutes) => {
+    const min = parseInt(minutes, 10);
+    if (isNaN(min)) return "_________________";
+
+    if (min <= 60) {
+      return `${min} Minute${min === 1 ? "" : "s"}`;
+    }
+
+    const hours = Math.floor(min / 60);
+    const remainingMinutes = min % 60;
+
+    const hourPart = `${hours} Hour${hours === 1 ? "" : "s"}`;
+    const minutePart = remainingMinutes
+      ? ` ${remainingMinutes} Minute${remainingMinutes === 1 ? "" : "s"}`
+      : "";
+
+    return hourPart + minutePart;
+  };
+
   const handleDownload = () => {
     const questionsBySection = {};
     selectedQuestions.forEach((question) => {
@@ -119,30 +138,35 @@ const GeneratePDF = ({ formData, allData, selectedQuestions, headerData, totalMa
         {
           text: headerData?.title || "",
           fontSize: 16,
+          bold: true,
           alignment: "center",
           margin: [0, 8, 0, 0],
         },
         {
           text: headerData?.subtitle || "",
           fontSize: 12,
+          bold: true,
           alignment: "center",
           margin: [0, 8, 0, 20],
         },
         {
           text: `${standard} (${subject})`,
           fontSize: 11,
+          bold: true,
           alignment: "center",
           margin: [0, 0, 0, 10],
         },
         {
           columns: [
             {
-              text: `Time Allowed: ${headerData?.paperTime || "_________________"}`,
+              text: `Time Allowed: ${formatTimeAllowed(headerData?.paperTime)}`,
               fontSize: 11,
+              bold: true,
             },
             {
-              text: `Total Marks: ${totalMarks|| "_________________"}`,
+              text: `Total Marks: ${totalMarks || "_________________"}`,
               fontSize: 11,
+              bold: true,
               alignment: "right",
             },
           ],
@@ -198,10 +222,10 @@ const GeneratePDF = ({ formData, allData, selectedQuestions, headerData, totalMa
       },
       watermark: watermarkText
         ? {
-            text: watermarkText, 
+            text: watermarkText,
             color: "gray",
             opacity: 0.3,
-            fontSize: 50, 
+            fontSize: 50,
             alignment: "center",
             margin: [0, 780, 0, 0],
           }
