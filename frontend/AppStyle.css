@@ -2076,6 +2076,13 @@ table {
   word-break: break-word;
 }
 
+td.button-group {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px; 
+}
+
 @media (max-width: 600px) {
   .button-group {
     display: flex;
@@ -2158,13 +2165,7 @@ td .paper-date {
   font-style: italic;
 }
 
-/* Button group styling */
-td.button-group {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  gap: 8px; /* space between buttons */
-}
+
 
 .checkbox-inline {
   display: flex;
