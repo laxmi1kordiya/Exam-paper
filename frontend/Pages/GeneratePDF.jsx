@@ -140,7 +140,7 @@ const GeneratePDF = ({
     });
 
     const watermarkText =
-      headerData?.WaterMark === "false" && headerData?.WaterMarkTaxt;
+      headerData?.WaterMark === true && headerData?.WaterMarkTaxt;
 
     const docDefinition = {
       content: [
