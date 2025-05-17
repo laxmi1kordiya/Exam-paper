@@ -10,7 +10,7 @@ const PaperSetting = ({ handleNextFromStep2, headerData, updateHeader }) => {
         </div>
       </div>
       <form onSubmit={handleNextFromStep2}>
-        <div className="form-container">
+        <div className="paper-container">
           <div className="form-group">
             <label htmlFor="title">Institute Name</label>
             <input

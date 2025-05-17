@@ -1472,6 +1472,14 @@ details {
   gap: 20px;
   margin-bottom: 20px;
 }
+.paper-container{
+  align-items: inherit;
+  flex-direction: column;
+  justify-content: center;
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+}
 
 .form-group {
   display: flex;

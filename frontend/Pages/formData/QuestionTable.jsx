@@ -147,7 +147,7 @@ export default function QuestionTable() {
       };
       await fetch.post("addQuestionData", payload);
       alert("Questions saved successfully!");
-      fetchData();
+      // window.location.reload();
   };
 
   const openModal = (row) => {
@@ -161,6 +161,7 @@ export default function QuestionTable() {
     const mainId = selectedQuestion;
     const questionId = item.q_id;
     await fetch.delete(`deleteOneQuestion/${mainId}/${questionId}`);
+    // window.location.reload();
   };
 
   return (
