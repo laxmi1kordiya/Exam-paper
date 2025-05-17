@@ -109,7 +109,7 @@ export const addQuestionData = async (req, res, next) => {
       if (data) {
       rcResponse.data = await findOneAndUpdate(
         "Question",
-        { _id: body._id },
+        { _id: data._id },
         body
       );
     } else {
