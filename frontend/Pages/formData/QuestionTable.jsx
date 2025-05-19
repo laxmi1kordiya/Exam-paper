@@ -139,15 +139,24 @@ export default function QuestionTable() {
   };
 
   const handleSaveQuestions = async () => {
-      const payload = {
-        questionType: questionType,
-        Chapter_id: selectedChapter,
-        Board_id: selectedBoard,
-        questionList: [...questionList,...fetchQuestion],
-      };
-      await fetch.post("addQuestionData", payload);
-      alert("Questions saved successfully!");
-      // window.location.reload();
+    const fetchMap = new Map(fetchQuestion.map((q) => [q.q_id, q]));
+
+    questionList.forEach((updated) => {
+      fetchMap.set(updated.q_id, updated);
+    });
+
+    const updatedList = Array.from(fetchMap.values());
+
+    const payload = {
+      questionType: questionType,
+      Chapter_id: selectedChapter,
+      Board_id: selectedBoard,
+      questionList: updatedList,
+    };
+
+    await fetch.post("addQuestionData", payload);
+    alert("Questions saved successfully!");
+    window.location.reload();
   };
 
   const openModal = (row) => {
@@ -161,7 +170,7 @@ export default function QuestionTable() {
     const mainId = selectedQuestion;
     const questionId = item.q_id;
     await fetch.delete(`deleteOneQuestion/${mainId}/${questionId}`);
-    // window.location.reload();
+    window.location.reload();
   };
 
   return (
