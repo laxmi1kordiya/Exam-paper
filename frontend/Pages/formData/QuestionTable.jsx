@@ -225,36 +225,45 @@ export default function QuestionTable() {
           {questionList.map((q, index) => (
             <div
               key={index}
-              style={{ display: "flex", gap: "10px", marginBottom: "10px" }}
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "10px",
+                marginBottom: "20px",
+                border: "1px solid #ccc",
+                padding: "10px",
+                borderRadius: "8px",
+              }}
             >
-              <input
-                type="text"
+              <label>Question {index + 1}</label>
+              <textarea
                 value={q.question}
                 onChange={(e) =>
                   handleQuestionChange(index, "question", e.target.value)
                 }
-                placeholder={`Question ${index + 1}`}
+                placeholder="Enter question here..."
+                rows={4}
+                style={{ width: "100%" }}
               />
-              <input
-                type="text"
+              <label>Answer {index + 1}</label>
+              <textarea
                 value={q.answer}
                 onChange={(e) =>
                   handleQuestionChange(index, "answer", e.target.value)
                 }
-                placeholder={`Answer ${index + 1}`}
+                placeholder="Enter answer here..."
+                rows={4}
+                style={{ width: "100%" }}
               />
               {questionList.length > 1 && (
                 <button type="button" onClick={() => removeQuestion(index)}>
-                  ×
+                  × Remove
                 </button>
               )}
             </div>
           ))}
-          <button
-            type="button"
-            onClick={addNewQuestion}
-            style={{ margin: "10px" }}
-          >
+
+          <button type="button" onClick={addNewQuestion} style={{ margin: "10px" }}>
             + Add Question
           </button>
 
