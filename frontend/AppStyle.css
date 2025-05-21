@@ -121,49 +121,94 @@ body {
 
 /* Navbar Styles */
 .navbar {
-  position: fixed;
-  width: 100%;
-  top: 0;
-  left: 0;
-  z-index: 1000;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 15px 40px;
-  background: #1e1e1e;
+  background: rgba(17, 24, 39, 0.95);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 999;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
+}
+
+.navbar.scrolled {
+  padding: 10px 40px;
+  background: rgba(17, 24, 39, 0.98);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Logo Styling */
+.navbar-logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo-text {
   color: white;
-}
-
-button, .navbar-links li a, .sign-in {
-  cursor: pointer;  /* Ensures cursor turns into a hand on hover */
-}
-
-.navbar-logo img {
-  height: 50px;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
   cursor: pointer;
+  transition: color 0.3s ease;
 }
 
-/* Navigation Links */
+.logo-text:hover {
+  color: #f39c12;
+}
+
+/* Hamburger Icon */
+.hamburger {
+  display: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #fff;
+  z-index: 1000;
+}
+
+/* Navbar Links */
 .navbar-links {
   list-style: none;
   display: flex;
-  gap: 20px;
+  gap: 30px;
+  margin: 0;
 }
 
 .navbar-links li {
   display: inline;
 }
 
-.navbar-links a {
+.nav-link {
   text-decoration: none;
   color: white;
   font-size: 16px;
   font-weight: 500;
-  transition: color 0.3s ease-in-out;
+  padding: 8px 0;
+  position: relative;
+  transition: color 0.3s ease;
+  cursor: pointer;
 }
 
-.navbar-links a:hover {
+.nav-link:hover {
   color: #f39c12;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: #f39c12;
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+  width: 100%;
 }
 
 /* Register Button */
@@ -171,63 +216,75 @@ button, .navbar-links li a, .sign-in {
   background: #f39c12;
   color: white;
   border: none;
-  padding: 8px 14px;
+  padding: 10px 20px;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
-  border-radius: 4px;
+  border-radius: 50px;
   transition: all 0.3s ease-in-out;
-  display: inline-block;  /* Ensures the button doesn't take full width */
-  max-width: fit-content; /* Prevents it from expanding */
-  white-space: nowrap; /* Prevents text from wrapping */
+  display: inline-block;
+  max-width: fit-content;
+  white-space: nowrap;
+  box-shadow: 0 2px 10px rgba(243, 156, 18, 0.3);
 }
-
 
 .navbar-register-btn:hover {
   background: #e67e22;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(243, 156, 18, 0.4);
 }
-
 
 /* Mobile Navigation */
 @media (max-width: 768px) {
   .navbar {
     padding: 15px 20px;
   }
+  
+  .navbar.scrolled {
+    padding: 10px 20px;
+  }
+
+  .hamburger {
+    display: block;
+  }
 
   .navbar-links {
     display: none;
     flex-direction: column;
-    position: absolute;
-    top: 70px;
-    left: 0;
-    width: 100%;
-    background: #1e1e1e;
-    padding: 10px 0;
-    text-align: center;
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 70%;
+    height: 100vh;
+    background: #111827;
+    padding: 80px 20px 20px;
+    text-align: left;
+    gap: 15px;
+    transition: right 0.3s ease-in-out;
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
   }
 
   .navbar-links.active {
     display: flex;
+    right: 0;
   }
 
   .navbar-links li {
     margin: 10px 0;
   }
-
-  .hamburger {
+  
+  .nav-link {
+    font-size: 18px;
     display: block;
-    cursor: pointer;
+    padding: 10px 0;
+  }
+  
+  .navbar-register-btn {
+    margin-left: auto;
   }
 }
 
-/* Hide hamburger on larger screens */
-@media (min-width: 769px) {
-  .hamburger {
-    display: none;
-  }
-}
-
-/*Home Styles*/
+/* Home Styles*/
 
 * {
   padding: 0;
@@ -311,154 +368,6 @@ section.section1 > div :nth-child(2){
   box-shadow: 8px 8px 20px rgba(0, 0, 0, 0.6),
               -8px -8px 20px rgba(60, 60, 60, 0.4);
   opacity: 1;
-}
-
-/* Navbar Base */
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 30px;
-  background: #111827;  /* Dark elegant shade */
-  position: sticky;
-  top: 0;
-  z-index: 999;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-}
-
-/* Logo Styling */
-.navbar-logo img {
-  width: 130px;
-  height: auto;
-}
-
-/* Hamburger Icon */
-.hamburger {
-  display: none;
-  font-size: 28px;
-  cursor: pointer;
-  color: #fff;
-}
-
-/* Navbar Links */
-.navbar-links {
-  list-style: none;
-  display: flex;
-  gap: 30px;
-  margin: 0;
-}
-
-.navbar-links li a {
-  color: #ffffff;
-  text-decoration: none;
-  font-size: 16px;
-  transition: transform 0.25s ease, color 0.3s ease;
-  display: inline-block;
-}
-
-/* Hover Effect */
-.navbar-links li a:hover {
-  color: #38bdf8;
-  transform: scale(1.05);
-}
-
-/* Zoom-Out Click Animation */
-.navbar-links li a.zoom-out {
-  animation: zoomOut 0.4s forwards;
-}
-
-@keyframes zoomOut {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(0.85);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
-/* Register Button */
-.navbar-register-btn {
-  background: linear-gradient(45deg, #2563eb, #1d4ed8);
-  color: white;
-  padding: 8px 18px;
-  border: none;
-  border-radius: 8px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.navbar-register-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(56, 189, 248, 0.4);
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .hamburger {
-    display: block;
-  }
-  .navbar-links {
-    position: absolute;
-    top: 60px;
-    right: 0;
-    background: #111827;
-    flex-direction: column;
-    align-items: flex-start;
-    width: 200px;
-    padding: 20px;
-    transform: translateX(100%);
-    transition: transform 0.3s ease-in-out;
-  }
-  .navbar-links.active {
-    transform: translateX(0);
-  }
-  .navbar-links li {
-    margin: 10px 0;
-  }
-}
-
-/* Zoom-In/Zoom-Out Animation for Data */
-.zoom-in-out {
-  animation: zoomInOut 0.5s ease-in-out forwards;
-}
-
-@keyframes zoomInOut {
-  0% {
-    transform: scale(0.8);
-    opacity: 0;
-  }
-  50% {
-    transform: scale(1.05);
-    opacity: 0.8;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-
-/* Zoom-out Effect for hiding data */
-.zoom-out {
-  animation: zoomOut 0.5s ease-in-out forwards;
-}
-
-@keyframes zoomOut {
-  0% {
-    transform: scale(1);
-    opacity: 1;
-  }
-  50% {
-    transform: scale(1.05);
-    opacity: 0.8;
-  }
-  100% {
-    transform: scale(0.8);
-    opacity: 0;
-  }
 }
 
 /* Features & packages Styles*/

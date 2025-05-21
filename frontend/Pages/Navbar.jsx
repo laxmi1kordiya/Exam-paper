@@ -27,6 +27,7 @@ const Navbar = () => {
               duration={500}
               offset={-70}
               onClick={() => setMenuOpen(false)}
+              className="nav-link"
             >
               {title}
             </ScrollLink>
