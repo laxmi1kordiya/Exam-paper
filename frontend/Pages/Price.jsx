@@ -1,33 +1,104 @@
 import React from "react";
-import {plans} from "../Assets/Mocks/price.mock";
 import SectionWrapper from "./SectionWrapper";
 
-
-const Price = () => {
-  
-    return (
-      <div className="py-12 text-center">
-        <h2 className="text-3xl font-bold mb-6">Our Pricing Plan</h2>
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 max-w-6xl mx-auto px-4">
-          {plans.map((plan, index) => (
-            <div key={index} className={`p-6 rounded-xl shadow-md ${plan.bgColor}`}>
-              <h3 className="plan-title">{plan.title}</h3>
-              <p className="text-4xl font-bold text-purple-800">{plan.price}</p>
-              <p className="text-gray-600 mb-2">{plan.duration}</p>
-              <hr className="my-2" />
-              <p className="font-semibold">{plan.credits}</p>
-              <p className="text-gray-600">{plan.points}</p>
-              <p className="text-gray-600">{plan.extraPoints}</p>
-              <p className="text-gray-600 mb-4">{plan.extraDays}</p>
-              <button className="mt-4 px-6 py-2 border-2 border-purple-800 text-purple-800 font-bold rounded-lg hover:bg-purple-800 hover:text-white transition">
-                Buy Now
-              </button>
-            </div>
-          ))}
+const PriceCard = ({ plan }) => {
+  return (
+    <div className="price-card">
+      <div className="price-badge">{plan.badge}</div>
+      <div className="price-header">
+        <h3 className="price-title">{plan.title}</h3>
+        <div className="price-amount">
+          <span className="price-currency">₹</span>
+          <span className="price-value">{plan.price}</span>
+          <span className="price-duration">/{plan.duration}</span>
         </div>
       </div>
-    );
-  };
-  
-  export default SectionWrapper(Price,"price");
+      <div className="price-features">
+        {plan.features.map((feature, index) => (
+          <div key={index} className="feature-item">
+            <span className="">✓</span>
+            <span className="feature-text">{feature}</span>
+          </div>
+        ))}
+      </div>
+      <button className={`price-button ${plan.popular ? 'popular' : ''}`}>
+        {plan.buttonText}
+        <span className="button-icon">→</span>
+      </button>
+    </div>
+  );
+};
+
+const Price = () => {
+  const plans = [
+    {
+      badge: "Most Popular",
+      title: "Professional",
+      price: "10999",
+      duration: "year",
+      popular: true,
+      buttonText: "Buy Now",
+      features: [
+        "Unlimited Question Papers",
+        "Advanced Question Types",
+        "Custom Templates",
+        "Priority Support",
+        "Export to Multiple Formats",
+        "Analytics Dashboard"
+      ]
+    },
+    {
+      badge: "Best Value",
+      title: "Premium",
+      price: "7999",
+      duration: "year",
+      popular: false,
+      buttonText: "Buy Now",
+      features: [
+        "All Professional Features",
+        "AI-Powered Question Generation",
+        "Bulk Paper Creation",
+        "Advanced Analytics",
+        "API Access",
+        "Dedicated Account Manager"
+      ]
+    },
+    {
+      badge: "Basic",
+      title: "Starter",
+      price: "5999",
+      duration: "year",
+      popular: false,
+      buttonText: "Buy Now",
+      features: [
+        "Basic Question Papers",
+        "Standard Templates",
+        "Email Support",
+        "Basic Analytics",
+        "PDF Export",
+        "Community Access"
+      ]
+    }
+  ];
+
+  return (
+    <div className="pricing-section">
+      <div className="pricing-header">
+        <h2 className="pricing-title">Subscription Plans</h2>
+        <p className="pricing-subtitle">Choose the perfect plan to streamline your exam paper creation process</p>
+      </div>
+      <div className="pricing-grid">
+        {plans.map((plan, index) => (
+          <PriceCard key={index} plan={plan} />
+        ))}
+      </div>
+      <div className="pricing-footer">
+        <p>All plans include a 14-day free trial. No credit card required.</p>
+        <p>Need a custom plan? <a href="#contact">Contact us</a> for enterprise solutions.</p>
+      </div>
+    </div>
+  );
+};
+
+export default SectionWrapper(Price, "price");
   

@@ -9,7 +9,7 @@ export const steps = [
     step: "Step 2",
     title: "CHOOSE YOUR STANDARD",
     description:
-      "Simply Choose your Board and Standard wise subject and its chapters",
+      "Simply Choose your Board and Standard wise subject and its chapters to generate question paper.",
   },
   {
     step: "Step 3",

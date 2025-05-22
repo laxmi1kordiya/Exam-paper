@@ -19,6 +19,10 @@ import HowToUses from "./Pages/admin/HowToUse";
 import Syllabus from "./Pages/admin/syllabus";
 import Blueprint from "./Pages/admin/Blueprint";
 import SyllabusTable from "./Pages/formData/SyllabusTable";
+import TermsOfService from "./Pages/Support/TermsOfService";
+import PrivacyPolicy from "./Pages/Support/PrivacyPolicy";
+import RefundPolicy from "./Pages/Support/RefundPolicy";
+import FAQ from "./Pages/Support/FAQ";
 
 const Routes = () => {
   return (
@@ -34,6 +38,12 @@ const Routes = () => {
         <Route path="/table" element={<EducationManager />} />
         <Route path="/questionTable" element={<QuestionTable />} />
         <Route path="/SyllabusData" element={<SyllabusTable />} />
+        
+        {/* Support Routes */}
+        <Route path="/terms" element={<TermsOfService />} />
+        <Route path="/privacy" element={<PrivacyPolicy />} />
+        <Route path="/refund" element={<RefundPolicy />} />
+        <Route path="/faq" element={<FAQ />} />
 
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<MyDashboard />} />
