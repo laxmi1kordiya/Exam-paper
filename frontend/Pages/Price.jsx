@@ -1,10 +1,23 @@
 import React from "react";
 import SectionWrapper from "./SectionWrapper";
+import { motion } from "framer-motion";
+import { FaCheck } from "react-icons/fa";
 
-const PriceCard = ({ plan }) => {
+const PriceCard = ({ plan, index }) => {
   return (
-    <div className="price-card">
-      <div className="price-badge">{plan.badge}</div>
+    <motion.div 
+      className={`price-card ${plan.popular ? 'popular' : ''}`}
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: index * 0.1 }}
+      whileHover={{ 
+        scale: 1.05,
+        boxShadow: "0 10px 30px rgba(0,0,0,0.1)"
+      }}
+    >
+      {plan.badge && (
+        <div className="price-badge">{plan.badge}</div>
+      )}
       <div className="price-header">
         <h3 className="price-title">{plan.title}</h3>
         <div className="price-amount">
@@ -15,17 +28,27 @@ const PriceCard = ({ plan }) => {
       </div>
       <div className="price-features">
         {plan.features.map((feature, index) => (
-          <div key={index} className="feature-item">
-            <span className="">✓</span>
+          <motion.div 
+            key={index} 
+            className="feature-item"
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.3, delay: index * 0.1 }}
+          >
+            <FaCheck className="check-icon" />
             <span className="feature-text">{feature}</span>
-          </div>
+          </motion.div>
         ))}
       </div>
-      <button className={`price-button ${plan.popular ? 'popular' : ''}`}>
+      <motion.button 
+        className={`price-button ${plan.popular ? 'popular' : ''}`}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+      >
         {plan.buttonText}
         <span className="button-icon">→</span>
-      </button>
-    </div>
+      </motion.button>
+    </motion.div>
   );
 };
 
@@ -83,19 +106,29 @@ const Price = () => {
 
   return (
     <div className="pricing-section">
-      <div className="pricing-header">
+      <motion.div 
+        className="pricing-header"
+        initial={{ opacity: 0, y: -20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
         <h2 className="pricing-title">Subscription Plans</h2>
         <p className="pricing-subtitle">Choose the perfect plan to streamline your exam paper creation process</p>
-      </div>
+      </motion.div>
       <div className="pricing-grid">
         {plans.map((plan, index) => (
-          <PriceCard key={index} plan={plan} />
+          <PriceCard key={index} plan={plan} index={index} />
         ))}
       </div>
-      <div className="pricing-footer">
+      <motion.div 
+        className="pricing-footer"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 0.5, delay: 0.5 }}
+      >
         <p>All plans include a 14-day free trial. No credit card required.</p>
-        <p>Need a custom plan? <a href="#contact">Contact us</a> for enterprise solutions.</p>
-      </div>
+        <p>Need a custom plan? <a href="tel:+91 9574537645" style={{ color: '#007bff', textDecoration: 'none' }}>Contact us</a> for enterprise solutions.</p>
+      </motion.div>
     </div>
   );
 };

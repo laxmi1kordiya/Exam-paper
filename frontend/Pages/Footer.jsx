@@ -1,6 +1,45 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FaFacebookF, FaInstagram, FaLinkedinIn, FaYoutube } from 'react-icons/fa';
+import { FaFacebookF, FaInstagram, FaLinkedinIn, FaYoutube, FaMapMarkerAlt, FaPhone, FaEnvelope, FaWhatsapp } from 'react-icons/fa';
+import { motion } from 'framer-motion';
+
+const SocialLink = ({ icon: Icon, href, label }) => (
+  <motion.a 
+    href={href} 
+    target="_blank" 
+    rel="noopener noreferrer" 
+    aria-label={label}
+    whileHover={{ scale: 1.2, rotate: 5 }}
+    whileTap={{ scale: 0.9 }}
+  >
+    <Icon />
+  </motion.a>
+);
+
+const FooterLink = ({ href, onClick, children }) => (
+  <motion.li
+    whileHover={{ x: 5 }}
+    whileTap={{ scale: 0.95 }}
+  >
+    {onClick ? (
+      <a href="javascript:void(0)" onClick={onClick}>{children}</a>
+    ) : (
+      <Link to={href}>{children}</Link>
+    )}
+  </motion.li>
+);
+
+const ContactItem = ({ icon: Icon, href, text }) => (
+  <motion.li
+    whileHover={{ x: 5 }}
+    whileTap={{ scale: 0.95 }}
+  >
+    <a href={href} target="_blank" rel="noopener noreferrer">
+      <Icon />
+      <span>{text}</span>
+    </a>
+  </motion.li>
+);
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -15,87 +54,101 @@ const Footer = () => {
   return (
     <footer className="modern-footer">
       <div className="footer-content">
-        {/* Brand Section */}
-        <div className="footer-brand">
+        <motion.div 
+          className="footer-brand"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
           <div className="brand-logo">
-            <span className="logo-icon">E</span>
+            <motion.span 
+              className="logo-icon"
+              whileHover={{ scale: 1.2, rotate: 360 }}
+              transition={{ duration: 0.5 }}
+            >
+              E
+            </motion.span>
             <span className="brand-name">ExamPaper</span>
           </div>
           <p className="brand-tagline">Empowering Education Through Technology</p>
           <div className="social-links">
-            <a href="https://www.facebook.com/exampaper" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-              <FaFacebookF />
-            </a>
-            <a href="https://www.instagram.com/exampaper" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-              <FaInstagram />
-            </a>
-            <a href="https://www.linkedin.com/company/exampaper" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-              <FaLinkedinIn />
-            </a>
-            <a href="https://www.youtube.com/@exampaper" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
-              <FaYoutube />
-            </a>
+            <SocialLink icon={FaFacebookF} href="https://www.facebook.com/exampaper" label="Facebook" />
+            <SocialLink icon={FaInstagram} href="https://www.instagram.com/exampaper" label="Instagram" />
+            <SocialLink icon={FaLinkedinIn} href="https://www.linkedin.com/company/exampaper" label="LinkedIn" />
+            <SocialLink icon={FaYoutube} href="https://www.youtube.com/@exampaper" label="YouTube" />
           </div>
-        </div>
+        </motion.div>
 
-        {/* Quick Links Section */}
-        <div className="footer-links">
+        <motion.div 
+          className="footer-links"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+        >
           <h3>Quick Links</h3>
           <ul>
-            <li><a href="javascript:void(0)" onClick={() => scrollToSection('home')}>Home</a></li>
-            <li><a href="javascript:void(0)" onClick={() => scrollToSection('packages')}>Packages</a></li>
-            <li><a href="javascript:void(0)" onClick={() => scrollToSection('how-to-use')}>How To Use</a></li>
-            <li><a href="javascript:void(0)" onClick={() => scrollToSection('about')}>About Us</a></li>
+            <FooterLink onClick={() => scrollToSection('home')}>Home</FooterLink>
+            <FooterLink onClick={() => scrollToSection('packages')}>Packages</FooterLink>
+            <FooterLink onClick={() => scrollToSection('how-to-use')}>How To Use</FooterLink>
+            <FooterLink onClick={() => scrollToSection('about')}>About Us</FooterLink>
           </ul>
-        </div>
+        </motion.div>
 
-        {/* Support Section */}
-        <div className="footer-links">
+        <motion.div 
+          className="footer-links"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+        >
           <h3>Support</h3>
           <ul>
-            <li><a href="/terms" target="_blank" rel="noopener noreferrer">Terms of Service</a></li>
-            <li><a href="/privacy" target="_blank" rel="noopener noreferrer">Privacy Policy</a></li>
-            <li><a href="/refund" target="_blank" rel="noopener noreferrer">Refund Policy</a></li>
-            <li><a href="/faq" target="_blank" rel="noopener noreferrer">FAQ</a></li>
+            <FooterLink href="/terms">Terms of Service</FooterLink>
+            <FooterLink href="/privacy">Privacy Policy</FooterLink>
+            <FooterLink href="/refund">Refund Policy</FooterLink>
+            <FooterLink href="/faq">FAQ</FooterLink>
           </ul>
-        </div>
+        </motion.div>
 
-        {/* Contact Section */}
-        <div className="footer-contact">
+        <motion.div 
+          className="footer-contact"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+        >
           <h3>Contact Us</h3>
           <ul className="contact-list">
-            <li>
-              <a href="https://maps.google.com" target="_blank" rel="noopener noreferrer">
-                <i className="fas fa-map-marker-alt"></i>
-                <span>Ahmedabad, Gujarat, India</span>
-              </a>
-            </li>
-            <li>
-              <a href="tel:+919574537645">
-                <i className="fas fa-phone"></i>
-                <span>+91 9574537645</span>
-              </a>
-            </li>
-            <li>
-              <a href="mailto:yashkoradiya011@gmail.com">
-                <i className="fas fa-envelope"></i>
-                <span>yashkoradiya011@gmail.com</span>
-              </a>
-            </li>
-            <li>
-              <a href="https://wa.me/919574537645" target="_blank" rel="noopener noreferrer">
-                <i className="fab fa-whatsapp"></i>
-                <span>Chat on WhatsApp</span>
-              </a>
-            </li>
+            <ContactItem 
+              icon={FaMapMarkerAlt}
+              href="https://maps.google.com"
+              text="Ahmedabad, Gujarat, India"
+            />
+            <ContactItem 
+              icon={FaPhone}
+              href="tel:+919574537645"
+              text="+91 9574537645"
+            />
+            <ContactItem 
+              icon={FaEnvelope}
+              href="mailto:yashkoradiya011@gmail.com"
+              text="yashkoradiya011@gmail.com"
+            />
+            <ContactItem 
+              icon={FaWhatsapp}
+              href="https://wa.me/919574537645"
+              text="Chat on WhatsApp"
+            />
           </ul>
-        </div>
+        </motion.div>
       </div>
 
-      {/* Copyright Section */}
-      <div className="footer-bottom">
+      <motion.div 
+        className="footer-bottom"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 0.5, delay: 0.4 }}
+      >
         <p>&copy; {currentYear} ExamPaper. All rights reserved.</p>
-      </div>
+      </motion.div>
     </footer>
   );
 };
