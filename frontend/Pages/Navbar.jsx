@@ -1,39 +1,69 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link as ScrollLink } from "react-scroll";
 import { navLinks } from "../Assets/Mocks/navLink.mock";
 import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const navigate = useNavigate();
+
+  // Handle scroll effect
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const openRegisterPage = () => {
     navigate("/signUp");
   };
 
+  const navigateToHome = () => {
+    navigate("/");
+  };
+
+  const handleNavClick = (id) => {
+    if (id === "how-to-use") {
+      navigate("/how-to-use");
+    } else {
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+    setMenuOpen(false);
+  };
+
   return (
-    <nav className="navbar">
-      <div className="hamburger" onClick={() => setMenuOpen(!menuOpen)}>☰</div>
-      <div className="navbar-logo">
-      {/* <div className="brand-logo"> */}
-            <span className="logo-icon">E</span><t></t>
-            <span className="brand-name">ExamPaper</span>
-          {/* </div> */}
+    <nav className={`navbar ${scrolled ? "scrolled" : ""}`}>
+      <div className="hamburger" onClick={() => setMenuOpen(!menuOpen)}>
+        <span className={`hamburger-line ${menuOpen ? "open" : ""}`}></span>
+        <span className={`hamburger-line ${menuOpen ? "open" : ""}`}></span>
+        <span className={`hamburger-line ${menuOpen ? "open" : ""}`}></span>
+      </div>
+      
+      <div className="navbar-logo" onClick={navigateToHome}>
+        <span className="logo-icon">E</span>
+        <span className="brand-name">ExamPaper</span>
       </div>
 
       <ul className={`navbar-links ${menuOpen ? "active" : ""}`}>
         {navLinks.map(({ id, title }) => (
           <li key={id}>
-            <ScrollLink
-              to={id}
-              smooth={true}
-              duration={500}
-              offset={-70}
-              onClick={() => setMenuOpen(false)}
+            <div
               className="nav-link"
+              onClick={() => handleNavClick(id)}
             >
               {title}
-            </ScrollLink>
+            </div>
           </li>
         ))}
       </ul>
