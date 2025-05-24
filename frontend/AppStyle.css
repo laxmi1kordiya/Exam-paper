@@ -4513,3 +4513,419 @@ margin-right: 10px;
   font-size: 24px;
   font-weight: bold;
 }
+
+/* FAQ Page Styles */
+.support-page {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.support-container {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+}
+
+.support-container h1 {
+  color: #2c3e50;
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.faq-search {
+  margin-bottom: 2rem;
+}
+
+.search-box {
+  position: relative;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 1rem 1rem 1rem 3rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.search-box input:focus {
+  border-color: #3498db;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+.search-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #95a5a6;
+}
+
+.faq-categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  justify-content: center;
+}
+
+.category-btn {
+  padding: 0.75rem 1.5rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 25px;
+  background: #ffffff;
+  color: #2c3e50;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.category-btn:hover {
+  border-color: #3498db;
+  color: #3498db;
+}
+
+.category-btn.active {
+  background: #3498db;
+  border-color: #3498db;
+  color: #ffffff;
+}
+
+.faq-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.faq-item {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.faq-item:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.faq-question {
+  padding: 1.5rem;
+  background: #ffffff;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background-color 0.3s ease;
+}
+
+.faq-question:hover {
+  background: #f8f9fa;
+}
+
+.faq-question h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #2c3e50;
+  font-weight: 500;
+}
+
+.faq-icon {
+  color: #95a5a6;
+  font-size: 1.2rem;
+  transition: transform 0.3s ease;
+}
+
+.faq-item.active .faq-icon {
+  transform: rotate(180deg);
+}
+
+.faq-answer {
+  padding: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  background: #f8f9fa;
+}
+
+.faq-item.active .faq-answer {
+  padding: 1.5rem;
+  max-height: 500px;
+}
+
+.faq-answer p {
+  margin: 0;
+  color: #34495e;
+  line-height: 1.6;
+}
+
+.no-results {
+  text-align: center;
+  padding: 2rem;
+  color: #7f8c8d;
+  font-size: 1.1rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .support-page {
+    padding: 1rem;
+  }
+
+  .support-container {
+    padding: 1.5rem;
+  }
+
+  .support-container h1 {
+    font-size: 2rem;
+  }
+
+  .faq-question h3 {
+    font-size: 1rem;
+  }
+
+  .category-btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* Privacy Policy Page Styles */
+.privacy-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.privacy-intro {
+  font-size: 1.1rem;
+  color: #34495e;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.privacy-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.privacy-section {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease;
+}
+
+.privacy-section:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.section-icon {
+  font-size: 1.5rem;
+  color: #3498db;
+  background: rgba(52, 152, 219, 0.1);
+  padding: 0.75rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.section-header h2 {
+  margin: 0;
+  color: #2c3e50;
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+.section-content {
+  color: #34495e;
+  line-height: 1.6;
+}
+
+.section-content p {
+  margin-bottom: 1rem;
+}
+
+.section-content ul {
+  list-style-type: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.section-content li {
+  padding: 0.5rem 0;
+  padding-left: 1.5rem;
+  position: relative;
+}
+
+.section-content li:before {
+  content: "•";
+  color: #3498db;
+  position: absolute;
+  left: 0;
+  font-size: 1.2rem;
+}
+
+.privacy-footer {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid #e0e0e0;
+  text-align: center;
+  color: #7f8c8d;
+  font-size: 0.9rem;
+}
+
+.privacy-footer p {
+  margin: 0.5rem 0;
+}
+
+/* Responsive Design for Privacy Policy */
+@media (max-width: 768px) {
+  .privacy-section {
+    padding: 1.25rem;
+  }
+
+  .section-header h2 {
+    font-size: 1.2rem;
+  }
+
+  .section-icon {
+    font-size: 1.2rem;
+    padding: 0.5rem;
+  }
+
+  .privacy-intro {
+    font-size: 1rem;
+  }
+}
+
+/* Terms of Service Page Styles */
+.terms-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.terms-intro {
+  font-size: 1.1rem;
+  color: #34495e;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.terms-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.terms-section {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease;
+}
+
+.terms-section:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.terms-footer {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid #e0e0e0;
+  text-align: center;
+  color: #7f8c8d;
+  font-size: 0.9rem;
+}
+
+.terms-footer p {
+  margin: 0.5rem 0;
+}
+
+/* Responsive Design for Terms of Service */
+@media (max-width: 768px) {
+  .terms-section {
+    padding: 1.25rem;
+  }
+
+  .terms-intro {
+    font-size: 1rem;
+  }
+}
+
+/* Refund Policy Page Styles */
+.refund-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.refund-intro {
+  font-size: 1.1rem;
+  color: #34495e;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.refund-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.refund-section {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease;
+}
+
+.refund-section:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.refund-footer {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid #e0e0e0;
+  text-align: center;
+  color: #7f8c8d;
+  font-size: 0.9rem;
+}
+
+.refund-footer p {
+  margin: 0.5rem 0;
+}
+
+/* Responsive Design for Refund Policy */
+@media (max-width: 768px) {
+  .refund-section {
+    padding: 1.25rem;
+  }
+
+  .refund-intro {
+    font-size: 1rem;
+  }
+}
