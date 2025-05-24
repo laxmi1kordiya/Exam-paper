@@ -15,7 +15,8 @@ const NavbarAdmin = () => {
 
       <div className={`navbar-a ${isOpen ? "open" : ""}`}>
         <div className="navbar-logo-a">
-          <span className="logo-text-a">ExamPaper</span>
+            <span className="logo-icon">E</span><t></t>
+            <span className="brand-name">ExamPaper</span>
         </div>
         
         <div className="nav-section">

@@ -82,7 +82,7 @@ const Login = () => {
           className: "toastify-custom-success",
         });
         setTimeout(() => {
-          setNavigate("/admin");
+          setNavigate("/admin/my-dashboard");
         }, 1500);
       } else if (res.data?.otp === null && res.data?.otpExpiresAt === null) {
         toast.error("OTP has expired. Please request a new one.", {

@@ -15,7 +15,10 @@ const Navbar = () => {
     <nav className="navbar">
       <div className="hamburger" onClick={() => setMenuOpen(!menuOpen)}>☰</div>
       <div className="navbar-logo">
-        <img alt="Company Logo" />
+      {/* <div className="brand-logo"> */}
+            <span className="logo-icon">E</span><t></t>
+            <span className="brand-name">ExamPaper</span>
+          {/* </div> */}
       </div>
 
       <ul className={`navbar-links ${menuOpen ? "active" : ""}`}>

@@ -390,6 +390,7 @@ body {
 .navbar-logo {
   display: flex;
   align-items: center;
+  gap: 5px;
 }
 
 .logo-text {
@@ -1506,6 +1507,9 @@ section.section1 > div :nth-child(2){
   font-weight: bold;
   margin-bottom: 0;
   letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .logo-text-a {
