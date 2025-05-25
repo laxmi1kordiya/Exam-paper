@@ -308,7 +308,7 @@ const GeneratePDF = ({
           .join(" ") || "Standard"
       }.pdf`}
     >
-      {<button className="qpaper">Que.Paper</button>}
+      {<button className="qpaper">Question Paper</button>}
     </PDFDownloadLink>
   </div>
 );
