@@ -71,7 +71,7 @@ const HowToUse = () => {
       <div className={path !== "/admin/how-to-use" ? "how-to-use-section" : ""}>
       <div className="how-to-use-container">
         <motion.div 
-          className="how-to-use-header"
+          className="how-to-use-header text-center"
           initial={{ opacity: 0, y: -20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
