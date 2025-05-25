@@ -258,7 +258,7 @@ const MyDocument = ({
               </View>
               <View key={idx} style={documentStyles.questionRow}>
                  <Text style={[documentStyles.questionText, { fontFamily }]}>
-                  {`Ans:  ${q.question || "No question text"}`}
+                  {`Ans:  ${q.answer || "No question text"}`}
                 </Text>
                 </View>
               </View>
