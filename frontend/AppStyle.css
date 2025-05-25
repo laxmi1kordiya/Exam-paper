@@ -4903,29 +4903,3 @@ margin-right: 10px;
     font-size: 1rem;
   }
 }
-
-.how-to-use-header {
-  text-align: center;
-  margin-bottom: 60px;
-}
-
-.how-to-use-title {
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: #2c3e50;
-  margin-bottom: 1rem;
-  background: linear-gradient(45deg, #3498db, #2ecc71);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-family: 'Playfair Display', serif;
-}
-
-.how-to-use-subtitle {
-  font-size: 1.1rem;
-  color: #6c757d;
-  max-width: 600px;
-  margin: 0 auto;
-  line-height: 1.6;
-  font-family: 'Merriweather', 'Georgia', serif;
-}

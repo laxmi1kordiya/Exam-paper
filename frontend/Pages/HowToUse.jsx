@@ -3,6 +3,7 @@ import { steps } from '../Assets/Mocks/steps.mock';
 import SectionWrapper from './SectionWrapper';
 import { FaMobileAlt, FaGraduationCap, FaFileAlt } from 'react-icons/fa';
 import { motion } from 'framer-motion';
+import { useLocation } from 'react-router-dom';
 
 const StepCard = ({ step, title, description, icon: Icon, index }) => {
   // Extract just the number from the step string (e.g., "Step 1" -> "1")
@@ -63,9 +64,11 @@ const HowToUse = () => {
         return FaMobileAlt;
     }
   };
+  const location = useLocation();
+  const path = location.pathname;
 
   return (
-    <div className="how-to-use-section">
+      <div className={path !== "/admin/how-to-use" ? "how-to-use-section" : ""}>
       <div className="how-to-use-container">
         <motion.div 
           className="how-to-use-header"

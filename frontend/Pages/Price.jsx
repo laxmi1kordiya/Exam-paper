@@ -2,6 +2,7 @@ import React from "react";
 import SectionWrapper from "./SectionWrapper";
 import { motion } from "framer-motion";
 import { FaCheck } from "react-icons/fa";
+import { useLocation } from "react-router-dom";
 
 const PriceCard = ({ plan, index }) => {
   return (
@@ -103,9 +104,11 @@ const Price = () => {
       ]
     }
   ];
+  const location = useLocation();
+  const path = location.pathname;
 
   return (
-    <div className="pricing-section">
+    <div className={path !== "/admin/purchase-package" ? "pricing-section" : ""}>
       <motion.div 
         className="pricing-header"
         initial={{ opacity: 0, y: -20 }}
