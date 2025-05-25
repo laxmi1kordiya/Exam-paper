@@ -5,6 +5,9 @@ import { FaMobileAlt, FaGraduationCap, FaFileAlt } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 
 const StepCard = ({ step, title, description, icon: Icon, index }) => {
+  // Extract just the number from the step string (e.g., "Step 1" -> "1")
+  const stepNumber = step.split(' ')[1];
+
   return (
     <motion.div 
       className="step-card"
@@ -20,7 +23,7 @@ const StepCard = ({ step, title, description, icon: Icon, index }) => {
           whileInView={{ scale: 1 }}
           transition={{ duration: 0.5, delay: index * 0.2 + 0.2 }}
         >
-          {step}
+          {stepNumber}
         </motion.div>
         <motion.div 
           className="step-icon-container"
@@ -65,13 +68,13 @@ const HowToUse = () => {
     <div className="how-to-use-section">
       <div className="how-to-use-container">
         <motion.div 
-          className="section-header"
+          className="how-to-use-header"
           initial={{ opacity: 0, y: -20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <h2 className="section-title">How To Use</h2>
-          <p className="section-subtitle">Follow these simple steps to generate your question papers</p>
+          <h2 className="pricing-title">How To Use</h2>
+          <p className="features-subtitle">Follow these simple steps to generate your question papers</p>
         </motion.div>
         
         <div className="steps-container">

@@ -35,7 +35,7 @@ const Features = () => {
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <h2 className="features-title">Our Amazing Features</h2>
+        <h2 className="pricing-title">Our Amazing Features</h2>
         <p className="features-subtitle">Discover what makes our platform unique</p>
       </motion.div>
       <div className="features-grid">

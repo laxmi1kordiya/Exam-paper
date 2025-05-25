@@ -246,56 +246,38 @@ tr:hover {
 }
 
 .nav-link {
-  text-decoration: none;
   color: white;
-  font-size: 16px;
+  text-decoration: none;
+  font-size: 1rem;
   font-weight: 500;
-  padding: 8px 0;
+  padding: 0.5rem 1rem;
   position: relative;
-  transition: color 0.3s ease;
   cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .nav-link:hover {
-  color: #f39c12;
-}
-
-.nav-link::after {
-  content: '';
-  position: absolute;
-  width: 0;
-  height: 2px;
-  bottom: 0;
-  left: 0;
-  background-color: #f39c12;
-  transition: width 0.3s ease;
-}
-
-.nav-link:hover::after {
-  width: 100%;
+  background: linear-gradient(45deg, #3498db, #2ecc71);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 /* Register Button */
 .navbar-register-btn {
-  background: #f39c12;
+  background: var(--primary-color);
   color: white;
   border: none;
-  padding: 10px 20px;
-  font-size: 14px;
-  font-weight: 600;
+  padding: 0.5rem 1.5rem;
+  border-radius: 4px;
+  font-weight: 500;
   cursor: pointer;
-  border-radius: 50px;
-  transition: all 0.3s ease-in-out;
-  display: inline-block;
-  max-width: fit-content;
-  white-space: nowrap;
-  box-shadow: 0 2px 10px rgba(243, 156, 18, 0.3);
+  transition: all 0.3s ease;
 }
 
 .navbar-register-btn:hover {
-  background: #e67e22;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(243, 156, 18, 0.4);
+  background: #3a506b;
+  transform: translateY(-1px);
 }
 
 /* Mobile Navigation */
@@ -649,56 +631,38 @@ body {
 }
 
 .nav-link {
-  text-decoration: none;
   color: white;
-  font-size: 16px;
+  text-decoration: none;
+  font-size: 1rem;
   font-weight: 500;
-  padding: 8px 0;
+  padding: 0.5rem 1rem;
   position: relative;
-  transition: color 0.3s ease;
   cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .nav-link:hover {
-  color: #f39c12;
-}
-
-.nav-link::after {
-  content: '';
-  position: absolute;
-  width: 0;
-  height: 2px;
-  bottom: 0;
-  left: 0;
-  background-color: #f39c12;
-  transition: width 0.3s ease;
-}
-
-.nav-link:hover::after {
-  width: 100%;
+  background: linear-gradient(45deg, #3498db, #2ecc71);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 /* Register Button */
 .navbar-register-btn {
-  background: #f39c12;
+  background: var(--primary-color);
   color: white;
   border: none;
-  padding: 10px 20px;
-  font-size: 14px;
-  font-weight: 600;
+  padding: 0.5rem 1.5rem;
+  border-radius: 4px;
+  font-weight: 500;
   cursor: pointer;
-  border-radius: 50px;
-  transition: all 0.3s ease-in-out;
-  display: inline-block;
-  max-width: fit-content;
-  white-space: nowrap;
-  box-shadow: 0 2px 10px rgba(243, 156, 18, 0.3);
+  transition: all 0.3s ease;
 }
 
 .navbar-register-btn:hover {
-  background: #e67e22;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(243, 156, 18, 0.4);
+  background: #3a506b;
+  transform: translateY(-1px);
 }
 
 /* Mobile Navigation */
@@ -2696,10 +2660,10 @@ div.content-page h1.text-4xl {
   font-size: 2.5rem !important;
   font-weight: 800 !important;
   margin-bottom: 3rem !important;
-  background: linear-gradient(45deg, #3b82f6, #9333ea) !important;
-  -webkit-background-clip: text !important;
-  background-clip: text !important;
-  color: transparent !important;
+  background: linear-gradient(45deg, #3498db, #2ecc71);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 /* Fallback grid layout with increased specificity */
@@ -2728,11 +2692,10 @@ div.content-page div.grid {
 /* Card styling with higher specificity and forced properties */
 div.content-page div.dashboard-card {
   transition: all 0.4s ease-in-out !important;
-  backdrop-filter: blur(10px) !important;
-  background: rgba(255, 255, 255, 0.2) !important;
-  border: 1px solid rgba(255, 255, 255, 0.4) !important;
+  background: white !important;
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
   border-radius: 1.25rem !important;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25) !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1) !important;
   position: relative !important;
   overflow: hidden !important;
   padding: 2.5rem !important;
@@ -2741,17 +2704,14 @@ div.content-page div.dashboard-card {
   align-items: center !important;
   justify-content: center !important;
   cursor: pointer !important;
-  min-height: 300px !important; /* Ensure cards have consistent height */
+  min-height: 300px !important;
 }
 
-/* Hover effect with enhanced visuals */
 div.content-page div.dashboard-card:hover {
-  transform: translateY(-12px) scale(1.05) !important;
-  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.35) !important;
-  background: rgba(255, 255, 255, 0.3) !important;
+  transform: translateY(-10px) !important;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15) !important;
 }
 
-/* Gradient overlay on hover */
 div.content-page div.dashboard-card::before {
   content: '' !important;
   position: absolute !important;
@@ -2759,39 +2719,44 @@ div.content-page div.dashboard-card::before {
   left: 0 !important;
   width: 100% !important;
   height: 100% !important;
-  background: linear-gradient(45deg, rgba(59, 130, 246, 0.4), rgba(147, 51, 234, 0.4)) !important;
+  background: linear-gradient(45deg, var(--primary-color), #34495e) !important;
   opacity: 0 !important;
   transition: opacity 0.4s ease-in-out !important;
 }
 
 div.content-page div.dashboard-card:hover::before {
-  opacity: 1 !important;
+  opacity: 0.05 !important;
 }
 
-/* Card content styling */
 div.content-page div.card-content {
   position: relative !important;
   z-index: 1 !important;
   text-align: center !important;
 }
 
-/* Ensure images are sized correctly */
+div.content-page div.card-content h2 {
+  font-size: 1.5rem !important;
+  font-weight: 700 !important;
+  /* color: var(--primary-color) !important; */
+  margin-top: 1rem !important;
+  background: linear-gradient(45deg, #3498db, #2ecc71);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 div.content-page div.card-content img {
   width: 7rem !important;
   height: 7rem !important;
   margin-bottom: 1.5rem !important;
   object-fit: contain !important;
+  transition: transform 0.3s ease !important;
 }
 
-/* Card title styling */
-div.content-page div.card-content h2 {
-  font-size: 1.5rem !important;
-  font-weight: 700 !important;
-  background: linear-gradient(45deg, #3b82f6, #9333ea) !important;
-  -webkit-background-clip: text !important;
-  background-clip: text !important;
-  color: transparent !important;
+div.content-page div.dashboard-card:hover div.card-content img {
+  transform: scale(1.1) !important;
 }
+
 .attention{
   align-self: flex-start;
 }
@@ -3551,7 +3516,6 @@ margin-right: 10px;
 
 .feature-icon {
   color: #2ecc71;
-  margin-right: 8px;
   font-size: 0.8rem;
   font-weight: bold;
   display: flex;
@@ -3703,11 +3667,13 @@ margin-right: 10px;
   transition: all 0.3s ease;
   min-width: 280px;
   max-width: 350px;
+  border: 1px solid rgba(52, 152, 219, 0.1);
 }
 
 .step-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+  border-color: rgba(52, 152, 219, 0.3);
 }
 
 .step-number-container {
@@ -3721,8 +3687,8 @@ margin-right: 10px;
 .step-number {
   background: linear-gradient(45deg, #3498db, #2ecc71);
   color: white;
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -3730,17 +3696,24 @@ margin-right: 10px;
   font-weight: 600;
   font-size: 1.2rem;
   box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+  transition: all 0.3s ease;
+}
+
+.step-card:hover .step-number {
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
 }
 
 .step-icon-container {
   width: 60px;
   height: 60px;
   background: #f8f9fa;
-  border-radius: 15px;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.3s ease;
+  margin-top: 10px;
 }
 
 .step-icon {
@@ -3760,6 +3733,7 @@ margin-right: 10px;
 
 .step-content {
   text-align: center;
+  margin-top: 15px;
 }
 
 .step-title {
@@ -4928,4 +4902,30 @@ margin-right: 10px;
   .refund-intro {
     font-size: 1rem;
   }
+}
+
+.how-to-use-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.how-to-use-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 1rem;
+  background: linear-gradient(45deg, #3498db, #2ecc71);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-family: 'Playfair Display', serif;
+}
+
+.how-to-use-subtitle {
+  font-size: 1.1rem;
+  color: #6c757d;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+  font-family: 'Merriweather', 'Georgia', serif;
 }
