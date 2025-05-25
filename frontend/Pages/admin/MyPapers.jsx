@@ -44,11 +44,13 @@ const MyPapers = () => {
         </div>
 
         <div className="papers-table">
+        {myPapers.length !== 0 && (
           <div className="table-header">
             <div className="col-details">Paper Details</div>
             <div className="col-date">Created Date</div>
             <div className="col-actions">Actions</div>
           </div>
+        )}
           
           {myPapers.map((paper) => (
             <div key={paper._id} className="table-row">
