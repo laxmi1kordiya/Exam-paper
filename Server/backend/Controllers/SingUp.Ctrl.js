@@ -48,6 +48,7 @@ export const verifyData = async (req, res, next) => {
 export const getUserData = async (req, res, next) => {
   let rcResponse = new ApiResponse();
   try {
+    //to-do add user Id
     rcResponse.data = await findOne("user", {});
     return res.status(rcResponse.code).send(rcResponse);
   } catch (err) {
