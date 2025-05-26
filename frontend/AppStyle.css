@@ -5918,3 +5918,64 @@ button:hover {
   color: #333;
 }
 
+
+/* Container for the displayed syllabus data */
+.syllabus-details-container {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  margin-top: 2rem; /* Space above the syllabus box */
+  overflow: hidden; /* Ensures borders are respected */
+}
+
+/* Header within the syllabus display box */
+.syllabus-details-header {
+  background-color: #f2f4f6; /* Slightly darker background for the header */
+  padding: 1rem 1.5rem;
+  font-size: 1.1rem;
+  color: #333333;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+/* List container for syllabus items */
+.syllabus-details-list {
+  padding: 1.5rem;
+  width: 130vh;
+}
+
+.syllabus-details-list ol {
+  list-style: decimal; /* Numbered list for chapters */
+  padding-left: 1.5rem;
+  margin: 0;
+}
+
+.syllabus-details-list li {
+  margin-bottom: 1.5rem; /* Space between each chapter item */
+}
+
+.syllabus-details-list li:last-child {
+  margin-bottom: 0; /* No margin after the last item */
+}
+
+.syllabus-chapter-title {
+  font-weight: bold;
+  font-size: 1.05rem;
+  color: #222222;
+  margin-bottom: 0.5rem; /* Space between chapter name and topics */
+  display: block; /* Ensures bold takes full width */
+}
+
+/* Sub-list for topics within a chapter */
+.syllabus-topic-sublist {
+  list-style-type: lower-alpha; /* Alphabetical list for topics */
+  padding-left: 2rem; /* Indent topics further */
+  margin-top: 0.5rem;
+}
+
+.syllabus-topic-sublist li {
+  margin-bottom: 0.4rem; /* Smaller space between topics */
+  color: #555555;
+}
+
+.syllabus-topic-sublist li:last-child {
+  margin-bottom: 0;
+}

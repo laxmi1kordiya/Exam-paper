@@ -1,7 +1,7 @@
 export const steps = [
   {
     step: "Step 1",
-    title: "Create Your Account",
+    title: "Create Your ExamPaper Account",
     description: "Sign up for a account to access our ExamPaper generator platform. Choose between teacher or student roles based on your needs."
   },
   {
@@ -11,12 +11,7 @@ export const steps = [
   },
   {
     step: "Step 3",
-    title: "Customize Your Paper",
-    description: "Set question types, and time duration or use our AI-powered question generator for unique content."
-  },
-  {
-    step: "Step 4",
-    title: "Generate & Download",
-    description: "Preview your exam paper and download in PDF format. ExamPaper keeps your generated paper to download for 30 Days. "
-  }
+    title: "Customize Paper & Download",
+    description: "Set question types, and Time duration. Generate and download your question paper in PDF Format. ExamPaper keeps generated papers for 30 Days."
+  }, 
 ];

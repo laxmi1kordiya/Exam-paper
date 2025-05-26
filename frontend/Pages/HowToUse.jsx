@@ -1,7 +1,7 @@
 import React from 'react';
 import { steps } from '../Assets/Mocks/steps.mock';
 import SectionWrapper from './SectionWrapper';
-import { FaUserPlus, FaBookOpen, FaCog, FaFileExport } from 'react-icons/fa';
+import { FaUserPlus, FaBookOpen, FaFileExport } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 import { useLocation } from 'react-router-dom';
 
@@ -59,8 +59,6 @@ const HowToUse = () => {
       case "Step 2":
         return FaBookOpen;
       case "Step 3":
-        return FaCog;
-      case "Step 4":
         return FaFileExport;
       default:
         return FaUserPlus;

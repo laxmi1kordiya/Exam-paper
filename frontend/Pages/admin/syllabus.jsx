@@ -120,7 +120,8 @@ const Syllabus = () => {
   };
 
   // Helper to get label from options list by value
-  const getLabel = (arr, val) => arr.find((item) => item.value === val)?.label || val;
+  const getLabel = (arr, val) =>
+    arr.find((item) => item.value === val)?.label || val;
 
   return (
     <div className="content-page">
@@ -141,16 +142,18 @@ const Syllabus = () => {
         </button>
 
         {syllabusData.length > 0 && (
-          <div className="syllabus-box">
-            <div className="syllabus-header">
+          <div className="syllabus-details-container">
+            <div className="syllabus-details-header">
               <strong>
-              {formData.board} &gt; {getLabel(standards, formData.standard)} &gt;{" "}
-              {getLabel(subjects, formData.subject)}{" "}
-              {formData.chapter && <> &gt; {getLabel(chapters, formData.chapter)}</>}
-            </strong>
+                {formData.board} &gt; {getLabel(standards, formData.standard)}{" "}
+                &gt; {getLabel(subjects, formData.subject)}{" "}
+                {formData.chapter && (
+                  <> &gt; {getLabel(chapters, formData.chapter)}</>
+                )}
+              </strong>
             </div>
 
-            <div className="syllabus-list">
+            <div className="syllabus-details-list">
               <ol>
                 {syllabusData.map((item, index) => {
                   const chapter = currentBoard?.chapters?.find(
@@ -158,14 +161,11 @@ const Syllabus = () => {
                   );
 
                   return (
-                   <li key={index} style={{ marginBottom: "1rem" }}>
-                      <strong>{chapter?.name || "Unknown Chapter"}</strong>
-                      <ul
-                        style={{
-                          paddingLeft: "1.5rem",
-                          listStyleType: "lower-alpha",
-                        }}
-                      >
+                    <li key={index}>
+                      <strong className="syllabus-chapter-title">
+                        {chapter?.name || "Unknown Chapter"}
+                      </strong>
+                      <ul className="syllabus-topic-sublist">
                         {item.topics?.map((topic) => (
                           <li key={topic._id}>{topic.topic__name}</li>
                         ))}
