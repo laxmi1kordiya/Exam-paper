@@ -5,7 +5,8 @@ const Blueprint = () => {
     <>
      <div className="content-page">
       <div className="main-content">
-        <div>Blueprint</div>
+        <h2 className="pricing-title">Blueprint</h2>
+        <p className="pricing-subtitle">Under Development</p>
       </div>
       </div>
     </>

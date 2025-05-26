@@ -3,12 +3,8 @@ import React from "react";
 const PaperSetting = ({ handleNextFromStep2, headerData, updateHeader }) => {
   return (
     <>
-      <div className="header">
-        <div className="title-container">
-          <h2>Customize Exam Paper Header</h2>
-          <p>Set the title and subtitle for your exam paper.</p>
-        </div>
-      </div>
+          <h2 className="pricing-title">Customize Exam Paper Header</h2>
+          <p className="pricing-subtitle">Set the title and subtitle for your exam paper.</p>
       <form onSubmit={handleNextFromStep2}>
         <div className="paper-container">
           <div className="form-group">

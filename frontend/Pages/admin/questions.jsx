@@ -244,12 +244,8 @@ const Questionlist = ({ chapterId, formData, allData, headerData }) => {
 
   return (
     <>
-      <div className="header">
-        <div className="title-container">
-          <h2>Question List</h2>
-          <p>Set the Question for your exam paper.</p>
-        </div>
-      </div>
+          <h2 className="pricing-title">Question List</h2>
+          <p className="pricing-subtitle">Set the Question for your exam paper.</p>
       <div>
         {loading ? (
           <p className="loading">Loading questions...</p>

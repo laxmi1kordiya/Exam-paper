@@ -53,13 +53,8 @@ const FilterData = ({
 
   return (
     <>
-      <div className="header">
-        <div className="title-container">
-          <h2>{title}</h2>
-          <p>Select your preferences below to begin</p>
-        </div>
-      </div>
-
+          <h2 className="pricing-title">{title}</h2>
+          <p className="pricing-subtitle">Select your preferences below to begin</p>
       <div className="form-container">
         {allFields.map(({ label, options, name }) => (
           <div key={name} className="form-group">

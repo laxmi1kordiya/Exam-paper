@@ -37,7 +37,12 @@ const Header = () => {
       setUrl("My Papers");
     } else if (path === "/admin/how-to-use") {
       setUrl("How To Use");
-    } else {
+    } else if (path === "/admin/syllabus") {
+      setUrl("Syllabus");
+    } else if (path === "/admin/blueprint") {
+      setUrl("Blueprint");
+    }
+     else {
       setUrl(""); 
     }
   }, [location.pathname]);
