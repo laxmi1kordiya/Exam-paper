@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Features from "./Features";
 import Price from "./Price";
 import AboutUs from "./AboutUs";
@@ -10,6 +10,21 @@ import { Link } from "react-router-dom";
 import { Link as ScrollLink } from "react-scroll";
 
 const Home = () => {
+  const [showScrollTop, setShowScrollTop] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 300) {
+        setShowScrollTop(true);
+      } else {
+        setShowScrollTop(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
     <div className="home-container">
       <Navbar />
@@ -57,9 +72,11 @@ const Home = () => {
         </section>
       </main>
 
-      <button className="back-to-top" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-        <span className="arrow">↑</span>
-      </button>
+      {showScrollTop && (
+        <button className="back-to-top" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+          <span className="arrow">↑</span>
+        </button>
+      )}
 
       <Footer />
     </div>

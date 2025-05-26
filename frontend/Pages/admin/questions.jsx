@@ -56,7 +56,7 @@ const RenderQuestions = memo(
     }
 
     return (
-      <details open>
+      <details>
         <summary>{summaryText}</summary>
         <ul style={{ listStyleType: "none", paddingLeft: 0, margin: 0 }}>
           {questions.map((q) => (
@@ -252,7 +252,7 @@ const Questionlist = ({ chapterId, formData, allData, headerData }) => {
       </div>
       <div>
         {loading ? (
-          <p>Loading questions...</p>
+          <p className="loading">Loading questions...</p>
         ) : (
           <>
             {oneMarkQuestions.length === 0 &&
@@ -260,7 +260,7 @@ const Questionlist = ({ chapterId, formData, allData, headerData }) => {
             threeMarkQuestions.length === 0 &&
             fourMarkQuestions.length === 0 &&
             fiveMarkQuestions.length === 0 ? (
-              <p>No questions available for this chapter.</p>
+              <p className="no-questions">No questions available for this chapter.</p>
             ) : (
               <>
                 <RenderQuestions
@@ -305,22 +305,7 @@ const Questionlist = ({ chapterId, formData, allData, headerData }) => {
       </div>
       <button onClick={handleChange}>Download</button>
       {selectedQuestionsArray.length > 0 && (
-        <div
-          style={{
-            position: "fixed",
-            bottom: "20px",
-            right: "20px",
-            backgroundColor: "#f8f9fa",
-            border: "1px solid #ccc",
-            borderRadius: "8px",
-            padding: "12px 20px",
-            boxShadow: "0 0 10px rgba(0,0,0,0.1)",
-            zIndex: 999,
-            display: "flex",
-            alignItems: "center",
-            gap: "10px",
-          }}
-        >
+        <div className="total-marks-display">
           <strong>Total Marks:</strong> {totalMarks}
         </div>
       )}

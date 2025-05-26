@@ -1,7 +1,7 @@
 import React from 'react';
 import { steps } from '../Assets/Mocks/steps.mock';
 import SectionWrapper from './SectionWrapper';
-import { FaMobileAlt, FaGraduationCap, FaFileAlt } from 'react-icons/fa';
+import { FaUserPlus, FaBookOpen, FaCog, FaFileExport } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 import { useLocation } from 'react-router-dom';
 
@@ -55,20 +55,22 @@ const HowToUse = () => {
   const getStepIcon = (stepNumber) => {
     switch (stepNumber) {
       case "Step 1":
-        return FaMobileAlt;
+        return FaUserPlus;
       case "Step 2":
-        return FaGraduationCap;
+        return FaBookOpen;
       case "Step 3":
-        return FaFileAlt;
+        return FaCog;
+      case "Step 4":
+        return FaFileExport;
       default:
-        return FaMobileAlt;
+        return FaUserPlus;
     }
   };
   const location = useLocation();
   const path = location.pathname;
 
   return (
-      <div className={path !== "/admin/how-to-use" ? "how-to-use-section" : ""}>
+    <div className={path !== "/admin/how-to-use" ? "how-to-use-section" : ""}>
       <div className="how-to-use-container">
         <motion.div 
           className="how-to-use-header text-center"
@@ -77,7 +79,7 @@ const HowToUse = () => {
           transition={{ duration: 0.5 }}
         >
           <h2 className="pricing-title">How To Use</h2>
-          <p className="features-subtitle">Follow these simple steps to generate your question papers</p>
+          <p className="features-subtitle">Generate customized question papers with ease</p>
         </motion.div>
         
         <div className="steps-container">
