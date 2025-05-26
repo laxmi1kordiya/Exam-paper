@@ -14,40 +14,11 @@ const Syllabus = () => {
     board: "",
     standard: "",
     subject: "",
+    chapter: "",
   });
 
-  // Dummy syllabusData (from your example)
-  const [syllabusData, setSyllabusData] = useState([
-    {
-      _id: { $oid: "68231a66ae2d463bbe6cce89" },
-      Board_id: { $oid: "6818a764c37e8fffcf1e8829" },
-      Standard_id: { $oid: "6818a780c37e8fffcf1e8833" },
-      Subject_id: { $oid: "6818a7d5c37e8fffcf1e884c" },
-      Chapter_id: { $oid: "6818a7f2c37e8fffcf1e8856" },
-      topics: [
-        {
-          topic__name: "WHO",
-          t_id: "6823199d273bbe6bb0dfd7c3",
-          _id: { $oid: "68231a66ae2d463bbe6cce8a" },
-        },
-        {
-          topic__name: "WHAT",
-          t_id: "68231a5a827273a80ceb62b8",
-          _id: { $oid: "68231a66ae2d463bbe6cce8b" },
-        },
-        {
-          topic__name: "WHERE",
-          t_id: "68231a5a5a87a635245d9cca",
-          _id: { $oid: "68231a66ae2d463bbe6cce8c" },
-        },
-        {
-          topic__name: "WHEN",
-          t_id: "68231a5b9b4b30935fb46ef8",
-          _id: { $oid: "68231a66ae2d463bbe6cce8d" },
-        },
-      ],
-    },
-  ]);
+  const [syllabusData, setSyllabusData] = useState([]);
+  const [currentBoard, setCurrentBoard] = useState(null);
 
   const fetchData = useCallback(async () => {
     try {
@@ -64,7 +35,7 @@ const Syllabus = () => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [fetchData]);
 
   const updateForm = useCallback(
     (e) => {
@@ -74,6 +45,7 @@ const Syllabus = () => {
       switch (name) {
         case "board": {
           const selectedBoard = allData.find((b) => b.name === value);
+          setCurrentBoard(selectedBoard || null);
           setStandards(
             selectedBoard?.standards?.map(({ name, _id }) => ({
               label: name,
@@ -91,9 +63,9 @@ const Syllabus = () => {
           break;
         }
         case "standard": {
-          const currentBoard = allData.find((b) => b.name === formData.board);
+          const selectedBoard = allData.find((b) => b.name === formData.board);
           setSubjects(
-            currentBoard?.subjects
+            selectedBoard?.subjects
               ?.filter((sub) => sub.Standard_id === value)
               .map(({ name, _id }) => ({ label: name, value: _id })) || []
           );
@@ -102,11 +74,9 @@ const Syllabus = () => {
           break;
         }
         case "subject": {
-          const currentBoardData = allData.find(
-            (b) => b.name === formData.board
-          );
+          const selectedBoard = allData.find((b) => b.name === formData.board);
           setChapters(
-            currentBoardData?.chapters
+            selectedBoard?.chapters
               ?.filter((ch) => ch.Subject_id === value)
               .map(({ name, _id }) => ({ label: name, value: _id })) || []
           );
@@ -120,11 +90,37 @@ const Syllabus = () => {
     [allData, formData.board]
   );
 
-  // Dummy handler for search, assumes using local data
-  const handleSearch = () => {
-    toast.success("Syllabus filtered!");
-    // You could add filter logic here if needed
+  const handleSearch = async () => {
+    try {
+      const { data } = await fetch.get("getAllData");
+      setAllData(data || []);
+
+      const selectedBoard = data.find((b) => b.name === formData.board);
+      setCurrentBoard(selectedBoard || null);
+
+      if (!selectedBoard) {
+        toast.error("Board not found.");
+        return;
+      }
+
+      const matchedSyllabus = selectedBoard.syllabuses?.filter((entry) => {
+        return (
+          entry.Standard_id === formData.standard &&
+          entry.Subject_id === formData.subject &&
+          (!formData.chapter || entry.Chapter_id === formData.chapter)
+        );
+      });
+
+      setSyllabusData(matchedSyllabus || []);
+      toast.success("Syllabus filtered!");
+    } catch (error) {
+      console.error("Error in handleSearch:", error);
+      toast.error("Error fetching syllabus data.");
+    }
   };
+
+  // Helper to get label from options list by value
+  const getLabel = (arr, val) => arr.find((item) => item.value === val)?.label || val;
 
   return (
     <div className="content-page">
@@ -137,56 +133,50 @@ const Syllabus = () => {
           formData={formData}
           updateForm={updateForm}
           type="syllabus"
-          title="Generate Your Custom Syllabus"
+          title="Get Syllabus Details"
         />
 
         <button className="button-next-blue" onClick={handleSearch}>
           Search
         </button>
 
-        <div className="table-responsive">
-          <table>
-            <thead>
-              <tr>
-                <th>Chapter Name</th>
-                <th>Topics</th>
-              </tr>
-            </thead>
-            <tbody>
-              {syllabusData.length === 0 ? (
-                <tr>
-                  <td colSpan="2">No syllabus data found</td>
-                </tr>
-              ) : (
-                syllabusData.map((item, index) => {
-                  // Find board
-                  const board = allData.find(
-                    (b) => b._id === item.Board_id.$oid
-                  );
-                  console.log(board, "board");
+        {syllabusData.length > 0 && (
+          <div className="syllabus-box">
+            <div className="syllabus-header">
+              <strong>
+              {formData.board} &gt; {getLabel(standards, formData.standard)} &gt;{" "}
+              {getLabel(subjects, formData.subject)}{" "}
+              {formData.chapter && <> &gt; {getLabel(chapters, formData.chapter)}</>}
+            </strong>
+            </div>
 
-                  // Find chapter name from that board
-                  const chapter = board?.chapters?.find(
-                    (ch) => ch._id === item.Chapter_id.$oid
+            <div className="syllabus-list">
+              <ol>
+                {syllabusData.map((item, index) => {
+                  const chapter = currentBoard?.chapters?.find(
+                    (ch) => ch._id === item.Chapter_id
                   );
-                  console.log(chapter, "chapter");
+
                   return (
-                    <tr key={index}>
-                      <td>{chapter?.name || "Unknown Chapter"}</td>
-                      <td>
-                        <ul>
-                          {item.topics.map((topic) => (
-                            <li key={topic._id.$oid}>{topic.topic__name}</li>
-                          ))}
-                        </ul>
-                      </td>
-                    </tr>
+                   <li key={index} style={{ marginBottom: "1rem" }}>
+                      <strong>{chapter?.name || "Unknown Chapter"}</strong>
+                      <ul
+                        style={{
+                          paddingLeft: "1.5rem",
+                          listStyleType: "lower-alpha",
+                        }}
+                      >
+                        {item.topics?.map((topic) => (
+                          <li key={topic._id}>{topic.topic__name}</li>
+                        ))}
+                      </ul>
+                    </li>
                   );
-                })
-              )}
-            </tbody>
-          </table>
-        </div>
+                })}
+              </ol>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -5883,3 +5883,38 @@ button:hover {
   border-radius: 6px;
   margin: 0.8rem 0;
 } 
+
+
+.syllabus-list ol {
+  counter-reset: chapter;
+  padding-left: 1.2rem;
+}
+
+.syllabus-list ol > li {
+  margin-bottom: 1.5rem;
+  font-size: 1.1rem;
+}
+
+.syllabus-list ul {
+  list-style-type: lower-alpha;
+  margin-top: 0.5rem;
+  padding-left: 1.5rem;
+}
+
+.syllabus-box {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-top: 2rem;
+  background: #f9f9f9;
+  width: fit-content;
+  /* align left */
+  text-align: left;
+}
+
+.syllabus-header {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
