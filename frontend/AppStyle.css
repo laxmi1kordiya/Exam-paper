@@ -2939,12 +2939,12 @@ td .paper-date {
 }
 
 .step-circle.active {
-  background-color: #3b82f6; /* blue-500 */
+  background-color: #31B2A6; /* blue-500 */
   color: #fff;
 }
 
 .step-circle.completed {
-  background-color: #22c55e; /* green-500 */
+  background-color: #29978D; /* green-500 */
   color: #fff;
 }
 
@@ -5817,7 +5817,7 @@ details summary::marker {
 
 /* Download Button */
 button {
-  background: #4CAF50;
+  background: #31B2A6;
   color: white;
   border: none;
   padding: 0.6rem 1.2rem;
@@ -5830,7 +5830,7 @@ button {
 }
 
 button:hover {
-  background: #43A047;
+  background: #29978D;
   transform: translateY(-1px);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
