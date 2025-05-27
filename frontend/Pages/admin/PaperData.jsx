@@ -254,7 +254,7 @@ const PaperData = ({
       <div className="">
         {/* First Row: Class & Subject display field with Select/Edit button */}
         <div className="form-group initial-select-group">
-          <label className="initial-select-label">Class & Subject</label>
+          {/* <label className="initial-select-label">Class & Subject</label> */}
           <div className="initial-select-display-wrapper">
             <div className="initial-select-display">
               {initialSelectDisplayText}
@@ -266,11 +266,11 @@ const PaperData = ({
               {initialFiltersConfirmed ? "Edit" : "Select"}
             </button>
           </div>
-          {!initialFiltersConfirmed && (
+          {/* {!initialFiltersConfirmed && (
             <p className="validation-message">
               Please select class & subject using select button above.
             </p>
-          )}
+          )} */}
         </div>
 
         {/* Second Row: Select Chapter (only if initial filters confirmed and popup closed) */}

@@ -58,8 +58,8 @@
     border-radius: 8px;
     overflow: hidden;
     background-color: #f0f2f5;
-    width: 160%;
-    max-width: 600px; /* Constrain width for better balance */
+    max-width: 900px;
+    min-width: 400px;
 }
 
 .initial-select-display {
