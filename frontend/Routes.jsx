@@ -14,7 +14,15 @@ import Home from "./Pages/Home";
 import PaperSetting from "./Pages/admin/PaperSetting";
 import EducationManager from "./Pages/formData/GenerateTable";
 import QuestionTable from "./Pages/formData/QuestionTable";
-import GeneratePDF from "./Pages/GeneratePDF";
+import MyPapers from "./Pages/admin/MyPapers";
+import HowToUses from "./Pages/admin/HowToUse";
+import Syllabus from "./Pages/admin/syllabus";
+import Blueprint from "./Pages/admin/Blueprint";
+import SyllabusTable from "./Pages/formData/SyllabusTable";
+import TermsOfService from "./Pages/Support/TermsOfService";
+import PrivacyPolicy from "./Pages/Support/PrivacyPolicy";
+import RefundPolicy from "./Pages/Support/RefundPolicy";
+import FAQ from "./Pages/Support/FAQ";
 
 const Routes = () => {
   return (
@@ -28,8 +36,14 @@ const Routes = () => {
         <Route path="/howtouse" element={<HowToUse />} />
         <Route path="/about" element={<AboutUs />} />
         <Route path="/table" element={<EducationManager />} />
-        <Route path="/header" element={<GeneratePDF />} />
         <Route path="/questionTable" element={<QuestionTable />} />
+        <Route path="/SyllabusData" element={<SyllabusTable />} />
+        
+        {/* Support Routes */}
+        <Route path="/terms" element={<TermsOfService />} />
+        <Route path="/privacy" element={<PrivacyPolicy />} />
+        <Route path="/refund" element={<RefundPolicy />} />
+        <Route path="/faq" element={<FAQ />} />
 
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<MyDashboard />} />
@@ -37,10 +51,10 @@ const Routes = () => {
           <Route path="generate-paper" element={<GeneratePaper />} />
           <Route path="paper-setting" element={<PaperSetting />} />
           <Route path="purchase-package" element={<PurchasePackage />} />
-          {/* <Route path="my-papers" element={<MyPapers />} />
-          <Route path="generate-worksheet" element={<GenerateWorksheet />} />
-          <Route path="my-worksheets" element={<MyWorksheets />} />
-          <Route path="how-to-use" element={<HowToUse />} /> */}
+          <Route path="my-papers" element={<MyPapers />} />
+          <Route path="how-to-use" element={<HowToUses />} />
+          <Route path="syllabus" element={<Syllabus />} />
+          <Route path="blueprint" element={<Blueprint />} />
         </Route>
       </ReactRouterRoutes>
     </Suspense>

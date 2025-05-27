@@ -4,7 +4,9 @@ import {
   deleteOne,
   find,
   findAllData,
+  findOne,
   findOneAndUpdate,
+  deleteFromArray,
 } from "../Model/common.js";
 
 export const getAllData = async (req, res, next) => {
@@ -29,11 +31,11 @@ const handleGetAll = (modelName) => async (req, res, next) => {
 
 export const getBoardData = handleGetAll("board");
 export const getStdData = handleGetAll("standard");
-export const getSemData = handleGetAll("semester");
 export const getSubData = handleGetAll("subject");
 export const getChapterData = handleGetAll("chapter");
 export const getQuestions = handleGetAll("Question");
-export const getHeaderData = handleGetAll("paperSetting");
+export const getPaperData = handleGetAll("paper");
+export const getSyllabusData = handleGetAll("Syllabus");
 
 const handleDelete = (modelName) => async (req, res, next) => {
   const rcResponse = new ApiResponse();
@@ -49,10 +51,10 @@ const handleDelete = (modelName) => async (req, res, next) => {
 
 export const deleteBoardData = handleDelete("board");
 export const deleteStandardData = handleDelete("standard");
-export const deleteSemesterData = handleDelete("semester");
 export const deleteSubjectData = handleDelete("subject");
 export const deleteChapterData = handleDelete("chapter");
-export const deleteQuestionData = handleDelete("Question");
+export const deletePaperData = handleDelete("paper");
+export const deleteOneTopic = handleDelete("Syllabus");
 
 const handleCreateOrUpdate = (modelName) => async (req, res, next) => {
   const rcResponse = new ApiResponse();
@@ -76,27 +78,45 @@ const handleCreateOrUpdate = (modelName) => async (req, res, next) => {
 };
 export const addBoardData = handleCreateOrUpdate("board");
 export const addStandardData = handleCreateOrUpdate("standard");
-export const addSemesterData = handleCreateOrUpdate("semester");
 export const addSubjectData = handleCreateOrUpdate("subject");
 export const addChapterData = handleCreateOrUpdate("chapter");
-export const addQuestionData = handleCreateOrUpdate("Question");
-export const addSaveData = handleCreateOrUpdate("paperSetting");
+export const addPaperData = handleCreateOrUpdate("paper");
+export const addSyllabusData = handleCreateOrUpdate("Syllabus");
 
-
-export const deleteOneQuestion = () => async (req, res, next) => {
+export const deleteOneQuestion = async (req, res, next) => {
   const rcResponse = new ApiResponse();
-  const { id, q_id } = req.params; // q_id = questionList's q_id
+  const { id, q_id } = req.params;
 
   try {
-    console.log(id, q_id,'id, q_id')
-    rcResponse.data = await deleteOne(
+    rcResponse.data = await deleteFromArray(
       "Question",
       { _id: id },
-      { $pull: { questionList: { q_id: q_id } } }
+      { questionList: { q_id: q_id } }
     );
     return res.status(rcResponse.code).send(rcResponse);
   } catch (err) {
-    console.log(err,'"err--"');
+    console.log(err, '"err--"');
+    next(err);
+  }
+};
+
+export const addQuestionData = async (req, res, next) => {
+  const rcResponse = new ApiResponse();
+  const { body } = req;
+
+  try {
+    let data = await findOne("Question", {Chapter_id:body.Chapter_id ,questionType:body.questionType});
+      if (data) {
+      rcResponse.data = await findOneAndUpdate(
+        "Question",
+        { _id: data._id },
+        body
+      );
+    } else {
+      rcResponse.data = await create("Question", body);
+    }
+    return res.status(rcResponse.code).send(rcResponse);
+  } catch (err) {
     next(err);
   }
 };

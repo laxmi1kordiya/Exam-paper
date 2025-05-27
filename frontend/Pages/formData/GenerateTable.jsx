@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useAuthenticatedFetch } from "../../Api/Axios";
+import QuestionTable from "./QuestionTable";
 
 const apiEndpoints = {
   Board: {
@@ -12,11 +13,6 @@ const apiEndpoints = {
     add: "addStandardData",
     delete: "deleteStandardData",
   },
-  Semester: {
-    fetch: "getsemData",
-    add: "addSemesterData",
-    delete: "deleteSemesterData",
-  },
   Subject: {
     fetch: "getsubData",
     add: "addSubjectData",
@@ -28,9 +24,7 @@ const apiEndpoints = {
     delete: "deleteChapterData",
   },
   Question: {
-    fetch: "getQuestionData",
-    add: "addQuestionData",
-    delete: "deleteQuestionData",
+   
   },
 };
 
@@ -62,8 +56,8 @@ export default function ManageEducationData() {
 
   const handleSave = async () => {
     try {
-        const res = await fetch.post(apiEndpoints[activeTab].add, formData);
-        if (res?.code === 200) setFormData({ name: "" });
+      const res = await fetch.post(apiEndpoints[activeTab].add, formData);
+      if (res?.code === 200) setFormData({ name: "" });
       setShowModal(false);
       setSelectedItem(null);
       fetchData();
@@ -94,9 +88,6 @@ export default function ManageEducationData() {
     const standard = board.standards?.find(
       (std) => std._id === item.Standard_id
     );
-    const semester = board.semesters?.find(
-      (sem) => sem.Standard_id === item.Standard_id
-    );
     const subject = board.subjects?.find((sub) => sub._id === item.Subject_id);
     const chapter = board.chapters?.find(
       (chap) => chap._id === item.Chapter_id
@@ -106,7 +97,6 @@ export default function ManageEducationData() {
       <>
         {shouldShow("board") && <td>{board.name}</td>}
         {shouldShow("standard") && <td>{standard?.name}</td>}
-        {shouldShow("semester") && <td>{semester?.name}</td>}
         {shouldShow("subject") && <td>{subject?.name}</td>}
         {isQuestion && <td>{chapter?.name}</td>}
       </>
@@ -130,13 +120,9 @@ export default function ManageEducationData() {
     const standardOptions =
       selectedBoard?.standards?.map((s) => ({ label: s.name, value: s._id })) ||
       [];
-    const semesterOptions =
-      selectedBoard?.semesters
-        ?.filter((sem) => sem.Standard_id === formData.Standard_id)
-        .map((sem) => ({ label: sem.name, value: sem._id })) || [];
     const subjectOptions =
       selectedBoard?.subjects
-        ?.filter((sub) => sub.Semester_id === formData.Semester_id)
+        ?.filter((sub) => sub.Standard_id === formData.Standard_id)
         .map((sub) => ({ label: sub.name, value: sub._id })) || [];
     const chapterOptions =
       selectedBoard?.chapters
@@ -145,7 +131,7 @@ export default function ManageEducationData() {
 
     return (
       <>
-        {["Standard", "Semester", "Subject", "Chapter", "Question"].includes(
+        {["Standard", "Subject", "Chapter", "Question"].includes(
           activeTab
         ) &&
           renderSelect("Board", formData.Board_id, boardOptions, (e) =>
@@ -153,28 +139,16 @@ export default function ManageEducationData() {
               ...formData,
               Board_id: e.target.value,
               Standard_id: "",
-              Semester_id: "",
-              Subject_id: "",
-              Chapter_id: "",
-            })
-          )}
-
-        {["Semester", "Subject", "Chapter", "Question"].includes(activeTab) &&
-          renderSelect("Standard", formData.Standard_id, standardOptions, (e) =>
-            setFormData({
-              ...formData,
-              Standard_id: e.target.value,
-              Semester_id: "",
               Subject_id: "",
               Chapter_id: "",
             })
           )}
 
         {["Subject", "Chapter", "Question"].includes(activeTab) &&
-          renderSelect("Semester", formData.Semester_id, semesterOptions, (e) =>
+          renderSelect("Standard", formData.Standard_id, standardOptions, (e) =>
             setFormData({
               ...formData,
-              Semester_id: e.target.value,
+              Standard_id: e.target.value,
               Subject_id: "",
               Chapter_id: "",
             })
@@ -215,9 +189,8 @@ export default function ManageEducationData() {
   };
 
   const columnsVisibility = {
-    board: ["Standard", "Semester", "Subject", "Chapter", "Question"],
-    standard: ["Semester", "Subject", "Chapter", "Question"],
-    semester: ["Subject", "Chapter", "Question"],
+    board: ["Standard",  "Subject", "Chapter", "Question"],
+    standard: ["Subject", "Chapter", "Question"],
     subject: ["Chapter", "Question"],
     chapter: ["Question"],
   };
@@ -247,7 +220,9 @@ export default function ManageEducationData() {
 
         <h2>{activeTab} Management</h2>
         <br />
-        <button onClick={() => openModal()}>Add {activeTab}</button>
+        {activeTab !== "Question" && (
+          <button onClick={() => openModal()}>Add {activeTab}</button>
+        )}
 
         {showModal && (
           <div className="modal-backdrop">
@@ -275,16 +250,15 @@ export default function ManageEducationData() {
 
         <div className="table-container" style={{ marginTop: 20 }}>
           <h3>All {activeTab}s</h3>
-          {data.length === 0 ? (
+          {data.length === 0 && activeTab !== "Question" ? (
             <p>No {activeTab}s added yet.</p>
-          ) : (
+          ) : activeTab !== "Question" ? (
             <table border="1" cellPadding="8">
               <thead>
                 <tr>
                   <th>ID</th>
                   {shouldShow("board") && <th>Board Name</th>}
                   {shouldShow("standard") && <th>Standard Name</th>}
-                  {shouldShow("semester") && <th>Semester Name</th>}
                   {shouldShow("subject") && <th>Subject Name</th>}
                   {isQuestion && <th>Chapter Name</th>}
                   <th>{activeTab} Name</th>
@@ -305,6 +279,8 @@ export default function ManageEducationData() {
                 ))}
               </tbody>
             </table>
+          ) : (
+            <QuestionTable />
           )}
         </div>
       </div>

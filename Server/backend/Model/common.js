@@ -1,25 +1,24 @@
-// module.exports.brokenLinks = require('../schema/brokenLinks');
 import mongoose from "mongoose";
-import login from "../Schema/Login.js";
-import signUp from "../Schema/SignUp.js";
 import standard from "../Schema/Standard.js";
-import semester from "../Schema/Semester.js";
 import subject from "../Schema/Subject.js";
 import board from "../Schema/Board.js";
 import chapter from "../Schema/Chapter.js";
 import paperSetting from "../Schema/PaperSetting.js";
 import Question from "../Schema/Question.js";
+import user from "../Schema/User.js"
+import paper from "../Schema/Paper.js";
+import Syllabus from "../Schema/Syllabus.js";
 
 const models = {
-  signUp,
-  login,
+  user,
   standard,
-  semester,
   subject,
   board,
   chapter,
   paperSetting,
-  Question
+  Question,
+  paper,
+  Syllabus
 };
 
 const findOne = async (collection, query, property, sort) => {
@@ -303,14 +302,6 @@ const findAllData = async (collection) => {
       },
       {
         $lookup: {
-          from: "semesters",
-          localField: "_id",
-          foreignField: "Board_id",
-          as: "semesters",
-        },
-      },
-      {
-        $lookup: {
           from: "subjects",
           localField: "_id",
           foreignField: "Board_id",
@@ -333,7 +324,26 @@ const findAllData = async (collection) => {
           as: "questions",
         },
       },
+      {
+        $lookup: {
+          from: "syllabuses",
+          localField: "_id",
+          foreignField: "Board_id",
+          as: "syllabuses",
+        },
+      },
     ]);
+  } catch (err) {
+    throw err;
+  }
+};
+
+const deleteFromArray = async (collection, matchQuery, pullQuery) => {
+  try {
+    return await models[collection]
+      .updateOne(matchQuery, { $pull: pullQuery })
+      .lean()
+      .exec();
   } catch (err) {
     throw err;
   }
@@ -359,4 +369,5 @@ export {
   getAllCollectionNames,
   getDirectDataFromDb,
   findAllData,
+  deleteFromArray
 };

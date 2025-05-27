@@ -1,56 +1,114 @@
-import React from 'react';
+import React from "react";
 import SectionWrapper from "./SectionWrapper";
+import { motion } from "framer-motion";
+import { FaLightbulb, FaStar, FaUsers, FaHandshake } from 'react-icons/fa';
+
+const ValueItem = ({ icon: Icon, title, description }) => (
+  <motion.div 
+    className="value-item"
+    whileHover={{ scale: 1.05 }}
+    initial={{ opacity: 0, y: 20 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.5 }}
+  >
+    <Icon className="value-icon" />
+    <h3>{title}</h3>
+    <p>{description}</p>
+  </motion.div>
+);
+
+const StatItem = ({ number, label }) => (
+  <motion.div 
+    className="stat-item"
+    initial={{ opacity: 0, scale: 0.5 }}
+    whileInView={{ opacity: 1, scale: 1 }}
+    transition={{ duration: 0.5 }}
+  >
+    <motion.span 
+      className="stat-number"
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      transition={{ duration: 1, delay: 0.2 }}
+    >
+      {number}
+    </motion.span>
+    <span className="stat-label">{label}</span>
+  </motion.div>
+);
 
 const AboutUs = () => {
+  const values = [
+    {
+      icon: FaLightbulb,
+      title: "Innovation",
+      description: "Constantly pushing boundaries to create better educational tools"
+    },
+    {
+      icon: FaStar,
+      title: "Excellence",
+      description: "Committed to delivering the highest quality in everything we do"
+    },
+    {
+      icon: FaUsers,
+      title: "Accessibility",
+      description: "Making quality education tools available to all educators"
+    },
+    {
+      icon: FaHandshake,
+      title: "Support",
+      description: "Dedicated to helping educators succeed in their mission"
+    }
+  ];
+
   return (
     <div className="about-us-container">
-      <div className="about-us-header">
-        {/* <span className="about-us-label">About Us</span> */}
-        <h1>Who We Are?</h1>
-      </div>
+      <motion.div 
+        className="about-us-header"
+        initial={{ opacity: 0, y: -20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <span className="about-us-label">About Us</span>
+        <h1>Transforming Education Through Technology</h1>
+      </motion.div>
+
       <div className="about-us-content">
-        <div className="about-us-text">
-          <h2>About Exam Paper</h2>
-          <div className="rating">
-            {[...Array(5)].map((_, index) => (
-              <span key={index} className={index < 4 ? 'star filled' : 'star'}>★</span>
-            ))}
+        <motion.div 
+          className="about-us-text"
+          initial={{ opacity: 0, x: -20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <div className="mission-statement">
+            <h2>Our Mission</h2>
+            <p>
+              At Exam Paper, we're revolutionizing the way educators create and manage assessments. 
+              Our platform combines cutting-edge technology with educational expertise to provide 
+              a seamless, efficient, and intelligent solution for generating high-quality exam papers.
+            </p>
           </div>
-          <p>
-            We are group of enthusiasts with diverse career interests but bound by one common passion, to create something special for Teachers and children. Every individual is a craftsman in his or her own way and contribute different and skills to the Education world to build the product.
-          </p>
-          <p>
-            Whether we will achieve success in building a world wonder, we do not know. But what we do know is that we are on this never ending journey to create a better future for our children. We enjoy their company, we enjoy doing something special for them and that makes us a happy MY Team.
-          </p>
-          <div className="contact-info">
-            <p><strong>Mail</strong> – info.360exam</p>
-            <p><strong>Contact</strong> – +91 945929 6160</p>
+          
+          <div className="values-section">
+            <h2>Our Values</h2>
+            <div className="values-grid">
+              {values.map((value, index) => (
+                <ValueItem key={index} {...value} />
+              ))}
+            </div>
           </div>
-        </div>
-        <div className="about-us-image">
-          <div className="image-wrapper">
-            {/* Placeholder for the person image */}
-            <img
-              src="frontend\Assets\images\model-min.png"
-              alt="Person"
-              className="person-image"
-            />
-            {/* SVG for the purple splash background */}
-            <svg className="splash-background" viewBox="0 0 300 400" preserveAspectRatio="none">
-              <path
-                d="M0,0 C150,100 300,0 300,200 C300,400 150,300 0,400 Z"
-                fill="#8B5CF6"
-                opacity="0.8"
-              />
-              <circle cx="280" cy="20" r="10" fill="#000" />
-              <circle cx="260" cy="50" r="8" fill="#000" />
-              <circle cx="290" cy="80" r="6" fill="#000" />
-            </svg>
+
+          <div className="impact-section">
+            <h2>Our Impact</h2>
+            <div className="impact-stats">
+              <StatItem number="10K+" label="Educators Served" />
+              <StatItem number="50K+" label="Papers Generated" />
+              <StatItem number="95%" label="User Satisfaction" />
+            </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </div>
   );
 };
 
-export default SectionWrapper(AboutUs,"about");
+export default SectionWrapper(AboutUs, "about");

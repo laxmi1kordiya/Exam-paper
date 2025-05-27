@@ -1,163 +1,316 @@
 import React from "react";
-import { jsPDF } from "jspdf";
-import { addGujaratiFont } from "../Utils/addGujaratiFont";
-import { addShrutiFont } from "../Utils/addShrutiFont";
+import {
+  Document,
+  Page,
+  Text,
+  View,
+  StyleSheet,
+  Font,
+  PDFDownloadLink,
+} from "@react-pdf/renderer";
+import { findData } from "../Utils/AppUtils"; // Assuming this is available
 
-const GeneratePDF = ({ formData, allData, selectedQuestions, data }) => {
-  const translations = {
-    instructionsTitle: { en: "Instructions:", gu: "સૂચનાઓ:" },
-    instruction1: { en: "1. Read all questions carefully.", gu: "૧. બધી પ્રશ્નોને ધ્યાનપૂર્વક વાંચો." },
-    instruction2: { en: "2. Answer all questions in the given space.", gu: "૨. આપેલ જગ્યા પર બધા પ્રશ્નોના જવાબો લખો." },
-    instruction3: { en: "3. No electronic gadgets allowed.", gu: "૩. ઇલેક્ટ્રોનિક ઉપકરણોની પરવાનગી નથી." },
-    studentName: { en: "Student Name", gu: "વિદ્યાર્થીનું નામ" },
-    rollNo: { en: "Roll No.", gu: "ક્રમ નંબર" },
-    std: { en: "Std", gu: "ધોરણ" },
-    subject: { en: "Subject", gu: "વિષય" },
-    totalMarks: { en: "Total Marks", gu: "કુલ ગુણો" },
-    date: { en: "Date", gu: "તારીખ" },
-    obtainMarks: { en: "Obtain Marks", gu: "મેળવેલા ગુણો" },
-    section: { en: "Section", gu: "વિભાગ" },
-    oneMarkQuestions: { en: "Answer the following questions briefly.", gu: "નીચે આપેલા પ્રશ્નોના ટુંકમાં જવાબ આપો." },
-    twoMarkQuestions: { en: "Answer the following questions with two marks each.", gu: "દર બે ગુણના પ્રશ્નોના જવાબ આપો." },
-    threeMarkQuestions: { en: "Answer the following questions with three marks each.", gu: "દર ત્રણ ગુણના પ્રશ્નોના જવાબ આપો." },
-    fourMarkQuestions: { en: "Answer the following questions with four marks each.", gu: "દર ચાર ગુણના પ્રશ્નોના જવાબ આપો." },
-    fiveMarkQuestions: { en: "Answer the following questions with five marks each.", gu: "દર પાંચ ગુણના પ્રશ્નોના જવાબ આપો." },
-  };
+// Register Gujarati font
+Font.register({
+  family: "NotoGujarati",
+  src: "../Assets/fonts/NotoSansGujarati-Regular.ttf", // Ensure path is correct
+});
 
-  const t = (key) => {
-    if (formData?.board === "GSEB-GUJ") {
-      return translations[key]?.gu || key;
-    } else {
-      return translations[key]?.en || key;
-    }
-  };
+// Styles for MyDocument
+const documentStyles = StyleSheet.create({
+  page: {
+    padding: 20,
+    paddingBottom: 40, // Space for footer
+  },
+  title: {
+    fontSize: 16,
+    fontFamily: "Helvetica-Bold",
+    textAlign: "center",
+    marginBottom: 8,
+  },
+  subtitle: {
+    fontSize: 12,
+    fontFamily: "Helvetica-Bold",
+    textAlign: "center",
+    marginBottom: 20,
+  },
+  standardSubject: {
+    fontSize: 11,
+    fontFamily: "Helvetica-Bold",
+    textAlign: "center",
+    marginBottom: 10,
+  },
+  headerRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 15,
+  },
+  headerText: {
+    fontSize: 11,
+    fontFamily: "Helvetica-Bold",
+  },
+  sectionTitle: {
+    fontSize: 12,
+    fontFamily: "Helvetica-Bold",
+    textAlign: "center",
+    marginBottom: 10,
+  },
+  sectionInstruction: {
+    fontSize: 11,
+    marginBottom: 10,
+  },
+  questionRow: {
+    flexDirection: "row",
+    marginBottom: 7,
+    columnGap: 10,
+  },
+  questionText: {
+    fontSize: 11,
+    flex: 1,
+  },
+  questionMarks: {
+    fontSize: 11,
+    fontFamily: "Helvetica-Bold",
+    textAlign: "right",
+  },
+  footer: {
+    position: "absolute",
+    bottom: 10,
+    left: 20,
+    right: 20,
+    textAlign: "center",
+    fontSize: 9,
+  },
+  watermark: {
+    position: "absolute",
+    top: 300, // Adjusted for A4 page
+    left: 0,
+    right: 0,
+    textAlign: "center",
+    fontSize: 50,
+    opacity: 0.3,
+    color: "gray",
+  },
+});
 
-  const findData = (formData, type) => {
-    if (!formData) return null;
-    const board = allData.find((board) => board.name === formData.board);
-    if (!board || !Array.isArray(board.standards)) return null;
-    let data = {};
-    if (type === "standard") {
-      data = board.standards.find((standard) => standard._id === formData.standard);
-    } else if (type === "subject") {
-      data = board.subjects.find((subject) => subject._id === formData.subject);
-    }
-    return data ? data.name : null;
-  };
-
-  const getSectionTitle = (questionType) => {
-    switch (questionType) {
-      case "OneMarks":
-        return t("oneMarkQuestions");
-      case "TwoMarks":
-        return t("twoMarkQuestions");
-      case "ThreeMarks":
-        return t("threeMarkQuestions");
-      case "FourMarks":
-        return t("fourMarkQuestions");
-      case "FiveMarks":
-        return t("fiveMarkQuestions");
-      default:
-        return `${questionType.replace(/([A-Z])/g, " $1").trim()} Questions`;
-    }
-  };
-
-  const handleDownload = () => {
-    const doc = new jsPDF();
-
-    // 1. Add Gujarati font
-    addShrutiFont(doc);
-
-    // 2. Set font based on Board
-    if (formData?.board === "GSEB-GUJ") {
-      doc.setFont("Shruti");
-    } else {
-      doc.setFont("Helvetica");
-    }
-
-    const questionsBySection = {};
-    selectedQuestions.forEach((question) => {
-      if (!questionsBySection[question.questionType]) {
-        questionsBySection[question.questionType] = [];
-      }
-      questionsBySection[question.questionType].push(question);
-    });
-
-    const sectionLabels = ["A", "B", "C", "D", "E"];
-    const sectionKeys = Object.keys(questionsBySection);
-    const sectionMapping = {};
-    sectionKeys.forEach((key, index) => {
-      sectionMapping[key] = sectionLabels[index] || `Section ${index + 1}`;
-    });
-
-    // Adding header (logo, title, subtitle)
-    let yPosition = 10;
-    if (data.logoPreview) {
-      doc.addImage(data.logoPreview, "PNG", 10, yPosition, 40, 40);
-      yPosition += 40;
-    }
-    doc.setFontSize(14);
-    doc.text(String(data.title || ""), 105, yPosition, { align: "center" });
-    yPosition += 10;
-    doc.setFontSize(10);
-    doc.text(String(data.subtitle || ""), 105, yPosition, { align: "center" });
-    yPosition += 10;
-
-    // Student Info
-    const studentInfo = [
-      { label: t("studentName"), value: "__________________________________" },
-      { label: t("rollNo"), value: formData?.rollNo || "_________________" },
-      { label: `${t("std")}: ${findData(formData, "standard") || "_________________"}`, value: `${t("subject")}: ${findData(formData, "subject") || "_________________"}` },
-      { label: t("totalMarks"), value: formData?.totalMarks || "_________________" },
-      { label: `${t("date")}`, value: formData?.date ? new Date(formData.date).toLocaleDateString() : "_________________" },
-      { label: t("obtainMarks"), value: formData?.obtainMarks || "_________________" }
-    ];
-
-    let tableYPosition = yPosition + 20;
-    studentInfo.forEach((info) => {
-      doc.text(String(info.label), 10, tableYPosition);
-      doc.text(String(info.value), 80, tableYPosition);
-      tableYPosition += 10;
-    });
-
-    // Instructions
-    yPosition = tableYPosition + 10;
-    doc.setFontSize(13);
-    doc.text(t("instructionsTitle"), 10, yPosition);
-    doc.setFontSize(10);
-    doc.text(t("instruction1"), 10, yPosition + 10);
-    doc.text(t("instruction2"), 10, yPosition + 15);
-    doc.text(t("instruction3"), 10, yPosition + 20);
-
-    // Sections and Questions
-    let sectionY = yPosition + 35;
-    Object.keys(questionsBySection).forEach((sectionKey) => {
-      doc.setFontSize(12);
-      doc.text(`${t("section")} ${sectionMapping[sectionKey]}`, 10, sectionY);
-      sectionY += 10;
-      doc.setFontSize(11);
-      doc.text(getSectionTitle(sectionKey), 10, sectionY);
-      sectionY += 10;
-
-      questionsBySection[sectionKey].forEach((question, idx) => {
-        let questionText = `Q.${idx + 1}. ${question.question || "No question text"}`;
-        doc.text(questionText, 10, sectionY);
-        sectionY += 10;
-
-        // If sectionY crosses page limit, add new page
-        if (sectionY > 270) {
-          doc.addPage();
-          sectionY = 20;
-        }
-      });
-    });
-
-    // Save the PDF
-    doc.save("generate-paper.pdf");
-  };
-
-  return <button onClick={handleDownload}>Download PDF</button>;
+// Translations
+const translations = {
+  oneMarkQuestions: {
+    en: "Answer the following questions briefly.",
+    gu: "નીચે આપેલા પ્રશ્નોના ટુંકમાં જવાબ આપો.",
+  },
+  twoMarkQuestions: {
+    en: "Answer the following questions with two marks each.",
+    gu: "નીચે આપેલા બે ગુણના પ્રશ્નોના જવાબ આપો.",
+  },
+  threeMarkQuestions: {
+    en: "Answer the following questions with three marks each.",
+    gu: "નીચે આપેલા ત્રણ ગુણના પ્રશ્નોના જવાબ આપો.",
+  },
+  fourMarkQuestions: {
+    en: "Answer the following questions with four marks each.",
+    gu: "નીચે આપેલા ચાર ગુણના પ્રશ્નોના જવાબ આપો.",
+  },
+  fiveMarkQuestions: {
+    en: "Answer the following questions with five marks each.",
+    gu: "નીચે આપેલા પાંચ ગુણના પ્રશ્નોના જવાબ આપો.",
+  },
 };
 
-export default GeneratePDF;
+// Utility Functions
+const getMarksFromType = (questionType) => {
+  switch (questionType) {
+    case "OneMarks":
+      return 1;
+    case "TwoMarks":
+      return 2;
+    case "ThreeMarks":
+      return 3;
+    case "FourMarks":
+      return 4;
+    case "FiveMarks":
+      return 5;
+    default:
+      return "?";
+  }
+};
 
+const getSectionTitle = (questionType, t) => {
+  switch (questionType) {
+    case "OneMarks":
+      return t("oneMarkQuestions");
+    case "TwoMarks":
+      return t("twoMarkQuestions");
+    case "ThreeMarks":
+      return t("threeMarkQuestions");
+    case "FourMarks":
+      return t("fourMarkQuestions");
+    case "FiveMarks":
+      return t("fiveMarkQuestions");
+    default:
+      return `${questionType.replace(/([A-Z])/g, " $1").trim()} Questions`;
+  }
+};
+
+const formatTimeAllowed = (minutes) => {
+  const min = parseInt(minutes, 10);
+  if (isNaN(min)) return "_________________";
+
+  if (min <= 60) {
+    return `${min} Minute${min === 1 ? "" : "s"}`;
+  }
+
+  const hours = Math.floor(min / 60);
+  const remainingMinutes = min % 60;
+
+  const hourPart = `${hours} Hour${hours === 1 ? "" : "s"}`;
+  const minutePart = remainingMinutes
+    ? ` ${remainingMinutes} Minute${remainingMinutes === 1 ? "" : "s"}`
+    : "";
+
+  return hourPart + minutePart;
+};
+
+// MyDocument Component
+const MyDocument = ({
+  formData,
+  allData,
+  selectedQuestions,
+  headerData,
+  totalMarks,
+}) => {
+  // Determine font and translations based on board
+  const t = (key) => {
+    if (formData?.board === "GSEB-ENG") {
+      return translations[key]?.en || key;
+    } else {
+      return translations[key]?.gu || key;
+    }
+  };
+
+  const fontFamily =
+    formData?.board === "GSEB-GUJ" ? "NotoGujarati" : "Helvetica";
+
+  // Extract standard and subject
+  const subject = findData(formData, allData, "subject") || "Subject";
+  const rawStandard = findData(formData, allData, "standard") || "Standard";
+  const parts = rawStandard.split(" ");
+  const standard = parts.slice(0, 2).join(" ");
+
+  // Organize questions by section
+  const questionsBySection = {};
+  selectedQuestions.forEach((question) => {
+    if (!questionsBySection[question.questionType]) {
+      questionsBySection[question.questionType] = [];
+    }
+    questionsBySection[question.questionType].push(question);
+  });
+
+  const SectionLabels = ["A", "B", "C", "D", "E"];
+  const sectionKeys = Object.keys(questionsBySection);
+  const sectionMapping = {};
+  sectionKeys.forEach((key, index) => {
+    sectionMapping[key] = SectionLabels[index] || `Section ${index + 1}`;
+  });
+
+  // Watermark
+  const watermarkText =
+    headerData?.WaterMark === true && headerData?.WaterMarkTaxt;
+
+  return (
+    <Document>
+      <Page size="A4" style={documentStyles.page}>
+        {/* Header */}
+        <Text style={documentStyles.title}>{headerData?.title || ""}</Text>
+        <Text style={documentStyles.subtitle}>
+          {headerData?.subtitle || ""}
+        </Text>
+        <Text
+          style={documentStyles.standardSubject}
+        >{`${standard} - ${subject}`}</Text>
+        <View style={documentStyles.headerRow}>
+          <Text style={documentStyles.headerText}>
+            Time Allowed: {formatTimeAllowed(headerData?.paperTime)}
+          </Text>
+          <Text style={documentStyles.headerText}>
+            Total Marks: {headerData?.totalMarks || "_________________"}
+          </Text>
+        </View>
+
+        {/* Sections */}
+        {sectionKeys.map((sectionKey) => (
+          <View key={sectionKey} style={{ marginBottom: 20 }}>
+            <Text style={documentStyles.sectionTitle}>
+              Section {sectionMapping[sectionKey]}
+            </Text>
+            <Text style={[documentStyles.sectionInstruction, { fontFamily }]}>
+              {getSectionTitle(sectionKey, t)}
+            </Text>
+            {questionsBySection[sectionKey].map((q, idx) => (
+              <View key={idx} style={documentStyles.questionRow}>
+                <Text style={[documentStyles.questionText, { fontFamily }]}>
+                  {`${idx + 1}. ${q.question || "No question text"}`}
+                </Text>
+                <Text style={[documentStyles.questionMarks, { fontFamily }]}>
+                  [{q.marks || getMarksFromType(sectionKey)}]
+                </Text>
+              </View>
+            ))}
+          </View>
+        ))}
+
+        {/* Watermark */}
+        {watermarkText && (
+          <Text style={[documentStyles.watermark, { fontFamily: "Helvetica" }]}>
+            {watermarkText}
+          </Text>
+        )}
+
+        {/* Footer */}
+        <Text
+          style={[documentStyles.footer, { fontFamily: "Helvetica" }]}
+          render={({ pageNumber, totalPages }) =>
+            `${pageNumber} of ${totalPages}`
+          }
+          fixed
+        />
+      </Page>
+    </Document>
+  );
+};
+
+// PdfPreview Component
+const GeneratePDF = ({
+  formData,
+  allData,
+  selectedQuestions,
+  headerData,
+  totalMarks,
+}) => (
+  <div>
+    {/* Download Button */}
+    <PDFDownloadLink
+      document={
+        <MyDocument
+          formData={formData}
+          allData={allData}
+          selectedQuestions={selectedQuestions}
+          headerData={headerData}
+          totalMarks={totalMarks}
+        />
+      }
+      fileName={`Que.Paper_${
+        findData(formData, allData, "subject") || "Subject"
+      }_${
+        findData(formData, allData, "standard")
+          ?.split(" ")
+          .slice(0, 2)
+          .join(" ") || "Standard"
+      }.pdf`}
+    >
+      {<button className="qpaper">Question Paper</button>}
+    </PDFDownloadLink>
+  </div>
+);
+
+export default GeneratePDF;

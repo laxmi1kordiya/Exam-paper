@@ -5,7 +5,7 @@ export const addSignUpData = async (req, res, next) => {
   let rcResponse = new ApiResponse();
   let { body } = req;
   try {
-    rcResponse.data = await create("signUp", body);
+    rcResponse.data = await create("user", body);
     return res.status(rcResponse.code).send(rcResponse);
   } catch (err) {
     next(err);
@@ -20,7 +20,7 @@ export const addLoginData = async (req, res, next) => {
   // const otpExpiresAt = new Date(Date.now() + 5 * 60 * 1000); // expires in 5 minutes
   try {
     rcResponse.data = await findOneAndUpdate(
-      "signUp",
+      "user",
       { mobile: body.mobile },
       { otp, otpExpiresAt}
     );
@@ -34,9 +34,9 @@ export const verifyData = async (req, res, next) => {
   const rcResponse = new ApiResponse();
   const { mobile, otp } = req.body;
   try {
-    let user = await findOne("signUp", { mobile, otp });
+    let user = await findOne("user", { mobile, otp });
     if (!user.otpExpiresAt || new Date() > new Date(user.otpExpiresAt)) {
-      user = await findOneAndUpdate("signUp", { mobile }, { otp: null, otpExpiresAt: null });
+      user = await findOneAndUpdate("user", { mobile }, { otp: null, otpExpiresAt: null });
     }
     rcResponse.data = user;
     return res.status(rcResponse.code).send(rcResponse);
@@ -48,7 +48,7 @@ export const verifyData = async (req, res, next) => {
 export const getUserData = async (req, res, next) => {
   let rcResponse = new ApiResponse();
   try {
-    rcResponse.data = await findOne("signUp", {});
+    rcResponse.data = await findOne("user", {});
     return res.status(rcResponse.code).send(rcResponse);
   } catch (err) {
     next(err);

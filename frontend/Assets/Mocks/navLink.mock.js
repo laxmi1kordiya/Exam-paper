@@ -15,7 +15,7 @@ export const navLinks = [
       path: "/Packages",
     },
     {
-      id: "how to use",
+      id: "howtouse",
       title: "How To Use",
       path: "/howtouse",
     },

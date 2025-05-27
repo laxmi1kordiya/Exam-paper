@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { blueprints, createPaper, headersetting, MyPapers } from "../../Assets";
+import { blueprints, createPaper, MyPapers,syllabus } from "../../Assets";
 
 const MyDashboard = () => {
   const navigate = useNavigate();
@@ -25,7 +25,7 @@ const MyDashboard = () => {
 
   return (
     <div className="content-page">
-      <div className="min-h-screen flex flex-col items-center py-12">
+        <div className="main-content">
         <h1 className="text-4xl font-extrabold gradient-text mb-10">My Dashboard</h1>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl w-full px-6">
           <DashboardCard
@@ -41,16 +41,16 @@ const MyDashboard = () => {
             destination="/admin/my-papers"
           />
           <DashboardCard
-            title="Paper Header Setting"
-            image={headersetting}
-            alt="Header Settings Icon"
-            destination="/admin/paper-setting"
+            title="Syllabus"
+            image={syllabus}
+            alt="Syllabus Icon"
+            destination="/admin/syllabus"
           />
           <DashboardCard
             title="Blueprints"
             image={blueprints}
             alt="Question Paper Blueprint Icon"
-            destination="/admin/my-worksheets"
+            destination="/admin/blueprint"
           />
         </div>
       </div>
