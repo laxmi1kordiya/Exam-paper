@@ -3,7 +3,7 @@ import { useAuthenticatedFetch } from "../../Api/Axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Questionlist from "./questions";
-import FilterData from "./filterData";
+import FilterData from "./FilterData";
 import PaperSetting from "./PaperSetting";
 
 const GeneratePaper = () => {
@@ -20,7 +20,7 @@ const GeneratePaper = () => {
     board: "",
     standard: "",
     subject: "",
-    chapter: "",
+    chapter: [],
     generateType: "",
   });
 
@@ -55,8 +55,8 @@ const GeneratePaper = () => {
   };
 
   const handleNextFromStep1 = () => {
-    if (!formData.chapter) {
-      toast.error("Please select a chapter.");
+    if (!formData.chapter.length) {
+      toast.error("Please select at least one chapter.");
       return;
     }
     setCurrentStep(2);
@@ -83,7 +83,11 @@ const GeneratePaper = () => {
   const updateForm = useCallback(
     (e) => {
       const { name, value } = e.target;
-      setFormData((prev) => ({ ...prev, [name]: value }));
+
+      // Handle both single values and arrays (for multiselect)
+      const newValue = Array.isArray(value) ? value : value;
+
+      setFormData((prev) => ({ ...prev, [name]: newValue }));
 
       switch (name) {
         case "board": {
@@ -100,7 +104,7 @@ const GeneratePaper = () => {
             ...prev,
             standard: "",
             subject: "",
-            chapter: "",
+            chapter: [],
           }));
           break;
         }
@@ -112,7 +116,7 @@ const GeneratePaper = () => {
               .map(({ name, _id }) => ({ label: name, value: _id })) || []
           );
           setChapters([]);
-          setFormData((prev) => ({ ...prev, subject: "", chapter: "" }));
+          setFormData((prev) => ({ ...prev, subject: "", chapter: [] }));
           break;
         }
         case "subject": {
@@ -124,7 +128,7 @@ const GeneratePaper = () => {
               ?.filter((ch) => ch.Subject_id === value)
               .map(({ name, _id }) => ({ label: name, value: _id })) || []
           );
-          setFormData((prev) => ({ ...prev, chapter: "" }));
+          setFormData((prev) => ({ ...prev, chapter: [] }));
           break;
         }
         default:
@@ -217,7 +221,7 @@ const GeneratePaper = () => {
       board !== "" &&
       standard !== "" &&
       subject !== "" &&
-      chapter !== "" &&
+      chapter.length > 0 &&
       generateType !== "";
     return (
       <>
@@ -259,9 +263,9 @@ const GeneratePaper = () => {
 
   const renderStep3 = () => (
     <>
-      {formData.chapter ? (
+      {formData.chapter.length > 0 ? (
         <Questionlist
-          chapterId={formData.chapter}
+          chapterIds={formData.chapter} // Pass array instead of just one
           formData={formData}
           allData={allData}
           headerData={headerData}

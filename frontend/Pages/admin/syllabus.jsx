@@ -35,7 +35,7 @@ const Syllabus = () => {
 
   useEffect(() => {
     fetchData();
-  }, [fetchData]);
+  }, []);
 
   const updateForm = useCallback(
     (e) => {
