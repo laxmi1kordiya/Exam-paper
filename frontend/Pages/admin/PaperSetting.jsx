@@ -2,11 +2,11 @@ import React from "react";
 
 const PaperSetting = ({ handleNextFromStep2, headerData, updateHeader }) => {
   return (
-    <>
-          <h2 className="pricing-title">Customize Exam Paper Header</h2>
+    <div className="main-container">
+      {/* <div className="paper-container"> */}
+      <h2 className="pricing-title">Customize Exam Paper Header</h2>
           <p className="pricing-subtitle">Set the title and subtitle for your exam paper.</p>
-      <form onSubmit={handleNextFromStep2}>
-        <div className="paper-container">
+        <form onSubmit={handleNextFromStep2} className="paper-form">
           <div className="form-group">
             <label htmlFor="title">Institute Name</label>
             <input
@@ -16,9 +16,10 @@ const PaperSetting = ({ handleNextFromStep2, headerData, updateHeader }) => {
               id="title"
               value={headerData.title}
               onChange={updateHeader}
-              placeholder="Enter paper title"
+              placeholder="Enter institute name"
             />
           </div>
+
           <div className="form-group">
             <label htmlFor="subtitle">Subtitle</label>
             <input
@@ -31,8 +32,9 @@ const PaperSetting = ({ handleNextFromStep2, headerData, updateHeader }) => {
               placeholder="Enter subtitle"
             />
           </div>
+
           <div className="form-group">
-            <label htmlFor="paperTime">Paper Time (in minute)</label>
+            <label htmlFor="paperTime">Paper Time (in minutes)</label>
             <input
               type="number"
               name="paperTime"
@@ -40,37 +42,41 @@ const PaperSetting = ({ handleNextFromStep2, headerData, updateHeader }) => {
               id="paperTime"
               value={headerData.paperTime}
               onChange={updateHeader}
+              min="0"
+              placeholder="Enter time in minutes"
             />
           </div>
+
           <div className="form-group">
-            <label htmlFor="paperTime">Water Mark</label>
-            <input
-              type="checkbox"
-              name="WaterMark"
-              className="form-control"
-              id="WaterMark"
-              value={headerData.WaterMark}
-              onChange={updateHeader}
-            />
+            <label className="checkbox-label">
+              <input
+                type="checkbox"
+                name="WaterMark"
+                id="WaterMark"
+                checked={headerData.WaterMark}
+                onChange={updateHeader}
+              />
+              Water Mark
+            </label>
           </div>
-          <div className="form-group">
-            {headerData.WaterMark && (
-              <>
-                <label htmlFor="paperTime">Water Mark Text</label>
-                <input
-                  type="text"
-                  name="WaterMarkTaxt"
-                  className="form-control"
-                  id="WaterMarkTaxt"
-                  value={headerData.WaterMarkTaxt}
-                  onChange={updateHeader}
-                />
-              </>
-            )}
-          </div>
-        </div>
-      </form>
-    </>
+
+          {headerData.WaterMark && (
+            <div className="form-group">
+              <label htmlFor="WaterMarkText">Water Mark Text</label>
+              <input
+                type="text"
+                name="WaterMarkText"
+                className="form-control"
+                id="WaterMarkText"
+                value={headerData.WaterMarkText}
+                onChange={updateHeader}
+                placeholder="Enter water mark text"
+              />
+            </div>
+          )}
+        </form>
+      {/* </div> */}
+    </div>
   );
 };
 

@@ -157,10 +157,10 @@
 .form-group select {
     width: 100%;
     max-width: 600px; /* Match initial-select-display-wrapper */
-    padding: 16px 20px;
+    padding: 12px;
     border: 1px solid #ced4da;
     border-radius: 8px;
-    font-size: 1.15rem;
+    font-size: 14px;
     color: #495057;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
     cursor: pointer;
