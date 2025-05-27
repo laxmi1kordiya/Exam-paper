@@ -4,6 +4,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Questionlist from "./questions";
 import FilterData from "./FilterData";
+import PaperData from "./PaperData";
 import PaperSetting from "./PaperSetting";
 
 const GeneratePaper = () => {
@@ -225,15 +226,15 @@ const GeneratePaper = () => {
       generateType !== "";
     return (
       <>
-        <FilterData
-          boards={boards}
-          standards={standards}
-          subjects={subjects}
-          chapters={chapters}
-          formData={formData}
-          updateForm={updateForm}
-          type="paper"
-          title="Generate Your Custom Question Paper"
+        <PaperData 
+        boards={boards}
+        standards={standards}
+        subjects={subjects}
+        chapters={chapters}
+        formData={formData}
+        updateForm={updateForm}
+        type="paper"
+        title="Generate Your Question Custom Paper"
         />
         {renderButtonContainer({
           onNext: handleNextFromStep1,

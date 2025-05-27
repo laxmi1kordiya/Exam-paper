@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useAuthenticatedFetch } from "../../Api/Axios";
 import FilterData from "./FilterData";
 import { toast } from "react-toastify";
+import PaperData from "./PaperData";
 
 const Syllabus = () => {
   const fetch = useAuthenticatedFetch();
@@ -126,7 +127,7 @@ const Syllabus = () => {
   return (
     <div className="content-page">
       <div className="main-content">
-        <FilterData
+        <PaperData
           boards={boards}
           standards={standards}
           subjects={subjects}
