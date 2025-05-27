@@ -83,10 +83,10 @@ const GeneratePaper = () => {
   const updateForm = useCallback(
     (e) => {
       const { name, value } = e.target;
-      
+
       // Handle both single values and arrays (for multiselect)
       const newValue = Array.isArray(value) ? value : value;
-      
+
       setFormData((prev) => ({ ...prev, [name]: newValue }));
 
       switch (name) {
@@ -265,7 +265,7 @@ const GeneratePaper = () => {
     <>
       {formData.chapter.length > 0 ? (
         <Questionlist
-          chapterId={formData.chapter[0]}
+          chapterIds={formData.chapter} // Pass array instead of just one
           formData={formData}
           allData={allData}
           headerData={headerData}
