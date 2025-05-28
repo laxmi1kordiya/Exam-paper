@@ -196,12 +196,13 @@ const GeneratePaper = () => {
     showBack = false,
     hideNext = false,
   }) => (
-    <div className="button-container">
+    <div className="sticky-button-bar">
       {showBack && (
         <button type="button" onClick={onBack} className="button-back-gray">
           Back
         </button>
       )}
+      <div style={{ flex: 1 }} />
       {!hideNext && (
         <button
           type="button"
@@ -251,6 +252,7 @@ const GeneratePaper = () => {
         headerData={headerData}
         updateHeader={updateHeader}
         setHeaderData={setHeaderData}
+        onBack={handleBack}
       />
       {renderButtonContainer({
         onNext: handleNextFromStep2,
