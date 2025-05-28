@@ -293,6 +293,24 @@ const PaperData = ({
         {showInitialFilterPopup && (
           <div className="popup-overlay">
             <div className="popup-content" ref={popupRef}>
+              {/* Cancel/Close Icon */}
+              <span
+                className="popup-close-icon"
+                onClick={() => setShowInitialFilterPopup(false)}
+                style={{
+                  position: 'absolute',
+                  top: 18,
+                  right: 22,
+                  fontSize: '1.8em',
+                  color: '#888',
+                  cursor: 'pointer',
+                  zIndex: 2,
+                  fontWeight: 700
+                }}
+                title="Close"
+              >
+                ×
+              </span>
               <h3>Class & Subject</h3>
               <div className="filter-step">
                 <div className="form-group">
@@ -307,6 +325,7 @@ const PaperData = ({
                 <button
                   onClick={handleConfirmInitialFilters}
                   disabled={isOkButtonDisabled}
+                  className="popup-ok-btn"
                 >
                   OK
                 </button>
