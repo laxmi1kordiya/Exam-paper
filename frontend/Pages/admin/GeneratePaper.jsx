@@ -287,23 +287,23 @@ const GeneratePaper = () => {
   );
   return (
     <div className="content-page">
-      <div style={{ maxWidth: 700, margin: '0 auto', padding: 16 }}>
-        <div className="main-content">
-          <div className="step-indicator-container">
-            {steps.map(renderStepIndicator)}
-          </div>
-          {currentStep === 1 && renderStep1()}
-          {currentStep === 2 &&
-            formData.generateType === "Manually" &&
-            renderStep2()}
-          {currentStep === 3 && isSubmitted && renderStep3()}
-          {currentStep === 3 && !isSubmitted && (
-            <div className="error-message">
-              Error: isSubmitted is false while currentStep is 3.
-            </div>
-          )}
-          <ToastContainer />
+      <div className="main-content">
+        <div className="step-indicator-container">
+          {steps.map(renderStepIndicator)}
         </div>
+
+        {currentStep === 1 && renderStep1()}
+        {currentStep === 2 &&
+          formData.generateType === "Manually" &&
+          renderStep2()}
+        {currentStep === 3 && isSubmitted && renderStep3()}
+        {currentStep === 3 && !isSubmitted && (
+          <div className="error-message">
+            Error: isSubmitted is false while currentStep is 3.
+          </div>
+        )}
+
+        <ToastContainer />
       </div>
     </div>
   );
