@@ -247,14 +247,12 @@ const PaperData = ({
   const isOkButtonDisabled = !formData.board || !formData.standard || !formData.subject;
 
   return (
-    <>
+    <div style={{ maxWidth: 600, margin: '0 auto', padding: 16 }}>
       <h2 className="pricing-title">{title}</h2>
       <p className="pricing-subtitle">Select your preferences below to begin</p>
-
       <div className="">
         {/* First Row: Class & Subject display field with Select/Edit button */}
         <div className="form-group initial-select-group">
-          {/* <label className="initial-select-label">Class & Subject</label> */}
           <div className="initial-select-display-wrapper">
             <div className="initial-select-display">
               {initialSelectDisplayText}
@@ -266,34 +264,35 @@ const PaperData = ({
               {initialFiltersConfirmed ? "Edit" : "Select"}
             </button>
           </div>
-          {/* {!initialFiltersConfirmed && (
-            <p className="validation-message">
-              Please select class & subject using select button above.
-            </p>
-          )} */}
         </div>
-
         {/* Second Row: Select Chapter (only if initial filters confirmed and popup closed) */}
         {type === "paper" && initialFiltersConfirmed && !showInitialFilterPopup && (
           <div className="form-group">
-            <label className="form-label">Select Chapter</label>
+            <label className="form-label">
+              Select Chapter <span style={{ color: 'red' }}>*</span>
+            </label>
             {renderSelectField(paperFields[0])}
+            <small style={{ color: '#888', marginTop: 4 }}>
+              Choose one or more chapters for the paper.
+            </small>
           </div>
         )}
-
         {/* Third Row: Generate Type (only if initial filters confirmed and popup closed) */}
         {type === "paper" && initialFiltersConfirmed && !showInitialFilterPopup && (
           <div className="form-group">
-            <label className="form-label">Generate Type</label>
+            <label className="form-label">
+              Generate Type <span style={{ color: 'red' }}>*</span>
+            </label>
             {renderSelectField(paperFields[1])}
+            <small style={{ color: '#888', marginTop: 4 }}>
+              Choose how you want to generate the paper.
+            </small>
           </div>
         )}
-
         {/* Initial Filter Pop-up */}
         {showInitialFilterPopup && (
           <div className="popup-overlay">
             <div className="popup-content" ref={popupRef}>
-              {/* Cancel/Close Icon */}
               <span
                 className="popup-close-icon"
                 onClick={() => setShowInitialFilterPopup(false)}
@@ -314,13 +313,31 @@ const PaperData = ({
               <h3>Class & Subject</h3>
               <div className="filter-step">
                 <div className="form-group">
+                  <label>
+                    Board <span style={{ color: 'red' }}>*</span>
+                  </label>
                   {renderSelectField(baseFields[0])}
+                  <small style={{ color: '#888', marginTop: 4 }}>
+                    Select your education board.
+                  </small>
                 </div>
                 <div className="form-group">
+                  <label>
+                    Standard <span style={{ color: 'red' }}>*</span>
+                  </label>
                   {renderSelectField(baseFields[1])}
+                  <small style={{ color: '#888', marginTop: 4 }}>
+                    Select your class/standard.
+                  </small>
                 </div>
                 <div className="form-group">
+                  <label>
+                    Subject <span style={{ color: 'red' }}>*</span>
+                  </label>
                   {renderSelectField(baseFields[2])}
+                  <small style={{ color: '#888', marginTop: 4 }}>
+                    Select the subject for the paper.
+                  </small>
                 </div>
                 <button
                   onClick={handleConfirmInitialFilters}
@@ -334,7 +351,7 @@ const PaperData = ({
           </div>
         )}
       </div>
-    </>
+    </div>
   );
 };
 
