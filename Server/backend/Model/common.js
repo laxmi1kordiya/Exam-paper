@@ -21,6 +21,26 @@ const models = {
   Syllabus
 };
 
+export const deleteExpiredPapers = async (timeLimit) => {
+  console.log(`Received timeLimit: ${typeof timeLimit}, Value: ${timeLimit}`);
+
+  const cutoffDate = new Date(Date.now() - timeLimit);
+
+  if (isNaN(cutoffDate.getTime())) {
+      console.error("DEBUG: cutoffDate is an Invalid Date object. Value of timeLimit was:", timeLimit);
+      throw new Error("Invalid cutoffDate generated for deletion.");
+  }
+
+  try {
+    // The error occurs here because 'Paper' is not defined in this file's scope
+    const result = await paper.deleteMany({ created: { $lt: cutoffDate } });
+    return result;
+  }   catch (error) {
+    console.error('Error in deleteExpiredPapers (common.js):', error);
+    // You'll see "ReferenceError: Paper is not defined" from this catch block
+    throw error;
+  }
+};
 const findOne = async (collection, query, property, sort) => {
   try {
     return await models[collection]
