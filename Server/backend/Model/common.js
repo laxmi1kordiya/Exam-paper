@@ -20,7 +20,6 @@ const models = {
   paper,
   Syllabus
 };
-
 const findOne = async (collection, query, property, sort) => {
   try {
     return await models[collection]

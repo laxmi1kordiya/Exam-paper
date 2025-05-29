@@ -2,13 +2,24 @@ import cors from "cors";
 import Express from "express";
 import mongoose from "mongoose";
 import path, { resolve } from "path";
+import setupCronJobs from "./backend/Controllers/cronJobs.js";
 import userRoutes from "./routes/index.js";
+import  cron  from "node-cron";
 
 const PORT = parseInt(process.env.PORT, 10) || 8081;
 const isDev = "dev";
 const mongoUrl =
   process.env.MONGO_URL || "mongodb://127.0.0.1:27017/CreatePaperDB";
 mongoose.connect(mongoUrl);
+
+cron.schedule(
+  // "*/5 * * * * *", //for test run 5 second
+  "0 15 * * *", //for production
+  () => {
+    setupCronJobs();
+  },
+  { scheduled: true, timezone: "Asia/Kolkata" }
+);
 
 const createServer = async (root = process.cwd()) => {
   const app = Express();

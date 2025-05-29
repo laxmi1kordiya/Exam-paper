@@ -4,6 +4,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Questionlist from "./questions";
 import FilterData from "./FilterData";
+import PaperData from "./PaperData";
 import PaperSetting from "./PaperSetting";
 
 const GeneratePaper = () => {
@@ -195,12 +196,13 @@ const GeneratePaper = () => {
     showBack = false,
     hideNext = false,
   }) => (
-    <div className="button-container">
+    <div className="sticky-button-bar">
       {showBack && (
         <button type="button" onClick={onBack} className="button-back-gray">
           Back
         </button>
       )}
+      <div style={{ flex: 1 }} />
       {!hideNext && (
         <button
           type="button"
@@ -225,15 +227,15 @@ const GeneratePaper = () => {
       generateType !== "";
     return (
       <>
-        <FilterData
-          boards={boards}
-          standards={standards}
-          subjects={subjects}
-          chapters={chapters}
-          formData={formData}
-          updateForm={updateForm}
-          type="paper"
-          title="Generate Your Custom Question Paper"
+        <PaperData 
+        boards={boards}
+        standards={standards}
+        subjects={subjects}
+        chapters={chapters}
+        formData={formData}
+        updateForm={updateForm}
+        type="paper"
+        title="Generate Your Question Custom Paper"
         />
         {renderButtonContainer({
           onNext: handleNextFromStep1,
@@ -250,6 +252,7 @@ const GeneratePaper = () => {
         headerData={headerData}
         updateHeader={updateHeader}
         setHeaderData={setHeaderData}
+        onBack={handleBack}
       />
       {renderButtonContainer({
         onNext: handleNextFromStep2,
