@@ -31,14 +31,17 @@ const Home = () => {
       <main>
         <section id="home" className="hero-section">
           <div className="hero-content">
-            <h1>Create Exam Papers for GSEB Board</h1>
+            <h1>Crafting Perfect Exam Papers, Your Way!</h1>
             <p>
-              We Provide users to design and generate customized exam papers
-              for the GSEB Board Whether you're a teacher, student, school, or
-              managing multiple classes.
+              Introducing ExamPaper, the ultimate tool for GSEB board exam paper
+              generation. We put the power of customization in your hands,
+              allowing you to effortlessly create unique and relevant exam
+              papers for any subject or class.
             </p>
             <div className="hero-cta">
-              <Link to="/signUp" className="cta-button primary">Get Started</Link>
+              <Link to="/signUp" className="cta-button primary">
+                Get Started
+              </Link>
               <ScrollLink
                 to="how-to-use"
                 smooth={true}
@@ -73,7 +76,10 @@ const Home = () => {
       </main>
 
       {showScrollTop && (
-        <button className="back-to-top" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+        <button
+          className="back-to-top"
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+        >
           <span className="arrow">↑</span>
         </button>
       )}
