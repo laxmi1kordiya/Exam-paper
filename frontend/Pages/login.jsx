@@ -83,6 +83,7 @@ const Login = () => {
           toast.success("Login successful (via password)!", {
             className: "toastify-custom-success",
           });
+          localStorage.setItem("userId", res?.data?._id);
           setTimeout(() => {
             setNavigate("/admin/my-dashboard");
           }, 1500);
@@ -118,13 +119,11 @@ const Login = () => {
           toast.success("Login successful!", {
             className: "toastify-custom-success",
           });
+          localStorage.setItem("userId", res?.data?._id);
           setTimeout(() => {
             setNavigate("/admin/my-dashboard");
           }, 1500);
-        } else if (
-          res.data?.otp === null &&
-          res.data?.otpExpiresAt === null
-        ) {
+        } else if (res.data?.otp === null && res.data?.otpExpiresAt === null) {
           toast.error("OTP has expired. Please request a new one.", {
             className: "toastify-custom-error",
           });
@@ -213,7 +212,9 @@ const Login = () => {
 
           <button
             className="login-button"
-            onClick={showPasswordLogin ? submitLogin : otpSend ? submitLogin : submitNo}
+            onClick={
+              showPasswordLogin ? submitLogin : otpSend ? submitLogin : submitNo
+            }
             disabled={isSubmitting}
           >
             {isSubmitting

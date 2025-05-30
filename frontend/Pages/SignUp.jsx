@@ -93,8 +93,6 @@ const SignUp = () => {
       setIsSubmitting(true);
       try {
         const res = await fetch.post("signUp", formData);
-        localStorage.setItem("userId", res?.data?._id);
-
         toast.success("Registration Successful!", {
           className: "toastify-custom-success",
         });
