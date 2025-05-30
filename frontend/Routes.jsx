@@ -23,6 +23,7 @@ import TermsOfService from "./Pages/Support/TermsOfService";
 import PrivacyPolicy from "./Pages/Support/PrivacyPolicy";
 import RefundPolicy from "./Pages/Support/RefundPolicy";
 import FAQ from "./Pages/Support/FAQ";
+import PrivateRoute from "./PrivateRoute";
 
 const Routes = () => {
   return (
@@ -38,14 +39,22 @@ const Routes = () => {
         <Route path="/table" element={<EducationManager />} />
         <Route path="/questionTable" element={<QuestionTable />} />
         <Route path="/SyllabusData" element={<SyllabusTable />} />
-        
+
         {/* Support Routes */}
         <Route path="/terms" element={<TermsOfService />} />
         <Route path="/privacy" element={<PrivacyPolicy />} />
         <Route path="/refund" element={<RefundPolicy />} />
         <Route path="/faq" element={<FAQ />} />
 
-        <Route path="/admin" element={<AdminLayout />}>
+        {/* Protected Admin Routes */}
+        <Route
+          path="/admin"
+          element={
+            <PrivateRoute>
+              <AdminLayout />
+            </PrivateRoute>
+          }
+        >
           <Route index element={<MyDashboard />} />
           <Route path="my-dashboard" element={<MyDashboard />} />
           <Route path="generate-paper" element={<GeneratePaper />} />

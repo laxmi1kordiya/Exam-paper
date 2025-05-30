@@ -48,7 +48,8 @@ const Header = () => {
   }, [location.pathname]);
 
   const signOut = () => {
-    setNavigate("/");
+    localStorage.removeItem("userId");
+    setNavigate("/login");
   };
 
   const getProfileIcon = () => {

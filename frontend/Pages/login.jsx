@@ -83,7 +83,7 @@ const Login = () => {
           toast.success("Login successful (via password)!", {
             className: "toastify-custom-success",
           });
-          localStorage.setItem("userId", res?.data?._id);
+          // localStorage.setItem("userId", res?.data?._id);
           setTimeout(() => {
             setNavigate("/admin/my-dashboard");
           }, 1500);
