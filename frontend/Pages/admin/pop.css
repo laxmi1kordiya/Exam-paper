@@ -220,6 +220,7 @@
     position: relative;
     width: 100%;
     max-width: 600px; /* Match initial-select-display-wrapper */
+    min-width: 350px;
 }
 
 .select-input {
@@ -264,6 +265,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    font-size: 12px;
 }
 
 .select-chip-remove {
@@ -281,9 +283,7 @@
 }
 
 .select-placeholder {
-    color: #888;
-    flex-grow: 1;
-    font-size: 1.1em;
+    font-size: 16px
 }
 
 .select-arrow {
@@ -395,9 +395,7 @@
     .select-chip-remove {
         font-size: 1.2em;
     }
-    .select-placeholder {
-        font-size: 1.05em;
-    }
+   
 }
 
 @media (max-width: 480px) {
@@ -449,9 +447,6 @@
     .select-chip-remove {
         font-size: 1.1em;
     }
-    .select-placeholder {
-        font-size: 1.05em;
-    }
 }
 
 /* --- Card Form Container (for popups and settings) --- */
@@ -470,9 +465,10 @@
 
 /* --- Sticky Button Bar --- */
 .sticky-button-bar {
-    position: sticky;
-    bottom: 0;
-    left: 0;
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    right: 13px;
     width: 100%;
     background: rgba(255,255,255,0.95);
     box-shadow: 0 -2px 12px rgba(0,0,0,0.07);

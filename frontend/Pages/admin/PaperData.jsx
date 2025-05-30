@@ -152,7 +152,9 @@ const PaperData = ({
   };
 
   const removeChip = (valueToRemove, fieldName) => {
-    const newValues = formData[fieldName].filter((val) => val !== valueToRemove);
+    const newValues = formData[fieldName].filter(
+      (val) => val !== valueToRemove
+    );
     updateForm({
       target: {
         name: fieldName,
@@ -169,7 +171,11 @@ const PaperData = ({
         <select
           name={field.name}
           value={formData[field.name] || ""}
-          onChange={field.name === "generateType" ? updateForm : handleInitialSelectChange}
+          onChange={
+            field.name === "generateType"
+              ? updateForm
+              : handleInitialSelectChange
+          }
         >
           <option value="">{field.label}</option>
           {field.options.map((opt) => (
@@ -198,7 +204,10 @@ const PaperData = ({
           {selectedOptions.length > 0 ? (
             <div className="select-chips">
               {selectedOptions.map((option) => (
-                <div key={option.value} className="select-chip multiselect-chip">
+                <div
+                  key={option.value}
+                  className="select-chip multiselect-chip"
+                >
                   <span className="select-chip-text">{option.label}</span>
                   <span
                     className="select-chip-remove multiselect-chip-remove"
@@ -241,10 +250,14 @@ const PaperData = ({
   // --- Main Component Render ---
 
   const initialSelectDisplayText = initialFiltersConfirmed
-    ? `${getOptionLabel(boards, formData.board)} > ${getOptionLabel(standards, formData.standard)} > ${getOptionLabel(subjects, formData.subject)}`
+    ? `${getOptionLabel(boards, formData.board)} > ${getOptionLabel(
+        standards,
+        formData.standard
+      )} > ${getOptionLabel(subjects, formData.subject)}`
     : "Please select Class & Subject.";
 
-  const isOkButtonDisabled = !formData.board || !formData.standard || !formData.subject;
+  const isOkButtonDisabled =
+    !formData.board || !formData.standard || !formData.subject;
 
   return (
     <>
@@ -252,9 +265,7 @@ const PaperData = ({
       <p className="pricing-subtitle">Select your preferences below to begin</p>
 
       <div className="">
-        {/* First Row: Class & Subject display field with Select/Edit button */}
-        <div className="form-group initial-select-group">
-          {/* <label className="initial-select-label">Class & Subject</label> */}
+        <div className=" initial-select-group">
           <div className="initial-select-display-wrapper">
             <div className="initial-select-display">
               {initialSelectDisplayText}
@@ -274,20 +285,24 @@ const PaperData = ({
         </div>
 
         {/* Second Row: Select Chapter (only if initial filters confirmed and popup closed) */}
-        {type === "paper" && initialFiltersConfirmed && !showInitialFilterPopup && (
-          <div className="form-group">
-            <label className="form-label">Select Chapter</label>
-            {renderSelectField(paperFields[0])}
-          </div>
-        )}
+        {type === "paper" &&
+          initialFiltersConfirmed &&
+          !showInitialFilterPopup && (
+            <div className="form-group">
+              {/* <label className="form-label">Select Chapter</label> */}
+              {renderSelectField(paperFields[0])}
+            </div>
+          )}
 
         {/* Third Row: Generate Type (only if initial filters confirmed and popup closed) */}
-        {type === "paper" && initialFiltersConfirmed && !showInitialFilterPopup && (
-          <div className="form-group">
-            <label className="form-label">Generate Type</label>
-            {renderSelectField(paperFields[1])}
-          </div>
-        )}
+        {type === "paper" &&
+          initialFiltersConfirmed &&
+          !showInitialFilterPopup && (
+            <div className="form-group" style={{ minWidth: "350px" }}>
+              {/* <label className="form-label">Generate Type</label> */}
+              {renderSelectField(paperFields[1])}
+            </div>
+          )}
 
         {/* Initial Filter Pop-up */}
         {showInitialFilterPopup && (
@@ -298,14 +313,14 @@ const PaperData = ({
                 className="popup-close-icon"
                 onClick={() => setShowInitialFilterPopup(false)}
                 style={{
-                  position: 'absolute',
+                  position: "absolute",
                   top: 18,
                   right: 22,
-                  fontSize: '1.8em',
-                  color: '#888',
-                  cursor: 'pointer',
+                  fontSize: "1.8em",
+                  color: "#888",
+                  cursor: "pointer",
                   zIndex: 2,
-                  fontWeight: 700
+                  fontWeight: 700,
                 }}
                 title="Close"
               >

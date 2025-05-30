@@ -471,7 +471,6 @@ p {
   flex-direction: column;
   width: 150%;
   max-width: 260px;
-  margin-left: 25px;
 }
 
 label {
@@ -2347,6 +2346,7 @@ right: 10px;
 }
 
 .content-page{
+  position: relative;
   overflow: hidden;
   padding: 20px;
   transition: all 0.3s ease-out 0s;
@@ -6068,7 +6068,8 @@ button:hover {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  align-items: flex-start;
+  align-items: center;
+  max-height: 150px;
 }
 .multiselect-dropdown {
   /* position: absolute;
@@ -6089,11 +6090,6 @@ button:hover {
 .multiselect-option.selected {
   background-color: #e8f0fe;
   color: #1a73e8;
-}
-
-.multiselect-placeholder {
-  color: #999;
-  padding: 4px;
 }
 .multiselect-chip {
   display: inline-flex;
