@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useAuthenticatedFetch } from "../../Api/Axios";
-import FilterData from "./FilterData";
 import { toast } from "react-toastify";
 import PaperData from "./PaperData";
 

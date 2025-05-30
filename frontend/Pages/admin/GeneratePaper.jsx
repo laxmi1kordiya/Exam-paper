@@ -3,7 +3,6 @@ import { useAuthenticatedFetch } from "../../Api/Axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Questionlist from "./questions";
-import FilterData from "./FilterData";
 import PaperData from "./PaperData";
 import PaperSetting from "./PaperSetting";
 

@@ -6,7 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { FaUser, FaPhone, FaMapMarkerAlt, FaVenusMars, FaBuilding, FaLock } from "react-icons/fa";
 
 const SignUp = () => {
-  const [formData, setFormData] = useState({
+  const [SignUpData, setSignUpData] = useState({
     name: "",
     mobile: "",
     district: "",
@@ -27,19 +27,19 @@ const SignUp = () => {
 
     if (name === "mobile" || name === "codel") {
       if (/^\d*$/.test(value)) {
-        setFormData((prev) => ({
+        setSignUpData((prev) => ({
           ...prev,
           [name]: value,
           [`${name}Error`]: false,
         }));
       } else {
-        setFormData((prev) => ({
+        setSignUpData((prev) => ({
           ...prev,
           [`${name}Error`]: true,
         }));
       }
     } else {
-      setFormData((prev) => ({
+      setSignUpData((prev) => ({
         ...prev,
         [name]: value,
       }));
@@ -49,39 +49,39 @@ const SignUp = () => {
   const submitData = async () => {
     let hasError = false;
 
-    if (formData.name.trim().length < 3) {
+    if (SignUpData.name.trim().length < 3) {
       toast.error("Please enter a valid Name.", {
         className: "toastify-custom-error",
       });
       hasError = true;
-    } else if (formData.mobile.trim().length !== 10 || formData.mobileError) {
+    } else if (SignUpData.mobile.trim().length !== 10 || SignUpData.mobileError) {
       toast.error("Please enter a valid Mobile Number.", {
         className: "toastify-custom-error",
       });
       hasError = true;
-    } else if (formData.type === "") {
+    } else if (SignUpData.type === "") {
       toast.error("Please select Type.", {
         className: "toastify-custom-error",
       });
       hasError = true;
-    } else if (formData.gender === "") {
+    } else if (SignUpData.gender === "") {
       toast.error("Please select Gender.", {
         className: "toastify-custom-error",
       });
       hasError = true;
-    } else if (formData.district === "") {
+    } else if (SignUpData.district === "") {
       toast.error("Please select District.", {
         className: "toastify-custom-error",
       });
       hasError = true;
-    } else if (formData.address.trim().length < 5) {
+    } else if (SignUpData.address.trim().length < 5) {
       toast.error("Please enter a valid Address.", {
         className: "toastify-custom-error",
       });
       hasError = true;
     } else if (
-      formData.codel &&
-      (formData.codel.length !== 6 || formData.codelError)
+      SignUpData.codel &&
+      (SignUpData.codel.length !== 6 || SignUpData.codelError)
     ) {
       toast.error("Referral Code must be 6 digits.", {
         className: "toastify-custom-error",
@@ -92,11 +92,12 @@ const SignUp = () => {
     if (!hasError) {
       setIsSubmitting(true);
       try {
-        const res = await fetch.post("signUp", formData);
+        const res = await fetch.post("signUp", SignUpData);
+        localStorage.setItem("type", res?.data?.type);
         toast.success("Registration Successful!", {
           className: "toastify-custom-success",
         });
-        setFormData({
+        setSignUpData({
           name: "",
           mobile: "",
           district: "",
@@ -150,7 +151,7 @@ const SignUp = () => {
                 name="name"
                 id="name"
                 placeholder="Your Full Name"
-                value={formData.name}
+                value={SignUpData.name}
                 onChange={handleChange}
                 required
               />
@@ -163,11 +164,11 @@ const SignUp = () => {
                 name="mobile"
                 id="mobile"
                 placeholder="Mobile Number"
-                value={formData.mobile}
+                value={SignUpData.mobile}
                 onChange={handleChange}
                 required
               />
-              {formData.mobileError && (
+              {SignUpData.mobileError && (
                 <div className="error-message">Only digits allowed</div>
               )}
             </div>
@@ -179,7 +180,7 @@ const SignUp = () => {
               <select
                 name="type"
                 id="type"
-                value={formData.type}
+                value={SignUpData.type}
                 onChange={handleChange}
                 required
               >
@@ -196,7 +197,7 @@ const SignUp = () => {
               <select
                 name="gender"
                 id="gender"
-                value={formData.gender}
+                value={SignUpData.gender}
                 onChange={handleChange}
                 required
               >
@@ -213,7 +214,7 @@ const SignUp = () => {
               <select
                 name="district"
                 id="district"
-                value={formData.district}
+                value={SignUpData.district}
                 onChange={handleChange}
                 required
               >
@@ -267,10 +268,10 @@ const SignUp = () => {
                 name="codel"
                 id="codel"
                 placeholder="Referral Code (Optional)"
-                value={formData.codel}
+                value={SignUpData.codel}
                 onChange={handleChange}
               />
-              {formData.codelError && (
+              {SignUpData.codelError && (
                 <div className="error-message">Only digits allowed</div>
               )}
             </div>
@@ -282,7 +283,7 @@ const SignUp = () => {
               name="address"
               id="address"
               placeholder="Your Full Address"
-              value={formData.address}
+              value={SignUpData.address}
               onChange={handleChange}
               required
             ></textarea>

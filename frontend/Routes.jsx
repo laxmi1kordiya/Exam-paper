@@ -24,6 +24,7 @@ import PrivacyPolicy from "./Pages/Support/PrivacyPolicy";
 import RefundPolicy from "./Pages/Support/RefundPolicy";
 import FAQ from "./Pages/Support/FAQ";
 import PrivateRoute from "./PrivateRoute";
+import AdminRoute from "./AdminRoute";
 
 const Routes = () => {
   return (
@@ -36,9 +37,32 @@ const Routes = () => {
         <Route path="/packages" element={<Price />} />
         <Route path="/howtouse" element={<HowToUse />} />
         <Route path="/about" element={<AboutUs />} />
-        <Route path="/table" element={<EducationManager />} />
-        <Route path="/questionTable" element={<QuestionTable />} />
-        <Route path="/SyllabusData" element={<SyllabusTable />} />
+
+        {/* Table Routes */}
+        <Route
+          path="/table"
+          element={
+            <AdminRoute>
+              <EducationManager />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/questionTable"
+          element={
+            <AdminRoute>
+              <QuestionTable />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/SyllabusData"
+          element={
+            <AdminRoute>
+              <SyllabusTable />
+            </AdminRoute>
+          }
+        />
 
         {/* Support Routes */}
         <Route path="/terms" element={<TermsOfService />} />

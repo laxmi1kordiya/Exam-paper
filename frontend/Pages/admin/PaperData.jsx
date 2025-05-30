@@ -97,7 +97,7 @@ const PaperData = ({
       label: "--Generate Type--",
       options: [
         { label: "Manually", value: "Manually" },
-        { label: "Random", value: "Random" },
+        // { label: "Random", value: "Random" },
       ],
       name: "generateType",
     },
