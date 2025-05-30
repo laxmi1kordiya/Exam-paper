@@ -5286,64 +5286,140 @@ margin-right: 10px;
 }
 
 /* Empty State Styles */
-.empty-notes {
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   text-align: center;
-  padding: 3rem;
-  color: #95a5a6;
+  font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  color: #333;
+  max-width: 550px;
+  margin: 60px auto;
+  transition: transform 0.3s ease-out;
 }
 
-.empty-notes-icon {
-  font-size: 4rem;
-  margin-bottom: 1rem;
-  color: #bdc3c7;
+.empty-state:hover {
+  transform: translateY(-5px);
 }
 
-.empty-notes-text {
-  font-size: 1.25rem;
-  margin-bottom: 1rem;
+.empty-icon {
+  font-size: 5.5em;
+  margin-bottom: 25px;
+  color: #a0a0a0;
+  line-height: 1;
+  animation: fadeIn 0.8s ease-out forwards;
 }
 
-.empty-notes-subtext {
-  font-size: 1rem;
-  margin-bottom: 2rem;
+.empty-state h3 {
+  font-size: 2.2em;
+  font-weight: 700;
+  margin-bottom: 15px;
+  color: #222;
+  animation: slideInUp 0.6s ease-out forwards;
+  animation-delay: 0.2s;
+  opacity: 0;
 }
 
-/* Responsive Design */
+.empty-state p {
+  font-size: 1.1em;
+  line-height: 1.7;
+  color: #666;
+  max-width: 450px;
+  margin-top: 0;
+  animation: slideInUp 0.6s ease-out forwards;
+  animation-delay: 0.4s;
+  opacity: 0;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@media (max-width: 992px) {
+  .empty-state {
+    padding: 35px 20px;
+    margin: 50px auto;
+  }
+  .empty-icon {
+    font-size: 5em;
+    margin-bottom: 20px;
+  }
+  .empty-state h3 {
+    font-size: 2em;
+  }
+  .empty-state p {
+    font-size: 1.05em;
+  }
+}
+
 @media (max-width: 768px) {
-  .notes-container {
-    padding: 1rem;
+  .empty-state {
+    padding: 30px 18px;
+    margin: 40px auto;
   }
-
-  .notes-header {
-    flex-direction: column;
-    gap: 1rem;
-    align-items: stretch;
+  .empty-icon {
+    font-size: 4.5em;
+    margin-bottom: 18px;
   }
-
-  .notes-title {
-    text-align: center;
+  .empty-state h3 {
+    font-size: 1.8em;
+    margin-bottom: 12px;
   }
-
-  .add-note-btn {
-    width: 100%;
-    justify-content: center;
+  .empty-state p {
+    font-size: 1em;
+    max-width: 85%;
   }
+}
 
-  .notes-grid {
-    grid-template-columns: 1fr;
+@media (max-width: 576px) {
+  .empty-state {
+    padding: 25px 15px;
+    margin: 30px auto;
   }
-
-  .note-modal {
-    width: 95%;
-    padding: 1.5rem;
+  .empty-icon {
+    font-size: 4em;
+    margin-bottom: 15px;
   }
-
-  .modal-actions {
-    flex-direction: column;
+  .empty-state h3 {
+    font-size: 1.6em;
   }
+  .empty-state p {
+    font-size: 0.95em;
+    line-height: 1.6;
+    max-width: 90%;
+  }
+}
 
-  .modal-btn {
-    width: 100%;
+@media (max-width: 400px) {
+  .empty-state {
+    padding: 20px 10px;
+  }
+  .empty-icon {
+    font-size: 3.5em;
+  }
+  .empty-state h3 {
+    font-size: 1.4em;
+  }
+  .empty-state p {
+    font-size: 0.9em;
   }
 }
 

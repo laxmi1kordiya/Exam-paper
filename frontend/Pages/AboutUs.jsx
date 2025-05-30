@@ -69,7 +69,7 @@ const AboutUs = () => {
         transition={{ duration: 0.5 }}
       >
         <span className="about-us-label">About Us</span>
-        <h1>Transforming Education Through Technology</h1>
+        <h1>Empowering Education Through Technology</h1>
       </motion.div>
 
       <div className="about-us-content">
