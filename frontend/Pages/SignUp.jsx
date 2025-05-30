@@ -10,7 +10,7 @@ const SignUp = () => {
     name: "",
     mobile: "",
     district: "",
-    address: "",
+    // address: "",
     type: "",
     codel: "",
     gender: "",
@@ -74,11 +74,11 @@ const SignUp = () => {
         className: "toastify-custom-error",
       });
       hasError = true;
-    } else if (SignUpData.address.trim().length < 5) {
-      toast.error("Please enter a valid Address.", {
-        className: "toastify-custom-error",
-      });
-      hasError = true;
+    // } else if (SignUpData.address.trim().length < 5) {
+    //   toast.error("Please enter a valid Address.", {
+    //     className: "toastify-custom-error",
+    //   });
+    //   hasError = true;
     } else if (
       SignUpData.codel &&
       (SignUpData.codel.length !== 6 || SignUpData.codelError)
@@ -101,7 +101,7 @@ const SignUp = () => {
           name: "",
           mobile: "",
           district: "",
-          address: "",
+          // address: "",
           type: "",
           codel: "",
           gender: "",
@@ -277,7 +277,7 @@ const SignUp = () => {
             </div>
           </div>
           
-          <div className="input-group full-width">
+          {/* <div className="input-group full-width">
             <FaMapMarkerAlt className="input-icon" />
             <textarea
               name="address"
@@ -287,7 +287,7 @@ const SignUp = () => {
               onChange={handleChange}
               required
             ></textarea>
-          </div>
+          </div> */}
           
           <button 
             className="signup-button" 
