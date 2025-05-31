@@ -197,7 +197,7 @@ const GeneratePaper = () => {
   }) => (
     <div className="sticky-button-bar">
       {showBack && (
-        <button type="button" onClick={onBack} className="button-back-gray">
+        <button type="button" onClick={onBack} className="button-back-gray" style={{ marginLeft: "22px" }}>
           Back
         </button>
       )}
@@ -208,6 +208,7 @@ const GeneratePaper = () => {
           onClick={onNext}
           disabled={!isDisabled}
           className={isDisabled ? "button-next-blue" : "button-disabled"}
+          style={{ marginRight: "22px" }}
         >
           Next
         </button>

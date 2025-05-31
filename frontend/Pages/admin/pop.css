@@ -372,6 +372,7 @@
     }
     .initial-select-display-wrapper {
         max-width: 100%; /* Full width on smaller screens */
+        min-width: 300px;
     }
     .initial-select-display,
     .initial-select-button {
@@ -447,6 +448,9 @@
     .select-chip-remove {
         font-size: 1.1em;
     }
+    .initial-select-display-wrapper {
+        min-width: 200px;
+    }
 }
 
 /* --- Card Form Container (for popups and settings) --- */
@@ -467,15 +471,9 @@
 .sticky-button-bar {
     position: fixed;
     bottom: 20px;
-    left: 20px;
-    right: 13px;
     width: 100%;
-    background: rgba(255,255,255,0.95);
-    box-shadow: 0 -2px 12px rgba(0,0,0,0.07);
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 2rem;
+    padding: 16px 10px;
     z-index: 10;
     margin-top: 2rem;
 }

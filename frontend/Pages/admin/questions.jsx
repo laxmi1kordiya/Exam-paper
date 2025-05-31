@@ -175,7 +175,7 @@ const Questionlist = ({ chapterIds, formData, allData, headerData }) => {
       <h2 className="pricing-title">Question List</h2>
       <p className="pricing-subtitle">Set the Question for your exam paper.</p>
 
-      <div>
+      <div style={{width:"100%"}}>
         {loading ? (
           <p className="loading">Loading questions...</p>
         ) : (
