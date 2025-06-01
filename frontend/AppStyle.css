@@ -5907,8 +5907,8 @@ button:hover {
 /* Total Marks Display */
 .total-marks-display {
   position: fixed;
-  bottom: 16px;
-  right: 16px;
+  bottom: 30px;
+  right: 30px;
   background: white;
   border: 1px solid #e9ecef;
   border-radius: 6px;
