@@ -298,7 +298,7 @@ const PaperData = ({
         {type === "paper" &&
           initialFiltersConfirmed &&
           !showInitialFilterPopup && (
-            <div className="form-group" style={{ minWidth: "350px" }}>
+            <div className="form-group setType" >
               {/* <label className="form-label">Generate Type</label> */}
               {renderSelectField(paperFields[1])}
             </div>

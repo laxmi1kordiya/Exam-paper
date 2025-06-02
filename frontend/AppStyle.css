@@ -6575,4 +6575,10 @@ input[type="checkbox"]:checked {
     font-size: 0.7rem;
     padding: 0.4rem 0.6rem;
   }
+  .setType{
+    min-width: 260px !important;
+  }
+}
+.setType{
+  min-width: 350px;
 }

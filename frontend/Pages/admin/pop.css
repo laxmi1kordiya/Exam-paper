@@ -435,11 +435,13 @@
         font-size: 0.85em;
     }
     .select-container {
-        max-width: 100%;
+        max-width: 200px;
+        min-width: 260px;
     }
     .select-input {
         min-height: 48px;
         padding: 7px 14px;
+        min-width: 200px;
     }
     .select-chip {
         font-size: 0.9em;
@@ -449,7 +451,7 @@
         font-size: 1.1em;
     }
     .initial-select-display-wrapper {
-        min-width: 200px;
+        max-width: 200px;
     }
 }
 
@@ -475,7 +477,7 @@
     display: flex;
     padding: 16px 10px;
     z-index: 10;
-    margin-top: 2rem;
+    /* margin-top: 2rem; */
 }
 
 .sticky-button-bar .button-back-gray {

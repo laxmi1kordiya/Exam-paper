@@ -200,7 +200,7 @@ const Questionlist = ({ chapterIds, formData, allData, headerData }) => {
         )}
       </div>
 
-      <button onClick={handleChange}>Download</button>
+      <button onClick={handleChange} style={{ marginBottom: "30px" }}>Download</button>
       {selectedQuestionsArray.length > 0 && (
         <div className="total-marks-display">
           <strong>Total Marks:</strong> {totalMarks}
