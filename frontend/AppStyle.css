@@ -200,6 +200,8 @@ tr:hover {
   letter-spacing: 0.5px;
 }
 
+
+
 /* Hamburger Menu */
 .hamburger {
   display: none;
@@ -585,6 +587,8 @@ body {
   font-weight: 700;
   letter-spacing: 0.5px;
 }
+
+
 
 /* Hamburger Menu */
 .hamburger {
@@ -6175,5 +6179,400 @@ input[type="checkbox"]:checked {
   }
   100% {
     transform: rotate(360deg);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .container {
+    padding: 1.5rem;
+  }
+
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.75rem; }
+  h3 { font-size: 1.5rem; }
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    padding: 10px 20px;
+  }
+
+  .navbar-links {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    background: rgba(17, 24, 39, 0.95);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .navbar-links.open {
+    display: flex;
+  }
+
+  .navbar-links li {
+    width: 100%;
+    text-align: center;
+    padding: 10px 0;
+  }
+
+  .navbar-links li a,
+  .navbar-links li button {
+    padding: 10px 0;
+    width: 100%;
+    display: block;
+  }
+
+  .hamburger {
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    gap: 5px;
+  }
+
+  .hamburger-line {
+    width: 25px;
+    height: 3px;
+    background-color: white;
+    transition: all 0.3s ease;
+  }
+
+  .hamburger-line.open:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+  }
+
+  .hamburger-line.open:nth-child(2) {
+    opacity: 0;
+  }
+
+  .hamburger-line.open:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+  }
+
+  .hero-section {
+    flex-direction: column;
+    text-align: center;
+    padding: 80px 20px 40px;
+  }
+
+  .hero-content {
+    margin-bottom: 30px;
+  }
+
+  .hero-content h1 {
+    font-size: 2.5rem;
+  }
+
+  .hero-content p {
+    font-size: 1rem;
+  }
+
+  .hero-image {
+    width: 80%;
+    max-width: 300px;
+  }
+
+  .hero-cta {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .cta-button {
+    width: 100%;
+  }
+
+  .section-wrapper {
+    padding: 40px 20px;
+  }
+
+  .features-grid,
+  .price-cards,
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-form-container {
+    padding: 20px;
+  }
+
+  .contact-form-container h2 {
+    font-size: 1.8rem;
+  }
+
+  .footer-content {
+    flex-direction: column;
+    text-align: center;
+    gap: 30px;
+  }
+
+  .footer-links {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .dashboard-card {
+    padding: 20px;
+  }
+
+  .dashboard-card img {
+    width: 80px;
+    height: 80px;
+  }
+
+  .dashboard-card h2 {
+    font-size: 1.5rem;
+  }
+
+  .form-container {
+    padding: 20px;
+  }
+
+  .form-container h2 {
+    font-size: 1.8rem;
+  }
+
+  .form-container .input-group {
+    flex-direction: column;
+  }
+
+  .form-container .input-group input {
+    width: 100%;
+  }
+
+  .form-container .button-group button {
+    width: 100%;
+  }
+
+  .table-responsive {
+    overflow-x: auto;
+  }
+
+  table {
+    min-width: 600px;
+  }
+
+  .syllabus-details-list {
+    width: auto;
+    padding: 1rem;
+  }
+
+  .syllabus-details-list ol {
+    padding-left: 1rem;
+  }
+
+  .syllabus-details-list li {
+    margin-bottom: 1rem;
+  }
+
+  .syllabus-details-list ul {
+    padding-left: 1rem;
+  }
+
+  .syllabus-details-header {
+    padding: 0.8rem 1rem;
+    font-size: 1rem;
+  }
+
+  .syllabus-box {
+    padding: 1rem;
+  }
+
+  .syllabus-box .syllabus-header {
+    font-size: 0.9rem;
+  }
+
+  .syllabus-box .syllabus-list ol {
+    padding-left: 1rem;
+  }
+
+  .syllabus-box .syllabus-list ol > li {
+    font-size: 1rem;
+  }
+
+  .syllabus-box .syllabus-list ul {
+    padding-left: 1rem;
+  }
+
+  .question-paper-container {
+    padding: 15px;
+  }
+
+  .question-paper-header h1 {
+    font-size: 1.8rem;
+  }
+
+  .question-paper-header h2 {
+    font-size: 1.2rem;
+  }
+
+  .question-paper-header p {
+    font-size: 0.9rem;
+  }
+
+  .question-paper-section-title {
+    font-size: 1.1rem;
+  }
+
+  .question-paper-question-item {
+    font-size: 0.9rem;
+  }
+
+  .question-paper-question-item .mark {
+    font-size: 0.7rem;
+    padding: 0.1rem 0.3rem;
+  }
+
+  .total-marks-display {
+    bottom: 15px;
+    right: 15px;
+    padding: 0.5rem 0.8rem;
+    font-size: 0.8rem;
+  }
+
+  .question-list-container .header {
+    padding: 0.8rem;
+  }
+
+  .question-list-container .title-container h2 {
+    font-size: 1.2rem;
+  }
+
+  .question-list-container .title-container p {
+    font-size: 0.8rem;
+  }
+
+  .question-list-container details summary {
+    padding: 0.6rem 0.8rem;
+    font-size: 0.9rem;
+  }
+
+  .question-list-container .custom-checkbox {
+    padding: 0.5rem 0.8rem;
+  }
+
+  .question-list-container .question {
+    font-size: 0.8rem;
+  }
+
+  .question-list-container .mark {
+    font-size: 0.7rem;
+  }
+
+  .question-list-container button {
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+  }
+
+  .question-list-container .button-group button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar-logo .brand-name {
+    font-size: 20px;
+  }
+
+  .navbar-logo .logo-icon {
+    width: 35px;
+    height: 35px;
+    font-size: 20px;
+  }
+
+  h1 { font-size: 1.8rem; }
+  h2 { font-size: 1.5rem; }
+  h3 { font-size: 1.2rem; }
+
+  .hero-content h1 {
+    font-size: 2rem;
+  }
+
+  .hero-content p {
+    font-size: 0.9rem;
+  }
+
+  .hero-image {
+    width: 90%;
+  }
+
+  .cta-button {
+    font-size: 0.9rem;
+    padding: 10px 15px;
+  }
+
+  .container {
+    padding: 1rem;
+  }
+
+  .form-group label {
+    font-size: 0.9rem;
+  }
+
+  input, select, textarea {
+    padding: 0.6rem;
+    font-size: 0.9rem;
+  }
+
+  button {
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  th, td {
+    padding: 0.8rem;
+    font-size: 0.9rem;
+  }
+
+  .dashboard-card h2 {
+    font-size: 1.2rem;
+  }
+
+  .form-container h2 {
+    font-size: 1.5rem;
+  }
+
+  .question-paper-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .question-paper-header h2 {
+    font-size: 1rem;
+  }
+
+  .question-paper-header p {
+    font-size: 0.8rem;
+  }
+
+  .question-paper-section-title {
+    font-size: 1rem;
+  }
+
+  .question-paper-question-item {
+    font-size: 0.8rem;
+  }
+
+  .question-list-container .title-container h2 {
+    font-size: 1rem;
+  }
+
+  .question-list-container details summary {
+    font-size: 0.8rem;
+  }
+
+  .question-list-container .question {
+    font-size: 0.7rem;
+  }
+
+  .total-marks-display {
+    font-size: 0.7rem;
+    padding: 0.4rem 0.6rem;
   }
 }

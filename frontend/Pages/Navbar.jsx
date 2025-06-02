@@ -55,7 +55,7 @@ const Navbar = () => {
         <span className="brand-name">ExamPaper</span>
       </div>
 
-      <ul className={`navbar-links ${menuOpen ? "active" : ""}`}>
+      <ul className={`navbar-links ${menuOpen ? "open" : ""}`}>
         {navLinks.map(({ id, title }) => (
           <li key={id}>
             <div
