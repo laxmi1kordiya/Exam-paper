@@ -158,7 +158,6 @@ const Questionlist = ({ chapterIds, formData, allData, headerData }) => {
         standard: findData(formData, allData, "standard"),
         subject: findData(formData, allData, "subject"),
         formData,
-        allData,
         headerData,
         selectedQuestionsArray,
       },

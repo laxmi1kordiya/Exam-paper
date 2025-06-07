@@ -74,17 +74,17 @@ const MyPapers = () => {
               <div className="col-actions">
                 <GeneratePDF
                   formData={paper?.paperSetting?.formData}
-                  allData={paper?.paperSetting?.allData}
                   selectedQuestions={paper?.paperSetting?.selectedQuestionsArray}
                   headerData={paper?.paperSetting?.headerData}
-                  totalMarks={paper?.paperSetting?.totalMarks}
+                  myStandard={paper?.paperSetting?.standard}
+                  mySubject={paper?.paperSetting?.subject}
                 />
                 <GenerateAnsKey
                   formData={paper?.paperSetting?.formData}
-                  allData={paper?.paperSetting?.allData}
                   selectedQuestions={paper?.paperSetting?.selectedQuestionsArray}
                   headerData={paper?.paperSetting?.headerData}
-                  totalMarks={paper?.paperSetting?.totalMarks}
+                  myStandard={paper?.paperSetting?.standard}
+                  mySubject={paper?.paperSetting?.subject}
                 />
                 <button
                   className="btn-delete"

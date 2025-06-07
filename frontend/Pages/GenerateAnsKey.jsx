@@ -8,7 +8,6 @@ import {
   Font,
   PDFDownloadLink,
 } from "@react-pdf/renderer";
-import { findData } from "../Utils/AppUtils"; // Assuming this is available
 
 // Register Gujarati font
 Font.register({
@@ -174,10 +173,11 @@ const formatTimeAllowed = (minutes) => {
 // MyDocument Component
 const MyDocument = ({
   formData,
-  allData,
   selectedQuestions,
   headerData,
-  totalMarks,
+  Standard,
+  Subject
+
 }) => {
   // Determine font and translations based on board
   const t = (key) => {
@@ -192,8 +192,8 @@ const MyDocument = ({
     formData?.board === "GSEB-GUJ" ? "NotoGujarati" : "Helvetica";
 
   // Extract standard and subject
-  const subject = findData(formData, allData, "subject") || "Subject";
-  const rawStandard = findData(formData, allData, "standard") || "Standard";
+  const subject = Subject || "Subject";
+  const rawStandard = Standard || "Standard";
   const parts = rawStandard.split(" ");
   const standard = parts.slice(0, 2).join(" ");
 
@@ -289,27 +289,27 @@ const MyDocument = ({
 // PdfPreview Component
 const GenerateAnsKey = ({
   formData,
-  allData,
   selectedQuestions,
   headerData,
-  totalMarks,
+  myStandard,
+  mySubject
 }) => (
   <div>
     {/* Download Button */}
     <PDFDownloadLink
       document={
         <MyDocument
-          formData={formData}
-          allData={allData}
-          selectedQuestions={selectedQuestions}
-          headerData={headerData}
-          totalMarks={totalMarks}
-        />
+        formData={formData}
+        selectedQuestions={selectedQuestions}
+        headerData={headerData}
+        Standard={myStandard}
+        Subject={mySubject}
+      />
       }
       fileName={`Ans.Key_${
-        findData(formData, allData, "subject") || "Subject"
+        mySubject || "Subject"
       }_${
-        findData(formData, allData, "standard")
+        myStandard
           ?.split(" ")
           .slice(0, 2)
           .join(" ") || "Standard"
