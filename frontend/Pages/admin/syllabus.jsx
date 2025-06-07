@@ -161,7 +161,7 @@ const Syllabus = () => {
                   );
 
                   return (
-                    <li key={index}>
+                   <>
                       <strong className="syllabus-chapter-title">
                         {chapter?.name || "Unknown Chapter"}
                       </strong>
@@ -170,7 +170,7 @@ const Syllabus = () => {
                           <li key={topic._id}>{topic.topic__name}</li>
                         ))}
                       </ul>
-                    </li>
+                      </>
                   );
                 })}
               </ol>
