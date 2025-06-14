@@ -6071,6 +6071,7 @@ button:hover {
   gap: 8px;
   align-items: center;
   max-height: 150px;
+  overflow: scroll;
 }
 .multiselect-dropdown {
   /* position: absolute;
