@@ -9,11 +9,11 @@ const Login = () => {
   const [formData, setFormData] = useState({
     mobile: "",
     otp: "",
-    password: "",
+
     mobileError: false,
   });
   const [otpSend, setOtpSend] = useState(false);
-  const [showPasswordLogin, setShowPasswordLogin] = useState(false);
+
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const setNavigate = navigate();
@@ -53,7 +53,7 @@ const Login = () => {
 
     setIsSubmitting(true);
     try {
-      await fetch.post("login", { mobile: formData.mobile });
+      await fetch.post("login", formData);
       setOtpSend(true);
       toast.success("OTP sent successfully!", {
         className: "toastify-custom-success",
@@ -69,92 +69,44 @@ const Login = () => {
   };
 
   const submitLogin = async () => {
-    if (showPasswordLogin) {
-      if (!formData.password) {
-        toast.error("Please enter your password.", {
-          className: "toastify-custom-error",
-        });
-        return;
-      }
+    if (!formData.otp) {
+      toast.error("Please enter the OTP.", {
+        className: "toastify-custom-error",
+      });
+      return;
+    }
 
-      setIsSubmitting(true);
-      try {
-        if (formData.password === "0000") {
-          toast.success("Login successful (via password)!", {
-            className: "toastify-custom-success",
-          });
-          // localStorage.setItem("userId", res?.data?._id);
-          setTimeout(() => {
-            setNavigate("/admin/my-dashboard");
-          }, 1500);
-        } else {
-          toast.error("Invalid password. Please try again.", {
-            className: "toastify-custom-error",
-          });
-        }
-      } catch (error) {
-        toast.error("Login failed. Please try again.", {
+    setIsSubmitting(true);
+    try {
+      const res = await fetch.post("verify", formData);
+      if (res.code === 200 && res.data && res.data?.otp !== null) {
+        toast.success("Login successful!", {
+          className: "toastify-custom-success",
+        });
+        setTimeout(() => {
+          setNavigate("/admin/my-dashboard");
+        }, 1500);
+      } else if (res.data?.otp === null && res.data?.otpExpiresAt === null) {
+        toast.error("OTP has expired. Please request a new one.", {
           className: "toastify-custom-error",
         });
-        console.error(error);
-      } finally {
-        setIsSubmitting(false);
-      }
-    } else {
-      if (!formData.otp) {
-        toast.error("Please enter the OTP.", {
+      } else {
+        toast.error("Invalid OTP. Please try again.", {
           className: "toastify-custom-error",
         });
-        return;
       }
-
-      setIsSubmitting(true);
-      try {
-        const res = await fetch.post("verify", {
-          mobile: formData.mobile,
-          otp: formData.otp,
-        });
-
-        if (res.code === 200 && res.data?.otp !== null) {
-          toast.success("Login successful!", {
-            className: "toastify-custom-success",
-          });
-          localStorage.setItem("userId", res?.data?._id);
-          setTimeout(() => {
-            setNavigate("/admin/my-dashboard");
-          }, 1500);
-        } else if (res.data?.otp === null && res.data?.otpExpiresAt === null) {
-          toast.error("OTP has expired. Please request a new one.", {
-            className: "toastify-custom-error",
-          });
-        } else {
-          toast.error("Invalid OTP. Please try again.", {
-            className: "toastify-custom-error",
-          });
-        }
-      } catch (error) {
-        toast.error("Login failed. Please try again.", {
-          className: "toastify-custom-error",
-        });
-        console.error(error);
-      } finally {
-        setIsSubmitting(false);
-      }
+    } catch (error) {
+      toast.error("Login failed. Please try again.", {
+        className: "toastify-custom-error",
+      });
+      console.error(error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   const goToSignUp = () => {
     setNavigate("/signup");
-  };
-
-  const toggleLoginMethod = () => {
-    setShowPasswordLogin((prev) => !prev);
-    setOtpSend(false);
-    setFormData((prev) => ({
-      ...prev,
-      otp: "",
-      password: "",
-    }));
   };
 
   return (
@@ -166,36 +118,23 @@ const Login = () => {
         </div>
 
         <div className="login-form">
-          <div className="input-group">
-            <FaPhone className="input-icon" />
-            <input
-              type="text"
-              name="mobile"
-              id="mobile"
-              placeholder="Enter Mobile Number"
-              value={formData.mobile}
-              onChange={handleChange}
-              required
-              disabled={otpSend}
-            />
-            {formData.mobileError && (
-              <div className="error-message">Only digits allowed</div>
-            )}
-          </div>
-
-          {showPasswordLogin ? (
+          {!otpSend ? (
             <div className="input-group">
-              <FaLock className="input-icon" />
+              <FaPhone className="input-icon" />
               <input
-                type="password"
-                name="password"
-                placeholder="Enter Password"
-                value={formData.password}
+                type="text"
+                name="mobile"
+                id="mobile"
+                placeholder="Enter Mobile Number"
+                value={formData.mobile}
                 onChange={handleChange}
                 required
               />
+              {formData.mobileError && (
+                <div className="error-message">Only digits allowed</div>
+              )}
             </div>
-          ) : otpSend ? (
+          ) : (
             <div className="input-group">
               <FaLock className="input-icon" />
               <input
@@ -208,35 +147,21 @@ const Login = () => {
                 required
               />
             </div>
-          ) : null}
+          )}
 
           <button
             className="login-button"
-            onClick={
-              showPasswordLogin ? submitLogin : otpSend ? submitLogin : submitNo
-            }
+            onClick={otpSend ? submitLogin : submitNo}
             disabled={isSubmitting}
           >
             {isSubmitting
-              ? showPasswordLogin
-                ? "Verifying..."
-                : otpSend
+              ? otpSend
                 ? "Verifying..."
                 : "Sending OTP..."
-              : showPasswordLogin
-              ? "Login with Password"
               : otpSend
               ? "Verify OTP"
               : "Send OTP"}
           </button>
-
-          <div className="signup-redirect">
-            <span onClick={toggleLoginMethod}>
-              {showPasswordLogin
-                ? "Login with OTP instead"
-                : "Login with Password instead"}
-            </span>
-          </div>
 
           <div className="signup-redirect">
             Don't have an account? <span onClick={goToSignUp}>Sign Up</span>
