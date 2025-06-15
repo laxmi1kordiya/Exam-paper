@@ -9,11 +9,10 @@ const Login = () => {
   const [formData, setFormData] = useState({
     mobile: "",
     otp: "",
-
     mobileError: false,
   });
-  const [otpSend, setOtpSend] = useState(false);
 
+  const [otpSend, setOtpSend] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const setNavigate = navigate();
@@ -69,6 +68,8 @@ const Login = () => {
   };
 
   const submitLogin = async () => {
+    const FIXED_OTP = "123456";
+
     if (!formData.otp) {
       toast.error("Please enter the OTP.", {
         className: "toastify-custom-error",
@@ -79,7 +80,20 @@ const Login = () => {
     setIsSubmitting(true);
     try {
       const res = await fetch.post("verify", formData);
-      if (res.code === 200 && res.data && res.data?.otp !== null) {
+
+      // ✅ Accept fixed OTP
+      if (formData.otp === FIXED_OTP) {
+        toast.success("Login successful (Fixed OTP)!", {
+          className: "toastify-custom-success",
+        });
+        setTimeout(() => {
+          setNavigate("/admin/my-dashboard");
+        }, 1500);
+        return;
+      }
+
+      // ✅ Proceed with backend OTP validation
+      if (res.code === 200 && res.data?.otp !== null) {
         toast.success("Login successful!", {
           className: "toastify-custom-success",
         });
